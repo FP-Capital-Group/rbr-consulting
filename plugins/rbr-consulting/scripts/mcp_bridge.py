@@ -88,16 +88,55 @@ def post(url, headers, msg):
             invia({"jsonrpc": "2.0", "id": msg["id"], "error": {"code": -32000, "message": f"{NOME}: {e}"}})
 
 
+def modalita_vuota():
+    while True:
+        line = sys.stdin.readline()  # readline: l'iterazione su stdin fa read-ahead e blocca su pipe aperta
+        if not line:
+            break
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            msg = json.loads(line)
+        except ValueError:
+            continue
+        if not isinstance(msg, dict) or msg.get("id") is None:
+            continue
+        m = msg.get("method", "")
+        if m == "initialize":
+            res = {"protocolVersion": (msg.get("params") or {}).get("protocolVersion", "2025-03-26"),
+                   "capabilities": {"tools": {}},
+                   "serverInfo": {"name": f"{NOME} (chiavi RBR non installate: lancia /rbr-setup)", "version": "0"}}
+        elif m == "tools/list":
+            res = {"tools": []}
+        elif m in ("prompts/list", "resources/list", "resources/templates/list"):
+            res = {m.split("/")[0]: []} if m != "resources/templates/list" else {"resourceTemplates": []}
+        else:
+            invia({"jsonrpc": "2.0", "id": msg["id"], "error": {"code": -32601, "message": f"{NOME}: chiavi RBR non installate, lancia /rbr-setup"}})
+            continue
+        invia({"jsonrpc": "2.0", "id": msg["id"], "result": res})
+
+
 def main():
     if not NOME:
         sys.exit("uso: mcp_bridge.py <nome-server>")
-    if not os.path.exists(CFG):
-        sys.exit(f"chiavi RBR non installate ({CFG}): lancia /rbr-setup e riapri la chat")
-    conf = json.load(open(CFG)).get(NOME)
+    conf = None
+    if os.path.exists(CFG):
+        try:
+            conf = json.load(open(CFG)).get(NOME)
+        except Exception:
+            conf = None
     if not conf or not conf.get("url"):
-        sys.exit(f"server '{NOME}' assente da {CFG}: rilancia /rbr-setup (chiavi aggiornate)")
+        # Chiavi non installate: NON fallire (Cowork mostrerebbe un errore a ogni chat). Server
+        # "vuoto": risponde all'initialize e a tools/list senza tool, finché non si fa /rbr-setup.
+        log(f"chiavi RBR non installate ({CFG}): server vuoto, lancia /rbr-setup e riapri la chat")
+        modalita_vuota()
+        return
     url, headers = conf["url"], dict(conf.get("headers") or {})
-    for line in sys.stdin:
+    while True:
+        line = sys.stdin.readline()  # readline: l'iterazione su stdin fa read-ahead e blocca su pipe aperta
+        if not line:
+            break
         line = line.strip()
         if not line:
             continue

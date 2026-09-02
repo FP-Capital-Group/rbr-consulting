@@ -1,6 +1,11 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.8.1 — 2026-09-02
+Ogni versione ha una sezione `## v2.9.0 — 2026-09-02
+- Nuova skill estrai-dati-ipratico: incassi Z, coperti, prodotti, margini e canali di un cliente da iPratico Cloud senza API key (sessione del portale nel browser). Chiedi 'tira giù gli incassi di [cliente] da iPratico'.
+- Windows: le Regole RBR e la Conoscenza live ora si caricano anche su PC (hook di sessione unificato).
+- Installazione senza setup: i server GHL/Google Ads/Make non mostrano più errori finché non fai /rbr-setup.
+
+## v2.8.1 — 2026-09-02
 - Nuovo comando /rbr-pubblica (per Marco): pubblica subito una versione a tutti i consulenti in un colpo (pull, versione, changelog, PR, merge, Conoscenza live, Telegram).
 - Ogni lunedì esce SEMPRE una versione nuova, anche solo per allineare tutti: se non vedi novità nelle skill, le novità del team sono in Conoscenza live.
 
