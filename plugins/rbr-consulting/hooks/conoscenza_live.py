@@ -7,7 +7,7 @@ account (solo stdlib + openssl: nessuna libreria da installare), con cache local
 versione del plugin più recente di quella installata. Qualsiasi errore → silenzio
 (o cache vecchia): la sessione non deve mai rompersi per questo hook.
 """
-import os, sys, json, time, base64, subprocess, tempfile, urllib.request, urllib.parse
+import os, re, sys, json, time, base64, subprocess, tempfile, urllib.request, urllib.parse
 
 SHEET_ID = os.environ.get("RBR_SHEET_ID", "1uyeGR-epzvb7JDkomc_XrkaTvoW7gAZFHbGv7JtqdQU")
 TAB = "Conoscenza live"
@@ -104,8 +104,38 @@ def componi(vals):
     return "\n".join(out) + "\n"
 
 
+def novita_versione():
+    """Alla PRIMA sessione di una versione nuova stampa la sezione del CHANGELOG."""
+    try:
+        inst = versione_installata()
+        if not inst:
+            return ""
+        marker = os.path.join(CACHE_DIR, "ultima_versione_vista")
+        vista = open(marker).read().strip() if os.path.exists(marker) else ""
+        if vista == inst:
+            return ""
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        open(marker, "w").write(inst)
+        if not vista:
+            return ""  # prima installazione: niente annuncio
+        ch = os.path.join(ROOT, "CHANGELOG.md")
+        sez = ""
+        if os.path.exists(ch):
+            txt = open(ch, encoding="utf-8").read()
+            m = re.search(r"^## v" + re.escape(inst) + r"[^\n]*\n(.*?)(?=^## |\Z)", txt, re.M | re.S)
+            sez = m.group(1).strip() if m else ""
+        out = [f"\n🆕 Plugin RBR aggiornato: v{vista} → v{inst}. Novità di questa versione:"]
+        out.append(sez or "- (vedi CHANGELOG.md del plugin)")
+        out.append("Di' al consulente, all'inizio della chat, in 2 righe cosa è cambiato e che può "
+                   "chiedere «cosa c'è di nuovo nel plugin» per il dettaglio.")
+        return "\n".join(out) + "\n"
+    except Exception:
+        return ""
+
+
 def main():
     try:
+        sys.stdout.write(novita_versione())
         if os.path.exists(CACHE) and time.time() - os.path.getmtime(CACHE) < TTL:
             sys.stdout.write(open(CACHE, encoding="utf-8").read())
             return
