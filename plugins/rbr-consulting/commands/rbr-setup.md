@@ -5,6 +5,9 @@ description: Setup guidato del consulente RBR — verifica MCP, accessi e conosc
 Sei l'onboarding tecnico di un consulente RBR. Esegui questi controlli IN ORDINE e
 alla fine mostra una checklist compatta ✅/🟡/❌ con il fix per ogni voce non verde.
 Non fermarti al primo errore: verifica tutto, poi riepiloga.
+Tutto si fa QUI, nella chat in cui sei (Cowork in sessione locale o Claude Code): non mandare
+mai il consulente nel Terminale. I tool GoHighLevel, Google Ads e Make sono dichiarati nel
+plugin e leggono le chiavi da `~/.claude/rbr/` tramite il ponte `scripts/mcp_bridge.py`.
 
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
@@ -23,29 +26,40 @@ Controlla se esiste `~/.claude/rbr/credentials.json`. Se manca, procurati `rbr-c
    in `~/Downloads/`.
 3. Esegui: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/installa_chiavi.py" ~/Downloads/rbr-chiavi.json`
    (prima con `--dry-run` per mostrare cosa farà). Installa: service account Google,
-   token Telegram, server MCP GHL/Google Ads/Make a scope utente, allowlist rete, marketplace
-   con auto-update. Poi cancella `~/Downloads/rbr-chiavi.json` (le chiavi sono in ~/.claude/rbr/).
-4. Avvisa: MCP e rete valgono dalla PROSSIMA chat. Se stai facendo il primo setup,
-   chiedi di aprire una chat nuova e rilanciare `/rbr-setup` per i test dei punti 1-3.
-Se `~/.claude/rbr/credentials.json` esiste già: ✅ e vai avanti.
+   token Telegram, chiavi dei server MCP GHL/Google Ads/Make (`~/.claude/rbr/mcp_servers.json`,
+   lette dal ponte del plugin), allowlist rete, marketplace con auto-update. Poi cancella
+   `~/Downloads/rbr-chiavi.json` (le chiavi sono in ~/.claude/rbr/).
+4. Avvisa: i tool GHL/Google Ads/Make e la rete valgono dalla PROSSIMA chat. Se stai facendo
+   il primo setup, chiedi di aprire una chat nuova e rilanciare `/rbr-setup` per i test dei
+   punti 1-3. In Cowork, alla prima chat dopo il setup compare la richiesta di consentire i
+   server MCP del plugin: va accettata.
+Se `~/.claude/rbr/credentials.json` esiste ma manca `~/.claude/rbr/mcp_servers.json` (setup
+fatto con una versione precedente alla 2.8.0): riesegui il punto 3 (ri-scarica le chiavi e
+rilancia `installa_chiavi.py`), poi chat nuova.
+Se entrambi esistono: ✅ e vai avanti.
 
-## 1. MCP del plugin (installati automaticamente con il plugin)
+## 1. MCP del plugin (tutti dichiarati nel plugin: nessuna configurazione a mano)
 
-Per ciascuno fai una chiamata reale di test (usa ToolSearch se i tool non sono caricati):
+I tool si chiamano `mcp__plugin_rbr-consulting_<server>__…` (usa ToolSearch se non sono
+caricati). Per ciascuno fai una chiamata reale di test:
 - **meta-ads** → prova a listare gli ad account. Se chiede login: guida l'utente
   nell'OAuth Facebook (deve usare l'utenza aggiunta al Business Manager RBR — accesso: Marco).
-- **google-ads** → `list_google_ads_customers`. Il token è quello dell'account RBR
-  (pipeboard) già configurato nel plugin: se fallisce, segnala a Marco.
+- **google-ads** → `list_google_ads_customers`. Token dell'account RBR (pipeboard): se
+  fallisce con errore di token, segnala a Marco.
 - **make** → `users_me`.
+- **ghl2-<cliente>** → `search_operations` su ghl2-democliente, poi `describe_operation` +
+  `execute_operation` di `get-location` (deve rispondere `success: true`).
+Se google-ads/make/ghl2 NON compaiono o falliscono con "chiavi RBR non installate": il ponte
+non trova `~/.claude/rbr/mcp_servers.json` → punto 0, poi chat nuova. Se la chat è stata
+aperta prima del setup: basta una chat nuova.
 
-## 2. GoHighLevel (`ghl2-<cliente>`)
+## 2. Cliente GHL mancante
 
-Le istanze GHL sono registrate a scope utente dal punto 0 (`~/.claude.json`, non nel plugin):
-1. Verifica che esistano i tool `ghl2-*` (ToolSearch "ghl2") e fai una chiamata di
-   prova su un'istanza (es. `search_operations` su ghl2-democliente).
-2. Se un cliente che il consulente segue NON ha l'istanza: serve un PIT per quella
-   sub-location → chiederlo a Marco, che aggiorna `rbr-chiavi.json` (basta il locationId,
-   il PIT agency è unico) e il consulente rilancia `installa_chiavi.py`.
+Le istanze `ghl2-<cliente>` sono quelle dichiarate nel plugin (una riga nel `.mcp.json`) con la
+chiave in `rbr-chiavi.json`. Se un cliente che il consulente segue non c'è: chiederlo a Marco,
+che aggiunge il locationId alle chiavi (il PIT agency è unico) e la riga nel plugin (release
+automatica del lunedì o immediata). Poi il consulente rilancia `/rbr-setup` (punto 0,
+ri-scarica le chiavi) e, arrivato l'aggiornamento, apre una chat nuova.
 
 ## 2b. Rete del sandbox (la sistema già il punto 0)
 

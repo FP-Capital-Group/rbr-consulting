@@ -4,6 +4,11 @@ Ogni versione ha una sezione `## vX.Y.Z — data`. L'hook di sessione legge la s
 versione installata la PRIMA volta che gira e la mostra al consulente. La routine del lunedì
 aggiunge la sezione della release che pubblica (3-6 righe, cosa cambia per chi lavora).
 
+## v2.8.0 — 2026-09-02
+- **Setup tutto in Cowork, niente Terminale.** I tool GoHighLevel (7 clienti), Google Ads e Make sono dichiarati nel plugin e prendono le chiavi dal tuo Mac (`~/.claude/rbr/`) tramite un ponte: dopo `/rbr-setup` e una chat nuova funzionano sia in Cowork sia in Claude Code, senza configurare nulla a mano.
+- Chi ha già fatto il setup con una versione precedente: rilancia `/rbr-setup` una volta (scrive il nuovo file chiavi), poi apri una chat nuova. Al primo avvio Cowork chiede di consentire i server MCP del plugin: sì.
+- Nuovo cliente GHL: ora richiede anche una riga nel plugin (release del lunedì o immediata da Marco), oltre alle chiavi.
+
 ## v2.7.10 — 2026-09-02
 - I repo GitHub sono passati dall'account personale di Marco all'organizzazione aziendale **FP Capital Group**: marketplace `https://github.com/FP-Capital-Group/rbr-consulting`, sorgente privato `FP-Capital-Group/rbr-suite`.
 - Chi ha già installato il plugin non deve fare nulla: il vecchio indirizzo reindirizza al nuovo e gli aggiornamenti continuano ad arrivare. Nuove installazioni: usare il nuovo URL.

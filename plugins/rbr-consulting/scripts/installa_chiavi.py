@@ -5,8 +5,9 @@ Il plugin pubblico NON contiene segreti. Le chiavi arrivano in un file `rbr-chia
 che Marco condivide in privato (cartella Drive "RBR - Chiavi consulenti"). Questo script:
   1. salva il service account Google in   ~/.claude/rbr/credentials.json
   2. salva token Telegram e altre config in ~/.claude/rbr/config.json
-  3. registra i server MCP con chiave (GHL clienti, Google Ads, Make) in ~/.claude.json
-     (scope utente: valgono in Claude Code e nelle sessioni locali Cowork)
+  3. salva URL+chiavi dei server MCP (GHL clienti, Google Ads, Make) in ~/.claude/rbr/mcp_servers.json:
+     li legge il ponte scripts/mcp_bridge.py dichiarato nel .mcp.json del plugin, quindi i tool
+     compaiono sia in Cowork (sessione locale) sia in Claude Code, senza Terminale
   4. aggiunge i domini necessari all'allowlist di rete del sandbox (~/.claude/settings.json)
   5. registra il marketplace pubblico con auto-update attivo (~/.claude/settings.json)
 
@@ -17,11 +18,11 @@ import os, sys, json, time, shutil
 
 HOME = os.path.expanduser("~")
 RBR_DIR = os.path.join(HOME, ".claude", "rbr")
-CLAUDE_JSON = os.path.join(HOME, ".claude.json")
 SETTINGS = os.path.join(HOME, ".claude", "settings.json")
 DOMINI = ["oauth2.googleapis.com", "www.googleapis.com", "sheets.googleapis.com",
           "drive.googleapis.com", "api.telegram.org", "services.leadconnectorhq.com",
-          "eu1.make.com", "raw.githubusercontent.com", "github.com"]
+          "eu1.make.com", "google-ads.mcp.pipeboard.co", "mcp.facebook.com",
+          "raw.githubusercontent.com", "github.com"]
 
 
 def carica_json(p):
@@ -65,13 +66,10 @@ def main():
            "versione_chiavi": chiavi.get("versione", "")}
     salva_json(os.path.join(RBR_DIR, "config.json"), cfg, dry)
 
-    print("3. Server MCP con chiave (scope utente)")
-    cj = carica_json(CLAUDE_JSON)
-    cj.setdefault("mcpServers", {})
-    for nome, conf in chiavi["mcp_servers"].items():
-        cj["mcpServers"][nome] = conf
+    print("3. Server MCP con chiave (per il ponte del plugin)")
+    for nome in chiavi["mcp_servers"]:
         print(f"  + {nome}")
-    salva_json(CLAUDE_JSON, cj, dry)
+    salva_json(os.path.join(RBR_DIR, "mcp_servers.json"), chiavi["mcp_servers"], dry)
 
     print("4. Rete sandbox + 5. marketplace auto-update")
     st = carica_json(SETTINGS)
@@ -95,7 +93,7 @@ def main():
         km["rbr-consulting"]["autoUpdate"] = True
         salva_json(km_path, km, dry)
 
-    print("\n✅ Chiavi installate. Apri una chat NUOVA perché MCP e rete si ricarichino.")
+    print("\n✅ Chiavi installate. Apri una chat NUOVA: i tool GHL/Google Ads/Make e la rete si attivano lì.")
     print("   Puoi cancellare il file rbr-chiavi.json scaricato (le chiavi ora sono in ~/.claude/rbr/).")
 
 
