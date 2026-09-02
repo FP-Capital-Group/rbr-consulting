@@ -20,7 +20,10 @@ NOME = "rbr-chiavi.json"
 
 def candidati():
     cwd = os.getcwd()
-    c = [os.environ.get("RBR_CHIAVI"), os.path.join(cwd, NOME), os.path.join(cwd, ".rbr", NOME)]
+    qui = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # radice del plugin
+    # pacchetto TEAM (repo privato): il file chiavi è dentro il plugin stesso
+    c = [os.environ.get("RBR_CHIAVI"), os.path.join(qui, NOME),
+         os.path.join(cwd, NOME), os.path.join(cwd, ".rbr", NOME)]
     mnt = os.path.join(HOME, "mnt")
     for pat in (f"{mnt}/*/{NOME}", f"{mnt}/*/.rbr/{NOME}", f"{mnt}/*/*/{NOME}"):
         c += sorted(glob.glob(pat))

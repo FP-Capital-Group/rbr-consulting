@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.10.1 — 2026-09-02
+Ogni versione ha una sezione `## v2.10.2 — 2026-09-02
+- Marketplace privato del team: il plugin arriva dall'organizzazione con gli accessi già dentro (fogli, GHL, Google Ads, Make). Niente setup, niente cartelle, funziona uguale su Mac, Windows e cloud.
+
+## v2.10.1 — 2026-09-02
 - Windows: il plugin cerca il file chiavi anche in ~/mnt/.claude e tra gli allegati della chat (uploads), oltre che nella cartella di lavoro.
 
 ## v2.10.0 — 2026-09-02
