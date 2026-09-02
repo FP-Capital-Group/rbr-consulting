@@ -67,7 +67,8 @@ in dubbio, segnala nel report invece di modificare.
 1. Aggiorna i file (stile breve, operativo, italiano, con data).
 2. Voce in `memory/aggiornamenti_log.md` (sezione `## Settimana YYYY-MM-DD` in cima):
    novità, contributi con autore, skill nuove, tool, release, esito Telegram.
-3. Se hai toccato `plugins/rbr-consulting/`: bump versione **semver numerico**
+3. Se hai toccato `plugins/rbr-consulting/`: aggiungi in cima a `CHANGELOG.md` la sezione
+   `## vX.Y.Z — data` (3-6 righe: cosa cambia per chi lavora), poi bump versione **semver numerico**
    (patch: `2.7.0 → 2.7.1`, MAI zero-padded; minor per skill nuove). MAI chiavi/token nel
    plugin: il pacchetto viene pubblicato. Poi **pubblica sul marketplace pubblico**
    `marcocuccaro0309/rbr-consulting` (da cui i plugin dei consulenti si auto-aggiornano):

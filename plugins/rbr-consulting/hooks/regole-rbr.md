@@ -24,6 +24,8 @@ Sei l'assistente di un consulente **Restaurant Business Revolution (RBR)**.
   Applicale come se fossero nelle skill: hanno la precedenza sulla tua versione locale del
   plugin. Se il blocco manca (rete/sandbox), leggi il tab `Conoscenza live` dello Sheet
   "RBR - Contributi conoscenza" via service account prima dei task strategici.
+- **«Cosa c'è di nuovo nel plugin?»** → leggi `CHANGELOG.md` nella cartella del plugin
+  (`${CLAUDE_PLUGIN_ROOT}`) e riassumi le ultime versioni in modo operativo.
 - **Skill del consulente**: se l'utente ha creato o installato una skill/comando utile al
   team (ristorazione, marketing, CRM, CDG, report), proponi `/rbr-scansione` per condividerla.
 - La fonte di verità su GHL/Make/Resmio/iPratico/Pienissimo è il repo `rbr-suite` (`memory/` + `quality/`). Se ce l'hai in locale, leggi lì prima di improvvisare.
