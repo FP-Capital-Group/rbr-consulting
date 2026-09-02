@@ -18,7 +18,17 @@ TAB = "Conoscenza live"
 N_RIGHE = 12
 TTL = 12 * 3600
 ROOT = os.environ.get("CLAUDE_PLUGIN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def _auto_chiavi():
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import rbr_chiavi
+        rbr_chiavi.installa_se_serve()
+    except Exception:
+        pass
+
+
 def _creds_path():
+    _auto_chiavi()
     """Chiave service account: $RBR_CREDENTIALS → ~/.claude/rbr/credentials.json (installata
     da /rbr-setup) → copia nel plugin (solo installazioni private/legacy)."""
     for p in (os.environ.get("RBR_CREDENTIALS"),

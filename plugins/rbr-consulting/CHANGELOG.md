@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.9.5 — 2026-09-02
+Ogni versione ha una sezione `## v2.10.0 — 2026-09-02
+- Windows: Cowork lavora in un ambiente Linux con Python già pronto, ma nuovo a ogni chat. Le chiavi RBR ora vivono nella tua cartella di lavoro Cowork (file rbr-chiavi.json, ce lo mette /rbr-setup) e il plugin le carica da solo a ogni avvio. Su Mac non cambia nulla.
+- Dai a Cowork una cartella di lavoro (icona cartella) prima di /rbr-setup: è lì che finiscono file e chiavi.
+
+## v2.9.5 — 2026-09-02
 - Fogli Google dei clienti: in /rbr-setup rispondi 'fogli' e Claude installa le librerie, prende le chiavi e fa una prova di lettura reale prima di dirti che sei pronto. Ogni foglio cliente va condiviso come Editor con il service account RBR.
 
 ## v2.9.4 — 2026-09-02

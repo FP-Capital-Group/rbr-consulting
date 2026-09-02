@@ -126,6 +126,13 @@ def main():
     if not NOME:
         sys.exit("uso: mcp_bridge.py <nome-server>")
     conf = None
+    if not os.path.exists(CFG):
+        try:  # HOME nuova a ogni chat: installa dal rbr-chiavi.json della cartella di lavoro
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import rbr_chiavi
+            rbr_chiavi.installa_se_serve()
+        except Exception:
+            pass
     if os.path.exists(CFG):
         try:
             conf = json.load(open(CFG)).get(NOME)

@@ -24,6 +24,12 @@ def passo(n, msg):
 
 
 def main():
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import rbr_chiavi
+        rbr_chiavi.installa_se_serve()
+    except Exception:
+        pass
     ok = True
     mancanti = []
     for mod, pkg in LIBS.items():
