@@ -86,6 +86,7 @@ Metriche GBP da portare al ristoratore, confronto mese precedente + stesso mese 
 - ⚠️ **Scheda su account sbagliato**: verifica proprietà/accesso su fpcgmedia@gmail.com PRIMA di promettere qualsiasi intervento.
 - ⚠️ **Modifiche a nome/categoria/indirizzo possono rimettere la scheda in verifica**: 🟡 conferma col cliente prima di toccarle.
 - ⚠️ **Mai credenziali/OAuth token in chiaro** nel repo condiviso.
+- 👀 **Insight GBP ora separati per superficie** (segnalato agosto 2026): il pannello Insight distingue le impression tra pannello locale classico, card riassuntiva AI su Maps e AI Overview nei risultati organici. Utile nel report mensile (punto 4) per spiegare al cliente quanto traffico locale passa ormai da risposte AI invece che da click classici, invece di leggere solo il totale aggregato. Novità collegate: possibilità di aggiungere un contatto WhatsApp diretto sulla scheda e nuove Q&A generate da AI (con approvazione prima della pubblicazione, come le risposte alle recensioni).
 - 👀 **Da monitorare, non ancora azione richiesta**: Google Maps introduce funzioni agentiche ("Ask Maps", annuncio 6/8/2026) — ordinazione cibo in chat via partner POS (Square/Toast, poi Uber Eats) e prenotazioni dirette dalla mappa. Rollout iniziale in altri paesi, Italia non ancora citata. Quando arriverà da noi, Maps risponderà e ordinerà direttamente dai dati di scheda/menu/POS: un motivo in più per tenerli sempre curati e coerenti.
 - ✅ Emoji di sistema RBR nei report: ✅ ok · 🟡 conferma richiesta · ⚠️ attenzione · ❌ errore · 💭 memoria aggiornata.
 

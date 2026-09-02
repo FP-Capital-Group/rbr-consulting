@@ -63,6 +63,7 @@ Prima di consegnare, rileggi i numeri con occhio da consulente e segnala con ⚠
 
 ## Regole RBR & trabocchetti
 - **CCNL principale = Turismo/Ristorazione (FIPE)**; livelli 3°=cuoco/barman, 4°=aiuto cuoco/barista, 5°=lavapiatti/fattorino; 14ª erogata a luglio. Ma la skill deve gestire QUALSIASI CCNL e QUALSIASI software paghe.
+- 🟡 **Aggiornamento contrattuale (segnalato agosto 2026)**: dal 1° giugno 2026 è scattata la terza tranche di aumento CCNL Confcommercio-FIPE (+40€ lordi al 4° livello, proporzionale sugli altri); per la ristorazione collettiva l'aumento previsto a giugno slitta a settembre 2026. Dal luglio 2026 parte inoltre la previdenza complementare di settore ospitalità. Se un cedolino di un cliente su questo CCNL non riflette l'aumento dal mese corretto, segnalalo come possibile errore payroll invece di darlo per scontato — verificare sempre col consulente del lavoro del cliente prima di correggere numeri.
 - **Costo pieno ≠ retribuzione lorda**: includi sempre contributi datore + INAIL + ratei + TFR + IRAP. È l'errore più comune del ristoratore.
 - **PDF scansionati**: `pdfplumber` non estrae nulla → riconoscilo subito, non consegnare un Excel di zeri.
 - **Mai la API key nei file** (repo condivisa col team): riferisci `.env` / `ANTHROPIC_API_KEY`.
