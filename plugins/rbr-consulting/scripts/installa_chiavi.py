@@ -64,6 +64,8 @@ def main():
     print("2. Config (Telegram, ecc.)")
     cfg = {"telegram": chiavi["telegram"], "installato": time.strftime("%Y-%m-%d %H:%M"),
            "versione_chiavi": chiavi.get("versione", "")}
+    if chiavi.get("make_api_token"):
+        cfg["make_api_token"] = chiavi["make_api_token"]  # usato da sync_contributi_datastore.py (lato Marco)
     salva_json(os.path.join(RBR_DIR, "config.json"), cfg, dry)
 
     print("3. Server MCP con chiave (per il ponte del plugin)")
