@@ -89,6 +89,12 @@ def main():
             if isinstance(m, dict) and m.get("url") == MARKETPLACE_URL:
                 m["autoUpdate"] = True
     salva_json(SETTINGS, st, dry)
+    # registro marketplace (se il plugin è già stato installato dal marketplace)
+    km_path = os.path.join(HOME, ".claude", "plugins", "known_marketplaces.json")
+    km = carica_json(km_path)
+    if "rbr-consulting" in km:
+        km["rbr-consulting"]["autoUpdate"] = True
+        salva_json(km_path, km, dry)
 
     print("\n✅ Chiavi installate. Apri una chat NUOVA perché MCP e rete si ricarichino.")
     print("   Puoi cancellare il file rbr-chiavi.json scaricato (le chiavi ora sono in ~/.claude/rbr/).")

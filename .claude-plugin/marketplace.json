@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Marketplace pubblico RBR: il cervello dei consulenti Restaurant Business Revolution. Nessun segreto nel pacchetto: le chiavi si installano con /rbr-setup.",
-    "version": "2.7.0"
+    "version": "2.7.1"
   },
   "plugins": [
     {
       "name": "rbr-consulting",
       "source": "./plugins/rbr-consulting",
-      "version": "2.7.0",
+      "version": "2.7.1",
       "description": "Il cervello dei consulenti RBR: 30 skill operative (CDG, fatture, KPI, buste paga, turni, menu engineering, catenaria, funnel GHL/Pienissimo, adv, SEO, web), framework strategici Abraham/Hormozi/Merenda con tono di voce RBR, regole di lavoro e novita del team iniettate in ogni sessione (Conoscenza live), cervello condiviso (contributi + scansione skill del consulente), MCP Meta Ads incluso; GoHighLevel clienti, Google Ads e Make configurati da /rbr-setup con le chiavi private RBR (il pacchetto pubblico non contiene segreti, si auto-aggiorna dal marketplace GitHub), agente reviewer e setup guidato /rbr-setup."
     }
   ]

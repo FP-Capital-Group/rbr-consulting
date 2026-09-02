@@ -1,6 +1,6 @@
 ---
 name: aggiorna-conoscenza-rbr
-description: Routine di auto-aggiornamento della conoscenza RBR — ogni lunedì fonde nel plugin quello che i consulenti hanno imparato (contributi e skill condivise nello Sheet), cerca online le novità (suite GHL/Make/Resmio/iPratico/Pienissimo, Meta/Google Ads, AI e tool, business e formatori Hormozi/Merenda/Abraham, trend ristorazione), rilascia la versione, aggiorna zip Drive e Conoscenza live e manda il report Telegram a Marco. Usa quando l'utente chiede di aggiornare la conoscenza, "cosa c'è di nuovo", o come routine cloud settimanale.
+description: Routine di auto-aggiornamento della conoscenza RBR — ogni lunedì fonde nel plugin quello che i consulenti hanno imparato (contributi e skill condivise nello Sheet), cerca online le novità (suite GHL/Make/Resmio/iPratico/Pienissimo, Meta/Google Ads, AI e tool, business e formatori Hormozi/Merenda/Abraham, trend ristorazione), rilascia la versione sul marketplace pubblico, aggiorna Conoscenza live e manda il report Telegram a Marco. Usa quando l'utente chiede di aggiornare la conoscenza, "cosa c'è di nuovo", o come routine cloud settimanale.
 ---
 
 # Aggiornamento conoscenza RBR (routine del lunedì)
@@ -31,7 +31,7 @@ Stato `da validare`, segnala nel report. Poi Stato → `integrato`.
    `> Skill condivisa da <Autore> il <data> (scansione skill).` e la `_nota`.
 4. Sicurezza: grep di token/chiavi (`sk-`, `pit-`, `Bearer`, `AIza`, `token=`) → se
    ne trovi, sostituisci con segnaposto e segnala. Niente `credentials.json`/`.env`.
-5. Skill nuova = bump **MINOR** della versione e "ricaricare lo zip: sì" nel report.
+5. Skill nuova = bump **MINOR** della versione (arriva a tutti con l'auto-update).
    Aggiorna il conteggio skill in `README.md` e `plugin.json` (description).
 6. Stato di tutte le righe del gruppo → `integrato`.
 
@@ -68,17 +68,13 @@ in dubbio, segnala nel report invece di modificare.
 2. Voce in `memory/aggiornamenti_log.md` (sezione `## Settimana YYYY-MM-DD` in cima):
    novità, contributi con autore, skill nuove, tool, release, esito Telegram.
 3. Se hai toccato `plugins/rbr-consulting/`: bump versione **semver numerico**
-   (patch: `2.6.1 → 2.6.2`, MAI zero-padded; minor per skill nuove), rigenera lo zip
-   (`cd plugins && rm -f ../dist/rbr-consulting-plugin.zip && zip -rq ../dist/rbr-consulting-plugin.zip rbr-consulting -x "rbr-consulting/dist/*" "*__pycache__*" "*.DS_Store"`).
-   **Distribuzione su Drive a cartelle per versione (NON più sostituzione in place):** col
-   connettore Google Drive (agisce come Marco, ha quota — il service account no) crea una
-   sottocartella `vX.Y.Z` dentro `RBR Consulting Plugin - versioni`
-   (folderId `1OoEthElAGVos2SzBaUQMGavm_k50FmB7`) e caricaci lo zip come
-   `rbr-consulting-plugin-vX.Y.Z.zip` (`create_file` con `base64Content`,
-   `contentMimeType application/zip`, `disableConversionToGoogleType true`, `parentId` = la
-   nuova cartella). Una cartella per versione, ogni file resta scaricabile per sempre.
-   Se il connettore Drive non è disponibile nella sessione, salta l'upload e segnala che
-   Marco deve caricarlo a mano nella cartella versioni.
+   (patch: `2.7.0 → 2.7.1`, MAI zero-padded; minor per skill nuove). MAI chiavi/token nel
+   plugin: il pacchetto viene pubblicato. Poi **pubblica sul marketplace pubblico**
+   `marcocuccaro0309/rbr-consulting` (da cui i plugin dei consulenti si auto-aggiornano):
+   `python3 tools/build_public_plugin.py --push` (clona/aggiorna il repo pubblico, rimuove
+   credentials.json e gli MCP con chiave, scansione anti-segreti — se abortisce NON forzare —,
+   scrive marketplace.json, push). Se il push fallisce per permessi, lo fa la task locale sul
+   Mac di Marco il lunedì. Lo zip su Drive non serve più.
 4. **Conoscenza live** (tab dello stesso Sheet: Data, Area, Novità/procedura,
    Skill/file di riferimento, Versione plugin): una riga per ogni novità/contributo/skill
    della settimana. È quello che l'hook inietta nelle sessioni di tutti. Max 100 righe.
@@ -87,8 +83,7 @@ in dubbio, segnala nel report invece di modificare.
 ## Fase 5 — Report a Marco (SEMPRE, anche con zero novità)
 Testo semplice, max 15 righe: `📚 Conoscenza RBR — settimana YYYY-MM-DD`, poi
 **Dalle persone** (autore → cosa → dove; skill nuove), **Dal mondo** (fonte → cosa cambia
-→ file), tool da valutare, release (`Plugin vX.Y.Z — già live via Conoscenza live;
-ricaricare lo zip: sì/no`), chiusura `Storico: memory/aggiornamenti_log.md (rbr-suite)`.
+→ file), tool da valutare, release (`Plugin vX.Y.Z sul marketplace: si aggiorna da solo al prossimo riavvio; già live via Conoscenza live`), chiusura `Storico: memory/aggiornamenti_log.md (rbr-suite)`.
 Invio in DUE canali, sempre entrambi:
 1. Riga nel tab `Report lunedì` dello Sheet (colonne Data, Testo, Inviato; crea il tab
    se manca). Inviato = vuoto.
