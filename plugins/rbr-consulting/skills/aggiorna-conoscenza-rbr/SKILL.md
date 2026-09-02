@@ -71,7 +71,7 @@ in dubbio, segnala nel report invece di modificare.
    `## vX.Y.Z — data` (3-6 righe: cosa cambia per chi lavora), poi bump versione **semver numerico**
    (patch: `2.7.0 → 2.7.1`, MAI zero-padded; minor per skill nuove). MAI chiavi/token nel
    plugin: il pacchetto viene pubblicato. Poi **pubblica sul marketplace pubblico**
-   `marcocuccaro0309/rbr-consulting` (da cui i plugin dei consulenti si auto-aggiornano):
+   `FP-Capital-Group/rbr-consulting` (da cui i plugin dei consulenti si auto-aggiornano):
    `python3 tools/build_public_plugin.py --push` (clona/aggiorna il repo pubblico, rimuove
    credentials.json e gli MCP con chiave, scansione anti-segreti — se abortisce NON forzare —,
    scrive marketplace.json, push). Se il push fallisce per permessi, lo fa la task locale sul
