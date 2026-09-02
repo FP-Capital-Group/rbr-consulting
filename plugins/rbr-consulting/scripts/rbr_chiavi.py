@@ -24,7 +24,10 @@ def candidati():
     mnt = os.path.join(HOME, "mnt")
     for pat in (f"{mnt}/*/{NOME}", f"{mnt}/*/.rbr/{NOME}", f"{mnt}/*/*/{NOME}"):
         c += sorted(glob.glob(pat))
-    c += [os.path.join(HOME, "Downloads", NOME), os.path.join(RBR_DIR, NOME)]
+    # Cowork Windows/cloud: ~/mnt/.claude è montato dal sistema (se persistente, è il posto ideale)
+    c += [os.path.join(mnt, ".claude", "rbr", NOME), os.path.join(mnt, ".claude", NOME),
+          os.path.join(mnt, "uploads", NOME),
+          os.path.join(HOME, "Downloads", NOME), os.path.join(RBR_DIR, NOME)]
     return [p for p in c if p]
 
 
