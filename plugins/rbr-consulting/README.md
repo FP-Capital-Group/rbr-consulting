@@ -14,7 +14,8 @@ Marketplace **pubblico** (nessun segreto dentro), con auto-aggiornamento:
 Riavvia, poi esegui **`/rbr-setup`**: installa le chiavi RBR (file privato `rbr-chiavi.json`
 fornito da Marco → service account, Telegram, MCP GHL/Google Ads/Make a scope utente),
 attiva l'auto-update del marketplace, verifica accessi e conoscenza e ti dice cosa manca.
-Da lì ogni nuova versione arriva da sola. Guida completa giorno-1: [`ONBOARDING.md`](../../ONBOARDING.md) nel repo.
+Da lì ogni nuova versione arriva da sola: l'hook di sessione `hooks/auto_update.py` fa il pull
+del marketplace a ogni avvio e installa la versione nuova (attiva dalla chat successiva). Guida completa giorno-1: [`ONBOARDING.md`](../../ONBOARDING.md) nel repo.
 
 ## Cosa contiene
 
