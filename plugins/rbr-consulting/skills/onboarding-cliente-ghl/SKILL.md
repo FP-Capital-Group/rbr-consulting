@@ -33,12 +33,19 @@ L'app v2 è Private + Agency Only Install: NON è visibile nel marketplace del c
    ```
    Lo script usa il Company token → genera location_token per ogni sub-account installata → salva in Neon. (Il servizio Render zero-touch NON è deployato: il sync manuale è lo standard, deciso da Marco 2026-05-29.)
 
-## Step 3 — Registra l'istanza MCP `ghl2-<cliente>` (~1 min)
-```bash
-claude mcp add -s user ghl2-<nome> -- ~/Desktop/AI/GoHighLevel-MCP/run-v2-instance.sh OAUTH <LOCATION_ID>
-```
-- L'istanza si connette **solo DOPO** che l'app SA è installata sulla sub-account (Step 2)
-- In modalità OAuth valgono i limiti di scope dell'app SA: niente calendari/fatture/pagamenti/prodotti (quei tool danno 401). Per scope completi serve un PIT (lo crea Marco): `run-v2-instance.sh <SUFFISSO>` con `GHL_PRIVATE_INTEGRATION_TOKEN_<SUFFISSO>` in `mister-pizza/.env`
+## Step 3 — Registra l'istanza MCP `ghl2-<cliente>` per tutto il team (~2 min)
+
+Dal plugin v2.8.0 le istanze GHL sono dichiarate nel plugin e le chiavi stanno sul Mac di ogni
+consulente. Per un cliente nuovo (lo fa Marco, o chi ha il repo `rbr-suite`):
+1. `tools/rbr-chiavi.json` → in `mcp_servers` aggiungi `ghl2-<cliente>` copiando una voce
+   esistente e cambiando `instance=<cliente>` nell'URL e `locationId` nell'header (il PIT agency
+   è unico). Aggiorna lo stesso file su Drive ("RBR - Chiavi consulenti").
+2. `plugins/rbr-consulting/.mcp.json` → aggiungi la riga
+   `"ghl2-<cliente>": {"command": "python3", "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/mcp_bridge.py", "ghl2-<cliente>"]}`.
+3. Bump patch in `plugin.json` + riga in `CHANGELOG.md` → `python3 tools/build_public_plugin.py --push`
+   (o lasci fare alla routine del lunedì).
+4. Ogni consulente: `/rbr-setup` (ri-scarica le chiavi) e chat nuova quando arriva l'aggiornamento.
+Sul Mac di Marco l'istanza personale a scope utente (`claude mcp add -s user ghl2-<nome> -- ~/Desktop/AI/GoHighLevel-MCP/run-v2-instance.sh OAUTH <LOCATION_ID>`) resta facoltativa.
 
 ## Step 4 — Personalizza i 13 Custom Values (~5 min, via MCP)
 I 13 Custom Values arrivano dallo snapshot con valori demo (RBR Demo). Sovrascrivili con i dati reali via `ghl2-<cliente>`: `search_operations` per "custom values" → `describe_operation` → `execute_operation`.
