@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.9.2 — 2026-09-02
+Ogni versione ha una sezione `## v2.9.3 — 2026-09-02
+- Condividere quello che impari funziona appena installato il plugin, senza setup e senza chiavi (anche su Windows): 'condividi quello che ho imparato' → arriva a Marco, che decide cosa entra nel plugin di tutti.
+
+## v2.9.2 — 2026-09-02
 - Supporto Windows completo: Regole RBR e Conoscenza live si caricano anche su PC (nessuna dipendenza da openssl o comandi Unix), tool GHL/Google Ads/Make funzionano con Python 3 del Microsoft Store.
 - Su Windows installa Python 3 dal Microsoft Store: serve per le skill che producono file (Excel, PDF) e per /rbr-setup.
 

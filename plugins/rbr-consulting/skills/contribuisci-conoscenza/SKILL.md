@@ -1,6 +1,6 @@
 ---
 name: contribuisci-conoscenza
-description: Condivide col team RBR quello che questo Claude ha imparato — nuove procedure, fix, trucchi, pattern sui clienti — scrivendolo nello Sheet "RBR - Contributi conoscenza" su Drive (via service account). Marco li legge ogni settimana e decide cosa entra nel plugin di tutti. Usa quando l'utente dice "condividi quello che ho imparato", "salva questa procedura per il team", "questo va nel cervello comune", quando risolvi qualcosa di non documentato nelle skill, e SEMPRE PRIMA di aggiornare il plugin a una nuova versione (per non perdere gli apprendimenti locali).
+description: Condivide col team RBR quello che questo Claude ha imparato — nuove procedure, fix, trucchi, pattern sui clienti — scrivendolo nello Sheet "RBR - Contributi conoscenza" (senza chiavi: funziona appena installato il plugin). Marco li legge ogni settimana e decide cosa entra nel plugin di tutti. Usa quando l'utente dice "condividi quello che ho imparato", "salva questa procedura per il team", "questo va nel cervello comune", quando risolvi qualcosa di non documentato nelle skill, e SEMPRE PRIMA di aggiornare il plugin a una nuova versione (per non perdere gli apprendimenti locali).
 ---
 
 # Contribuisci conoscenza (il cervello condiviso RBR)
@@ -29,8 +29,10 @@ contributi; Marco li legge ogni settimana e decide cosa entra nel plugin di tutt
 2. **Mostra la bozza all'utente** e chiedi conferma (🟡) — è lui l'autore.
 3. **Invia**: esegui `scripts/aggiungi_contributo.py` (nella cartella di questa skill):
    `python3 aggiungi_contributo.py "<autore>" "<area>" "<titolo>" "<contenuto>"`
-   Lo script trova lo Sheet "RBR - Contributi conoscenza" su Drive via service account
-   e aggiunge una riga con stato `nuovo`. Richiede `pip3 install gspread google-auth`.
+   Lo script manda la riga allo Sheet "RBR - Contributi conoscenza" tramite un webhook
+   (nessuna chiave sul Mac, nessuna libreria da installare; funziona anche senza /rbr-setup
+   e su Windows). Se il webhook non risponde prova il service account, altrimenti salva un
+   backup locale e lo dice.
 4. **Conferma** all'utente: ✅ contributo inviato, verrà integrato nel plugin col
    prossima lettura settimanale di Marco (che riceve il digest su Telegram).
 
@@ -40,5 +42,5 @@ contributi; Marco li legge ogni settimana e decide cosa entra nel plugin di tutt
 - Niente segreti nuovi nel contenuto (token, password): quelli passano da Marco.
 - Non modificare MAI le skill del plugin in locale: le modifiche si perdono
   all'aggiornamento successivo. Il canale è SOLO questo.
-- Se lo Sheet non esiste o il service account non lo vede: segnala a Marco (⚠️) e
-  salva il contributo in un file locale come backup da inviare a mano.
+- Se lo script risponde ⚠️ (né webhook né service account): il contributo è nel file di
+  backup indicato; di' all'utente di mandarlo a Marco o di riprovare più tardi.
