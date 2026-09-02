@@ -8,7 +8,7 @@ come quello di Marco: stesse skill, stesse regole, stessi accessi.
 
 Marketplace **pubblico** (nessun segreto dentro), con auto-aggiornamento:
 ```
-/plugin marketplace add marcocuccaro0309/rbr-consulting
+/plugin marketplace add FP-Capital-Group/rbr-consulting
 /plugin install rbr-consulting@rbr-consulting
 ```
 Riavvia, poi esegui **`/rbr-setup`**: installa le chiavi RBR (file privato `rbr-chiavi.json`

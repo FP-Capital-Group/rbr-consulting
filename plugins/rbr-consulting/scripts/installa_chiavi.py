@@ -84,7 +84,7 @@ def main():
     mk = st.get("extraKnownMarketplaces")
     if not isinstance(mk, dict):
         mk = {}  # migra/scarta la vecchia forma a lista
-    mk["rbr-consulting"] = {"source": {"source": "github", "repo": "marcocuccaro0309/rbr-consulting"},
+    mk["rbr-consulting"] = {"source": {"source": "github", "repo": "FP-Capital-Group/rbr-consulting"},
                             "autoUpdate": True}
     st["extraKnownMarketplaces"] = mk
     salva_json(SETTINGS, st, dry)
