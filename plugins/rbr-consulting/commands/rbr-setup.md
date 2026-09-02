@@ -67,7 +67,7 @@ nuova perché Google/Telegram funzionino. Verifica anche il toggle Cowork
 ## 4. Repo suite (conoscenza)
 
 - Controlla se `rbr-suite` è clonato in locale (chiedi il percorso se non lo trovi in
-  `~/Desktop`, `~/Documents`, `~/dev`). Se manca: `git clone https://github.com/marcocuccaro0309/rbr-suite.git`
+  `~/Desktop`, `~/Documents`, `~/dev`). Se manca: `git clone https://github.com/FP-Capital-Group/rbr-suite.git`
   (serve accesso al repo privato → Marco).
 - Se presente: `git pull` per allinearla.
 
