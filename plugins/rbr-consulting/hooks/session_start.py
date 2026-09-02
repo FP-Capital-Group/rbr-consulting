@@ -2,6 +2,10 @@
 """Hook SessionStart unico (Mac, Linux, Windows): stampa le Regole RBR, poi Conoscenza live e
 auto-update. Ogni parte è indipendente: se una fallisce le altre girano comunque."""
 import os, sys, runpy
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
 ROOT = os.environ.get("CLAUDE_PLUGIN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 try:
     sys.stdout.write(open(os.path.join(ROOT, "hooks", "regole-rbr.md"), encoding="utf-8").read())

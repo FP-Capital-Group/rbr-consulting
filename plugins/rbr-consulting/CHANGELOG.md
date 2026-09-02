@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.9.1 — 2026-09-02
+Ogni versione ha una sezione `## v2.9.2 — 2026-09-02
+- Supporto Windows completo: Regole RBR e Conoscenza live si caricano anche su PC (nessuna dipendenza da openssl o comandi Unix), tool GHL/Google Ads/Make funzionano con Python 3 del Microsoft Store.
+- Su Windows installa Python 3 dal Microsoft Store: serve per le skill che producono file (Excel, PDF) e per /rbr-setup.
+
+## v2.9.1 — 2026-09-02
 - Consegna al team (3/9/2026): il plugin funziona appena installato; /rbr-setup serve solo a chi usa GoHighLevel, Google Ads, Make o i fogli Google dei clienti.
 - Quello che impari lo dici a Claude ('condividi quello che ho imparato'): arriva a Marco, che decide cosa entra nel plugin di tutti.
 

@@ -11,6 +11,15 @@ Tutto si fa QUI, nella chat in cui sei (Cowork in sessione locale o Claude Code)
 mai il consulente nel Terminale. I tool GoHighLevel, Google Ads e Make sono dichiarati nel
 plugin e leggono le chiavi da `~/.claude/rbr/` tramite il ponte `scripts/mcp_bridge.py`.
 
+## Windows (leggi prima se il consulente è su PC)
+- Serve **Python 3 dal Microsoft Store** (comando `python3` disponibile): se `python3 --version`
+  fallisce, fallo installare da Store (o `winget install 9NCVDN91XZQP`) e riavviare l'app. Senza,
+  i tool GHL/Google Ads/Make del plugin non partono e le skill che producono file non funzionano.
+- Percorsi: `~/.claude/rbr/` è `C:\Users\<utente>\.claude\rbr\`; `~/Downloads` è la cartella Download.
+- Niente `base64 -d` né `openssl`: per decodificare il file chiavi salva il base64 in un file con
+  il tool Write e usa `python3 -c "import base64;open(r'<dest>','wb').write(base64.b64decode(open(r'<src>').read()))"`.
+- La rete del sandbox (punto 2b) su Windows non si applica: salta.
+
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
 Controlla se esiste `~/.claude/rbr/credentials.json`. Se manca, procurati `rbr-chiavi.json`

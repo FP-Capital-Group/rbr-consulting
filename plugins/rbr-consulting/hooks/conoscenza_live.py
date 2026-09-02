@@ -7,7 +7,11 @@ account (solo stdlib + openssl: nessuna libreria da installare), con cache local
 versione del plugin più recente di quella installata. Qualsiasi errore → silenzio
 (o cache vecchia): la sessione non deve mai rompersi per questo hook.
 """
-import os, re, sys, json, time, base64, subprocess, tempfile, urllib.request, urllib.parse
+import os, re, sys, json, time, base64, urllib.request, urllib.parse
+try:
+    sys.stdout.reconfigure(encoding="utf-8")  # Windows: console cp1252 romperebbe accenti/emoji
+except Exception:
+    pass
 
 SHEET_ID = os.environ.get("RBR_SHEET_ID", "1uyeGR-epzvb7JDkomc_XrkaTvoW7gAZFHbGv7JtqdQU")
 TAB = "Conoscenza live"
@@ -42,15 +46,9 @@ def token():
         "iss": sa["client_email"], "scope": "https://www.googleapis.com/auth/spreadsheets.readonly",
         "aud": "https://oauth2.googleapis.com/token", "iat": now, "exp": now + 600}).encode())
     msg = f"{header}.{claim}".encode()
-    with tempfile.NamedTemporaryFile("w", suffix=".pem", delete=False) as f:
-        os.chmod(f.name, 0o600)
-        f.write(sa["private_key"])
-        pem = f.name
-    try:
-        sig = subprocess.run(["openssl", "dgst", "-sha256", "-sign", pem], input=msg,
-                             capture_output=True, timeout=8, check=True).stdout
-    finally:
-        os.unlink(pem)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from rsa_sign import sign  # openssl se c'è, altrimenti RSA in puro Python (Windows)
+    sig = sign(sa["private_key"], msg)
     jwt = f"{header}.{claim}.{b64(sig)}"
     data = urllib.parse.urlencode({"grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
                                    "assertion": jwt}).encode()
