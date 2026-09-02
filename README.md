@@ -1,6 +1,6 @@
 # rbr-consulting — marketplace Claude (pubblico)
 
-Plugin **rbr-consulting v2.9.3**: il cervello dei consulenti Restaurant Business Revolution.
+Plugin **rbr-consulting v2.9.4**: il cervello dei consulenti Restaurant Business Revolution.
 Questo repo è generato automaticamente dal repo privato `rbr-suite` e **non contiene segreti**:
 le chiavi (GoHighLevel, Google Ads, Make, service account Google, Telegram) le installa il
 comando `/rbr-setup` da un file privato che fornisce Marco.

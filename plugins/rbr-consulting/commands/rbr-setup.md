@@ -2,23 +2,49 @@
 description: Setup guidato del consulente RBR — verifica MCP, accessi e conoscenza, con checklist finale ✅/❌
 ---
 
-Sei l'onboarding tecnico di un consulente RBR. Questo comando serve SOLO quando il consulente deve
-usare GoHighLevel, Google Ads, Make o i fogli Google dei clienti: il resto del plugin funziona già
-appena installato. Esegui questi controlli IN ORDINE e
+Sei l'onboarding tecnico di un consulente RBR. Due livelli: (A) preparare il computer, sempre,
+1 minuto; (B) collegare gli accessi (GoHighLevel, Google Ads, Make, fogli Google), solo se servono.
+Esegui i controlli IN ORDINE e
 alla fine mostra una checklist compatta ✅/🟡/❌ con il fix per ogni voce non verde.
 Non fermarti al primo errore: verifica tutto, poi riepiloga.
 Tutto si fa QUI, nella chat in cui sei (Cowork in sessione locale o Claude Code): non mandare
 mai il consulente nel Terminale. I tool GoHighLevel, Google Ads e Make sono dichiarati nel
 plugin e leggono le chiavi da `~/.claude/rbr/` tramite il ponte `scripts/mcp_bridge.py`.
 
-## Windows (leggi prima se il consulente è su PC)
-- Serve **Python 3 dal Microsoft Store** (comando `python3` disponibile): se `python3 --version`
-  fallisce, fallo installare da Store (o `winget install 9NCVDN91XZQP`) e riavviare l'app. Senza,
-  i tool GHL/Google Ads/Make del plugin non partono e le skill che producono file non funzionano.
-- Percorsi: `~/.claude/rbr/` è `C:\Users\<utente>\.claude\rbr\`; `~/Downloads` è la cartella Download.
-- Niente `base64 -d` né `openssl`: per decodificare il file chiavi salva il base64 in un file con
-  il tool Write e usa `python3 -c "import base64;open(r'<dest>','wb').write(base64.b64decode(open(r'<src>').read()))"`.
-- La rete del sandbox (punto 2b) su Windows non si applica: salta.
+## A. Prepara il computer (SEMPRE, 1 minuto): Python 3
+
+Il plugin usa Python 3 per le regole a inizio chat, per le skill che producono file (Excel, PDF)
+e per i collegamenti GHL/Google Ads/Make. Verifica e, se manca, INSTALLALO TU senza chiedere
+nulla al consulente (digli solo cosa stai facendo):
+
+**Windows** (Bash/PowerShell di Cowork):
+1. `python3 --version` → se risponde "Python 3.x": ✅ vai al punto B.
+2. Se `python3` non esiste ma esiste `python --version` o `py -3 --version` (Python da python.org):
+   crea l'alias `python3.exe` accanto a `python.exe`:
+   `py -3 -c "import sys,shutil,os; d=os.path.dirname(sys.executable); shutil.copy(sys.executable, os.path.join(d,'python3.exe')); print(d)"`
+   (se `py` manca usa `python` al posto di `py -3`). Poi `python3 --version` deve funzionare.
+3. Se non c'è nessun Python: installa quello del Microsoft Store (porta con sé `python3`):
+   `winget install -e --id 9NCVDN91XZQP --source msstore --accept-package-agreements --accept-source-agreements`
+   Se winget/Store non è disponibile: `winget install -e --id Python.Python.3.12 --override "/quiet InstallAllUsers=0 PrependPath=1"`
+   e poi crea l'alias come al punto 2. Ultima spiaggia: apri https://www.python.org/downloads/windows/
+   e fai spuntare "Add python.exe to PATH".
+4. Dopo l'installazione: **chiudi e riapri l'app Claude** (il PATH nuovo vale dai processi nuovi),
+   poi chat nuova. Da lì Regole RBR e skill funzionano.
+Percorsi su Windows: `~/.claude/rbr/` è `C:\Users\<utente>\.claude\rbr\`. Niente `base64 -d` né
+`openssl`: per decodificare il file chiavi salva il base64 in un file con il tool Write e usa
+`python3 -c "import base64;open(r'<dest>','wb').write(base64.b64decode(open(r'<src>').read()))"`.
+La rete del sandbox (punto 2b) su Windows non si applica: salta.
+
+**Mac**: `python3 --version`. Se macOS propone di installare gli "strumenti da riga di comando"
+(finestra di sistema): il consulente clicca Installa (5 minuti), poi chat nuova. In alternativa
+`xcode-select --install`. Niente altro da installare.
+
+## B. Servono gli accessi? (chiedi UNA volta)
+
+Chiedi: «Ti serve già lavorare con GoHighLevel, Google Ads, Make o i fogli Google dei clienti?»
+- **No / non ora** → fine del setup: riepiloga in 3 righe (Python ok, skill pronte, come si usa,
+  "condividi quello che ho imparato") e fai il punto 7 (report a Marco). Il resto lo farà quando serve.
+- **Sì** → continua con il punto 0 e tutti i successivi.
 
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
