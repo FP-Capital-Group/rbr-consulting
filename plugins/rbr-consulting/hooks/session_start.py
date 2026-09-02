@@ -7,6 +7,12 @@ try:
 except Exception:
     pass
 ROOT = os.environ.get("CLAUDE_PLUGIN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+try:  # ambienti con HOME nuova a ogni chat (Cowork Windows/cloud): installa le chiavi dal file nella cartella di lavoro
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    import rbr_chiavi
+    rbr_chiavi.installa_se_serve()
+except Exception:
+    pass
 try:
     sys.stdout.write(open(os.path.join(ROOT, "hooks", "regole-rbr.md"), encoding="utf-8").read())
     sys.stdout.flush()
