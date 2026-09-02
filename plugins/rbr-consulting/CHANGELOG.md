@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.9.0 — 2026-09-02
+Ogni versione ha una sezione `## v2.9.1 — 2026-09-02
+- Consegna al team (3/9/2026): il plugin funziona appena installato; /rbr-setup serve solo a chi usa GoHighLevel, Google Ads, Make o i fogli Google dei clienti.
+- Quello che impari lo dici a Claude ('condividi quello che ho imparato'): arriva a Marco, che decide cosa entra nel plugin di tutti.
+
+## v2.9.0 — 2026-09-02
 - Nuova skill estrai-dati-ipratico: incassi Z, coperti, prodotti, margini e canali di un cliente da iPratico Cloud senza API key (sessione del portale nel browser). Chiedi 'tira giù gli incassi di [cliente] da iPratico'.
 - Windows: le Regole RBR e la Conoscenza live ora si caricano anche su PC (hook di sessione unificato).
 - Installazione senza setup: i server GHL/Google Ads/Make non mostrano più errori finché non fai /rbr-setup.

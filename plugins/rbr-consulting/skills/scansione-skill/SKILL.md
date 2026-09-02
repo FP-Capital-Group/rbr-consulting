@@ -55,7 +55,7 @@ Marco e salva lo zip della skill in `~/Desktop/da_condividere_rbr/` come backup.
 Per le voci "cita": una riga testuale con `contribuisci-conoscenza` (area `tool`).
 
 ### 5. Chiusura
-✅ "Condivise N skill: <nomi>. Saranno nel plugin di tutti dal prossimo lunedì (Marco
+✅ "Condivise N skill: <nomi>. Marco le valuta nel digest settimanale e decide se entrano nel plugin di tutti (
 riceve il report su Telegram). Le skill restano anche in locale, non cambia nulla per te."
 Se chiamata da `/rbr-setup`, riporta l'elenco per il report a Marco.
 

@@ -2,7 +2,9 @@
 description: Setup guidato del consulente RBR — verifica MCP, accessi e conoscenza, con checklist finale ✅/❌
 ---
 
-Sei l'onboarding tecnico di un consulente RBR. Esegui questi controlli IN ORDINE e
+Sei l'onboarding tecnico di un consulente RBR. Questo comando serve SOLO quando il consulente deve
+usare GoHighLevel, Google Ads, Make o i fogli Google dei clienti: il resto del plugin funziona già
+appena installato. Esegui questi controlli IN ORDINE e
 alla fine mostra una checklist compatta ✅/🟡/❌ con il fix per ogni voce non verde.
 Non fermarti al primo errore: verifica tutto, poi riepiloga.
 Tutto si fa QUI, nella chat in cui sei (Cowork in sessione locale o Claude Code): non mandare
@@ -78,29 +80,12 @@ nuova perché Google/Telegram funzionino. Verifica anche il toggle Cowork
   `fp-cdg-service@fp-cdg-automation.iam.gserviceaccount.com`.
 - Verifica dipendenze Python: `pip3 show pandas openpyxl gspread oauth2client` (installa se mancano, chiedendo prima).
 
-## 4. Repo suite (conoscenza)
+## 4. Skill e regole
 
-- Controlla se `rbr-suite` è clonato in locale (chiedi il percorso se non lo trovi in
-  `~/Desktop`, `~/Documents`, `~/dev`). Se manca: `git clone https://github.com/FP-Capital-Group/rbr-suite.git`
-  (serve accesso al repo privato → Marco).
-- Se presente: `git pull` per allinearla.
+- Verifica che le skill del plugin siano visibili (elenca 5-6 skill `rbr-consulting` a titolo di prova).
+- Le "Regole RBR" devono comparire nel contesto di sessione (se leggi questo comando dal plugin, sì).
 
-## 5. Conoscenza e regole
-
-- Verifica che le skill del plugin siano visibili (elenca quelle `rbr-consulting`).
-- Verifica che l'hook regole sia attivo (le "Regole RBR" devono comparire nel contesto di sessione — se leggi questo comando dal plugin, molto probabilmente sì).
-- **Conoscenza live — prova visibile per il consulente**: esegui
-  `python3 "${CLAUDE_PLUGIN_ROOT}/hooks/conoscenza_live.py"` e MOSTRA in chat le prime
-  3-4 righe di novità che stampa (con la data di aggiornamento). Serve a far vedere al
-  consulente, nero su bianco, che il cervello condiviso è collegato: quel blocco di solito
-  finisce solo nel contesto di Claude a inizio sessione, non a schermo. Esiti:
-  - stampa le righe con la data di oggi/recente → ✅ Conoscenza live attiva.
-  - stampa ma con un ⚠️ "plugin vX installato, disponibile vY" → ✅ attiva; l'auto-update
-    lo porterà alla versione nuova al prossimo riavvio (se non succede: `/plugin update rbr-consulting`).
-  - non stampa nulla o errore rete → 🟡 rete sandbox non ancora sistemata (vedi punto 2b):
-    dopo il fix funzionerà dalla prossima sessione. Non è bloccante.
-
-## 6. Checklist finale
+## 5. Checklist finale
 
 Mostra la tabella:
 
@@ -112,33 +97,21 @@ Mostra la tabella:
 | make | | |
 | ghl2-* | | |
 | service account Google | | |
-| repo rbr-suite | | |
 | skill plugin | | |
-| Conoscenza live (hook) | | |
 
-## 7. Presentazione e scansione delle skill (solo al PRIMO setup di questo consulente)
+## 6. Presentazione (solo al PRIMO setup di questo consulente)
 
-1. Chiedi al consulente, in un solo messaggio: nome e cognome, di cosa si occupa in RBR
-   (CDG, marketing, HR…), da quanto lavora coi metodi RBR.
-2. **Scansione skill** (skill `scansione-skill`, obbligatoria al primo setup): lancia
-   `python3 "${CLAUDE_PLUGIN_ROOT}/skills/scansione-skill/scripts/scansiona_skill.py" --json /tmp/inventario_skill.json`,
-   classifica le voci (utili al team / personali / pubbliche), proponi in tabella cosa
-   condividere e aspetta la conferma 🟡. Le confermate partono con `condividi_skill.py`
-   (prima `--dry-run`). CLAUDE.md e memoria personale MAI in blocco: solo regole di
-   team estratte come contributi testuali.
-3. Chiedi: "Hai metodi, procedure o trucchi che usi già e che il team dovrebbe avere,
-   anche non scritti in una skill? Raccontameli, li strutturo io." Per OGNI cosa utile
-   usa `contribuisci-conoscenza` (una riga per concetto, autore = il consulente).
-4. Se il consulente ha fretta: registra solo nome e ruolo e ricordagli `/rbr-scansione`
-   e "condividi quello che ho imparato" per farlo dopo.
+Chiedi, in un solo messaggio: nome e cognome, di cosa si occupa in RBR (CDG, marketing, HR…).
+Poi digli in due righe: «Quando scopri una procedura o un trucco utile al team, dimmi "condividi
+quello che ho imparato": lo segnalo a Marco. Se hai skill tue che vorresti dare al team: `/rbr-scansione`.»
+NON lanciare la scansione delle skill da solo: solo se il consulente la chiede.
 
-## 8. Report a Marco su Telegram (SEMPRE, alla fine del setup)
+## 7. Report a Marco su Telegram (SEMPRE, alla fine del setup)
 
 Componi un messaggio in TESTO SEMPLICE (no Markdown), max 12 righe:
 `👤 Nuovo setup plugin RBR — <nome consulente> (<data>)`
 poi: esito checklist in una riga per componente solo se ❌/🟡 (i ✅ riassumili in
-"tutto il resto ok"), ruolo del consulente, le skill condivise dalla scansione (nomi) e
-l'elenco dei contributi testuali raccolti al punto 7 (titoli) o "nessun contributo per ora". Invia con Bash:
+"tutto il resto ok"), ruolo del consulente. Invia con Bash:
 leggi `bot_token` e `chat_id_marco` da `~/.claude/rbr/config.json` (chiave `telegram`) e:
 `curl -s -X POST "https://api.telegram.org/bot$TOKEN/sendMessage" -d chat_id=$CHAT --data-urlencode text="<messaggio>"`
 Verifica `"ok":true` (un retry se fallisce; se fallisce ancora, di' al consulente di
