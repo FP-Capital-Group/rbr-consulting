@@ -47,37 +47,25 @@ Google Ads o Make?»
 
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
-**Prima capisci dove sei**: `echo $HOME; ls ~/mnt 2>/dev/null`.
-- Se HOME è `/sessions/...` (Cowork su Windows, o sessione cloud): l'ambiente è Linux con Python già
-  pronto ma **nuovo a ogni chat**: tutto ciò che scrivi in `~` sparisce. Le chiavi vanno nella
-  **cartella di lavoro del consulente**, montata in `~/mnt/<nome cartella>` (escludi `.remote-plugins`,
-  `outputs`, `uploads`): è la cartella del suo PC che ha dato a Cowork, e persiste. Il plugin la
-  cerca da solo a ogni avvio (`scripts/rbr_chiavi.py`) e installa le chiavi in silenzio.
-  Se `~/mnt` non ha nessuna cartella di lavoro: chiedi al consulente di aggiungerne una in Cowork
-  (icona cartella → scegli una cartella del PC, es. `Documenti\RBR`) e di riaprire la chat.
-- Se HOME è `/Users/<nome>` (Mac, sessione locale): vale `~/.claude/rbr/`, persiste da solo.
+Controlla: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/rbr_chiavi.py"`. Se dice «chiavi in ~/.claude/rbr: sì» → ✅ vai avanti.
 
-Poi controlla se le chiavi ci sono già: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/rbr_chiavi.py"`.
-Se dice «file chiavi: non trovato» e «chiavi in ~/.claude/rbr: no», procurati `rbr-chiavi.json`
-— **prima in automatico, senza far scaricare nulla al consulente**:
-1. **Via connettore Google Drive**: `search_files` con query `title = 'rbr-chiavi.json'` → `id` →
-   `download_file_content` (JSON in base64). Salvalo con Python (funziona ovunque, niente `base64 -d`):
-   scrivi il base64 in un file temporaneo con il tool Write, poi
-   `python3 -c "import base64,sys;open(sys.argv[2],'wb').write(base64.b64decode(open(sys.argv[1]).read()))" <tmp> <dest>`
-   dove `<dest>` è `~/mnt/<cartella di lavoro>/rbr-chiavi.json` se HOME è `/sessions/...`, altrimenti
-   `~/Downloads/rbr-chiavi.json`. Il file sta nella cartella Drive **"RBR - Chiavi consulenti"**
-   (Clienti RBR → Consulenti → Tutorial, Skill & Prompt). Se `search_files` non lo trova: il consulente
-   non ha accesso all'albero Clienti RBR → chiederlo a Marco.
-2. **Fallback**: il consulente scarica il file da drive.google.com/drive/folders/1kaZwv-MZIVhfmuU807kw3T-BN4HiAhkN
-   e lo mette nella cartella di lavoro (Windows) o in Download (Mac); oppure lo allega alla chat
-   (finisce in `~/mnt/uploads/`, copialo nella cartella di lavoro).
-3. Installa: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/rbr_chiavi.py" --installa` (ambiente `/sessions`:
-   tienilo nella cartella di lavoro, NON cancellarlo, serve a ogni chat) oppure, su Mac,
-   `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/installa_chiavi.py" ~/Downloads/rbr-chiavi.json` (poi puoi
-   cancellare il file da Download: le chiavi sono in `~/.claude/rbr/`).
-4. Avvisa: i tool GHL/Google Ads/Make valgono dalla PROSSIMA chat. Al primo avvio Cowork chiede di
-   consentire i server MCP del plugin: sì.
-Se le chiavi ci sono già: ✅ e vai avanti.
+Altrimenti il modo consigliato, uguale su Mac, Windows e cloud, è la **Competenza personale «rbr-chiavi»**:
+1. Il consulente scarica `rbr-chiavi-skill.zip` dalla cartella Drive **"RBR - Chiavi consulenti"**
+   (Clienti RBR → Consulenti → Tutorial, Skill & Prompt; link: drive.google.com/drive/folders/1kaZwv-MZIVhfmuU807kw3T-BN4HiAhkN).
+   Se non ha accesso alla cartella → deve chiederlo a Marco.
+2. In Cowork: **Personalizza → Competenze → Aggiungi → carica lo zip**. Compare la competenza «rbr-chiavi».
+3. Chat nuova. Il plugin trova il file in `~/.claude/skills/rbr-chiavi/` (Mac) o
+   `~/mnt/.claude/skills/rbr-chiavi/` (Windows/cloud) e installa le chiavi da solo, a ogni avvio.
+   Rilancia `/rbr-setup` per i test. Nessun altro passaggio.
+Perché così: in Cowork su Windows la HOME è nuova a ogni chat e tutto ciò che si salva lì sparisce;
+le competenze personali invece vengono montate in ogni sessione. Non serve nessuna organizzazione.
+
+Alternative (solo se il consulente non può caricare competenze):
+- HOME `/sessions/...`: metti `rbr-chiavi.json` nella cartella di lavoro data a Cowork (`~/mnt/<cartella>/`),
+  scaricandolo via connettore Drive (`search_files` title = 'rbr-chiavi.json' → `download_file_content` →
+  salva il base64 con il tool Write → `python3 -c "import base64,sys;open(sys.argv[2],'wb').write(base64.b64decode(open(sys.argv[1]).read()))" <tmp> <dest>`).
+- Mac: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/installa_chiavi.py" ~/Downloads/rbr-chiavi.json` (persiste in `~/.claude/rbr/`).
+Poi: i tool GHL/Google Ads/Make valgono dalla PROSSIMA chat; al primo avvio Cowork chiede di consentire i server MCP del plugin: sì.
 
 ## 1. MCP del plugin (tutti dichiarati nel plugin: nessuna configurazione a mano)
 

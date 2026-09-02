@@ -7,7 +7,9 @@ persiste è la cartella di lavoro del consulente, montata sotto ~/mnt/<cartella>
 chiavi vive lì (o dove indicato) e il plugin lo installa da solo a ogni avvio, in silenzio.
 
 Ordine di ricerca del file chiavi:
-  $RBR_CHIAVI · <cwd>/rbr-chiavi.json · <cwd>/.rbr/rbr-chiavi.json · ~/mnt/*/rbr-chiavi.json ·
+  $RBR_CHIAVI · <plugin>/rbr-chiavi.json · <cwd>/rbr-chiavi.json · <cwd>/.rbr/rbr-chiavi.json ·
+  ~/.claude/skills/*/rbr-chiavi.json e ~/mnt/.claude/skills/*/rbr-chiavi.json (Competenza personale
+  "rbr-chiavi", il modo consigliato) · ~/mnt/*/rbr-chiavi.json ·
   ~/mnt/*/.rbr/rbr-chiavi.json · ~/mnt/*/*/rbr-chiavi.json · ~/mnt/uploads/rbr-chiavi.json ·
   ~/Downloads/rbr-chiavi.json · ~/.claude/rbr/rbr-chiavi.json
 """
@@ -25,7 +27,9 @@ def candidati():
     c = [os.environ.get("RBR_CHIAVI"), os.path.join(qui, NOME),
          os.path.join(cwd, NOME), os.path.join(cwd, ".rbr", NOME)]
     mnt = os.path.join(HOME, "mnt")
-    for pat in (f"{mnt}/*/{NOME}", f"{mnt}/*/.rbr/{NOME}", f"{mnt}/*/*/{NOME}"):
+    # Competenza personale "rbr-chiavi" caricata dal consulente (Personalizza → Competenze): persiste ovunque
+    for pat in (f"{HOME}/.claude/skills/*/{NOME}", f"{mnt}/.claude/skills/*/{NOME}",
+                f"{mnt}/*/{NOME}", f"{mnt}/*/.rbr/{NOME}", f"{mnt}/*/*/{NOME}"):
         c += sorted(glob.glob(pat))
     # Cowork Windows/cloud: ~/mnt/.claude è montato dal sistema (se persistente, è il posto ideale)
     c += [os.path.join(mnt, ".claude", "rbr", NOME), os.path.join(mnt, ".claude", NOME),

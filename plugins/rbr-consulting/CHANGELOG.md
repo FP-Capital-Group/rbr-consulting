@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.10.2 — 2026-09-02
+Ogni versione ha una sezione `## v2.11.0 — 2026-09-03
+- Chiavi RBR come Competenza personale: carichi una volta lo zip rbr-chiavi (Personalizza → Competenze) e il plugin trova gli accessi a ogni chat, su Mac, Windows e cloud. Niente setup, niente cartelle, niente organizzazione.
+
+## v2.10.2 — 2026-09-02
 - Marketplace privato del team: il plugin arriva dall'organizzazione con gli accessi già dentro (fogli, GHL, Google Ads, Make). Niente setup, niente cartelle, funziona uguale su Mac, Windows e cloud.
 
 ## v2.10.1 — 2026-09-02
