@@ -49,14 +49,19 @@ Google Ads o Make?»
 
 Controlla: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/rbr_chiavi.py"`. Se dice «chiavi in ~/.claude/rbr: sì» → ✅ vai avanti.
 
-Altrimenti il modo consigliato, uguale su Mac, Windows e cloud, è la **Competenza personale «rbr-chiavi»**:
+Come funziona: il plugin porta con sé le chiavi CIFRATE (`rbr-chiavi.enc`, AES-256); la passphrase sta
+solo nella **Competenza personale «rbr-chiavi»** del consulente. Il modo standard, uguale su Mac, Windows e cloud:
 1. Il consulente scarica `rbr-chiavi-skill.zip` dalla cartella Drive **"RBR - Chiavi consulenti"**
    (Clienti RBR → Consulenti → Tutorial, Skill & Prompt; link: drive.google.com/drive/folders/1kaZwv-MZIVhfmuU807kw3T-BN4HiAhkN).
    Se non ha accesso alla cartella → deve chiederlo a Marco.
 2. In Cowork: **Personalizza → Competenze → Aggiungi → carica lo zip**. Compare la competenza «rbr-chiavi».
-3. Chat nuova. Il plugin trova il file in `~/.claude/skills/rbr-chiavi/` (Mac) o
-   `~/mnt/.claude/skills/rbr-chiavi/` (Windows/cloud) e installa le chiavi da solo, a ogni avvio.
-   Rilancia `/rbr-setup` per i test. Nessun altro passaggio.
+3. Chat nuova. Il plugin trova la passphrase in `~/.claude/skills/rbr-chiavi/` (Mac) o
+   `~/mnt/.claude/skills/rbr-chiavi/` (Windows/cloud), decifra le chiavi e le installa da solo, a ogni
+   avvio. Rilancia `/rbr-setup` per i test. Nessun altro passaggio, mai più: quando Marco cambia una
+   chiave arriva con l'aggiornamento del plugin.
+Su Mac, in alternativa alla competenza, il consulente può darti la passphrase a voce/chat (la chiede a
+Marco) e tu la salvi con `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/rbr_chiavi.py" --passphrase "<testo>"`
+(persiste in `~/.claude/rbr/`). NON stampare mai la passphrase né il contenuto delle chiavi in chat.
 Perché così: in Cowork su Windows la HOME è nuova a ogni chat e tutto ciò che si salva lì sparisce;
 le competenze personali invece vengono montate in ogni sessione. Non serve nessuna organizzazione.
 
