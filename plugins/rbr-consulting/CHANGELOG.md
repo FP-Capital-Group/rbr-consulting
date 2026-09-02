@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.9.3 — 2026-09-02
+Ogni versione ha una sezione `## v2.9.4 — 2026-09-02
+- /rbr-setup ora prepara il computer da solo: su Windows installa Python 3 se manca (o crea l'alias python3 se hai quello di python.org), su Mac attiva gli strumenti Apple. Poi chiede se vuoi collegare anche GHL, Google Ads, Make e fogli: puoi dire 'non ora'.
+
+## v2.9.3 — 2026-09-02
 - Condividere quello che impari funziona appena installato il plugin, senza setup e senza chiavi (anche su Windows): 'condividi quello che ho imparato' → arriva a Marco, che decide cosa entra nel plugin di tutti.
 
 ## v2.9.2 — 2026-09-02
