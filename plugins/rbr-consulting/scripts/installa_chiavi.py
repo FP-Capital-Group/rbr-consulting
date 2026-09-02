@@ -19,7 +19,6 @@ HOME = os.path.expanduser("~")
 RBR_DIR = os.path.join(HOME, ".claude", "rbr")
 CLAUDE_JSON = os.path.join(HOME, ".claude.json")
 SETTINGS = os.path.join(HOME, ".claude", "settings.json")
-MARKETPLACE_URL = "https://github.com/marcocuccaro0309/rbr-consulting"
 DOMINI = ["oauth2.googleapis.com", "www.googleapis.com", "sheets.googleapis.com",
           "drive.googleapis.com", "api.telegram.org", "services.leadconnectorhq.com",
           "eu1.make.com", "raw.githubusercontent.com", "github.com"]
@@ -81,13 +80,13 @@ def main():
     for d in DOMINI:
         if d not in dom:
             dom.append(d)
-    mk = st.setdefault("extraKnownMarketplaces", [])
-    if not any(isinstance(m, dict) and m.get("url") == MARKETPLACE_URL for m in mk):
-        mk.append({"url": MARKETPLACE_URL, "autoUpdate": True})
-    else:
-        for m in mk:
-            if isinstance(m, dict) and m.get("url") == MARKETPLACE_URL:
-                m["autoUpdate"] = True
+    # formato documentato: oggetto {nome: {source: {source: github, repo}, autoUpdate}}
+    mk = st.get("extraKnownMarketplaces")
+    if not isinstance(mk, dict):
+        mk = {}  # migra/scarta la vecchia forma a lista
+    mk["rbr-consulting"] = {"source": {"source": "github", "repo": "marcocuccaro0309/rbr-consulting"},
+                            "autoUpdate": True}
+    st["extraKnownMarketplaces"] = mk
     salva_json(SETTINGS, st, dry)
     # registro marketplace (se il plugin è già stato installato dal marketplace)
     km_path = os.path.join(HOME, ".claude", "plugins", "known_marketplaces.json")
