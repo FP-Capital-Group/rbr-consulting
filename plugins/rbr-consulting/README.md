@@ -20,6 +20,8 @@ del marketplace a ogni avvio e installa la versione nuova (attiva dalla chat suc
 ## Cosa contiene
 
 ### Cervello strategico
+- **estrai-dati-ipratico** — incassi Z, coperti, prodotti, margini e canali da iPratico Cloud
+  senza API key (backend del portale con la sessione del cliente; training=1, dedup zNumber, cutoff 06:00).
 - **strategia-marketing-rbr** — framework Jay Abraham (3 moltiplicatori, preeminence,
   risk reversal), Alex Hormozi (value equation, grand slam offer, core four) e Frank
   Merenda (posizionamento, risposta diretta, catenaria) applicati alla ristorazione +
