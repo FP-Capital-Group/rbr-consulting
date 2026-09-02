@@ -99,8 +99,7 @@ def componi(vals):
     ultima = max((semver(r[4]) for r in dati if len(r) > 4 and r[4].strip()), default=None)
     if inst and ultima and ultima > semver(inst):
         out.append(f"\n⚠️ Plugin installato v{inst}, disponibile v{'.'.join(map(str, ultima))}: "
-                   "l'aggiornamento è automatico dal marketplace al prossimo riavvio; se non arriva, "
-                   "`/plugin update rbr-consulting` (o ricontrolla /rbr-setup). "
+                   "l'auto-update del plugin la installa da solo: sarà attiva dalla prossima chat. "
                    "Prima esporta ciò che hai imparato (skill contribuisci-conoscenza).")
     return "\n".join(out) + "\n"
 
