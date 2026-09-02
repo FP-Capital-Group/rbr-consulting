@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.10.0 — 2026-09-02
+Ogni versione ha una sezione `## v2.10.1 — 2026-09-02
+- Windows: il plugin cerca il file chiavi anche in ~/mnt/.claude e tra gli allegati della chat (uploads), oltre che nella cartella di lavoro.
+
+## v2.10.0 — 2026-09-02
 - Windows: Cowork lavora in un ambiente Linux con Python già pronto, ma nuovo a ogni chat. Le chiavi RBR ora vivono nella tua cartella di lavoro Cowork (file rbr-chiavi.json, ce lo mette /rbr-setup) e il plugin le carica da solo a ogni avvio. Su Mac non cambia nulla.
 - Dai a Cowork una cartella di lavoro (icona cartella) prima di /rbr-setup: è lì che finiscono file e chiavi.
 
