@@ -12,6 +12,11 @@ risposta (JSON o flusso SSE) viene riscritta su stdout una riga per messaggio. L
 Mcp-Session-Id restituito dall'initialize viene riusato nelle richieste successive.
 """
 import os, sys, json, threading, urllib.request, urllib.error
+try:  # Windows: stdio in UTF-8 e newline \\n (JSON-RPC per riga)
+    sys.stdin.reconfigure(encoding="utf-8")
+    sys.stdout.reconfigure(encoding="utf-8", newline="\n")
+except Exception:
+    pass
 
 NOME = sys.argv[1] if len(sys.argv) > 1 else ""
 CFG = os.environ.get("RBR_MCP_SERVERS") or os.path.expanduser("~/.claude/rbr/mcp_servers.json")
