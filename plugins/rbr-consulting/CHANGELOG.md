@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## vX.Y.Z — data`. L'hook di sessione legge la sezione della
+Ogni versione ha una sezione `## v2.8.1 — 2026-09-02
+- Nuovo comando /rbr-pubblica (per Marco): pubblica subito una versione a tutti i consulenti in un colpo (pull, versione, changelog, PR, merge, Conoscenza live, Telegram).
+- Ogni lunedì esce SEMPRE una versione nuova, anche solo per allineare tutti: se non vedi novità nelle skill, le novità del team sono in Conoscenza live.
+
+## vX.Y.Z — data`. L'hook di sessione legge la sezione della
 versione installata la PRIMA volta che gira e la mostra al consulente. La routine del lunedì
 aggiunge la sezione della release che pubblica (3-6 righe, cosa cambia per chi lavora).
 
