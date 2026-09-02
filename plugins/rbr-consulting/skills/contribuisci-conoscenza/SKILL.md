@@ -1,13 +1,13 @@
 ---
 name: contribuisci-conoscenza
-description: Condivide col team RBR quello che questo Claude ha imparato — nuove procedure, fix, trucchi, pattern sui clienti — scrivendolo nello Sheet "RBR - Contributi conoscenza" su Drive (via service account). I contributi vengono fusi ogni lunedì nel plugin condiviso e distribuiti a tutti. Usa quando l'utente dice "condividi quello che ho imparato", "salva questa procedura per il team", "questo va nel cervello comune", quando risolvi qualcosa di non documentato nelle skill, e SEMPRE PRIMA di aggiornare il plugin a una nuova versione (per non perdere gli apprendimenti locali).
+description: Condivide col team RBR quello che questo Claude ha imparato — nuove procedure, fix, trucchi, pattern sui clienti — scrivendolo nello Sheet "RBR - Contributi conoscenza" su Drive (via service account). Marco li legge ogni settimana e decide cosa entra nel plugin di tutti. Usa quando l'utente dice "condividi quello che ho imparato", "salva questa procedura per il team", "questo va nel cervello comune", quando risolvi qualcosa di non documentato nelle skill, e SEMPRE PRIMA di aggiornare il plugin a una nuova versione (per non perdere gli apprendimenti locali).
 ---
 
 # Contribuisci conoscenza (il cervello condiviso RBR)
 
 Il plugin è la memoria condivisa del team: quello che UN consulente impara deve
 arrivare a TUTTI. Questa skill è il canale di andata; la routine settimanale fonde i
-contributi nel plugin e il lunedì tutti ricevono l'aggiornamento.
+contributi; Marco li legge ogni settimana e decide cosa entra nel plugin di tutti.
 
 ## Quando attivarla (anche senza che l'utente lo chieda)
 
@@ -32,7 +32,7 @@ contributi nel plugin e il lunedì tutti ricevono l'aggiornamento.
    Lo script trova lo Sheet "RBR - Contributi conoscenza" su Drive via service account
    e aggiunge una riga con stato `nuovo`. Richiede `pip3 install gspread google-auth`.
 4. **Conferma** all'utente: ✅ contributo inviato, verrà integrato nel plugin col
-   prossimo aggiornamento del lunedì (report su Telegram a Marco).
+   prossima lettura settimanale di Marco (che riceve il digest su Telegram).
 
 ## Regole
 
