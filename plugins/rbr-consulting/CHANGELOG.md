@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.9.4 — 2026-09-02
+Ogni versione ha una sezione `## v2.9.5 — 2026-09-02
+- Fogli Google dei clienti: in /rbr-setup rispondi 'fogli' e Claude installa le librerie, prende le chiavi e fa una prova di lettura reale prima di dirti che sei pronto. Ogni foglio cliente va condiviso come Editor con il service account RBR.
+
+## v2.9.4 — 2026-09-02
 - /rbr-setup ora prepara il computer da solo: su Windows installa Python 3 se manca (o crea l'alias python3 se hai quello di python.org), su Mac attiva gli strumenti Apple. Poi chiede se vuoi collegare anche GHL, Google Ads, Make e fogli: puoi dire 'non ora'.
 
 ## v2.9.3 — 2026-09-02

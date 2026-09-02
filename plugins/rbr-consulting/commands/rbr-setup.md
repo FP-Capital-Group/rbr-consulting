@@ -41,10 +41,13 @@ La rete del sandbox (punto 2b) su Windows non si applica: salta.
 
 ## B. Servono gli accessi? (chiedi UNA volta)
 
-Chiedi: «Ti serve già lavorare con GoHighLevel, Google Ads, Make o i fogli Google dei clienti?»
-- **No / non ora** → fine del setup: riepiloga in 3 righe (Python ok, skill pronte, come si usa,
-  "condividi quello che ho imparato") e fai il punto 7 (report a Marco). Il resto lo farà quando serve.
-- **Sì** → continua con il punto 0 e tutti i successivi.
+Chiedi: «Ti serve lavorare sui **fogli Google dei clienti** (CDG, fatture, KPI)? E su GoHighLevel,
+Google Ads o Make?»
+- **Niente per ora** → fine del setup: riepiloga in 3 righe (Python ok, skill pronte, come si usa,
+  "condividi quello che ho imparato") e fai il punto 7 (report a Marco).
+- **Solo fogli** (il caso più frequente: consulenti CDG) → punto 0 (chiavi) e poi punto 3 (fogli).
+  Salta 1, 2, 2b. È la priorità assoluta: non chiudere il setup finché il punto 3 non è ✅.
+- **Anche GHL / Ads / Make** → tutti i punti.
 
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
@@ -108,12 +111,16 @@ Vale dalle SESSIONI NUOVE: avvisa l'utente che dopo il setup deve aprire una cha
 nuova perché Google/Telegram funzionino. Verifica anche il toggle Cowork
 "Esegui nuove attività nel cloud" = OFF (chiedi all'utente: Impostazioni → Cowork).
 
-## 3. Google (Sheets/Drive via service account)
+## 3. Fogli Google dei clienti (PRIORITÀ: qui il consulente deve entrare per forza)
 
-- Verifica che esista `~/.claude/rbr/credentials.json` (installata al punto 0) e la skill `cdg-fatture`.
-- Ricorda la regola: ogni foglio cliente va condiviso in Editor con
-  `fp-cdg-service@fp-cdg-automation.iam.gserviceaccount.com`.
-- Verifica dipendenze Python: `pip3 show pandas openpyxl gspread oauth2client` (installa se mancano, chiedendo prima).
+Esegui `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/prepara_fogli.py"`: installa da solo le librerie che
+mancano (gspread, google-auth, pandas, openpyxl), verifica le chiavi e fa una LETTURA REALE dello
+Sheet "RBR - Contributi conoscenza". Deve finire con ✅. Se il consulente ha già un foglio cliente
+su cui lavorare, rilancialo con `--test-url <link del foglio>`: se dice 403, il foglio va condiviso
+come Editor con `fp-cdg-service@fp-cdg-automation.iam.gserviceaccount.com` (fallo fare subito, poi ripeti).
+Esiti tipici: ❌ manca credentials.json → punto 0 non completato; ❌ 403 blocked-by-allowlist →
+chat nuova (rete del sandbox, solo Mac); ❌ pip fallisce → mostra il comando suggerito dallo script.
+Chiudi il punto ripetendo la regola: ogni foglio cliente va condiviso come Editor con il service account.
 
 ## 4. Skill e regole
 
