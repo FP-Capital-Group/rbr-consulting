@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.11.0 — 2026-09-03
+Ogni versione ha una sezione `## v2.12.0 — 2026-09-03
+- Le chiavi RBR viaggiano cifrate dentro il plugin (AES-256). La competenza rbr-chiavi contiene solo la chiave della cassaforte: la carichi una volta e non cambia mai. Quando Marco aggiorna un accesso o aggiunge un cliente, arriva con l'aggiornamento del plugin senza fare nulla.
+
+## v2.11.0 — 2026-09-03
 - Chiavi RBR come Competenza personale: carichi una volta lo zip rbr-chiavi (Personalizza → Competenze) e il plugin trova gli accessi a ogni chat, su Mac, Windows e cloud. Niente setup, niente cartelle, niente organizzazione.
 
 ## v2.10.2 — 2026-09-02
