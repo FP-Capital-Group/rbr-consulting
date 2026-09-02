@@ -9,9 +9,9 @@ Non fermarti al primo errore: verifica tutto, poi riepiloga.
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
 Controlla se esiste `~/.claude/rbr/credentials.json`. Se manca:
-1. Chiedi al consulente di scaricare `rbr-chiavi.json` dalla cartella Drive privata
-   **"RBR - Chiavi consulenti"** (Marco gliela ha condivisa; se non ce l'ha → chiederla a
-   Marco). Di solito finisce in `~/Downloads/rbr-chiavi.json`.
+1. Chiedi al consulente di scaricare `rbr-chiavi.json` dalla cartella Drive **"RBR - Chiavi consulenti"** (Clienti RBR → Consulenti → Tutorial, Skill & Prompt, già condivisa col team: drive.google.com/drive/folders/1kaZwv-MZIVhfmuU807kw3T-BN4HiAhkN). Di solito finisce in `~/Downloads/rbr-chiavi.json`.
+   Se il consulente ha il connettore Google Drive attivo, puoi cercare tu il file
+   (`search_files` title = 'rbr-chiavi.json') e leggerlo, salvandolo in ~/Downloads.
 2. Esegui: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/installa_chiavi.py" ~/Downloads/rbr-chiavi.json`
    (prima con `--dry-run` per mostrare cosa farà). Installa: service account Google,
    token Telegram, server MCP GHL/Google Ads/Make a scope utente, allowlist rete, marketplace
