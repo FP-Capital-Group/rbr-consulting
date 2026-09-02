@@ -76,6 +76,11 @@ Se il ristorante non ha sito/foto buone: foto Instagram scaricate con `gallery-d
 ### A6. Tracciamento
 - **Meta Pixel**: snippet nel template (nei siti campagna il Pixel ID reale arriva da chi gestisce le Ads — non inventarlo).
 - **GA4**: eventi che contano per un ristorante = click su `tel:`, click prenota / submit form, click indicazioni stradali, view menu. 🟡 **Da validare con Marco**: il template siti-ristoranti documenta il Pixel ma NON un setup GA4 standard — prima di installare GA4 su un sito generato concordare misurazione (GA4 vs solo Pixel) e Measurement ID. Sui siti WordPress dei locali diretti (Mister Pizza/Dirigì) il tracciamento conversioni esiste già (vedi `mister-pizza/memory/google_ads_tracciamento.md`): non aggiungere container doppi.
+- ⚠️ **Verifica SEMPRE con l'ID reale dopo ogni deploy, mai col nome della funzione** (contributo di Marco (RBR AI), 2026-09-01): un grep su `fbq(` o `connect.facebook.net` dà esito positivo anche se è rimasto il placeholder letterale `fbq('init','PIXEL_ID')` — caso reale redmike.it, live 2 mesi senza un solo evento raccolto. Verifica corretta:
+  - `curl -sL https://sito.it | grep -c '<pixel_id_reale>'` → deve dare **>0**; `grep -c PIXEL_ID` (il placeholder) → deve dare **0**. Stessa cosa per GA4 (`G-XXXX`) e Google Ads (`AW-XXXX`).
+  - In browser: `window.fbq.getState().pixels` deve elencare l'ID giusto ed esistere il cookie `_fbp`.
+  - Per iniettare pixel/eventi su siti statici senza duplicare ad ogni riesecuzione: script idempotente con marker in commento (`RBR-PIXEL` / `RBR-SCHEDULE` / `RBR-LEAD`) che cerca il marker prima di scrivere.
+  - **Evento Schedule sul widget Resmio** (iframe cross-origin, non intercettabile direttamente): blur-trick — si ascolta `window.blur` e si controlla se `document.activeElement` è un iframe con `resmio` nel `src`; max 1 evento per pageview.
 
 ---
 

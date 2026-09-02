@@ -4,6 +4,10 @@ Ogni versione ha una sezione `## vX.Y.Z — data`. L'hook di sessione legge la s
 versione installata la PRIMA volta che gira e la mostra al consulente. La routine del lunedì
 aggiunge la sezione della release che pubblica (3-6 righe, cosa cambia per chi lavora).
 
+## v2.7.9 — 2026-09-02
+- Contributi consulenti fusi: trabocchetti wizard nuovo account Google Ads, verifica pixel con ID reale post-deploy (blur-trick Resmio) in `adv-ristorante` e `sito-landing-ristorante`.
+- Novità dal mondo: MCP ufficiale GHL multi-account (da validare) e Ask AI campagne Meta in bozza, WhatsApp Click-to-Chat come obiettivo Meta, Insight GBP per superficie (Maps AI/AI Overviews), tolleranza 5% sanzioni collegamento cassa-POS (D.Lgs 148/2026), terza tranche CCNL Pubblici Esercizi da giugno 2026, Claude nel provider AI nativo di Make.
+
 ## v2.7.8 — 2026-09-02
 - Novità annunciate all'avvio: la prima sessione dopo un aggiornamento mostra questo changelog.
 - Chiedi "cosa c'è di nuovo nel plugin" per il dettaglio di qualsiasi versione.
