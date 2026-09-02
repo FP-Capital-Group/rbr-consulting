@@ -8,15 +8,24 @@ Non fermarti al primo errore: verifica tutto, poi riepiloga.
 
 ## 0. Chiavi RBR (una volta sola — il plugin pubblico NON contiene segreti)
 
-Controlla se esiste `~/.claude/rbr/credentials.json`. Se manca:
-1. Chiedi al consulente di scaricare `rbr-chiavi.json` dalla cartella Drive **"RBR - Chiavi consulenti"** (Clienti RBR → Consulenti → Tutorial, Skill & Prompt, già condivisa col team: drive.google.com/drive/folders/1kaZwv-MZIVhfmuU807kw3T-BN4HiAhkN). Di solito finisce in `~/Downloads/rbr-chiavi.json`.
-   Se il consulente ha il connettore Google Drive attivo, puoi cercare tu il file
-   (`search_files` title = 'rbr-chiavi.json') e leggerlo, salvandolo in ~/Downloads.
-2. Esegui: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/installa_chiavi.py" ~/Downloads/rbr-chiavi.json`
+Controlla se esiste `~/.claude/rbr/credentials.json`. Se manca, procurati `rbr-chiavi.json`
+— **prima in automatico, senza far scaricare nulla al consulente**:
+1. **Via connettore Google Drive** (il consulente lo ha quasi sempre collegato in Claude):
+   `search_files` con query `title = 'rbr-chiavi.json'` → prendi l'`id` → `download_file_content`
+   (torna il JSON in base64) → salvalo con Bash:
+   `echo '<base64>' | base64 -d > ~/Downloads/rbr-chiavi.json` (poi verifica con
+   `python3 -c "import json;json.load(open('$HOME/Downloads/rbr-chiavi.json'))"`).
+   Il file sta nella cartella Drive **"RBR - Chiavi consulenti"** (Clienti RBR → Consulenti →
+   Tutorial, Skill & Prompt, già condivisa col team). Se `search_files` non lo trova: il
+   consulente non ha accesso all'albero Clienti RBR → chiederlo a Marco.
+2. **Fallback manuale** (solo se il connettore Drive non è disponibile): chiedi al consulente
+   di scaricare il file da drive.google.com/drive/folders/1kaZwv-MZIVhfmuU807kw3T-BN4HiAhkN
+   in `~/Downloads/`.
+3. Esegui: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/installa_chiavi.py" ~/Downloads/rbr-chiavi.json`
    (prima con `--dry-run` per mostrare cosa farà). Installa: service account Google,
    token Telegram, server MCP GHL/Google Ads/Make a scope utente, allowlist rete, marketplace
-   con auto-update. Poi il consulente può cancellare il file scaricato.
-3. Avvisa: MCP e rete valgono dalla PROSSIMA chat. Se stai facendo il primo setup,
+   con auto-update. Poi cancella `~/Downloads/rbr-chiavi.json` (le chiavi sono in ~/.claude/rbr/).
+4. Avvisa: MCP e rete valgono dalla PROSSIMA chat. Se stai facendo il primo setup,
    chiedi di aprire una chat nuova e rilanciare `/rbr-setup` per i test dei punti 1-3.
 Se `~/.claude/rbr/credentials.json` esiste già: ✅ e vai avanti.
 
@@ -72,8 +81,8 @@ nuova perché Google/Telegram funzionino. Verifica anche il toggle Cowork
   consulente, nero su bianco, che il cervello condiviso è collegato: quel blocco di solito
   finisce solo nel contesto di Claude a inizio sessione, non a schermo. Esiti:
   - stampa le righe con la data di oggi/recente → ✅ Conoscenza live attiva.
-  - stampa ma con un ⚠️ "plugin vX installato, disponibile vY" → ✅ attiva, ma segnala al
-    consulente di aggiornare lo zip (cartella Drive versioni).
+  - stampa ma con un ⚠️ "plugin vX installato, disponibile vY" → ✅ attiva; l'auto-update
+    lo porterà alla versione nuova al prossimo riavvio (se non succede: `/plugin update rbr-consulting`).
   - non stampa nulla o errore rete → 🟡 rete sandbox non ancora sistemata (vedi punto 2b):
     dopo il fix funzionerà dalla prossima sessione. Non è bloccante.
 
