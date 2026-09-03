@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.12.0 — 2026-09-03
+Ogni versione ha una sezione `## v2.13.0 — 2026-09-03
+- Versione 'solo skill' per la consegna al team: 31 skill, regole RBR e comandi. I collegamenti (GoHighLevel, Google Ads, Make, Meta, fogli) verranno attivati in una versione successiva, senza reinstallare nulla.
+
+## v2.12.0 — 2026-09-03
 - Le chiavi RBR viaggiano cifrate dentro il plugin (AES-256). La competenza rbr-chiavi contiene solo la chiave della cassaforte: la carichi una volta e non cambia mai. Quando Marco aggiorna un accesso o aggiunge un cliente, arriva con l'aggiornamento del plugin senza fare nulla.
 
 ## v2.11.0 — 2026-09-03
