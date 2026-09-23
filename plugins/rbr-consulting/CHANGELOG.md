@@ -1,6 +1,11 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.13.0 — 2026-09-03
+Ogni versione ha una sezione `## v2.14.0 — 2026-09-23
+- 8 skill nuove: analisi-reputazione-locale, ottimizzazione-tavoli-resmio, sistema-tracciamento-locale, agenti-vocali-deepagent (Luciano), analisi-acquisti-fornitore, analisi-venduto-fasce (Leo), whatsapp-ghl-locale (Andrea + Luciano), carta-menu-rbr (Marco).
+- Fuse ~100 correzioni del team (Luciano, Andrea) in: Resmio, campagne coupon, adv/costo per prenotazione, Google Business, GHL (onboarding, mail funnel, Conversation AI), Pienissimo, iPratico, CDG, food cost, KPI, RFM.
+- Nuovi riferimenti: trappole-strumenti (diagnosi-suite), modello base sotto-account GHL, collaudo catenaria, codici Resmio/iPratico, memory Fatture in Cloud e Cassa in Cloud.
+
+## v2.13.0 — 2026-09-03
 - Versione 'solo skill' per la consegna al team: 31 skill, regole RBR e comandi. I collegamenti (GoHighLevel, Google Ads, Make, Meta, fogli) verranno attivati in una versione successiva, senza reinstallare nulla.
 
 ## v2.12.0 — 2026-09-03

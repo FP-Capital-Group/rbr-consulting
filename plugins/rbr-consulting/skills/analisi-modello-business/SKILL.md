@@ -15,7 +15,7 @@ Un conto economico annuale dice SE il ristorante guadagna; il File 03 dice **QUA
 
 ## Prerequisiti
 - **Dati riconciliati** con la skill `riconciliazione-dati-cliente` (venduto, ore, costo personale — con scarti quantificati). MAI costruire il File 03 su dati non riconciliati.
-- **Venduto per fascia oraria** (scontrini/coperti/fatturato per slot 30 min o per fascia) dal POS del cliente (es. Cassa in Cloud, iPratico, Zucchetti).
+- **Venduto per fascia oraria** (scontrini/coperti/fatturato per slot 30 min o per fascia) dal POS del cliente (es. Cassa in Cloud, iPratico, Zucchetti). ⚠️ Cassa in Cloud: `sold-by-department` ignora l'orario intraday → usare `sold-trend-by-hour` giorno per giorno e riscalare sul totale del giorno; coperti per ora filtrando il reparto COPERTO. Dettagli: `memory/cassa_in_cloud.md` (repo rbr-suite). *(contributo di Andrea, 2026-09-10)*
 - **Ore lavorate per fascia e reparto** — ⚠️ baseline = **cedolini/ore reali**, non i turni teorici (lezione Cartabianca: la griglia dai cedolini è il dato vero).
 - **Costo orario del personale**: costo pieno annuo ÷ ore. Multi-locale: usare il **costo orario medio ponderato di rete** per TUTTI i locali, per uniformità (Cartabianca: €18,09/h; indiretti ufficio/jolly esclusi).
 - Template File 03: `03 Analisi Modello` in `_TEMPLATE`, ID `1WoxoChHbGjbF9irVkQWZhoaLiyztsc_g2WC11HrorSo`. Riferimento metodologico completo: template "Da Tito" `17uFEGIVldVtodMO-mpW7PbinEo5sgvS80BS_43Fum2s` e file "Analisi modello di business - Dirigì" `18cHQIYZp2kwzn_0mQVbkZkn3BEDmIxVNUqlhpVv9bqE`.
@@ -41,6 +41,13 @@ Per ogni blocco/periodo × fascia calcola: **fatturato, coperti, ore, operatori 
 - Traduci i fabbisogni in **turni veri** (entrata-uscita, FT/PT): turni contigui, max 8h, min 3-4h, senza coprire ore a domanda zero. Le ore-costo si contano sui turni veri, non sulla somma teorica dei fabbisogni.
 - **Saving = Δ EBITDA settimanale per fascia × settimane del blocco** (oppure turni tagliati/settimana × costo turno medio × settimane — Dirigì usava €85,35/turno). Le due strade devono tornare.
 
+### 4-bis. Margine per canale (sala / asporto / delivery)
+Le fasce non bastano: il margine se ne va anche per **canale**. Caso reale (12 mesi, 2,86 mln €): sala 73,9% (20,29 € lordi a coperto), asporto 8,7% (14,67 € a ordine), delivery 17,3% (20,64 € a ordine). Con la commissione piattaforme **misurata** al 32%, il margine di contribuzione unitario era **12,38 € a coperto in sala contro 6,47 € a ordine delivery**: a scontrino quasi identico il delivery rende il 48% in meno. Intanto il delivery era salito dal 9% al 21% dei ricavi mentre la sala perdeva il 18% — una crescita che sembra buona ed erode il margine.
+- **Commissione misurata, non stimata**: conto commissioni piattaforme (dal CDG/contabilità) ÷ ricavi delivery.
+- **Break-even per canale**, ognuno col suo scontrino medio e margine: il solo "break-even in coperti" è sbagliato quando i ricavi non vengono solo dalla sala.
+- Per l'effetto sui piatti vedi `menu-engineering` (controlli standard: drink cost, prezzi divergenti sui canali, menu delivery integrato).
+*(contributo di Luciano Purpi, 2026-09-03)*
+
 ### 5. Decisioni strutturali per fascia
 Con il CE per fascia si valutano a numeri le decisioni tipo:
 - **Pranzo in perdita** → chiusura, riduzione organico minimo, o spinta asporto/convenzioni.
@@ -59,6 +66,7 @@ Con il CE per fascia si valutano a numeri le decisioni tipo:
 - ⚠️ I saving sono **indicativi** finché l'"attuale" non è payroll reale: dichiararlo nel deliverable.
 - ⚠️ Non estrapolare l'estate (o il picco) a 12 mesi linearmente: analisi per stagione/blocco.
 - ⚠️ Anomalie di €/h su singoli mesi (es. fine stagione con TFR/14ª accantonati) vanno isolate prima di usarle nella media.
+- ⚠️ **File 03 importato da Excel**: la funzione custom `CONTA_TURNI` muore nell'import e dà `#NAME?` a cascata fino al CE fasce. Sostituirla con `=SUMPRODUCT(--(B:AK="X");--(A:AJ<>"X"))` (conta gli inizi turno; separatore secondo il locale del foglio, vedi `kpi-sheet-cliente`). Controllare anche i **TOTALI dei blocchi giorno** (possono sommare solo 2 fasce su 4) e il **fattore netto→lordo 2,2** del tab Accordi: tararlo sul costo vero del personale nel CDG del cliente. *(contributo di Andrea, 2026-09-10)*
 
 ## Lacune note (da completare con Marco)
 - La **struttura interna del template** `03 Analisi Modello` (`1Wox…`: righe, colonne, formule) non è documentata nelle memory — solo le regole ("fasce 11-16/16-19/19-24, reparti Pizzeria/Cucina/Sala, non toccare la struttura") e i file applicati (Dirigì, Da Tito/Cartabianca). Prima del primo uso su un cliente nuovo, aprire il template con Marco e mappare i blocchi.

@@ -63,6 +63,7 @@ Se il ristorante non ha sito/foto buone: foto Instagram scaricate con `gallery-d
 - ❌ Mai widget di auto-traduzione dentro il template (per i turisti → GTranslate come da skill `seo-local-ristorante`).
 - ❌ Mai **FormSubmit** (formsubmit.co): bandito da Marco.
 - ❌ Mai palette fredda (rosa pallido, blu, azzurro, viola, grigio): **sempre toni caldi** — rosso, arancione, ocra, terracotta, oro, bordeaux; beige = crema/sabbia.
+- ✅ **Colori del brand si LEGGONO, non si scelgono a occhio** (contributo di Luciano Purpi, 2026-09-08): dal sito (colori calcolati con `getComputedStyle`, scartando la tavolozza di default di Gutenberg e i widget di terzi) e dal logo (PIL, scartando i pixel neutri); poi **contrasto WCAG ≥ 4,5:1 su ogni accostamento testo/sfondo PRIMA di applicare** — un giallo/arancio di marca su bianco sta a 2-3:1: si tiene la tinta e la si scurisce per il testo (es. #FFA600 → #9C6200), lasciando il colore pieno ai pulsanti con testo scuro. Su 10 clienti 6 palette non passavano al primo giro. Vale per sito, landing, mail, widget, coupon → metodo e snippet in `references/colori-brand.md`.
 - ❌ Mai `loading="lazy"` sulle foto above-the-fold (card piatti, foto categorie).
 - ✅ Mobile-first sul serio: input form min-height 48px, hamburger menu funzionante, hero leggibile su schermo piccolo.
 - ✅ Se le foto Google Places sono mediocri (mani, close-up, sfocate) → hero con foto stock via `brand-override.json`.
@@ -70,7 +71,7 @@ Se il ristorante non ha sito/foto buone: foto Instagram scaricate con `gallery-d
 
 ### A5. Form, prenotazioni e CRM
 - **Form nativo** → `POST /api/form-submit` del builder (payload `{slug, type, data}`), con fallback WhatsApp se la fetch fallisce. Il builder notifica via **email + Telegram** (token per-sito in `site-config.json`) e fa **push nel GHL del cliente** (multi-tenant): config per slug in `site-config.json` (`locationId` + `tokenEnv`), PIT nel `.env` del builder. Tag automatici: `lead-sito-<slug>`, `form-<type>`, `consenso-marketing`; upsert su email+telefono, niente duplicati.
-- **Resmio**: se il locale lo usa, widget iframe (`app.resmio.com/<facility_id>/widget`) nella sezione prenota. Nota: gli iframe esterni non vengono tradotti da GTranslate (limite noto).
+- **Resmio**: se il locale lo usa, widget iframe (`app.resmio.com/<facility_id>/widget`) nella sezione prenota, con `referrerpolicy="no-referrer-when-downgrade"` sull'iframe e le pagine marcate `?utm=` (vedi A6 Tracciamento). Nota: gli iframe esterni non vengono tradotti da GTranslate (limite noto).
 - Confine di responsabilità: sito/landing/deploy/Pixel front-end = questa skill; workflow CRM, catenarie, CAPI e campagne Meta = lato RBR AI (webhook router universale Make come interfaccia).
 
 ### A6. Tracciamento
@@ -80,7 +81,12 @@ Se il ristorante non ha sito/foto buone: foto Instagram scaricate con `gallery-d
   - `curl -sL https://sito.it | grep -c '<pixel_id_reale>'` → deve dare **>0**; `grep -c PIXEL_ID` (il placeholder) → deve dare **0**. Stessa cosa per GA4 (`G-XXXX`) e Google Ads (`AW-XXXX`).
   - In browser: `window.fbq.getState().pixels` deve elencare l'ID giusto ed esistere il cookie `_fbp`.
   - Per iniettare pixel/eventi su siti statici senza duplicare ad ogni riesecuzione: script idempotente con marker in commento (`RBR-PIXEL` / `RBR-SCHEDULE` / `RBR-LEAD`) che cerca il marker prima di scrivere.
-  - **Evento Schedule sul widget Resmio** (iframe cross-origin, non intercettabile direttamente): blur-trick — si ascolta `window.blur` e si controlla se `document.activeElement` è un iframe con `resmio` nel `src`; max 1 evento per pageview.
+- ⚠️ **Prenotazioni Resmio: il blur-trick NON è una conversione** (correzione, contributo di Luciano Purpi, 2026-09-03). Ascoltare `window.blur` + `document.activeElement === iframe` conta il PRIMO CLIC dentro il widget, non la prenotazione. Caso Barresi (21/08/2026): 42 "conversioni" Google Ads in 14 giorni contro 39 prenotazioni TOTALI dal sito, tutte le fonti sommate — "Massimizza le conversioni" ottimizzava su tocchi di iframe; stessa malattia sul Pixel Meta. Dove è già installato resta **solo micro-conversione secondaria**, MAI primaria di bidding.
+- ✅ **Metodo corretto: canale nel `booking_request_parameters` + conversioni offline** (contributo di Luciano Purpi, 2026-09-03):
+  1. Resmio salva nel campo invisibile `booking_request_parameters` SOLO le chiavi il cui nome è esattamente `gclid` o `utm` (letto nel bundle del widget): `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` vengono **buttati**. Marca le pagine/link con un parametro che si chiama `utm` e basta: `?utm=<landing>-<canale>` (GA4 lo ignora, non sporca l'organico). Il `gclid` di Google passa da solo.
+  2. Il widget legge il `document.referrer`: di default il browser manda solo l'origine e taglia la query → sull'**iframe del widget** metti `referrerpolicy="no-referrer-when-downgrade"` (solo lì: il `<meta name="referrer">` di pagina regalerebbe l'URL completo anche a Pixel, Analytics e chat). Non serve se il widget è servito dallo stesso dominio del sito.
+  3. Le prenotazioni col `gclid`/`utm` si caricano come **conversioni offline SOLO se onorate** (escluse cancellate e no-show, che valgono il 17-20%): segnale più pulito di qualsiasi evento front-end. Caricamento e KPI → skill `adv-ristorante` punto 4.
+  4. Il parametro `source` scritto nell'embed classico (`widget.js`) NON arriva: Resmio lo riscrive con l'hostname. Passa intero solo col proxy PHP o col link diretto `app.resmio.com/<slug>/widget?source=` (dettagli → skill `campagna-locale`). Il GTM nativo di Resmio è solo nel piano Ultimate (non nell'add-on Marketing): non serve comprarlo per questo (`suite/memory/resmio.md`).
 
 ---
 
@@ -89,7 +95,7 @@ Se il ristorante non ha sito/foto buone: foto Instagram scaricate con `gallery-d
 La landing è **un anello della catena** della skill `campagna-locale` (code → landing → QR → coupon iPratico → email GHL): leggi quella skill per la catena completa. Qui c'è solo come si COSTRUISCE la pagina.
 
 ### B1. Scegli il contenitore (non crearne uno nuovo)
-- **Locale con sito WordPress** (es. Mister Pizza, Dirigì): le landing base esistono già e si **riusano parametrizzate** via querystring `?code=<code>&source=<source>` — non duplicare la pagina (regola di `campagna-locale`).
+- **Locale con sito WordPress** (es. Mister Pizza, Dirigì): le landing base esistono già e si **riusano parametrizzate** via querystring `?code=<code>&source=<source>` — non duplicare la pagina (regola di `campagna-locale`). ⚠️ Se la landing contiene l'embed classico Resmio, `source` non arriva alla prenotazione (vedi A6): aggiungi `utm=<landing>-<canale>` e verifica l'URL dell'iframe generato.
 - **Locale con sito generato/statico** (es. Red Mike): pagina HTML dedicata dentro la cartella del sito (`output/siti/<slug>/<promo>.html`), deployata sullo stesso host. Su Caddy Oracle: `try_files` per URL puliti (`/riapertura` → `riapertura.html`) e `systemctl restart caddy` (mai reload).
 
 ### B2. Struttura della pagina (dall'alto in basso)
@@ -129,6 +135,7 @@ La landing è **un anello della catena** della skill `campagna-locale` (code →
 - [ ] **Schema.org `Restaurant` valido** (test con validator.schema.org) con NAP reale — solo percorso A
 - [ ] **Form testato end-to-end**: submit di prova → email/Telegram ricevuti → contatto in GHL col tag giusto → catenaria partita → contatto di test cancellato
 - [ ] **Link prenotazione funzionante**: form nativo o widget Resmio caricato e prenotabile; `tel:` cliccabile
-- [ ] **Tracciamento attivo**: Pixel con ID reale (no placeholder); eventi GA4 concordati e verificati in DebugView (🟡 se GA4 non concordato con Marco, segnalarlo esplicitamente, non installare alla cieca)
+- [ ] **Tracciamento attivo**: Pixel con ID reale (no placeholder); eventi GA4 concordati e verificati in DebugView (🟡 se GA4 non concordato con Marco, segnalarlo esplicitamente, non installare alla cieca); widget Resmio con `referrerpolicy` sull'iframe e `?utm=` verificato dentro `booking_request_parameters` di una prenotazione di prova; nessun blur-trick come conversione primaria
+- [ ] **Palette** letta da sito/logo e contrasto ≥ 4,5:1 verificato su ogni coppia testo/sfondo
 - [ ] **Verifica visiva** fatta: foto-categoria menu coerenti, palette calda, hero degno (percorso A); recensioni pertinenti e T&C presenti (percorso B)
 - [ ] Landing di campagna: URL parametrizzato `?code=&source=`, QR generato, tutto registrato nello Sheet master (il resto della catena → skill `campagna-locale`)

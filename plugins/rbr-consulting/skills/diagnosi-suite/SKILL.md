@@ -1,6 +1,6 @@
 ---
 name: diagnosi-suite
-description: Troubleshooting della suite RBR (Resmio, Make, GHL, iPratico) organizzato per sintomo → causa probabile → fix. Usala quando il consulente dice "le conferme WhatsApp non arrivano", "Resmio dà 401/403", "il cliente ha prenotato ma il contatto non è in GHL", "il QR non è arrivato", "lo scenario Make è in errore / si è disattivato", "webhook che non arrivano", "il token è scaduto", "lo snapshot non ha portato le mail/i workflow", "iPratico non risponde". Parti sempre dal sintomo e risali la pipeline Resmio → Make → GHL → iPratico.
+description: Troubleshooting della suite RBR (Resmio, Make, GHL, iPratico) organizzato per sintomo → causa probabile → fix. Usala quando il consulente dice "le conferme WhatsApp non arrivano", "Resmio dà 401/403", "il cliente ha prenotato ma il contatto non è in GHL", "il QR non è arrivato", "lo scenario Make è in errore / si è disattivato", "webhook che non arrivano", "il token è scaduto", "lo snapshot non ha portato le mail/i workflow", "iPratico non risponde", "non vedo il tavolo su Resmio", "il tracciamento dei codici è morto", "il sync ha saltato prenotazioni", "il foglio dice DA ASSEGNARE", "il salvataggio non ha preso". Parti sempre dal sintomo e risali la pipeline Resmio → Make → GHL → iPratico.
 ---
 
 # Diagnosi suite RBR (sintomo → causa → fix)
@@ -79,6 +79,39 @@ Endpoint DLQ (non nel catalogo MCP → curl ammesso): lista `GET /dlqs?scenarioI
 - **Actor duplicati**: l'API non ha check unicità su email/phone — il flow fa sempre search-by-email prima del create; se trovi duplicati, un create è passato senza search
 - **429 / rate limit**: ~60 req/min empirico, retry con backoff
 - **Numeri che non tornano col portale** (chiusure Z manuali invisibili, referenceDate vs closureDate, Z duplicate): è il dominio dell'API portale privata — vedi `suite/memory/ipratico_portal_api.md`; token portale rigenerato ad ogni cron via login auto (`scripts/refresh_ipratico_portal_token.py`). Il token MP dà **403 su Dirigì** (previsto, saltato dallo script)
+
+## 7. Resmio: comportamenti non documentati (sintomo → causa → fix)
+(contributo di Luciano Purpi, 2026-09-03 — dettagli API in `suite/memory/resmio.md`)
+
+| Sintomo | Causa | Fix |
+|---|---|---|
+| "Non vedo il tavolo X e non posso prenotarlo" | Un'**eccezione** (resource override) che dura giorni: il chip "Bloccato 10:00 - 16:00" mostra solo le ore, NON le date (caso reale: 2 tavoli fuori vendita 11 serate) | `GET /v1/facility/<slug>/resource_overrides` → leggi `begins`/`ends`; sospette le istanze senza `series` con fine spostata avanti |
+| Tavolo "sparito" dal piano sala | Le sale sono **schede separate** (si apre la prima) | Controlla `resource_groups` prima di cercare blocchi |
+| Prenotazioni inserite via API senza mail all'ospite e senza tavolo | `POST /bookings` non manda mail (`last_reply_sent` null) e non auto-assegna: l'auto-assegnazione vale solo per il widget | Assegna con `PATCH /bookings/{id}` su `facility_resources`. Opposto: la UI "Nuova prenotazione" riattiva da sola "Invia notifica email" quando compili l'email |
+| Export prenotazioni "completo" ma di mesi sbagliati | Filtri `start`/`end` **ignorati** in silenzio | Solo `date__gte`/`date__lt`; controlla sempre data min/max del set |
+| Incastri/sovrapposizioni sbagliati | Durata occupazione presunta 90' fissa | `GET /booking_timespans` a gradini per coperti, diversa per locale: rileggerla per ogni cliente |
+| "Il tracciamento dei codici è morto" | Cercato `code:` in `notes` (nota STAFF) invece che in `comment` (nota OSPITE) — caso reale: 400+ prenotazioni con codice "invisibili" | Cerca in `comment`, con regex tollerante: arriva concatenato ai campi custom del widget |
+| "Non vedo le conversioni delle prenotazioni" | `gtm_conversion_tracking_enabled=false`: il GTM nativo è SOLO nel piano Ultimate (l'add-on Marketing 19,90 € NON lo contiene) | Strada gratuita e migliore: `gclid`/`utm` in `booking_request_parameters` + conversioni offline → skill `adv-ristorante` punto 4 |
+
+Branding mail/widget, logo, testi mail, redirect recensioni Google e audit flag multi-locale
+(contributi di Luciano Purpi, 2026-09-08) → `suite/memory/resmio.md`, sezioni dedicate.
+
+## 8. Processo "automatico" che salta giri (sync in una scheda del browser)
+(contributo di Luciano Purpi, 2026-09-03) Caso reale: sync prenotazioni in un loop dentro
+una sessione browser; primo controllo "solo latenza" (22 su 22), tuning in sessione
+(ciclo a 10', chiave con orario al minuto, reload preventivo). Due giorni dopo l'orologio
+ha mostrato la causa vera: **loop fermo 41 ore** perché il Mac era in sospensione — 5
+prenotazioni su 10 mai arrivate in sala, clienti presentati come walk-in.
+- Il problema non è il ciclo, è **dove vive**: nessun tuning in sessione lo risolve.
+- Diagnosi: guarda l'**orologio dell'ultimo giro**, non l'esito dell'ultimo giro.
+- Fix: portarlo fuori sessione (task schedulato o cloud/Make) → regola in `make-scenario-dod`.
+
+## 9. Dato sbagliato senza errore (strumenti e metodo)
+Accenti rotti da `pbcopy`, gviz che restituisce la scheda sbagliata, CodeMirror che non
+salva, "Aggiorna" di iPratico che butta le modifiche, Sheets/GHL non pilotabili, PATCH
+202 che non ha salvato, dump dal browser troncati → `references/trappole-strumenti.md`
+(incluse le regole **backup prima di sovrascrivere + rilettura dopo** ed **estrazione massiva
+via download di un Blob** dentro la pagina).
 
 ## Se il sintomo non rientra in nessuna casella
 Documenta cosa hai osservato (scenario, execution id, payload, risposta) e **chiedi a Marco** prima di toccare workflow GHL condivisi, snapshot o scenari core.

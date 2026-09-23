@@ -100,6 +100,20 @@ Ratio testo/immagine bassa = penalità antispam.
 
 ---
 
+## VARIANTE A TRE BINARI (quando il CRM conosce le visite)
+
+Se il locale ha nel CRM data ultima visita e numero visite (tipicamente GHL con ponte dal
+gestionale), proponi la catenaria a **tre binari separati** invece del funnel lineare:
+RACCONTO a tutti (mai sconti) · PREMIO a chi viene (una cosa, mai uno sconto, non prevedibile) ·
+RIAGGANCIO a chi si è fermato (l'unico con offerte). Regola: la promozione è uno strumento per chi
+non viene, non un premio per chi viene. Tetti: max 3 gesti/anno a persona, di cui max 1 sconto;
+silenzio promozionale 90 giorni dalla visita; invio giovedì 11:30. Il testo automatico dice solo
+cose sempre vere (prodotti come repertorio, non come stock del giorno).
+Dettagli, freno anti-cliente-da-sconto e tempi del riaggancio: `references/tre-binari.md`
+(contributo di Luciano Purpi, 13/09/2026).
+
+---
+
 ## PRIMA PAGINA DEL PDF (riepilogo automatico)
 
 Il PDF inizia con una pagina di riepilogo:

@@ -1,0 +1,45 @@
+/* Scala tipografica di stampa per soffietto (ante da 100 mm) — quella usata per Giurges 09/2026 */
+.testa .marchio{font-size:22pt;margin-bottom:1mm}
+.testa .occhiello{font-size:6pt;letter-spacing:.2em;margin-top:1.5mm}
+h2.sez{font-size:15pt;margin-bottom:2.5mm !important}
+h3.sez-n{font-size:9.5pt;letter-spacing:.16em;margin-bottom:2.5mm !important;padding-bottom:1.4mm}
+.p .nome{font-size:8.6pt;line-height:1.15}
+.p .desc{font-size:7.2pt;line-height:1.3;margin-top:.6mm}
+.p .badge{font-size:5.4pt}
+.p .birra{font-size:6pt;letter-spacing:.08em;margin-top:.8mm}
+.piatti > .p{margin-bottom:2.6mm}
+.p.pieno{padding:2.4mm 3mm 2.6mm;border-radius:2.4mm}
+.p.bordo{padding:2.2mm 3mm 2.4mm;border-radius:2.4mm;border-width:.8pt}
+.p.spicca{padding-left:2.4mm;border-left-width:1.4pt}
+.grossi{padding:4mm 4mm 4.5mm;border-radius:3mm}
+.grossi .kick{font-size:5.6pt}
+.grossi > *{margin-bottom:1.6mm}
+.rcard > .foto{flex:0 0 14mm;width:14mm;height:14mm}
+.gitem > .foto{flex:0 0 15mm;width:15mm;height:15mm}
+.foto span{font-size:4.6pt} .foto svg{width:9mm;height:9mm}
+.lr .n{font-size:8pt} .lr .n em{font-size:6.4pt;margin-top:.4mm}
+.lr .a,.lr .b{font-size:7.2pt;flex:0 0 9mm;text-align:right}
+.lr .ic{flex:0 0 4.5mm}
+.lst > .lr{margin-bottom:1.8mm}
+.lr.head,.lr.head .n,.lr.head .a,.lr.head .b{font-size:5.6pt}
+.pillola{font-size:6.4pt;padding:1.6mm 4mm;margin-top:2.5mm}
+.misure{padding:4mm;border-radius:3mm}
+.taglia .sig{font-size:15pt;flex:0 0 8mm} .taglia .lbl{font-size:8pt} .taglia .det{font-size:6.4pt;margin-top:.5mm}
+.taglia .pr{font-size:7.4pt;margin-left:auto}
+.taglie > .taglia{margin-bottom:2mm}
+.chip{font-size:6.2pt;padding:.8mm 2.4mm}
+.aggiunte{gap:1.4mm;margin-top:3mm;padding-top:2.6mm}
+.combos > .combo{margin-bottom:4mm}
+.combo{padding:3.4mm 3.6mm 4mm;border-radius:3mm}
+.combo .t{font-size:10pt} .combo .steps{font-size:7pt;line-height:1.55}
+.combo .pr{font-size:16pt} .combo .pr small{font-size:5.6pt}
+.piede{font-size:6.2pt;padding-top:2.6mm;margin-top:4mm !important} .piede b{font-size:7pt}
+.cop-marchio{font-size:28pt} .cop-sub{font-size:6.4pt;margin-top:2mm}
+.cop-riga{margin:5mm 0;gap:1.4mm} .cop-riga i{width:8mm;height:1.4mm}
+.cop-dove{font-size:8pt} .cop-claim{font-size:6.4pt;padding:1.6mm 4mm;margin-top:5mm}
+.manifesto .frase{font-size:11pt;line-height:1.2}
+.manifesto .frase small{font-size:7pt;line-height:1.4;margin-top:1.5mm}
+.manifesto > .frase{margin-bottom:6mm}
+.info-riga{padding-bottom:3mm;margin-bottom:3mm}
+.info-riga .k{font-size:5.6pt} .info-riga .v{font-size:9pt}
+.info-riga .v small{font-size:6.6pt;margin-top:.8mm}

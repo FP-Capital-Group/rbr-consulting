@@ -40,15 +40,22 @@ Per un ristorante il GBP è **il canale #1**: la maggior parte dei clienti nuovi
 ### 1. Audit e ottimizzazione scheda (una volta, poi trimestrale)
 Campo per campo, per ogni sede:
 - **Categoria principale** = quella più specifica e cercata ("Pizzeria", non "Ristorante" se è una pizzeria) + secondarie reali (Ristorante, Pizza da asporto…). La categoria principale pesa più di ogni altro campo.
-- **Attributi** veri e completi: senza glutine, vegano, asporto, domicilio, dehors, accessibile, prenotazione consigliata. Ogni attributo è un filtro di ricerca su Maps.
+- **Attributi** veri e completi: vegano, vegetariano, biologico, asporto, domicilio, dehors, accessibile, prenotazione consigliata. Ogni attributo è un filtro di ricerca su Maps.
+- ⚠️ **Il senza glutine NON ha né categoria né attributo** (contributo di Luciano Purpi, 2026-09-03, verificato il 16/08/2026): nessuna categoria "ristorante senza glutine" nell'elenco italiano, nessun flag dietetico fra gli attributi "Proposte" oltre vegano/vegetariano/biologico, e nel form del singolo piatto "Regimi alimentari" offre solo Vegetariano e Vegano. Per i clienti gluten-free la nicchia su Google passa SOLO da descrizione, menù e recensioni: dirlo al cliente prima di prometterlo.
 - **Orari** esatti + orari speciali per festività (una scheda "forse chiuso" perde la chiamata).
-- **Menu**: caricato nella sezione dedicata con prezzi (non solo PDF sul sito), foto dei piatti principali. Via UI — la parte menu non è coperta in modo affidabile dall'API.
-- **Link prenotazione** (Resmio/TheFork) e link ordini delivery: sono le CTA che convertono direttamente dalla scheda.
+- **Menu**: caricato nella sezione dedicata con prezzi (non solo PDF sul sito), foto dei piatti principali. Via UI — la parte menu non è coperta in modo affidabile dall'API. Come si carica davvero (contributo di Luciano Purpi, 2026-09-03):
+  - **Solo con l'editor multiplo**: tre puntini della SEZIONE (o di una voce) → "MODIFICA PIÙ ELEMENTI" → un campo Prezzo e un cestino per riga, un solo Salva. Si naviga con Tab fra un prezzo e il successivo (il primo Tab prende il cestino), la lista scorre da sola: 33 prezzi e 5 cancellazioni in poche chiamate. Voce per voce è impraticabile in automazione (form lento 5-13 s, pannello bianco dopo il salvataggio, conflitto di estensioni Chrome sul campo Prezzo): ~2 voci in decine di chiamate.
+  - **Prezzo col punto** (`11.30`): con la virgola Google risponde "Inserisci un importo valido".
+  - **Le foto del menù non si caricano via automazione** (upload dentro iframe): le trascina a mano il cliente o il consulente → va nella checklist di consegna del cliente.
+- **Link prenotazione** (Resmio/TheFork) e link ordini delivery: sono le CTA che convertono direttamente dalla scheda. ⚠️ Di norma il link prenotazione della scheda non porta parametri di sorgente → le prenotazioni da Google cadono nel "diretto" (contributo di Luciano Purpi, 2026-09-03). Se è Resmio, usa il link diretto al widget con la fonte (`app.resmio.com/<slug>/widget?source=google-business`, vedi `campagna-locale`); altrimenti dichiara nel report mensile che quelle prenotazioni non sono attribuite, invece di lasciarle sparire.
 - **Foto**: minimo 3-5 nuove/mese (piatti, sala, dehors, team). Gestione media = UI, non API. Le schede con foto recenti battono quelle ferme.
 - **NAP coerente** con sito e citazioni (vedi `seo-local-ristorante` punto 4 — non ripetere qui l'analisi, solo verificare).
+- ⚠️ **Clienti multi-concept nella stessa sede** (contributo di Luciano Purpi, 2026-09-03): due schede allo stesso indirizzo e soprattutto con lo STESSO NUMERO DI TELEFONO sono il segnale n.1 con cui Google rifonde due profili. Per separare due brand servono indirizzo E numero distinti, prima di qualsiasi altra ottimizzazione.
 
 ### 2. Macchina delle recensioni
-- **Come chiederle**: al momento giusto (fine pasto/consegna), con link diretto recensione (short URL della scheda) su QR al tavolo, scontrino, follow-up post-prenotazione via GHL (automazione: prenotazione onorata → SMS/email col link il giorno dopo). Chiedere a TUTTI, mai selezionare solo i clienti contenti (review gating = violazione policy).
+- **Come chiederle**: al momento giusto (fine pasto/consegna), con link diretto recensione (short URL della scheda) su QR al tavolo, scontrino, follow-up post-prenotazione via GHL (automazione: prenotazione onorata → SMS/email col link il giorno dopo). Chiedere a TUTTI, mai selezionare solo i clienti contenti (review gating = violazione policy). Il link breve `g.page/r/.../review` si calcola dal place_id, e con Resmio si può mettere nella mail di feedback senza l'add-on a pagamento → `suite/memory/resmio.md`, sezione Recensioni Google (aprire SEMPRE il link generato: 2 place_id su 10 salvati in Resmio erano sbagliati).
+- **Cosa chiedere: la richiesta ha un GANCIO TEMATICO legato al posizionamento** (contributo di Luciano Purpi, 2026-09-03 — diagnosi ricorrente su tre clienti). La macchina può girare a pieno regime e raccogliere la cosa sbagliata: cliente A, 200 recensioni in 5 giorni, media 4,89 — ma il 69% dei testi cita un cameriere per nome e solo il 5% dice "leggera/digeribile"; cliente B, la promessa di marca (doppia lievitazione, 36h, leggerezza) compare in 3 testi su 489, zero nella sede principale. Non è la quantità, è **lo script**: in sala si chiede "ci lascia una recensione?" invece di "se le è piaciuta la leggerezza dell'impasto, lo scriva". Lo script giusto spesso esiste già nel manuale di sala: va fatto usare.
+- **Segnali del filtro anti-sollecitazione di Google** (raccolta che lavora a vuoto): testi mediani molto corti (~77 caratteri) e quasi identici, molti profili con zero recensioni precedenti (29% sul cliente A), contatore pubblico fermo mentre la sala ne raccoglie. Se li vedi, rallenta e varia la richiesta prima di spingere sul volume.
 - **Mai comprare recensioni, mai recensioni da staff/amici**: rischio sospensione scheda. Non negoziabile RBR.
 - **Come rispondere (tono RBR)**: a tutte, entro 48h. Positive: ringraziamento personale + mirroring naturale delle keyword (il piatto, il quartiere — senza forzare la città in ogni risposta). Negative: mai difensivi, mai copia-incolla — scuse se dovute, versione dei fatti sobria, invito a canale privato (email dedicata low-rating, vedi `seo-local-ristorante`). La risposta la leggono i futuri clienti, non il recensore.
 - **Con accesso API**: pull periodico delle nuove recensioni + bozze di risposta generate e approvate dal consulente prima dell'invio via API — mai risposte pubblicate senza revisione umana.
@@ -67,6 +74,7 @@ Metriche GBP da portare al ristoratore, confronto mese precedente + stesso mese 
 - **Richieste indicazioni stradali** (proxy di clienti che entrano)
 - **Click al sito** e **click prenotazione**
 - Recensioni nuove + rating medio + tempo medio di risposta
+- **Quota di testi che citano la promessa di marca** (e cosa citano davvero: staff, piatto, senza glutine…) — non solo media e numero. Il posizionamento reale è quello che i clienti ripetono (sul cliente B era il senza glutine, 76 citazioni, non quello dichiarato). Per leggere tutte le recensioni con data e voto veri oltre il tetto di 200 del pannello → `references/scarico-recensioni.md`; per l'analisi completa della reputazione → skill `analisi-reputazione-locale`.
 - Query con cui la scheda viene trovata (brand vs "pizzeria vicino a me")
 
 **Con accesso API**: Performance API dà le serie giornaliere → report automatizzabile. **Senza**: sezione Rendimento della UI (export UI). Chiamate e indicazioni della scheda si sommano a quelle del sito (vedi `analytics-ristorante`): nel report al cliente presenta il totale "cosa ti ha portato Google", non due silos.
@@ -93,7 +101,8 @@ Metriche GBP da portare al ristoratore, confronto mese precedente + stesso mese 
 ## Definition of Done
 - [ ] Accesso alla scheda di ogni sede verificato su fpcgmedia@gmail.com (account giusto)
 - [ ] Scheda ottimizzata campo per campo: categoria principale specifica, attributi, orari+festività, menu con prezzi, link prenotazione/delivery, foto fresche
-- [ ] Macchina recensioni attiva: richiesta sistematica (QR/GHL post-prenotazione), risposta a tutte entro 48h con tono RBR, canale privato per le negative
+- [ ] Macchina recensioni attiva: richiesta sistematica (QR/GHL post-prenotazione) con gancio tematico sul posizionamento, link recensione aperto e verificato, risposta a tutte entro 48h con tono RBR, canale privato per le negative
+- [ ] Cliente avvisato dei limiti della scheda (niente categoria/attributo senza glutine, foto menù da caricare a mano)
 - [ ] Calendario post attivo, 1/settimana per sede, offerte con scadenza reale
 - [ ] Report insight mensile impostato (Maps/Search, chiamate, indicazioni, click, recensioni) integrato col report `analytics-ristorante`
 - [ ] Decisione automazione presa: richiesta API inviata (se multi-sede/volumi) o flusso manuale documentato

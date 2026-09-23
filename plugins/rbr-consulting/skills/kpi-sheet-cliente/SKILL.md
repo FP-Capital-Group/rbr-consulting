@@ -32,6 +32,7 @@ Duplica il template `05 KPI Manager` **oppure** clona un KPI cliente collaudato 
 
 ### 3. KPI principali del tab settimanale
 Incasso TOTALE (+coperti), incasso Sala / Delivery / Asporto / Cerimonia, coperti, ore lavoro, costo personale, recensioni **Google / TripAdvisor / TheFork**, gift card. Aggiungi Best Ever / Media anno e Δ vs anno precedente.
+- **Best Ever e Media auto-estendibili** su un foglio a 52 settimane, invece di allungare gli intervalli a mano ogni settimana: `=IFERROR(MAX(FILTER($D{r}:$BC{r}, $D${riga_chiave}:$BC${riga_chiave}>0)),"")` (e `AVERAGE` per la media), dove la riga chiave è una riga sempre valorizzata quando la settimana è reale (es. Coperti Sala). Caso reale: ha sostituito sette intervalli finali diversi e otto righe "Best Ever" che in realtà facevano `SUM` delle prime 11 settimane. Formula scritta per locale en_US: adatta separatore e nomi al locale del foglio (vedi sotto). *(contributo di Luciano Purpi, 2026-09-03)*
 
 ### 4. Scorporo IVA
 Gli incassi **settimanali** vanno scorporati IVA (ristorazione 10% → `SUMIFS(...)/1,1`); i **giornalieri** restano al lordo (li compila il cliente). Applica lo scorporo dentro le formule del tab settimanale, non modificando gli input.
@@ -49,7 +50,8 @@ Condividi con `rbr-bot@rbr-ai` come **Editor**, e come writer con `marco.cuccaro
 ## Regole RBR & trabocchetti
 - ⚠️ Incassi settimanali IVA esclusa, giornalieri al lordo: non confonderli.
 - ⚠️ Il rate limit Sheets è 60 read/min → un solo `batchGet`, niente loop di get singoli.
-- ⚠️ Locale it_IT: separatore argomenti formule `;`.
+- ⚠️ **Il locale del foglio si LEGGE, non si assume.** Prima di scrivere formule verifica File → Impostazioni foglio di lavoro → Impostazioni internazionali (o via API `spreadsheets.get` → `properties.locale`), oppure testa una formula banale in una cella scratch. it_IT → separatore `;` e decimali con virgola; en_US → separatore `,`. Il nome tradotto delle funzioni (`SE`, `MEDIA`, `SE.ERRORE`, `FILTRO`) dipende dalla lingua dell'interfaccia e **non** è indizio del separatore: caso reale (KPI settimanale, 31/08/2026) interfaccia italiana + foglio en_US → formule col `;` tutte rotte, e l'errore si vede solo dopo. *(correzione di Luciano Purpi, 2026-09-03)*
+- ⚠️ **Numeri via API** (gspread/Sheets, `USER_ENTERED`): passa i numeri come **float veri**, mai stringhe col punto: in locale italiano `'28.29'` diventa l'orario 28:29. E `worksheet.clear()` pulisce i valori ma non i formati: le celle restano a durata e mostrano `678.57.36` anche coi numeri giusti → dopo un clear riapplica `worksheet.format(range, {"numberFormat": {"type": "NUMBER"}})`. *(contributo di Andrea, 2026-09-10)*
 - ❌ Mai sovrascrivere dati/tab compilati a mano dal cliente o da Marco senza conferma.
 - ❌ Mai spostare le colonne input dei giornalieri senza ri-puntare le formule settimanali.
 - File spazzatura vecchi nella cartella (xlsx omonimi non eliminabili dai nostri account): non toccarli via API, falli cancellare a Marco.

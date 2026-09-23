@@ -28,7 +28,7 @@ L'app v2 è Private + Agency Only Install: NON è visibile nel marketplace del c
 2. Il browser mostra "site can't be reached" → **normale, ignora**
 3. Sync token in Neon Postgres:
    ```bash
-   cd "/Users/marco/Desktop/AI/RBR AI/mister-pizza"
+   cd ~/"Desktop/AI/RBR AI/mister-pizza"
    .venv/bin/python scripts/ghl_sync_all_locations.py
    ```
    Lo script usa il Company token → genera location_token per ogni sub-account installata → salva in Neon. (Il servizio Render zero-touch NON è deployato: il sync manuale è lo standard, deciso da Marco 2026-05-29.)
@@ -79,10 +79,13 @@ Le mail blueprint hanno subject `-` (placeholder). Il subject NON sta nel templa
 - **Sending domain**: `Settings → Email Services → Dedicated Domain` → il cliente aggiunge SPF + DKIM (`mailo._domainkey`, `mailo2._domainkey`) + Return-Path (`bounce.<dominio>`) sul suo DNS → verifica GHL in 24-48h. Senza, le mail partono ma con deliverability bassa
 - **Custom landing domain**: `Settings → Domains` → CNAME `offerta.<dominio>` → `funnels.gohighlevel.com`, SSL automatico → aggiorna il Custom Value `landing_base_url`
 - Lo Snapshot NON porta la config dominio: va rifatta per ogni cliente
+- ⚠️ **Verifica il dominio di invio PRIMA di qualunque campagna**: senza dominio verificato GHL spedisce dal dominio condiviso `mg.msgsndr.net` con mittente `nome+gmail.com@mg.msgsndr.net`; con un from `@gmail.com` e SPF/DKIM non allineati Gmail manda in SPAM quasi sempre (verificato su Red Mike il 3/9). Meglio un sottodominio dedicato (`mail.<dominio-cliente>.it`) così non si tocca la posta esistente del cliente (contributo di Luciano Purpi, 04/09/2026)
 - ⚠️ **Limiti invio email**: i sub-account nuovi partono a **1.000 mail/giorno** (warm-up automatico LC Email, sale in ~4 settimane se la reputazione è buona; tetto IP condiviso 15.000/giorno). L'override è per singolo account: Agency View → Sub-Accounts → cliente → Advanced Settings → Limits → Email → "Update Limit". Alzare il numero NON alza la reputazione: serve dominio dedicato + SPF/DKIM/DMARC + warm-up. Dettagli: `suite/memory/ghl_email_sending_limits.md`
 
 ## Step 8 — WhatsApp Business (opzionale, 3-7 giorni Meta)
-`Settings → WhatsApp → Connect` → login Meta Business Manager del cliente → scansione QR dal WhatsApp Business sul telefono del locale. Costo ~$11/mese + ~5¢/msg, pagato dal cliente. Ricordagli di aprire l'app almeno 1 volta ogni 14 giorni o la connessione cade. Template `copy_conferma_prenotazione` (Utility) usa merge tag `{{contact.booking_when_text}}` ecc. → nel workflow serve un Create/Update Contact che valorizzi i custom field booking PRIMA del Send WhatsApp. Dettagli: `suite/quality/ghl_procedura_team_rbr.md` §6.
+`Settings → WhatsApp → Connect` → login Meta Business Manager del cliente → scansione QR dal WhatsApp Business sul telefono del locale. Costo: add-on WhatsApp GHL ~15 $/mese + costo Meta a messaggio template consegnato (dettagli e cifre aggiornate: skill `whatsapp-ghl-locale`, references/costi-limiti-misura.md), pagato dal cliente. Ricordagli di aprire l'app almeno 1 volta ogni 14 giorni o la connessione cade. Template `copy_conferma_prenotazione` (Utility) usa merge tag `{{contact.booking_when_text}}` ecc. → nel workflow serve un Create/Update Contact che valorizzi i custom field booking PRIMA del Send WhatsApp. Dettagli: `suite/quality/ghl_procedura_team_rbr.md` §6. Metodo completo del canale (template, consenso, STOP, invio di massa): skill `whatsapp-ghl-locale`.
+
+**Opt-out nei template WhatsApp marketing senza toccare il testo**: aggiungi il pulsante nativo di risposta rapida "Marketing opt-out" → Meta compila da sé piè di pagina ed etichetta (stringhe fisse, tradotte in automatico). Soddisfa l'obbligo di opt-out senza rimettere in approvazione un testo già approvato (contributo di Luciano Purpi, 13/09/2026).
 
 ## Step 9 — Attiva i workflow (~1 min)
 Nella sub-location: Workflows → **Smistamento Lead** e **Funnel RBR** → verifica stato **Published** (non draft) → toggle **Active ON**.
@@ -93,8 +96,24 @@ Con email test identificabili (`test-onboard-XXX@rbr-test.local` — cleanup fac
 2. POST `source=fidelity-cassa` + `birthday` → tag `locale`+`fidelity` + Date of Birth popolata
 3. Prenotazione finta Resmio (o POST `action=BOOKING_CREATED`) → CF booking popolati + tag + eventuale WhatsApp/QR
 4. Cleanup contatti test (search per `@rbr-test.local` via MCP, delete)
+5. **Avvisi allo staff**: fai l'inventario dei nodi "Notifica interna". Se il sotto-account non ha Sistema telefonico, i nodi SMS risultano "Eseguito" ma non partono → sostituiscili con Notifica interna EMAIL all'utente titolare (dettagli `suite/memory/gohighlevel.md`)
 
-Se i 3 test passano → onboarding completato ✅. Aggiorna il calendario clienti in `suite/quality/ghl_procedura_team_rbr.md` §17.
+Se i test passano → onboarding completato ✅. Aggiorna il calendario clienti in `suite/quality/ghl_procedura_team_rbr.md` §17.
+
+## Modello base del conto e conti ereditati
+Struttura target da montare uguale su ogni locale (tre strati Fondamenta → Servizio → Crescita,
+nove flussi standard con nomi fissi, campi standard e tipi, famiglie di etichette, segnali da leggere
+nella lista flussi, ordine di riordino di un conto ereditato): **`references/modello-base-locale.md`**.
+Due regole da non dimenticare mai:
+- **Tag per segmentare, campo per innescare**: i tag che arrivano dal ponte del gestionale si sommano
+  → "tag aggiunto" scatta solo alla prima visita. Innesco ripetibile = Contact Changed sul campo di stato.
+- **Etichetta = stato, campo = dato**: risposte a sondaggi, anno di nascita, fasce d'età vanno in campi.
+
+## Conversation AI (bot di risposta)
+Regole di campo in **`references/conversation-ai.md`**: Auto-Pilot non basta, serve il **Deploy**
+per canale; il prompt salvato è già live; il bot manda SOLO il link di prenotazione (mai offrire
+l'alternativa); se il bot prenota servono svuotamento campi a fine flusso, attesa 1-2 min prima del
+webhook e notifica staff "verifica sul gestionale".
 
 ## Cosa NON tocchi mai senza Marco
 - Snapshot agency `RBR Blueprint v1` (lo modifica solo Marco)

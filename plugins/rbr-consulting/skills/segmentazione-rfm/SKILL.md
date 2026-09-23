@@ -67,7 +67,19 @@ Per ogni contatto matchato:
   da validare con Marco.
 
 ### 4. Mappa i segmenti
-Etichette dal piano RFM RBR (`rfm_segmentazione.md`): `champion`, `loyal`, `potential`, `new`,
+**Default RBR per i ristoranti: sei stati, non 125 celle** *(contributo di Luciano Purpi, 2026-09-13)*.
+Una matrice 5×5×5 su un ristorante resta quasi vuota e nessuno agisce su 125 segmenti. Si usano
+sei stati mutuamente esclusivi (il tag si sostituisce, non si somma) più "non misurato":
+**Nuovo** (1 visita, ≤60 gg) · **Abituale** (2-3 visite, ≤90 gg) · **Affezionato** (4+, ≤90 gg) ·
+**Abituale fermo** (2+, ultima 91-180 gg — qui stanno i soldi) · **Dormiente** (181-365 gg) ·
+**Perso** (>365 gg). Le soglie sono **ipotesi** da tarare (≈1,3 × intervallo mediano fra 1ª e 2ª
+visita, dopo 6 mesi di gestionale) e va detto al cliente. Al posto della M, quasi sempre assente,
+si usano i **coperti** come bandierina dentro lo stato (media 4+ persone → offerta di gruppo).
+Trattamento per stato, taratura, ordine di lavoro e accensione senza ponte gestionale→CRM:
+`references/sei-stati-ristorante.md`.
+
+**Variante a quintili** (solo quando la M per cliente esiste davvero, es. delivery/fidelity con
+scontrino per cliente). Etichette dal piano RFM RBR (`rfm_segmentazione.md`): `champion`, `loyal`, `potential`, `new`,
 `at_risk`, `hibernating`, `lost`. Mappatura standard di riferimento — 🟡 soglie da validare con
 Marco prima dell'uso sui clienti:
 
@@ -98,7 +110,8 @@ Marco prima dell'uso sui clienti:
 ## Regole RBR & trabocchetti
 - ❌ Mai curl/script diretti sull'API GHL: sempre MCP `ghl2-<cliente>`.
 - ⚠️ Quintili calcolati SUL locale, non su tutti i clienti RBR insieme.
-- ⚠️ Senza dati POS non inventare M: un RFM solo su R (data creazione contatto) non è RFM.
+- ⚠️ Senza dati POS non inventare M: un RFM solo su R (data creazione contatto) non è RFM. Sui ristoranti il sostituto della M sono i coperti (vedi step 4).
+- ⚠️ **Il tetto da dire PRIMA di promettere**: su Barresi il 46% delle visite (75 su 162) non aveva né telefono né email → metà sala invisibile al CRM. La leva vera è chiedere il contatto al tavolo (il QR di riscatto dà un motivo per lasciarlo). *(contributo di Luciano Purpi, 2026-09-13)*
 - ⚠️ Snapshot dei conteggi per segmento PRIMA di taggare in massa; il tagging bulk è reversibile
   ma rumoroso — fallo confermare (🟡) se i contatti sono >1000.
 - ❌ Mai lanciare la campagna: la skill si ferma ai segmenti taggati. L'invio lo decide il cliente.

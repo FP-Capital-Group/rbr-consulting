@@ -35,9 +35,12 @@ Estrai le righe prodotto dalle fatture XML del cliente e calcola il **€/kg (o 
 Per ogni piatto: somma `grammatura × €/kg` degli ingredienti della distinta base = **Food Cost €**. Esempio di calcolo validato (Mister Pizza, Margherita): panetto 300g×1,90 + pomodoro 90g×1,31 + mozzarella 100g×5,63 + olio 10g×5,42 + basilico 3g×19,30 = **€1,36**.
 - **Prezzo netto = Prezzo menu IVA inclusa ÷ 1,1** (ristorazione).
 - **Margine unitario € = prezzo netto − food cost €** · **Food Cost % = food cost ÷ prezzo netto** (Margherita: 8,70 → netto 7,91, margine 6,55, FC 17,24%).
+- ⚠️ **Unità di misura, sempre**: righe in pz/kg/lt trattate come grammi azzerano proprio le proteine principali (la carne di un piatto è quasi sempre "1 pz"): una Fiorentina risultava 0,45 € invece di 24,42 €. Controllo rapido prima di consegnare: **ordina i piatti per costo crescente** — se un secondo di carne costa meno di un contorno, è un'unità letta male. Occhio anche agli ingredienti prezzati "a pezzo" in fattura (fette di pane, uova, bun): non convertirli in €/kg alla cieca. *(contributo di Andrea, 2026-09-10)*
 - Grammature: dove possibile confrontare **peso reale verificato in cucina vs scheda** (pattern Cartabianca "Scheda Pezzature": porzioni fuori controllo fino a +67% vs sistema = food cost reale ben oltre la ricetta).
 
 ### 3. Incrocio col venduto
+⚠️ **Le sei tab Categoria del template non sono uniformi**: alcune hanno la colonna "Prezzo nuovo IVA inclusa", altre no, e formule/formati differiscono. Scrivendo via API col layout della Categoria 1 si cancellano formule e i numeri finiscono nelle colonne sbagliate. Prima di compilare: **leggi la riga 5 di OGNI tab** e normalizza al layout di Categoria 1 (B prezzo nuovo, D = C/1,1, F = E/D, G = D−E, I = menu mix, J = G×H). *(contributo di Andrea, 2026-09-10)*
+
 Compila le tab Categoria con le **unità vendute** per piatto dal POS. Ora ogni piatto ha popolarità e margine: è la base della **matrice Kasavana-Smith** (Star / Plowhorse / Puzzle / Dog — alto/basso margine × alta/bassa popolarità) e dei 5 pilastri RBR del menu engineering. Per la classificazione e il redesign del menu passa alla skill `menu-engineering` (regola RBR: prima si classificano i piatti, poi si decide il layout).
 - Controllo di coerenza top-down: FC% teorico dal mix venduto vs **FC% di bilancio dal CDG (Acquisti/Ricavi)**. Se il bilancio è molto sopra il teorico, il problema non è il menu ma le **operations** (sfridi, porzioni, acquisti, ammanchi) — finding chiave Cartabianca: FC teorico piatto 23-27% su tutti gli store, bilancio da 21,6% a 42,4%.
 
@@ -56,10 +59,10 @@ Per ogni categoria compila il blocco Nuovo con le proposte: ricetta rivista (gra
 - ⚠️ Le "lavorazioni" (es. panetto pizza) sono a loro volta ricette: il costo va risolto a cascata sul listino, non lasciato a zero.
 - ⚠️ Menu composti/menu fissi (Experience, convenzioni): il POS spesso non ha il costo per il prodotto composto → costo da compilare a mano dalla distinta.
 - ⚠️ Non sovrascrivere tab/valori compilati a mano dal cliente; se il File 02 è un xlsx su Drive, export per ID + modifica openpyxl preservando le formule + update in place.
-- Benchmark FC% di settore per categoria: utilizzabili come stima iniziale quando mancano le ricette (metodo Cartabianca), da dichiarare come stima e raffinare coi costi reali.
+- Benchmark FC% di settore per categoria: utilizzabili come stima iniziale quando mancano le ricette (metodo Cartabianca), da dichiarare come stima e raffinare coi costi reali. ⚠️ **Mai ricalibrarli per far tornare il totale col bilancio e poi usarli per il confronto teorico vs bilancio**: il confronto è circolare, esce sempre a zero e nasconde il gap operativo. Il gap vero si vede solo con le ricette reali (caso reale: 20,7% teorico vs 27,3% bilancio ≈ 13.000 €/stagione). La versione benchmark serve per la matrice del menu, mai per diagnosticare le operations. *(contributo di Andrea, 2026-09-10)*
 
 ## Lacune note (da completare con Marco)
-- La **struttura interna del template** `02 Food Cost` (`1bjB…`: layout esatto delle tab Categoria, formule Attuale vs Nuovo) non è mappata nelle memory — documentate le colonne chiave (master brain) e la struttura del file Raices (tab Food Cost + Categoria 1-6 + Listino Fatture). Prima del primo uso, aprire il template e mappare i blocchi.
+- La **struttura interna del template** `02 Food Cost` (`1bjB…`: formule Attuale vs Nuovo) non è mappata nelle memory (noto solo il layout di riferimento Categoria 1, vedi step 3) — documentate le colonne chiave (master brain) e la struttura del file Raices (tab Food Cost + Categoria 1-6 + Listino Fatture). Prima del primo uso, aprire il template e mappare i blocchi.
 - Il **target FC%** RBR per tipologia di locale non è documentato (nel File 03 di Dirigì si usa un parametro F.C. 30%): confermare con Marco i target standard.
 - Gestione **sfridi** nelle distinte: citata nei fogli Shohreh (Mister Pizza) ma senza regola documentata di calcolo — chiedere il metodo.
 

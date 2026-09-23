@@ -62,6 +62,7 @@ Prima di dichiarare uno scenario pronto:
 3. Test POST con payload finto al webhook → verifica execution history
 4. Per ogni branch del Router: test separato con payload che attiva quel branch
 5. Verifica side-effect: i payload TEST non devono creare contatti reali → email `test-router-XXX@rbr-test.local` / `test-onboard-XXX@rbr-test.local` (cleanup: search GHL per `@rbr-test.local` via MCP ghl2, delete)
+6. **Dove vive il processo** (contributo di Luciano Purpi, 2026-09-03): se deve girare da solo, deve girare FUORI dalla sessione (scenario Make, task schedulato, cloud). Un loop ospitato in una scheda del browser o in una sessione Claude NON è un'automazione: si ferma quando il Mac va in sospensione (caso reale: 41 ore di blackout, 5 prenotazioni su 10 mai arrivate in sala) e nessun tuning in sessione lo risolve. Se per forza resta in una scheda, al cliente si dichiara **presidiato**, non attivo. Monitoraggio sull'**orologio dell'ultimo giro** (alert se più vecchio di N minuti), non sull'esito dell'ultimo giro.
 
 ## ⭐ Attivazione post-fix (regola obbligatoria)
 **Dopo OGNI PATCH al blueprint di uno scenario:**

@@ -48,6 +48,7 @@ Un ristorante non vende pageview: vende **prenotazioni, chiamate e persone che e
   - `invio_form` — submit form contatti/eventi/gruppi
   - `click_menu` — apertura menu/PDF (micro-conversione, indica intento)
 - Se il widget prenotazione è in **iframe esterno** (Resmio): il click sul widget si traccia, la prenotazione confermata no → per il dato vero incrocia col gestionale prenotazioni (vedi `adv-ristorante` punto 4).
+- **Canale di provenienza dentro Resmio** (contributo di Luciano Purpi, 2026-09-03): il campo giusto è `booking_request_parameters` (invisibile all'ospite, non va in mail, a differenza di `comment`). Resmio tiene SOLO le chiavi esattamente `gclid` o `utm` — `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` vengono **scartati** (su Barresi le pagine marcate `utm_content` per giorni hanno passato solo il gclid di Google, niente da Meta, mail o telefono). Marcatore corretto: `?utm=<landing>-<canale>`, che GA4 ignora (non sporca l'attribuzione organica). Le UTM standard per GA4 restano sui link, ma non aspettarti di ritrovarle in Resmio. Serve anche `referrerpolicy="no-referrer-when-downgrade"` sull'iframe del widget (setup → `sito-landing-ristorante`, Tracciamento).
 - **Collega Search Console alla property GA4** (Amministrazione → Collegamenti Search Console): sblocca query e landing organiche dentro GA4.
 - **Novità (agosto 2026) — collegamento nativo GA4 ↔ Google Business Profile**: da Amministrazione, "Collegamenti" ora include anche il GBP (oltre a Search Console/Google Ads). Una volta collegato, GA4 aggiunge da solo una sezione Report dedicata con le metriche della scheda (chiamate, indicazioni, click sito) su finestra rolling 6 mesi. Va collegato dove il cliente ha già la scheda su `google-business-ristorante`: riduce il lavoro di sommare a mano i dati GBP + sito nel report mensile (vedi punto 4 di quella skill).
 - Verifica **no doppio tracciamento** (doppio GA4/container GTM multipli — trabocchetto noto, vedi `seo-local-ristorante` punto 6): diagnostica prima, non smontare tag alla cieca.
@@ -71,7 +72,7 @@ Le 8-10 metriche da portare al ristoratore, sempre con confronto mese precedente
 1. Utenti totali sito
 2. Sessioni organiche (e % non-brand da GSC)
 3. Click GSC totali + posizione media query local #1
-4. **Prenotazioni dal sito** (click_prenotazione — e prenotazioni reali dal gestionale se disponibile)
+4. **Prenotazioni dal sito** (click_prenotazione — e prenotazioni reali dal gestionale per canale `utm`/`gclid`, onorate vs cancellate/no-show, se disponibile)
 5. **Chiamate dal sito** (click_telefono)
 6. Richieste indicazioni stradali (click_indicazioni)
 7. Aperture menu (click_menu)
@@ -87,7 +88,7 @@ Una pagina, linguaggio da ristoratore ("questo mese il sito ha generato X prenot
 - ⚠️ **Sessioni e utenti non sono il KPI**: il KPI di un ristorante è quante azioni reali (prenotazioni, chiamate, indicazioni) il sito genera. Un report di solo traffico è un report inutile.
 - ⚠️ **Confronto YoY, non solo mese su mese**: agosto vs luglio per un locale di città è sempre un disastro apparente. La stagionalità si legge sull'anno.
 - ⚠️ **Cookie banner/Consent Mode**: possono tagliare il 30-50% dei dati. Prima di diagnosticare un "calo", verifica che non sia cambiato il consenso.
-- ⚠️ **Widget iframe (Resmio) non traccia la conversione finale**: il numero vero di prenotazioni vive nel gestionale, GA4 misura l'intento. Non spacciare i click per prenotazioni confermate.
+- ⚠️ **Widget iframe (Resmio) non traccia la conversione finale**: il numero vero di prenotazioni vive nel gestionale, GA4 misura l'intento. Non spacciare i click per prenotazioni confermate (caso reale: il blur-trick contava 42 "conversioni" contro 39 prenotazioni totali dal sito). Il canale nel gestionale si legge da `booking_request_parameters` (`gclid`/`utm`), e ogni attribuzione resta un pavimento: dichiarare la quota non attribuita (vedi `adv-ristorante`, `references/costo-per-prenotazione.md`).
 - ⚠️ **Doppio GA4/GTM**: diagnostica, non smontare alla cieca (rischio rompere conversioni Ads live).
 - ⚠️ **Mai credenziali JSON in chiaro** nel repo condiviso.
 - ✅ Emoji di sistema RBR nei report: ✅ ok · 🟡 conferma richiesta · ⚠️ attenzione · ❌ errore · 💭 memoria aggiornata.
