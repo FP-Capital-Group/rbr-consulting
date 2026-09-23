@@ -1,0 +1,654 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Carta Giurges 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Oswald:wght@200;300;400;500&display=swap">
+<style>
+:root{
+  --arancio:#DD5A20; --arancio-chiaro:#F0784A;
+  --verde:#35423D; --verde-chiaro:#4A5B54;
+  --carta:#FDFAF3; --crema:#FBF3E4;
+  --inchiostro:#2B322E; --inchiostro-soft:#767F79; --linea:#E0D8CA;
+  --crema-soft:rgba(251,243,228,.74); --crema-line:rgba(251,243,228,.3);
+  --disp:'Bowlby One',Impact,sans-serif;
+  --body:'Oswald',"Helvetica Neue Condensed",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#221C16;color:var(--inchiostro);
+  font-family:var(--body);font-weight:300;font-size:15px;-webkit-font-smoothing:antialiased}
+
+/* ---------------- barra ---------------- */
+.bar{position:sticky;top:0;z-index:60;display:flex;flex-wrap:wrap;gap:14px;
+  align-items:center;justify-content:space-between;padding:11px 22px;
+  background:rgba(34,28,22,.95);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(251,243,228,.13);color:var(--crema)}
+.bar .id{display:flex;align-items:baseline;gap:11px}
+.bar .id b{font-family:var(--disp);font-size:16px;color:var(--arancio-chiaro)}
+.bar .id span{font-size:12px;font-weight:300;color:var(--crema-soft);letter-spacing:.14em;text-transform:uppercase}
+.toggle{display:flex;border:1px solid rgba(251,243,228,.28);border-radius:999px;overflow:hidden}
+.toggle button{font-family:var(--body);font-weight:400;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;padding:7px 17px;border:0;cursor:pointer;background:transparent;
+  color:var(--crema-soft);transition:background .18s,color .18s}
+.toggle button[aria-pressed="true"]{background:var(--arancio);color:#fff}
+.toggle button:focus-visible{outline:2px solid var(--arancio-chiaro);outline-offset:2px}
+.hint{font-size:12.5px;font-weight:300;color:var(--crema-soft);max-width:40ch;line-height:1.45;margin:0}
+
+/* ---------------- piano ---------------- */
+.piano{padding:34px 22px 70px;overflow-x:auto}
+.blocco{width:max-content;margin:0 auto 56px}
+.etichetta{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(251,243,228,.44);font-weight:400;margin:0 0 11px 2px}
+.menu{display:flex;box-shadow:0 28px 70px -22px rgba(0,0,0,.8)}
+.anta{width:404px;flex:0 0 404px;padding:28px 26px 26px;
+  display:flex;flex-direction:column;gap:24px;
+  background:var(--carta);border-right:1px dashed var(--linea)}
+.anta:last-child{border-right:0}
+.anta.scura{background:var(--verde);color:var(--crema);border-right-color:rgba(251,243,228,.2)}
+.anta.mezza{width:272px;flex:0 0 272px}
+.anta.arancio{background:var(--arancio);color:var(--crema);border-right-color:rgba(251,243,228,.28)}
+.anta.centrata{justify-content:center;align-items:center;text-align:center;gap:0}
+
+/* ---------------- testata ---------------- */
+.testa{text-align:center}
+.testa .marchio{font-family:var(--disp);font-size:38px;line-height:.92;color:var(--arancio)}
+.anta.scura .testa .marchio,.anta.arancio .testa .marchio{color:var(--crema)}
+.testa .occhiello{font-size:11.5px;font-weight:400;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--inchiostro-soft);margin-top:8px}
+.anta.scura .testa .occhiello,.anta.arancio .testa .occhiello{color:var(--crema-soft)}
+
+/* ---------------- titoli ---------------- */
+h2.sez{font-family:var(--disp);font-size:27px;line-height:1;margin:0 0 4px;color:var(--arancio)}
+.anta.scura h2.sez,.anta.arancio h2.sez{color:var(--crema)}
+h3.sez-n{font-family:var(--body);font-weight:500;font-size:16px;letter-spacing:.2em;
+  text-transform:uppercase;margin:0 0 4px;color:var(--inchiostro);
+  padding-bottom:6px;border-bottom:1.5px solid var(--arancio)}
+.anta.scura h3.sez-n{color:var(--crema);border-bottom-color:var(--crema-line)}
+.sez-sub{font-size:12.5px;font-weight:300;color:var(--inchiostro-soft);margin:0 0 14px;
+  line-height:1.42;max-width:44ch}
+.anta.scura .sez-sub,.anta.arancio .sez-sub{color:var(--crema-soft)}
+.sec{display:flex;flex-direction:column}
+
+/* ---------------- piatto ---------------- */
+.piatti{display:flex;flex-direction:column;gap:14px}
+.p{display:block}
+.p .riga{display:flex;align-items:baseline;gap:10px;justify-content:space-between}
+.p .nome{font-family:var(--disp);font-size:15px;line-height:1.16;color:var(--inchiostro)}
+.anta.scura .p .nome,.anta.arancio .p .nome{color:var(--crema)}
+.p .badge{flex:0 0 auto;font-size:9px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--arancio);white-space:nowrap}
+.anta.scura .p .badge,.grossi .p .badge,.anta.arancio .p .badge{color:var(--arancio-chiaro)}
+.anta.arancio .p .badge{color:var(--crema);opacity:.8}
+/* prezzo: piccolo, dentro la descrizione */
+.p .desc{font-size:12.5px;font-weight:200;line-height:1.44;color:var(--inchiostro-soft);
+  margin-top:3px;display:block}
+.anta.scura .p .desc,.anta.arancio .p .desc{color:var(--crema-soft)}
+.p .prezzo{font-weight:400;font-variant-numeric:tabular-nums;white-space:nowrap;color:inherit}
+.p .sep{margin:0 4px;opacity:.5}
+.p .birra{display:inline-flex;align-items:center;gap:5px;margin-top:5px;font-size:10.5px;
+  font-weight:400;letter-spacing:.11em;text-transform:uppercase;color:var(--verde);opacity:.9}
+.anta.scura .p .birra,.anta.arancio .p .birra,.grossi .p .birra{color:var(--crema);opacity:.8}
+/* tre modi di mettere in evidenza */
+.p.spicca{border-left:2.5px solid var(--arancio);padding-left:13px}
+.anta.scura .p.spicca,.anta.arancio .p.spicca,.grossi .p.spicca{border-left-color:var(--arancio-chiaro)}
+
+.p.pieno{background:var(--arancio);border-radius:14px;padding:14px 16px 15px;color:var(--crema)}
+.p.pieno .nome{color:var(--crema)}
+.p.pieno .desc{color:rgba(251,243,228,.88)}
+.p.pieno .badge{color:var(--crema);opacity:.85}
+.p.pieno .birra{color:var(--crema);opacity:.9}
+.p.pieno .rank{color:rgba(251,243,228,.8);border-color:rgba(251,243,228,.45)}
+.anta.scura .p.pieno{background:var(--arancio-chiaro);color:#2A1206}
+.anta.scura .p.pieno .nome,.anta.scura .p.pieno .desc,.anta.scura .p.pieno .badge{color:#2A1206}
+
+.p.bordo{border:1.5px solid var(--arancio);border-radius:14px;padding:13px 16px 14px}
+.anta.scura .p.bordo{border-color:var(--arancio-chiaro)}
+
+/* ---------------- I PEZZI GROSSI ---------------- */
+.grossi{background:var(--verde);color:var(--crema);border-radius:16px;padding:22px 22px 24px;
+  display:flex;flex-direction:column;gap:4px}
+.grossi .kick{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--arancio-chiaro);font-weight:400}
+.grossi h2.sez{color:var(--crema)}
+.grossi .sez-sub{color:var(--crema-soft)}
+.grossi .p .nome{color:var(--crema)}
+.grossi .p .desc{color:var(--crema-soft)}
+.rcards{display:flex;flex-direction:column;gap:15px;margin-top:14px}
+.rcard{display:grid;grid-template-columns:74px 1fr;gap:13px;align-items:start}
+
+/* ---------------- foto ---------------- */
+.foto{aspect-ratio:1;border-radius:9px;border:1px dashed var(--linea);
+  display:grid;place-items:center;position:relative;background:rgba(0,0,0,.03)}
+.grossi .foto,.anta.scura .foto,.anta.arancio .foto{border-color:rgba(251,243,228,.3);
+  background:rgba(0,0,0,.15)}
+.foto span{position:absolute;bottom:5px;left:0;right:0;text-align:center;
+  font-size:7.5px;letter-spacing:.18em;color:var(--inchiostro-soft);font-weight:400;opacity:.65}
+.grossi .foto span,.anta.scura .foto span{color:rgba(251,243,228,.42)}
+/* griglia: un prodotto, una foto */
+.gitem{display:grid;grid-template-columns:1fr 84px;gap:14px;align-items:start}
+.gitem .foto{aspect-ratio:1}
+
+/* ---------------- LE MISURE ---------------- */
+.misure{background:var(--crema);border:1px solid var(--linea);border-radius:16px;padding:22px}
+.taglie{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.taglia{display:grid;grid-template-columns:44px 1fr auto;gap:13px;align-items:center;
+  border-bottom:1px solid var(--linea);padding-bottom:11px}
+.taglia:last-child{border-bottom:0;padding-bottom:0}
+.taglia .sig{font-family:var(--disp);font-size:26px;line-height:.85;color:var(--arancio)}
+.taglia .lbl{font-family:var(--disp);font-size:14px;line-height:1.1;display:block}
+.taglia .det{font-size:12px;font-weight:200;line-height:1.35;color:var(--inchiostro-soft);
+  display:block;margin-top:3px}
+.taglia .pr{font-size:13px;font-weight:400;color:var(--inchiostro-soft);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.aggiunte{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;
+  border-top:1px solid var(--linea);padding-top:15px}
+.chip{font-size:11.5px;font-weight:300;padding:4px 12px;border:1px solid var(--linea);
+  border-radius:999px;background:var(--carta);white-space:nowrap;color:var(--inchiostro-soft)}
+.chip b{font-weight:400}
+
+/* ---------------- menù componibili ---------------- */
+.combos{display:flex;flex-direction:column;gap:18px;flex:1}
+.combo{border:1px solid var(--crema-line);border-radius:16px;padding:26px 22px 28px;
+  display:flex;flex-direction:column;gap:16px;flex:1;justify-content:center}
+.combo.oro{border-color:var(--arancio-chiaro);border-width:1.5px;background:rgba(240,120,74,.12)}
+.combo .t{font-family:var(--disp);font-size:23px;line-height:1.08;color:var(--crema)}
+.combo .steps{font-size:14px;font-weight:200;line-height:1.85;color:var(--crema-soft)}
+.combo .pr{font-family:var(--disp);font-size:36px;line-height:1;color:var(--arancio-chiaro);margin-top:auto}
+.combo .pr small{font-family:var(--body);font-size:11px;font-weight:300;color:var(--crema-soft);
+  letter-spacing:.14em;text-transform:uppercase;margin-left:7px;display:block;margin-top:6px}
+
+/* ---------------- listini ---------------- */
+.lst{display:flex;flex-direction:column;gap:10px}
+.lr{display:grid;grid-template-columns:22px 1fr auto auto;column-gap:12px;align-items:baseline}
+.lr .ic{align-self:center;line-height:0}
+.lr .n{font-family:var(--disp);font-size:14px;line-height:1.15}
+.lr .n em{font-family:var(--body);font-weight:200;font-style:normal;font-size:12px;
+  color:var(--inchiostro-soft);display:block;margin-top:2px}
+.lr .a,.lr .b{font-size:12.5px;font-weight:400;color:var(--inchiostro-soft);
+  font-variant-numeric:tabular-nums;width:38px;text-align:right}
+.lr.head{font-size:10px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--inchiostro-soft);border-bottom:1px solid var(--linea);padding-bottom:5px}
+.lr.head .n{font-family:var(--body);font-size:10px}
+.pillola{align-self:center;border:1px solid var(--arancio);border-radius:999px;
+  padding:7px 18px;font-size:11.5px;font-weight:300;margin-top:14px;text-align:center;
+  color:var(--inchiostro)}
+.pillola b{font-weight:500;color:var(--arancio)}
+
+/* ---------------- piede ---------------- */
+.piede{margin-top:auto;padding-top:16px;border-top:1px solid var(--linea);
+  font-size:11.5px;font-weight:200;line-height:1.55;color:var(--inchiostro-soft)}
+.piede b{font-weight:400;color:var(--arancio)}
+.anta.scura .piede,.anta.arancio .piede{border-top-color:var(--crema-line);color:var(--crema-soft)}
+.anta.scura .piede b,.anta.arancio .piede b{color:var(--crema)}
+
+/* ---------------- pannelli retro ---------------- */
+.cop-marchio{font-family:var(--disp);font-size:52px;line-height:.88;color:var(--crema)}
+.cop-sub{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--crema-soft);margin-top:12px}
+.cop-riga{display:flex;gap:8px;margin:24px 0;justify-content:center}
+.cop-riga i{width:32px;height:8px;border-radius:999px;display:block;background:var(--crema);opacity:.75}
+.cop-riga i:nth-child(2){background:var(--verde);opacity:1}
+.cop-riga i:nth-child(3){background:rgba(251,243,228,.4)}
+.cop-dove{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--crema)}
+.cop-dove b{font-family:var(--disp);font-weight:400}
+.cop-claim{border:1px solid var(--crema-line);border-radius:999px;padding:8px 20px;
+  font-size:12px;margin-top:26px;color:var(--crema)}
+.manifesto{display:flex;flex-direction:column;gap:26px;justify-content:center;height:100%}
+.manifesto .frase{font-family:var(--disp);font-size:24px;line-height:1.2;color:var(--crema)}
+.manifesto .frase small{font-family:var(--body);font-weight:200;font-size:13.5px;
+  line-height:1.55;color:var(--crema-soft);display:block;margin-top:9px}
+.info-riga{display:flex;flex-direction:column;gap:5px;padding-bottom:16px;
+  border-bottom:1px solid var(--crema-line)}
+.info-riga .k{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--arancio-chiaro)}
+.info-riga .v{font-family:var(--disp);font-size:17px;color:var(--crema)}
+.info-riga .v small{font-family:var(--body);font-weight:200;font-size:12.5px;
+  color:var(--crema-soft);display:block;margin-top:4px;line-height:1.5}
+
+/* ---------------- vista consulente ---------------- */
+.mk{display:none;margin-top:6px;font-family:var(--body);font-size:11px;font-weight:400;
+  font-variant-numeric:tabular-nums;color:#2A1206;background:#FFC9A3;
+  border-radius:999px;padding:3px 10px}
+body.rbr .mk{display:inline-block}
+.nota{display:none;font-size:12.5px;font-weight:300;line-height:1.5;color:#12211C;
+  background:#BFE3CE;border-radius:10px;padding:10px 14px;margin-top:13px}
+body.rbr .nota{display:block}
+.nota b{font-weight:500}
+.rank{display:none;font-size:10px;color:var(--inchiostro-soft);
+  border:1px solid var(--linea);border-radius:999px;padding:1px 6px;margin-right:6px;
+  font-family:var(--body);font-weight:400}
+body.rbr .rank{display:inline-block}
+.grossi .rank,.anta.scura .rank{color:var(--crema-soft);border-color:var(--crema-line)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<!-- icone birra riusabili -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="bic" viewBox="0 0 20 24">
+  <path d="M4 3h11v17a2 2 0 01-2 2H6a2 2 0 01-2-2V3z" fill="var(--fill)" stroke="currentColor" stroke-width="1.1"/>
+  <path d="M15 7h2.5a1.5 1.5 0 011.5 1.5v4a1.5 1.5 0 01-1.5 1.5H15" fill="none" stroke="currentColor" stroke-width="1.1"/>
+  <path d="M4 3c0-1.1 2.4-2 5.5-2S15 1.9 15 3" fill="#FFF6E0" stroke="currentColor" stroke-width="1.1"/>
+</symbol></defs></svg>
+
+<div class="bar">
+  <div class="id"><b>GIURGES</b><span>Carta 2026 · proposta RBR</span></div>
+  <div class="toggle" role="group" aria-label="Vista">
+    <button id="bCli" aria-pressed="true">Vista cliente</button>
+    <button id="bCon" aria-pressed="false">Vista consulente</button>
+  </div>
+  <p class="hint" id="hint">Il menu come lo vede chi si siede al tavolo.</p>
+</div>
+
+<div class="piano">
+
+<!-- ==================== FRONTE ==================== -->
+<div class="blocco">
+<p class="etichetta">Aperto · tre ante e mezza</p>
+<div class="menu">
+
+  <!-- ---------- ANTA 1 ---------- -->
+  <section class="anta">
+    <div class="testa">
+      <div class="marchio">GIURGES</div>
+      <div class="occhiello">Brace &amp; Panini · Fondi</div>
+    </div>
+
+    <div class="sec">
+      <h2 class="sez">ANTIPASTI</h2>
+      <div class="piatti">
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">2°</span>Tartare di Manzo</span><span class="badge">da provare</span></span>
+          <span class="desc">Battuta al coltello, tuorlo marinato, senape antica<span class="sep">·</span><span class="prezzo">14,00</span></span>
+          <span class="mk">margine stimato 8,02 € · 127 pz · PUZZLE — margine alto, poca visibilità</span></div>
+
+        <div class="p pieno"><span class="riga"><span class="nome"><span class="rank">1°</span>Il Cestino Goloso</span><span class="badge">da dividere</span></span>
+          <span class="desc">Il fritto di Giurges: crocchette, alette, dippers, polpette<span class="sep">·</span><span class="prezzo">14,50</span></span>
+          <span class="mk">margine 10,13 € · FC 24% · 564 pz · STAR</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">3°</span>Pollo Crock</span></span>
+          <span class="desc">Bocconcini di pollo in panatura croccante, salsa della casa<span class="sep">·</span><span class="prezzo">9,50</span></span>
+          <span class="mk">margine 6,77 € · FC 22% · 1.137 pz · STAR</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">4°</span>Cheddar e Bacon</span></span>
+          <span class="desc">Patate dipper, cheddar fuso, bacon croccante, erba cipollina<span class="sep">·</span><span class="prezzo">8,50</span></span>
+          <span class="mk">margine 5,73 € · FC 28% · 677 pz · PLOWHORSE</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">5°</span>Polpette di Melanzane</span></span>
+          <span class="desc">Fritte al momento, cuore di provola, basilico<span class="sep">·</span><span class="prezzo">8,00</span></span>
+          <span class="mk">margine 5,18 € · FC 29% · 339 pz</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">6°</span>Caciocavallo e Salsiccia</span></span>
+          <span class="desc">Caciocavallo alla piastra, salsiccia di suino nostrano<span class="sep">·</span><span class="prezzo">8,50</span></span>
+          <span class="mk">margine 5,18 € · FC 35%, il più alto della categoria · 260 pz</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">7°</span>Patate Fritte Dipper</span><span class="badge">le più ordinate</span></span>
+          <span class="desc">Tagliate spesse, con la buccia, sale grosso<span class="sep">·</span><span class="prezzo">5,50</span></span>
+          <span class="mk">margine 4,09 € · FC 20% · 1.222 pz · PLOWHORSE, il più ordinato del locale</span></div>
+      </div>
+      <p class="nota"><b>Sette voci, dalla matrice di menu engineering.</b> Fuori i due DOG — Le Dippers (99 pz, doppione delle patate) e la Frittata Cacio e Pepe (240 pz, margine 4,56). La <b>Tartare resta ed è salita a 14,00</b>: è un PUZZLE, margine sopra la media ma solo il 2,7% degli ordini, quindi va spinta, non tolta. Il campione (Cestino Goloso) sta in seconda posizione, dove l'occhio si ferma per primo.</p>
+    </div>
+
+    <div class="sec">
+      <h3 class="sez-n">Le insalate</h3>
+      <div class="piatti">
+        <div class="p"><span class="riga"><span class="nome">Polpo Salad</span></span>
+          <span class="desc">Polpo scottato sulla piastra, patate, olive taggiasche, sedano<span class="sep">·</span><span class="prezzo">15,00</span></span>
+          <span class="mk">24 pz · scheda ricetta mancante</span></div>
+        <div class="p bordo"><span class="riga"><span class="nome">Pollo Salad</span><span class="badge">la più richiesta</span></span>
+          <span class="desc">Pollo grigliato, insalata mista, pomodorini, mais, salsa allo yogurt<span class="sep">·</span><span class="prezzo">13,00</span></span>
+          <span class="mk">184 pz venduti pur non essendo in carta</span></div>
+        <div class="p"><span class="riga"><span class="nome">Insalata di Brace</span><span class="badge">novità</span></span>
+          <span class="desc">Straccetti di scottona dalla griglia, rucola, grana, pomodorini confit, glassa al balsamico<span class="sep">·</span><span class="prezzo">15,00</span></span>
+          <span class="mk">nuova · stessa carne della Tagliata, zero referenze in più</span></div>
+      </div>
+      <p class="nota"><b>Vendono già senza essere scritte.</b> Il Pollo Salad ha fatto 184 pezzi da fuori carta: è la voce che tiene il servizio quando fa caldo.</p>
+    </div>
+
+    <div class="sec">
+      <h3 class="sez-n">I contorni</h3>
+      <div class="piatti" style="margin-top:13px">
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">2°</span>Cicoria ripassata</span></span>
+          <span class="desc">In padella con aglio e peperoncino<span class="sep">·</span><span class="prezzo">6,00</span></span>
+          <span class="mk">margine 4,45 € · FC 18%</span></div>
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">1°</span>Patate al burro</span></span>
+          <span class="desc">Novelle, saltate nel burro e rosmarino<span class="sep">·</span><span class="prezzo">6,00</span></span>
+          <span class="mk">margine 4,70 € · FC 14% · il food cost migliore del menu</span></div>
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">3°</span>Insalata mista</span></span>
+          <span class="desc">Verdure di stagione<span class="sep">·</span><span class="prezzo">5,00</span></span>
+          <span class="mk">margine 4,05 € · FC 11%</span></div>
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">4°</span>Pannocchia alla griglia</span></span>
+          <span class="desc">Intera, con burro salato<span class="sep">·</span><span class="prezzo">5,00</span></span>
+          <span class="mk">margine 3,35 € · FC 26%</span></div>
+      </div>
+    </div>
+
+    <div class="piede">
+      Chiedete al personale la lista degli allergeni.<br>
+      Servizio e coperto <b>2,00 €</b> a persona.
+    </div>
+  </section>
+
+  <!-- ---------- ANTA 2 ---------- -->
+  <section class="anta">
+    <div class="grossi">
+      <span class="kick">Solo da Giurges</span>
+      <h2 class="sez">I PEZZI GROSSI</h2>
+      <div class="rcards">
+        <div class="rcard">
+          <div class="foto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(251,243,228,.5)" stroke-width="1.3"><path d="M3 11h18M4 11a8 8 0 0116 0M3 15h18M5 15c1 2 3 3 7 3s6-1 7-3"/></svg><span>FOTO</span></div>
+          <div class="p"><span class="riga"><span class="nome">Il Sovrano</span></span>
+            <span class="desc">Doppio black angus 360 g, cheddar 24 mesi, guanciale croccante, cipolla rossa al Primitivo, maionese al tartufo<span class="sep">·</span><span class="prezzo">22,00</span></span>
+            <span class="birra"><svg width="11" height="13" style="--fill:#A8431C;color:rgba(251,243,228,.75)"><use href="#bic"/></svg>Amber Shock</span>
+            <span class="mk">margine stimato 13,00 € · +4,20 sul panino medio</span></div>
+        </div>
+        <div class="rcard">
+          <div class="foto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(251,243,228,.5)" stroke-width="1.3"><path d="M4 8c3-3 13-3 16 0 2 2 1 8-2 9-4 1-8 1-12 0-3-1-4-7-2-9z"/><circle cx="12" cy="12" r="2.6"/></svg><span>FOTO</span></div>
+          <div class="p"><span class="riga"><span class="nome">Brace e Burrata</span></span>
+            <span class="desc">Tagliata di scottona sulla brace, burrata pugliese a crudo, rucola selvatica, pomodorini confit, riduzione al Negramaro<span class="sep">·</span><span class="prezzo">23,00</span></span>
+            <span class="birra"><svg width="11" height="13" style="--fill:#D89A2E;color:rgba(251,243,228,.75)"><use href="#bic"/></svg>Sogno Lucido</span>
+            <span class="mk">margine stimato 13,60 € · +4,80 sul panino medio</span></div>
+        </div>
+        <div class="rcard">
+          <div class="foto"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(251,243,228,.5)" stroke-width="1.3"><path d="M6 4v16M10 4v16M14 4v16M18 4v16M3 9h18M3 15h18"/></svg><span>FOTO</span></div>
+          <div class="p"><span class="riga"><span class="nome">Il Fondano Reale</span></span>
+            <span class="desc">Picanha marinata 24 ore, provola affumicata, ribs sfilacciate al BBQ, cipolla di Tropea, salsa smoky bourbon<span class="sep">·</span><span class="prezzo">24,00</span></span>
+            <span class="birra"><svg width="11" height="13" style="--fill:#C87A2A;color:rgba(251,243,228,.75)"><use href="#bic"/></svg>Extra Hop</span>
+            <span class="mk">margine stimato 14,20 € · +5,40 sul panino medio</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:-12px"><b>Bastano 8 clienti su 100: +2.109 €/anno.</b> Ma il lavoro vero lo fa l'ancoraggio: dopo aver letto 24,00, un panino da 14,50 sembra il prezzo giusto.</p>
+
+    <div class="sec">
+      <h2 class="sez">I PANINI</h2>
+      <div class="piatti">
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">2°</span>Un Americano a Roma</span></span>
+          <span class="desc">Burger 180 g, provola affumicata, guanciale, pecorino, pepe<span class="sep">·</span><span class="prezzo">14,50</span></span>
+          <span class="birra"><svg width="11" height="13" style="--fill:#E8B923;color:var(--verde)"><use href="#bic"/></svg>Tipopils</span>
+          <span class="mk">margine 9,30 € · FC 31% · 918 pz</span></div>
+
+        <div class="p spicca"><span class="riga"><span class="nome"><span class="rank">1°</span>Il 30 CM</span><span class="badge">per due</span></span>
+          <span class="desc">Trenta centimetri di panino, da spartire<span class="sep">·</span><span class="prezzo">20,00</span></span>
+          <span class="birra"><svg width="11" height="13" style="--fill:#A8431C;color:var(--verde)"><use href="#bic"/></svg>Amber Shock</span>
+          <span class="mk">margine 10,75 € a 20,00 (era 8,93 a 18,00) · FC 41% · 152 pz</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">3°</span>Camembert Crispy</span></span>
+          <span class="desc">Camembert impanato e fritto, confettura di cipolle, insalata<span class="sep">·</span><span class="prezzo">13,00</span></span>
+          <span class="birra"><svg width="11" height="13" style="--fill:#C87A2A;color:var(--verde)"><use href="#bic"/></svg>Alma</span>
+          <span class="mk">margine 9,14 € · FC 23% · solo 100 pz — rende più dello Smoderato</span></div>
+
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">4°</span>Lo Smoderato</span><span class="badge">il best seller</span></span>
+          <span class="desc">Burger di scottona 180 g, cheddar, bacon, cipolla croccante, salsa Giurges<span class="sep">·</span><span class="prezzo">14,50</span></span>
+          <span class="birra"><svg width="11" height="13" style="--fill:#E8B923;color:var(--verde)"><use href="#bic"/></svg>Helles</span>
+          <span class="mk">margine 8,80 € · FC 34% · 1.649 pz — il piatto n.1 del locale</span></div>
+
+        <div class="p"><span class="riga"><span class="nome">Pollo Cornflakes</span></span>
+          <span class="desc">Petto di pollo in panatura di cornflakes, insalata, salsa yogurt<span class="sep">·</span><span class="prezzo">13,00</span></span>
+          <span class="birra"><svg width="11" height="13" style="--fill:#F0DFA8;color:var(--verde)"><use href="#bic"/></svg>Leo Weiss</span>
+          <span class="mk">526 pz · scheda ricetta mancante</span></div>
+
+        <div class="p"><span class="riga"><span class="nome">Burrito Messico-Fondano</span></span>
+          <span class="desc">Tortilla, carne speziata, fagioli neri, cheddar, guacamole<span class="sep">·</span><span class="prezzo">13,00</span></span>
+          <span class="birra"><svg width="11" height="13" style="--fill:#C87A2A;color:var(--verde)"><use href="#bic"/></svg>Extra Hop</span>
+          <span class="mk">251 pz · scheda ricetta mancante</span></div>
+
+        <div class="p"><span class="riga"><span class="nome">Panino bimbo</span></span>
+          <span class="desc">Cotoletta, hamburger o würstel. Con le patatine, ovviamente<span class="sep">·</span><span class="prezzo">7,00</span></span></div>
+      </div>
+      <p class="nota"><b>Tre correzioni sui panini.</b> Il 30 CM a 18,00 aveva food cost 45%, il peggiore del menu: a 20,00 scende al 41% e diventa il primo per margine. Il Camembert rende più dello Smoderato e vende sedici volte meno. Il <b>Metà 30 CM è stato tolto</b>: rendeva 5,36 € contro i 9,00 di un panino medio — spostando quei clienti su un panino intero si passa da 1.576 a 2.646 €/anno, con un margine di sicurezza del 40%.</p>
+    </div>
+
+    <div class="misure">
+      <h3 class="sez-n">Le misure</h3>
+      <div class="taglie">
+        <div class="taglia"><span class="sig">M</span>
+          <span><span class="lbl">Media</span><span class="det">Un burger da 180 g. Quella normale, per gente normale.</span></span>
+          <span class="pr">inclusa</span></div>
+        <div class="taglia"><span class="sig">L</span>
+          <span><span class="lbl">Large</span><span class="det">Doppio burger, 360 g. Qui si comincia a fare sul serio.</span></span>
+          <span class="pr">+ 5,00</span></div>
+        <div class="taglia"><span class="sig">XL</span>
+          <span><span class="lbl">Extra Large</span><span class="det">Triplo burger, 540 g, doppio cheddar.</span></span>
+          <span class="pr">+ 9,00</span></div>
+      </div>
+      <div class="aggiunte">
+        <span class="chip">Bacon croccante <b>+2,00</b></span>
+        <span class="chip">Cheddar fuso <b>+1,50</b></span>
+        <span class="chip">Cipolla caramellata <b>+1,50</b></span>
+        <span class="chip">Guanciale <b>+2,50</b></span>
+        <span class="chip">Uovo all'occhio <b>+1,50</b></span>
+        <span class="chip">Provola affumicata <b>+2,00</b></span>
+      </div>
+      <p class="nota"><b>Oggi questa riga vale zero.</b> Il doppio Smoderato è stato venduto 5 volte in 8 mesi perché non è scritto da nessuna parte. Scritto così, lo prende un cliente su otto: <b>+1.014 €/anno</b>.</p>
+    </div>
+  </section>
+
+  <!-- ---------- ANTA 3 ---------- -->
+  <section class="anta">
+    <div class="sec">
+      <h2 class="sez" style="font-size:31px">DALLA GRIGLIA</h2>
+      <div class="piatti">
+        <div class="gitem">
+          <div class="p"><span class="riga"><span class="nome"><span class="rank">2°</span>Stinco di Maiale</span></span>
+            <span class="desc">Intero, cotto lentamente. Croccante fuori, che si sfila dentro<span class="sep">·</span><span class="prezzo">19,00</span></span>
+            <span class="mk">margine 13,07 € · FC 24% · 305 pz</span></div>
+          <div class="foto"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9BFAE" stroke-width="1.3"><path d="M12 3c3 2 4 5 3 8-1 4-5 5-7 9M9 6c2 2 2 4 1 6"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="gitem">
+          <div class="p pieno"><span class="riga"><span class="nome"><span class="rank">1°</span>La Tagliata</span></span>
+            <span class="desc">Controfiletto di scottona, rucola, grana, riduzione al balsamico<span class="sep">·</span><span class="prezzo">25,00</span></span>
+            <span class="mk">margine 13,68 € · FC 40% · 343 pz</span></div>
+          <div class="foto"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9BFAE" stroke-width="1.3"><path d="M3 12h18M5 9h14M6 15h12M9 6v12"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="gitem">
+          <div class="p"><span class="riga"><span class="nome"><span class="rank">3°</span>Ribs BBQ</span><span class="badge">la più ordinata</span></span>
+            <span class="desc">Costine di maiale, sei ore a bassa temperatura, glassa BBQ<span class="sep">·</span><span class="prezzo">15,00</span></span>
+            <span class="mk">margine 10,44 € · FC 23% · 430 pz</span></div>
+          <div class="foto"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9BFAE" stroke-width="1.3"><path d="M4 14h16M6 14c0-4 2-7 6-7s6 3 6 7M8 18h8"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="gitem">
+          <div class="p"><span class="riga"><span class="nome"><span class="rank">4°</span>Coscia Mediterranea</span></span>
+            <span class="desc">Coscia di pollo marinata alle erbe, limone, olive taggiasche<span class="sep">·</span><span class="prezzo">14,00</span></span>
+            <span class="mk">margine 9,63 € · FC 24% · 392 pz</span></div>
+          <div class="foto"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9BFAE" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M12 12v9M8 21h8"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="gitem">
+          <div class="p"><span class="riga"><span class="nome">Bombette allo Spiedo</span></span>
+            <span class="desc">Involtini di capocollo ripieni di caciocavallo, girati allo spiedo<span class="sep">·</span><span class="prezzo">14,00</span></span>
+            <span class="mk">273 pz · scheda ricetta mancante</span></div>
+          <div class="foto"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9BFAE" stroke-width="1.3"><path d="M6 3v18M12 3v18M18 3v18M3 8h18M3 16h18"/></svg><span>FOTO</span></div>
+        </div>
+      </div>
+      <p class="nota"><b>La griglia rende più del panino:</b> food cost 24% contro 31%. Ogni cliente che si sposta qui vale <b>+2,75 €</b>.</p>
+    </div>
+
+    <div class="sec">
+      <h2 class="sez">ALLA SPINA</h2>
+      <div class="lst">
+        <div class="lr head"><span></span><span class="n">Birrificio</span><span class="a">30 cl</span><span class="b">50 cl</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#E8B923;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Helles<em>Chiara · pulita, quella di tutti i giorni</em></span><span class="a">3,50</span><span class="b">5,50</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#E8B923;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Tipopils<em>Chiara · luppolata, secca, elegante</em></span><span class="a">4,50</span><span class="b">6,50</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#F0DFA8;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Leo Weiss<em>Bianca · frumento, banana e chiodi di garofano</em></span><span class="a">4,50</span><span class="b">6,80</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#C87A2A;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Alma<em>Ambrata · leggera, maltata</em></span><span class="a">4,50</span><span class="b">6,00</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#D89A2E;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Sogno Lucido<em>Dorata forte · strutturata, per chi ha tempo</em></span><span class="a">5,00</span><span class="b">7,50</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#C87A2A;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Extra Hop<em>Ambrata · amara sul serio</em></span><span class="a">5,00</span><span class="b">6,50</span></div>
+        <div class="lr"><span class="ic"><svg width="15" height="18" style="--fill:#A8431C;color:var(--inchiostro)"><use href="#bic"/></svg></span>
+          <span class="n">Amber Shock<em>Rossa · doppio malto, caramello e frutta scura</em></span><span class="a">6,00</span><span class="b">8,00</span></div>
+      </div>
+      <div class="pillola">ogni piatto della carta ha <b>la sua birra</b></div>
+      <p class="nota"><b>+5.504 €/anno, la leva più grande del menu.</b> Oggi si vendono 0,85 birre a coperto: l'abbinamento stampato le porta a 1,05.</p>
+    </div>
+
+    <div class="sec">
+      <h2 class="sez">VINI</h2>
+      <div class="lst">
+        <div class="lr head" style="grid-template-columns:1fr auto auto"><span class="n">Etichetta</span><span class="a">calice</span><span class="b">bott.</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">Tonaghe<em>Contini · Cannonau di Sardegna · 13%</em></span><span class="a">5,00</span><span class="b">24</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">Inu<em>Contini · Cannonau DOCG · Sardegna · 14%</em></span><span class="a">6,00</span><span class="b">28</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">150 Tramonti<em>Terradolce · Primitivo · Puglia · 13%</em></span><span class="a">6,00</span><span class="b">26</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">40 Soli<em>Terradolce · Negroamaro · Puglia · 13%</em></span><span class="a">6,00</span><span class="b">24</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">753 DOC<em>Tenute 3 Cancelli · Sangiovese · Lazio · 13%</em></span><span class="a">5,50</span><span class="b">24</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">Brecciarolo<em>Rosso Piceno · Marche</em></span><span class="a">6,00</span><span class="b">25</span></div>
+        <div class="lr" style="grid-template-columns:1fr auto auto"><span class="n">Jagur Bernardi<em>Bollicina</em></span><span class="a">5,00</span><span class="b">19</span></div>
+      </div>
+      <div class="pillola">con la griglia, chiedete <b>il calice giusto</b></div>
+      <p class="nota"><b>+3.119 €/anno.</b> Il vino oggi è il 2,6% del fatturato contro il 13,7% della birra: per un locale che fa griglia, il 5% è il minimo.</p>
+    </div>
+
+    <div class="piede">
+      Le nostre carni vengono da allevamenti selezionati.<br>
+      <b>La brace è accesa tutte le sere.</b>
+    </div>
+  </section>
+
+  <!-- ---------- MEZZA ANTA ---------- -->
+  <section class="anta mezza scura">
+    <div class="testa" style="padding:16px 0 8px">
+      <div class="marchio" style="font-size:30px;line-height:1">I NOSTRI<br>MENÙ</div>
+      <div class="occhiello" style="letter-spacing:.2em;margin-top:14px;line-height:1.7">
+        Tre passaggi<br>Un prezzo solo</div>
+    </div>
+    <div class="combos">
+      <div class="combo">
+        <div class="t">GIURGES</div>
+        <div class="steps">Un antipasto a scelta<br>Un panino della carta<br>Un dolce</div>
+        <div class="pr">21,00 <small>a persona</small></div>
+      </div>
+      <div class="combo">
+        <div class="t">GIURGES<br>GRIGLIA</div>
+        <div class="steps">Un antipasto a scelta<br>Un piatto dalla griglia<br>Un contorno<br>Un dolce</div>
+        <div class="pr">28,00 <small>a persona</small></div>
+      </div>
+      <div class="combo oro">
+        <div class="t">PEZZO<br>GROSSO</div>
+        <div class="steps">Un antipasto a scelta<br>Un panino dei Pezzi Grossi<br>Un dolce<br>Un calice di vino</div>
+        <div class="pr">34,00 <small>a persona</small></div>
+      </div>
+    </div>
+    <p class="nota"><b>+3.049 €/anno.</b> Il menù non serve a scontare: serve a far arrivare il dolce al tavolo. Oggi lo prende il 23% dei clienti, dentro il menù lo prende il 100%.</p>
+    <div class="piede">
+      I menù valgono per tutto il tavolo.<br>
+      Servizio e coperto <b>2,00 €</b>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<!-- ==================== RETRO ==================== -->
+<div class="blocco">
+<p class="etichetta">Retro · come si vede girando il menu</p>
+<div class="menu">
+
+  <section class="anta arancio centrata">
+    <div class="cop-marchio">GIURGES</div>
+    <div class="cop-sub">Brace &amp; Panini</div>
+    <div class="cop-riga"><i></i><i></i><i></i></div>
+    <div class="cop-dove">Fondi (LT)<br><b>@giurges</b></div>
+    <div class="cop-claim">la brace è accesa tutte le sere</div>
+  </section>
+
+  <section class="anta scura">
+    <div class="manifesto">
+      <div class="frase">Il fuoco non si mette fretta.
+        <small>La carne va sulla brace quando è pronta lei, non quando abbiamo fretta noi. Se tarda, è perché sta venendo bene.</small></div>
+      <div class="frase">Il pane lo facciamo noi.
+        <small>Tutti i giorni, per i panini e per il 30 CM. È il motivo per cui un nostro panino non somiglia a nessun altro.</small></div>
+      <div class="frase">La birra ha il suo piatto.
+        <small>Ogni voce della carta ha accanto la birra che ci sta meglio. Fidatevi, l'abbiamo provata prima noi.</small></div>
+    </div>
+  </section>
+
+  <section class="anta scura">
+    <div style="display:flex;flex-direction:column;gap:22px;justify-content:center;height:100%">
+      <div class="info-riga"><span class="k">Dove siamo</span>
+        <span class="v">Fondi (LT)<small>Nel centro, dove sentite odore di brace.</small></span></div>
+      <div class="info-riga"><span class="k">Quando</span>
+        <span class="v">Tutte le sere<small>Cucina aperta fino a tardi. Il sabato conviene prenotare.</small></span></div>
+      <div class="info-riga"><span class="k">Per prenotare</span>
+        <span class="v">Chiamateci<small>Oppure scriveteci su Instagram, rispondiamo anche lì.</small></span></div>
+      <div class="info-riga" style="border-bottom:0"><span class="k">Seguiteci</span>
+        <span class="v">@giurges<small>Le foto dei piatti nuovi finiscono prima lì che qui.</small></span></div>
+    </div>
+    <div class="piede">Servizio e coperto <b>2,00 €</b> a persona</div>
+  </section>
+
+  <section class="anta mezza">
+    <div class="sec">
+      <h2 class="sez">I DOLCI</h2>
+      <div class="piatti">
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">2°</span>Brownies</span></span>
+          <span class="desc">Cioccolato fondente e noci pecan, tiepido<span class="sep">·</span><span class="prezzo">6,00</span></span>
+          <span class="mk">margine 3,95 € · FC 28%</span></div>
+        <div class="p bordo"><span class="riga"><span class="nome"><span class="rank">1°</span>Tiramisù</span></span>
+          <span class="desc">Quello classico, senza reinterpretazioni<span class="sep">·</span><span class="prezzo">6,00</span></span>
+          <span class="mk">margine 4,05 € · FC 26% · il dolce che rende di più</span></div>
+        <div class="p"><span class="riga"><span class="nome"><span class="rank">3°</span>Cheesecake</span><span class="badge">la più presa</span></span>
+          <span class="desc">Nutella · Lotus · frutti di bosco · caramello salato · pistacchio<span class="sep">·</span><span class="prezzo">6,00</span></span>
+          <span class="mk">margine 3,75 € · FC 31% · 912 pz, la famiglia più venduta</span></div>
+        <div class="p"><span class="riga"><span class="nome">Tortino al cioccolato</span></span>
+          <span class="desc">Cuore caldo, gelato alla vaniglia<span class="sep">·</span><span class="prezzo">6,50</span></span>
+          <span class="mk">178 pz · scheda ricetta mancante</span></div>
+        <div class="p"><span class="riga"><span class="nome">Semifreddo Snickers</span></span>
+          <span class="desc">Arachidi, caramello, cioccolato al latte<span class="sep">·</span><span class="prezzo">6,00</span></span>
+          <span class="mk">108 pz · scheda ricetta mancante</span></div>
+        <div class="p"><span class="riga"><span class="nome">Crêpes</span></span>
+          <span class="desc">Nutella e granella, oppure pistacchio<span class="sep">·</span><span class="prezzo">5,50</span></span>
+          <span class="mk">275 pz · scheda ricetta mancante</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2 class="sez">PRIMA DI<br>ANDARE VIA</h2>
+      <div class="piatti">
+        <div class="p"><span class="riga"><span class="nome">Amaro Formidabile</span></span>
+          <span class="desc">Ventidue erbe, prodotto a Roma<span class="sep">·</span><span class="prezzo">6,00</span></span></div>
+        <div class="p spicca"><span class="riga"><span class="nome">Valhalla</span><span class="badge">il preferito</span></span>
+          <span class="desc">Erbe alpine, ghiacciato<span class="sep">·</span><span class="prezzo">5,00</span></span>
+          <span class="mk">118 pz · il più venduto della famiglia</span></div>
+        <div class="p"><span class="riga"><span class="nome">Jefferson</span></span>
+          <span class="desc">Importante, agrumi e rabarbaro<span class="sep">·</span><span class="prezzo">5,00</span></span></div>
+        <div class="p"><span class="riga"><span class="nome">Erbes Izzo</span></span>
+          <span class="desc">Erbe della macchia mediterranea<span class="sep">·</span><span class="prezzo">5,00</span></span></div>
+        <div class="p"><span class="riga"><span class="nome">Amaro del Capo</span></span>
+          <span class="desc">Quello che conoscete già<span class="sep">·</span><span class="prezzo">4,00</span></span></div>
+        <div class="p"><span class="riga"><span class="nome">Montenegro</span></span>
+          <span class="desc">Dolce, rotondo<span class="sep">·</span><span class="prezzo">4,00</span></span></div>
+        <div class="p"><span class="riga"><span class="nome">Limoncello della casa</span></span>
+          <span class="desc">Ghiacciato, come si deve<span class="sep">·</span><span class="prezzo">4,00</span></span></div>
+      </div>
+      <p class="nota"><b>+1.918 €/anno.</b> Oggi l'amaro lo prendono 6 clienti su 100. Con una sezione sua e il personale che lo propone, si arriva a 12.</p>
+    </div>
+    <div class="piede">Chiedete anche il caffè. Non è in lista ma esiste.</div>
+  </section>
+
+</div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var b=document.body,cli=document.getElementById('bCli'),con=document.getElementById('bCon'),
+      hint=document.getElementById('hint');
+  function set(rbr){
+    b.classList.toggle('rbr',rbr);
+    cli.setAttribute('aria-pressed',String(!rbr));
+    con.setAttribute('aria-pressed',String(rbr));
+    hint.textContent=rbr
+      ?'Margini e food cost reali dal file 02. Il numero nel cerchietto è il posto in classifica per margine.'
+      :'Il menu come lo vede chi si siede al tavolo.';
+  }
+  cli.addEventListener('click',function(){set(false)});
+  con.addEventListener('click',function(){set(true)});
+})();
+</script>
+
+</body></html>

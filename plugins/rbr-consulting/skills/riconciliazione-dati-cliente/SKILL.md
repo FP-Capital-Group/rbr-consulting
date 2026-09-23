@@ -17,6 +17,9 @@ In RBR i numeri finiscono in file che il ristoratore usa per decidere. Un carica
 
 ### 1. Raccogli tutto
 Metti insieme ogni fonte: export gestionale (iPratico, Zucchetti, TeamSystem…), PDF fatture SDI, email, allegati, Excel del commercialista. Non fermarti al primo file: un dato può essere nel **corpo di una email** e non in allegato.
+- **Il file locale non è il file**: un file del cliente scaricato in cartella può essere una versione vecchia, mentre il compilato sta su Drive con lo stesso identico nome, modificato dopo (visto: food cost "vuoto" in locale e pieno su Drive). Prima di dichiarare un dato mancante controlla la versione su Drive (`modifiedTime`). *(contributo di Andrea, 2026-09-10)*
+- **Allegati Gmail via MCP**: il connettore Gmail legge i messaggi ma non scarica gli allegati. Fai `get_message` con `messageFormat: "RAW"` e poi estrai il campo `raw` in modo **meccanico** dai file che Claude Code scrive da sé (transcript `~/.claude/projects/<progetto>/<sessione>.jsonl`, o il file in `tool-results/` se l'output era troppo grande). **Mai ricopiare a mano il base64** (due tentativi su due corrotti). Poi `base64.urlsafe_b64decode` → `email.message_from_bytes` → `get_payload(decode=True)`, e per xlsx/docx SEMPRE `zipfile.ZipFile(...).testzip()` prima di dichiarare il file buono. *(contributo di Andrea, 2026-09-10)*
+- **Estrazioni dai gestionali del cliente** (con la sua sessione nel browser): iPratico → skill `estrai-dati-ipratico`; **Fatture in Cloud** (spese, note di credito, righe fattura) → `memory/fatture_in_cloud.md`; **Cassa in Cloud** (venduto per fascia, coperti per ora) → `memory/cassa_in_cloud.md` (repo rbr-suite).
 
 ### 2. Riconcilia contro totali indipendenti
 Per ogni periodo, confronta la somma dei dati di dettaglio contro un totale che arriva da un'altra fonte (fatturato annuale dichiarato, YTD del commercialista, totale iPratico). **Quantifica ogni scarto** (in € e in %). Uno scarto non spiegato è un problema da capire, non da ignorare.
@@ -26,6 +29,9 @@ Controlli tipici che salvano da errori:
 - **IVA**: valori IVA inclusa o esclusa? Regola RBR: economici sempre IVA **esclusa** (÷1.1 ristorazione, ÷1.22 altro). Se non specificato → assumi esclusa e segnala con ⚠️.
 - **Sconti / storni / resi**: capisci se sono già netti o vanno sottratti.
 - **Canali**: sala / delivery / asporto / cerimonie mappati coerentemente.
+- **Tre fonti, tre ricavi**: per lo stesso mese e sede CDG 195.763 € · contabilità 216.421 € · cassa POS 219.497 € lordi (caso reale). Lo scarto va spiegato PRIMA di mostrare un cruscotto al cliente. *(contributo di Luciano Purpi, 2026-09-03)*
+- **Prima di dare la colpa alla cucina, riconcilia le Z**: uno scostamento di food cost di +7 punti su un locale era in buona parte un ricavo che nel CDG non c'era (5.651 € di Z fiscali non registrate a giugno); sui ricavi veri scendeva a +4,8 punti. *(contributo di Luciano Purpi, 2026-09-03)*
+- **CDG ereditato** (non costruito da RBR): colonne-anno sfalsate, lordizzatori che raddoppiano il personale, sotto-totali persi, EBITDA di locale vs di gruppo → checklist nella skill `crea-cdg-cliente`.
 
 ### 3. Se un dato "manca", cercalo in più modi
 Prima di scrivere "dato mancante": cerca per mittente, per testo nel corpo delle email, per periodo, in cartelle diverse, in formati diversi (testo vs PDF vs foto). Il 90% dei "dati mancanti" esistono ma sono in un formato che la prima ricerca non ha intercettato.

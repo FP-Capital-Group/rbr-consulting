@@ -12,6 +12,8 @@ Procedura operativa completa. Ordine consigliato: leggi le trappole, poi segui l
 6. [Schemi dei nodi](#6-schemi-dei-nodi)
 7. [Costruire e salvare](#7-costruire-e-salvare)
 8. [Verifica e consegna](#8-verifica-e-consegna)
+9. [Modificare una catenaria già attiva](#9-modificare-una-catenaria-già-attiva)
+10. [Coupon e WhatsApp](#10-coupon-e-whatsapp)
 
 ---
 
@@ -75,7 +77,7 @@ accettano l'intera struttura in una chiamata sola.
 | `/marketing/workflows/getWorkflows` | elenco catenarie (serve `versione=v2`) |
 | `/marketing/workflows/getWorkflow` | struttura completa di una catenaria |
 | `/marketing/workflows/saveWorkflow` | POST, salva la struttura |
-| `/marketing/promo/getProMarketing` | elenco promozioni |
+| `/marketing/promo/getProMarketing` | elenco promozioni (coi parametri scritti a mano risponde 500: vedi §9) |
 | `/clienti/getTags` | elenco tag |
 
 **Il token non è leggibile direttamente.** Intercetta l'header `Authorization` da una
@@ -435,3 +437,59 @@ e la scelta di quando spetta all'utente.
 
 Elimina le catenarie di prova che hai creato e ripulisci le chiavi temporanee in
 `localStorage`.
+
+---
+
+## 9. Modificare una catenaria già attiva
+
+(contributo di Andrea, 10/09/2026)
+
+Per riscrivere i testi di una catenaria ATTIVA senza fermarla e senza far perdere il segno a chi
+è già dentro il funnel:
+
+- Modifica **solo l'oggetto e i `<p>` della cella testo** dei `nodo_invia`: con `DOMParser` in-page
+  individua la cella che contiene `Ciao @@nome@@,` e sostituisci i paragrafi. Pulsanti, link coupon,
+  immagini, struttura e flag `attivo` non si toccano.
+- Poi risalva **l'intero record** con `saveWorkflow` (lo stesso oggetto letto con `getWorkflow`).
+- **Prima di scrivere: backup** del `getWorkflow` in `localStorage`. La sandbox del browser blocca il
+  ritorno di stringhe che contengono URL: dagli script restituisci solo flag booleani (es.
+  `{backup:true, nodi:155}`), non il JSON.
+- `getProMarketing` risponde 500 se costruisci i parametri a mano: naviga su **Promozioni**,
+  intercetta la chiamata che la pagina fa da sola (hook su `XMLHttpRequest`, §2) e riusane l'URL
+  esatto con lo stesso header `Authorization`.
+- **Verifica WhatsApp completa = tre posti**: `tipo_invio` dei nodi (`1` = email), `testo_wa` /
+  `params_wa` nei settings delle promozioni, `settings.remind.attivo` delle promozioni. E in più
+  la Modalità invio delle promozioni (§10).
+
+---
+
+## 10. Coupon e WhatsApp
+
+(contributo di Andrea, 10/09/2026 — la regola "togli il canale marketing" del primo contributo è
+stata superata dal secondo, verificato con 3 test end-to-end e con l'assistenza Pienissimo)
+
+**Il coupon parte su WhatsApp alla compilazione del form ANCHE con tutti i campi testo WA vuoti**
+(manda un default con COD, scadenza e QR): nella singola promozione non c'è interruttore.
+
+**Per mandare i coupon solo via email** (e lasciare vivi sondaggi, catenarie compleanni e conferme
+su WhatsApp): Impostazioni → Messaggi → rotellina rossa in alto a destra → sezione "Impostazioni
+Promozioni" → **Modalità invio** di PR1/PR2/PR3 su **E-mail** → salva col floppy (senza salvataggio
+si perde).
+
+**Da NON fare:** togliere il canale "marketing" da WhatsApp → WhatsApp Pienissimo → Canali di invio
+del numero. Se "marketing" è associato al numero, il QR parte su WhatsApp a prescindere; toglierlo
+spegne però TUTTO il marketing WhatsApp. Lì non si toccano nemmeno prenotazioni/ordini, o si fermano
+le conferme.
+
+Se devi comunque lavorare sulla pagina Canali di invio:
+- i due pulsanti in alto (floppy e +) sono invertiti nel DOM:
+  `querySelectorAll('button.btn-circle.top-right-button-container')[1]` è il salva, `[0]` aggiunge un numero;
+- il salvataggio vero è `saveAll()` → `POST /whatsapp/wa-save`; verifica con
+  `GET /whatsapp/wa-server?id_multi=X`;
+- i POST WhatsApp hanno un `cod_univoco_login` che ruota a ogni richiesta: non si replicano da fuori,
+  va fatta scattare la chiamata dall'app. Le GET riusano l'`Authorization` recente;
+- la X sul chip ng-select si toglie con `mousedown` + `mouseup` + `click` sintetici su `.ng-value-icon`.
+
+**Log per verificare:** Statistiche → Logs → Messaggi (WhatsApp, con motivo dell'errore) e
+Logs → E-mail. **Per ritestare** serve una promo diversa: il form promo ha un anti-doppione per
+contatto + promo.

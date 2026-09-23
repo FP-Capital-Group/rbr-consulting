@@ -18,6 +18,7 @@ Il menu è lo strumento di vendita più letto del ristorante e quasi nessun rist
 ## Prerequisiti
 - Per ogni piatto: **nome, categoria, prezzo di vendita, food cost (€ o %), unità vendute** nel periodo (min 1 mese, meglio 3).
 - Se manca il food cost o le unità vendute → classificazione non affidabile: raccoglili prima (vedi skill `riconciliazione-dati-cliente` per validare i dati).
+- ⚠️ **Venduto completo, non un campione.** Su iPratico la pagina *Products profit margin* sembra la scorciatoia (ha il "Costo medio di acquisto") ma restituisce poche decine di prodotti su centinaia: la matrice esce sbagliata. Il venduto vero sta in *Totalizzazioni* → *DETTAGLIO CATEGORIA PER QUANTITÀ*; le righe di *DETTAGLIO VARIANTI* sono quasi tutte istruzioni di cucina o marcatori di portata già contati (non sommarle), salvo nei menù a formula dove i piatti scelti vanno usati al posto del forfait. Procedura: skill `estrai-dati-ipratico`. *(contributo di Luciano Purpi, 2026-09-03)*
 - Stile del cliente: riferimento visivo, URL sito, screenshot o PDF di un menu esistente.
 - Per l'output PDF: stack agente Alex (`agents/alex/`, weasyprint+Jinja2+Drive). API key e credenziali Drive stanno nel `.env` dell'agente, mai nel repo.
 
@@ -55,6 +56,12 @@ Passa i dati all'agente Alex nel formato `menu_data` (`nome_ristorante`, `catego
 - Scegli colori/font per tipo di locale (pizzeria: rosso+bianco+verde; fine dining: nero+oro; trattoria: marrone+crema…). Max 2 font, mai 2 serif insieme.
 - `build_menu(menu_data, style)` → PDF; `build_menu_all(...)` → PDF + IDML editabile.
 - `upload_to_drive(pdf, folder_id)` → link nella cartella cliente. Condividi come da baseline RBR.
+
+### Controlli standard da fare all'inizio (contributo di Luciano Purpi, 2026-09-03)
+- **Food cost splittato food / drink**, con coperto e servizio FUORI da entrambi (è ricavo senza costo). Il drink cost può superare il food cost e nessuno lo guarda: pizzeria reale giu-lug 2026 food 21,3% vs **drink 22,2%**, colpa di bibite in bottiglia 33 cl (Coca Cola/Sprite/Fanta ~26,5%) e birre in bottiglia (28-30%); reggono solo acqua (10-18%) e spritz (17-20%). In pizzeria le bevande devono finanziare il margine, non eroderlo.
+- **Prezzi divergenti sui canali**: stessa pizza a 9 / 10 / 11,50 fra menu del sito, POS e piattaforma delivery. Va allineato (o deciso) prima di classificare.
+- **Il canale cambia il margine**: la matrice è per piatto, ma un piatto venduto in delivery con commissione al 32% rende molto meno che in sala. Se il delivery pesa, leggi la classificazione insieme al margine per canale della skill `analisi-modello-business`.
+- **Menu delivery integrato**: se il POS pubblica il menu tramite un middleware (es. Deliverect), il Menu Manager della piattaforma è vuoto e senza pulsante "crea" — non è un bug. Si modifica nel middleware (dal portale viene sovrascritto al primo sync): chiedi al cliente le credenziali del middleware PRIMA di promettere il lavoro sul menu delivery.
 
 ## Regole RBR & trabocchetti
 - ⚠️ Mediane **per categoria**, non sull'intero menu: un antipasto e un secondo non si confrontano.

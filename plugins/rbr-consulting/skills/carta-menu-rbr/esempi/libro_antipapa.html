@@ -1,0 +1,579 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Carta Antipapa 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --vino:#6B1E3C; --vino-chiaro:#9A4463; --rosa:#E9A9BE;
+  --carta:#FEFDFB; --panna:#F8F3EF; --linea:#E6DBE0;
+  --testo:#3A2630; --testo-soft:#7E6874;
+  --disp:'Oswald',"Helvetica Neue Condensed",sans-serif;
+  --body:'Archivo',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#231620;color:var(--testo);
+  font-family:var(--body);font-weight:400;font-size:15px;-webkit-font-smoothing:antialiased}
+
+.bar{position:sticky;top:0;z-index:60;display:flex;flex-wrap:wrap;gap:14px;
+  align-items:center;justify-content:space-between;padding:11px 22px;
+  background:rgba(35,22,32,.95);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.12);color:var(--panna)}
+.bar .id{display:flex;align-items:baseline;gap:11px}
+.bar .id b{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.06em;color:var(--rosa)}
+.bar .id span{font-size:12px;color:rgba(248,243,239,.66);letter-spacing:.14em;text-transform:uppercase}
+.toggle{display:flex;border:1px solid rgba(255,255,255,.26);border-radius:999px;overflow:hidden}
+.toggle button{font-family:var(--body);font-weight:500;font-size:12px;letter-spacing:.09em;
+  text-transform:uppercase;padding:7px 17px;border:0;cursor:pointer;background:transparent;
+  color:rgba(248,243,239,.66);transition:background .18s,color .18s}
+.toggle button[aria-pressed="true"]{background:var(--vino-chiaro);color:#fff}
+.toggle button:focus-visible{outline:2px solid var(--rosa);outline-offset:2px}
+.hint{font-size:12.5px;color:rgba(248,243,239,.66);max-width:42ch;line-height:1.45;margin:0}
+
+/* ---------------- pagine A4 ---------------- */
+.piano{padding:34px 22px 70px;overflow-x:auto}
+.spread{width:max-content;margin:0 auto 44px}
+.etichetta{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(248,243,239,.42);font-weight:500;margin:0 0 11px 2px}
+.doppia{display:flex;box-shadow:0 26px 64px -22px rgba(0,0,0,.82)}
+.pag{width:210mm;flex:0 0 210mm;min-height:297mm;background:var(--carta);
+  padding:18mm 16mm 13mm;display:flex;flex-direction:column;gap:7mm;position:relative}
+.pag+.pag{border-left:1px solid var(--linea)}
+.pag.vino{background:var(--vino);color:var(--panna)}
+.pag.panna{background:var(--panna)}
+.pag.centrata{justify-content:center;align-items:center;text-align:center;gap:0}
+.num{position:absolute;bottom:6mm;left:0;right:0;text-align:center;font-size:8pt;
+  color:var(--testo-soft);letter-spacing:.22em}
+.pag.vino .num{color:rgba(248,243,239,.45)}
+
+/* ---------------- titoli ---------------- */
+.cap{display:block}
+.occhiello{font-family:var(--disp);font-weight:400;font-size:8pt;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--vino-chiaro);margin:0 0 1.4mm}
+h2.cat{font-family:var(--disp);font-weight:500;font-size:19pt;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--vino);margin:0;
+  padding-bottom:2.4mm;border-bottom:1.2pt solid var(--vino)}
+h2.cat.prem{border-bottom-width:2.6pt}
+.sec{display:flex;flex-direction:column;gap:4.6mm}
+
+/* ---------------- piatto ---------------- */
+.piatti{display:flex;flex-direction:column;gap:4.4mm}
+.p{display:block}
+.nome{font-weight:600;font-size:11pt;line-height:1.3;color:var(--testo);display:block}
+.nome i{font-weight:400;font-style:italic;color:var(--testo-soft)}
+.alg{font-size:6.8pt;font-style:italic;opacity:.75;margin-left:1mm;font-weight:400}
+.desc{font-size:9pt;line-height:1.45;color:var(--testo-soft);margin-top:.8mm;display:block}
+.prezzo{font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sep{margin:0 1.2mm;opacity:.5}
+.due{font-style:italic}
+.vin{display:flex;align-items:center;gap:2mm;margin-top:1.4mm;font-size:8.5pt;
+  font-style:italic;color:var(--vino-chiaro);line-height:1.3}
+.vin b{font-style:normal;font-weight:600}
+.vin svg{flex:0 0 auto}
+
+/* evidenze */
+.p.pieno{background:var(--vino);border-radius:3mm;padding:3.4mm 4mm 3.8mm;color:var(--panna)}
+.p.pieno .nome{color:var(--panna)}
+.p.pieno .desc{color:rgba(248,243,239,.8)}
+.p.pieno .vin{color:var(--rosa)}
+.p.pieno .rank{color:rgba(248,243,239,.75);border-color:rgba(248,243,239,.4)}
+.p.pieno .foto{border-color:rgba(248,243,239,.4);background:rgba(0,0,0,.16)}
+.p.pieno .foto span{color:rgba(248,243,239,.5)}
+.p.bordo{border:1pt solid var(--vino);border-radius:3mm;padding:3.2mm 4mm 3.4mm}
+.p.asta{border-left:2pt solid var(--vino);padding-left:3.4mm}
+
+/* piatto con foto */
+.p.pfoto{display:grid;grid-template-columns:1fr 27mm;gap:4mm;align-items:start}
+.foto{border-radius:2.4mm;border:.9pt dashed var(--linea);background:rgba(107,30,60,.04);
+  display:grid;place-items:center;position:relative;aspect-ratio:1;color:var(--vino)}
+.foto span{position:absolute;bottom:1.2mm;left:0;right:0;text-align:center;font-size:5.4pt;
+  letter-spacing:.18em;color:var(--testo-soft);opacity:.65}
+
+/* ---------------- formati ---------------- */
+.form{display:flex;gap:4.5mm;margin-top:1.6mm;align-items:center;flex-wrap:wrap}
+.f{display:inline-flex;align-items:center;gap:1.4mm;font-size:8pt;font-weight:500;
+  color:var(--testo-soft);white-space:nowrap}
+.f b{font-weight:600;color:var(--vino)}
+.f svg{flex:0 0 auto;color:var(--vino);opacity:.8}
+.banda{border-top:1.2pt solid var(--vino);border-bottom:1.2pt solid var(--vino);
+  padding:4mm 0 4.6mm;display:flex;flex-direction:column;gap:3mm}
+.bt{font-family:var(--disp);font-weight:500;font-size:11pt;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--vino);text-align:center}
+.bs{font-size:8.5pt;font-style:italic;color:var(--testo-soft);text-align:center;margin:.8mm 0 0}
+.flist{display:flex;gap:5mm;justify-content:space-between;align-items:flex-end}
+.fcard{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.2mm}
+.ico{color:var(--vino);height:11mm;display:grid;place-items:end center}
+.fg{font-family:var(--disp);font-weight:600;font-size:12pt;color:var(--vino)}
+.fn{font-weight:600;font-size:7.5pt;color:var(--vino-chiaro);text-transform:uppercase;letter-spacing:.13em}
+.fd{font-size:8pt;color:var(--testo-soft);line-height:1.35;font-style:italic}
+.fp{font-family:var(--disp);font-weight:500;font-size:11pt;color:var(--vino)}
+
+/* ---------------- percorso ---------------- */
+.perc-occ{font-family:var(--disp);font-weight:400;font-size:8pt;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--rosa)}
+.perc-tit{font-family:var(--disp);font-weight:500;font-size:20pt;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--panna);margin:3mm 0 0}
+.perc-sotto{font-size:9.5pt;line-height:1.6;color:rgba(248,243,239,.78);max-width:34ch;margin-top:3mm}
+.portate{display:flex;flex-direction:column;width:100%;margin-top:8mm}
+.portata{display:grid;grid-template-columns:7mm 1fr;gap:3.5mm;align-items:baseline;
+  padding:3.6mm 0;border-bottom:.7pt solid rgba(248,243,239,.2);text-align:left}
+.portata:last-child{border-bottom:0}
+.portata .n{font-family:var(--disp);font-size:8.5pt;color:var(--rosa);letter-spacing:.1em}
+.portata .t{font-size:10.5pt;font-weight:500;line-height:1.35;color:var(--panna)}
+.portata .t small{display:block;font-weight:400;font-size:8.5pt;font-style:italic;
+  color:rgba(248,243,239,.66);margin-top:.8mm}
+.perc-prezzo{margin-top:8mm;font-size:10pt;color:var(--panna);text-align:center;line-height:1.9}
+.perc-prezzo b{font-weight:600}
+.perc-prezzo .r{display:block;font-size:9pt;color:rgba(248,243,239,.74)}
+
+/* ---------------- copertina / chiusura ---------------- */
+.marchio{font-family:var(--disp);font-weight:600;font-size:44pt;line-height:.95;
+  letter-spacing:.05em;color:var(--panna)}
+.marchio-sub{font-size:9.5pt;letter-spacing:.36em;text-transform:uppercase;
+  color:rgba(248,243,239,.72);margin-top:4mm}
+.filetto{width:18mm;height:1.5pt;background:var(--rosa);margin:8mm 0}
+.cop-claim{font-size:10.5pt;line-height:1.75;color:rgba(248,243,239,.82);max-width:28ch;font-style:italic}
+.bev{display:flex;flex-wrap:wrap;gap:2.4mm 7mm;align-items:baseline}
+.bev span{font-size:9.5pt}
+.bev b{font-weight:600;color:var(--vino);margin-left:1.4mm}
+.legenda{font-size:7pt;line-height:1.65;color:var(--testo-soft);font-style:italic;margin:0}
+.legenda b{font-style:normal;font-weight:600;color:var(--vino)}
+.chiudi{margin-top:auto;padding-top:4mm;border-top:.9pt solid var(--linea);
+  display:flex;flex-direction:column;gap:3.2mm}
+.srv{font-size:9.5pt;margin:0}
+.srv b{font-weight:600;color:var(--vino)}
+
+/* ---------------- vista consulente ---------------- */
+.mk{display:none;margin-top:1.6mm;font-size:8pt;font-weight:500;font-variant-numeric:tabular-nums;
+  color:#4A1226;background:#F6CEDC;border-radius:999px;padding:.8mm 2.6mm}
+body.rbr .mk{display:inline-block}
+.nota{display:none;font-size:8.5pt;line-height:1.5;color:#12211C;background:#C7E5D2;
+  border-radius:2.4mm;padding:2.6mm 3.4mm;margin:3mm 0 0}
+body.rbr .nota{display:block}
+.nota b{font-weight:600}
+.rank{display:none;font-family:var(--disp);font-weight:400;font-size:7.5pt;color:var(--testo-soft);
+  border:.7pt solid var(--linea);border-radius:999px;padding:.2mm 1.6mm;margin-right:1.4mm}
+body.rbr .rank{display:inline-block}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="f1" viewBox="0 0 32 24">
+    <circle cx="14" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    <circle cx="14" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/></symbol>
+  <symbol id="f2" viewBox="0 0 32 24">
+    <circle cx="14" cy="12" r="10.4" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    <circle cx="14" cy="12" r="6.6" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/></symbol>
+  <symbol id="f3" viewBox="0 0 32 24">
+    <circle cx="12" cy="12" r="10.4" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    <circle cx="12" cy="12" r="6.6" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/>
+    <path d="M22.6 12H31" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="calice" viewBox="0 0 16 24">
+    <path d="M3 2h10c0 5-1.6 7.6-4 8.4V20h3v1.6H4V20h3v-9.6C4.6 9.6 3 7 3 2z"
+          fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+    <path d="M3.4 3.4h9.2c-.15 3.3-1.3 5.3-4.6 5.9C4.7 8.7 3.55 6.7 3.4 3.4z" fill="var(--w)"/></symbol>
+</defs></svg>
+
+<div class="bar">
+  <div class="id"><b>ANTIPAPA</b><span>Carta 2026 · A4 · proposta RBR</span></div>
+  <div class="toggle" role="group" aria-label="Vista">
+    <button id="bCli" aria-pressed="true">Vista cliente</button>
+    <button id="bCon" aria-pressed="false">Vista consulente</button>
+  </div>
+  <p class="hint" id="hint">Il menu come lo vede chi si siede al tavolo.</p>
+</div>
+
+<div class="piano">
+
+<!-- ===== COPERTINA ===== -->
+<div class="spread"><p class="etichetta">Copertina</p>
+<div class="doppia">
+  <section class="pag vino centrata">
+    <div class="marchio">ANTIPAPA</div>
+    <div class="marchio-sub">Cucina · Fondi</div>
+    <div class="filetto"></div>
+    <p class="cop-claim">Pochi piatti, fatti tutti i giorni.<br>Se oggi non c'è, è perché non era buono.</p>
+  </section>
+</div></div>
+
+<!-- ===== ANTIPASTI | PERCORSO ===== -->
+<div class="spread"><p class="etichetta">Si apre · antipasti e il percorso</p>
+<div class="doppia">
+
+  <section class="pag">
+    <div class="sec">
+      <div class="cap"><p class="occhiello">Per cominciare</p><h2 class="cat">Antipasti</h2></div>
+      <div class="piatti">
+
+        <div class="p">
+          <span class="nome"><span class="rank">2°</span>Panzanella estiva con acciughe e stracciatella di bufala<span class="alg">1-2-6-10</span></span>
+          <span class="desc">Pane raffermo bagnato, pomodoro, cipolla rossa<span class="sep">·</span><span class="prezzo">13</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Pileum</b> Passerina "Valle Bianca"</span></span>
+          <span class="mk">margine 9,21 € · FC 22,0% · 216 pz</span>
+        </div>
+
+        <div class="p pieno">
+          <span class="nome"><span class="rank">1°</span>Tagliere con culatello <i>Macelleria Enzo Mattei</i></span>
+          <span class="desc">Giardiniera fatta da noi, caciottina di pecora, focaccia calda<span class="sep">·</span><span class="due">per 2</span><span class="sep">·</span><span class="prezzo">26</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Maria Ernesta Berucci</b> "Raphael" Cesanese del Piglio</span></span>
+          <span class="mk">margine 14,53 → 15,44 € · ma 7,72 a persona · FC 36,1%, il più alto</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">3°</span>Carpaccio di manzo con la nostra chimichurri ai friggitelli</span>
+          <span class="desc">Battuto sottile, erbe e aceto<span class="sep">·</span><span class="prezzo">14</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>D'ausilio</b> Costa D'ulisse Syrah</span></span>
+          <span class="mk">margine 8,71 € · FC 31,5% · 113 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">4°</span>La parmigiana di melanzane<span class="alg">1-10</span></span>
+          <span class="desc">Come si fa a casa, ma meglio<span class="sep">·</span><span class="prezzo">11</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Tenuta Tre Cancelli</b> Pacha 2024</span></span>
+          <span class="mk">margine 6,51 → 7,42 € a 11,00 · 564 pz, il n.1 degli antipasti</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">5°</span>Crocchetta di baccalà con scarola e olive<span class="alg">1-2-3</span></span>
+          <span class="desc">Fritta al momento<span class="sep">·</span><span class="prezzo">11</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>La Luna del Casale</b> Sara Chardonnay</span></span>
+          <span class="mk">margine 6,26 → 7,17 € a 11,00 · 98 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">6°</span>Maritozzo ripieno di tartare di manzo con salsa tartara<span class="alg">1-3-10</span></span>
+          <span class="desc">Il nostro maritozzo, ma salato<span class="sep">·</span><span class="prezzo">10</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#F2E7C4"><use href="#calice"/></svg><span><b>Maria Ernesta Berucci</b> Frusinate Frizzante</span></span>
+          <span class="mk">margine 6,12 → 7,03 € a 10,00 · 79 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">7°</span>Fiori di zucca pastellati con ricotta e salsiccia secca fondana<span class="alg">1-10</span></span>
+          <span class="desc">Quando il campo ce li dà<span class="sep">·</span><span class="prezzo">7</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#F2E7C4"><use href="#calice"/></svg><span><b>Maria Ernesta Berucci</b> Frusinate Frizzante</span></span>
+          <span class="mk">margine 4,06 → 4,97 € a 7,00 · 251 pz</span>
+        </div>
+
+      </div>
+      <p class="nota"><b>Sette voci, una categoria sola, ordinate per margine.</b> È uscita l'Insalata di fagiolini: 37 pezzi in otto mesi, 0,15 al giorno. Aveva il food cost migliore del menu (17,3%) ma in otto mesi non è mai decollata. Il tagliere resta l'anomalia: food cost 36,1%, il più alto, e per persona rende 7,72 € contro i 9,21 di una panzanella. Vende 381 pezzi, quindi si rivede la grammatura del culatello, non il piatto.</p>
+    </div>
+    <div class="num">— 2 —</div>
+  </section>
+
+  <section class="pag vino centrata">
+    <span class="perc-occ">Il nostro invito</span>
+    <h2 class="perc-tit">Il Percorso</h2>
+    <p class="perc-sotto">Cinque portate scelte da noi, quelle che sappiamo fare meglio. Si ordina per tutto il tavolo.</p>
+    <div class="portate">
+      <div class="portata"><span class="n">I</span><span class="t">Maritozzo ripieno di tartare di manzo<small>con salsa tartara</small></span></div>
+      <div class="portata"><span class="n">II</span><span class="t">Panzanella con acciughe e stracciatella di bufala<small>l'antipasto dell'estate</small></span></div>
+      <div class="portata"><span class="n">III</span><span class="t">Mezze maniche alla carbonara<small>il piatto più ordinato della casa</small></span></div>
+      <div class="portata"><span class="n">IV</span><span class="t">Brasato di manzo con purè di patate alle erbe<small>quattro ore di cottura</small></span></div>
+      <div class="portata"><span class="n">V</span><span class="t">Il dolce del giorno<small>ve lo racconta chi vi serve</small></span></div>
+    </div>
+    <p class="perc-prezzo"><b>58 a persona</b><span class="r">con quattro calici in abbinamento &nbsp;+&nbsp;25</span></p>
+    <p class="nota"><b>+6.459 €/anno al 6% dei coperti a cena.</b> Cinque piatti già in carta: zero referenze nuove in cucina, food cost 28%, margine 41,20 € contro i 23,66 € di un coperto normale.</p>
+    <div class="num">— 3 —</div>
+  </section>
+
+</div></div>
+
+<!-- ===== PASTE | SECONDI ===== -->
+<div class="spread"><p class="etichetta">Si apre · le paste e i secondi</p>
+<div class="doppia">
+
+  <section class="pag">
+    <div class="sec">
+      <div class="cap"><p class="occhiello">Le nostre firme</p><h2 class="cat prem">Paste d'autore</h2></div>
+      <div class="piatti">
+
+        <div class="p pieno pfoto">
+          <div>
+            <span class="nome">Paccheri all'astice<span class="alg">1-2-5</span></span>
+            <span class="desc">Astice intero, pomodorino giallo, basilico<span class="sep">·</span><span class="prezzo">24</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Barone di Villa Grande</b> Etna Bianco Superiore</span></span>
+            <span class="mk">nuovo · premium · margine stimato 15,30 €</span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M4 12c3-4 13-4 16 0-3 4-13 4-16 0z"/><path d="M9 9l1 6M14 8l1 8"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="p pfoto">
+          <div>
+            <span class="nome">Tonnarelli con ricciola, limone e bottarga<span class="alg">1-2-4</span></span>
+            <span class="desc">Ricciola scottata, colatura, bottarga grattugiata al momento<span class="sep">·</span><span class="prezzo">22</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Artico</b> Cosmo Pinot Grigio 2022</span></span>
+            <span class="mk">nuovo · premium · margine stimato 14,00 €</span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M3 12c4-5 14-5 18 0-4 5-14 5-18 0z"/><path d="M7 12h.01M12 9v6"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="p pfoto">
+          <div>
+            <span class="nome">Risotto al Cesanese e midollo</span>
+            <span class="desc">Mantecato col nostro rosso di Affile, midollo arrostito<span class="sep">·</span><span class="prezzo">21</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Riccardi Reale</b> Collepazzo Cesanese</span></span>
+            <span class="mk">nuovo · premium · usa il vino che vendete già</span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M4 14h16M6 14c0-4 3-6 6-6s6 2 6 6M9 18h6"/></svg><span>FOTO</span></div>
+        </div>
+
+      </div>
+
+      <div class="banda">
+        <div>
+          <div class="bt">Quanta ne volete</div>
+          <p class="bs">Vale per ogni pasta qui sotto. Basta dirlo quando ordinate.</p>
+        </div>
+        <div class="flist">
+          <div class="fcard">
+            <span class="ico"><svg width="34" height="26" viewBox="0 0 32 24"><use href="#f1"/></svg></span>
+            <span class="fg">100 g</span><span class="fn">Classica</span>
+            <span class="fd">Quella di sempre. Va benissimo così.</span><span class="fp">inclusa</span></div>
+          <div class="fcard">
+            <span class="ico"><svg width="44" height="33" viewBox="0 0 32 24"><use href="#f2"/></svg></span>
+            <span class="fg">150 g</span><span class="fn">Rafforzata</span>
+            <span class="fd">Siete venuti con fame, non con curiosità.</span><span class="fp">+ 6</span></div>
+          <div class="fcard">
+            <span class="ico"><svg width="52" height="39" viewBox="0 0 32 24"><use href="#f3"/></svg></span>
+            <span class="fg">220 g</span><span class="fn">Il Padellone</span>
+            <span class="fd">Arriva la padella intera al centro del tavolo.</span><span class="fp">+ 12</span></div>
+        </div>
+      </div>
+
+      <div class="cap"><p class="occhiello">Tutti i giorni</p><h2 class="cat">Le paste</h2></div>
+      <div class="piatti">
+
+        <div class="p">
+          <span class="nome"><span class="rank">2°</span>Spaghettoni al burro con fichi e prosciutto<span class="alg">1-10</span></span>
+          <span class="desc">Burro d'alpeggio, fichi freschi, prosciutto croccante<span class="sep">·</span><span class="prezzo">15</span></span>
+          <span class="form"><span class="f"><svg width="17" height="13" viewBox="0 0 32 24"><use href="#f1"/></svg>100 g</span><span class="f"><svg width="19" height="14" viewBox="0 0 32 24"><use href="#f2"/></svg>150 g <b>+6</b></span><span class="f"><svg width="21" height="14" viewBox="0 0 32 24"><use href="#f3"/></svg>220 g <b>+12</b></span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Pileum</b> Passerina "Valle Bianca"</span></span>
+          <span class="mk">margine 10,85 € · FC 20,5% · solo 55 pz</span>
+        </div>
+
+        <div class="p asta">
+          <span class="nome"><span class="rank">1°</span>Gnocchi ripieni di cacio e pepe con salsa all'amatriciana<span class="alg">1-3-10</span></span>
+          <span class="desc">Fatti a mano ogni mattina<span class="sep">·</span><span class="prezzo">16</span></span>
+          <span class="form"><span class="f"><svg width="17" height="13" viewBox="0 0 32 24"><use href="#f1"/></svg>100 g</span><span class="f"><svg width="19" height="14" viewBox="0 0 32 24"><use href="#f2"/></svg>150 g <b>+6</b></span><span class="f"><svg width="21" height="14" viewBox="0 0 32 24"><use href="#f3"/></svg>220 g <b>+12</b></span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Maria Ernesta Berucci</b> "L'onda" Cesanese del Piglio</span></span>
+          <span class="mk">margine 10,10 → 11,01 € a 16,00 · 537 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">3°</span>Fusillotti con cozze, zucchine e limone<span class="alg">1-11</span></span>
+          <span class="desc">Cozze aperte al momento, zucchine dell'orto<span class="sep">·</span><span class="prezzo">14</span></span>
+          <span class="form"><span class="f"><svg width="17" height="13" viewBox="0 0 32 24"><use href="#f1"/></svg>100 g</span><span class="f"><svg width="19" height="14" viewBox="0 0 32 24"><use href="#f2"/></svg>150 g <b>+6</b></span><span class="f"><svg width="21" height="14" viewBox="0 0 32 24"><use href="#f3"/></svg>220 g <b>+12</b></span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Rallo</b> Evró Insolia Bio</span></span>
+          <span class="mk">margine 9,90 → 10,81 € · FC 16,2%, il più basso · 69 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">4°</span>Ziti spezzati con genovese napoletana e fonduta di pecorino<span class="alg">1-6-10</span></span>
+          <span class="desc">Cinque ore di cipolla<span class="sep">·</span><span class="prezzo">14</span></span>
+          <span class="form"><span class="f"><svg width="17" height="13" viewBox="0 0 32 24"><use href="#f1"/></svg>100 g</span><span class="f"><svg width="19" height="14" viewBox="0 0 32 24"><use href="#f2"/></svg>150 g <b>+6</b></span><span class="f"><svg width="21" height="14" viewBox="0 0 32 24"><use href="#f3"/></svg>220 g <b>+12</b></span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Gulfi</b> Rossojbleo Nero d'Avola</span></span>
+          <span class="mk">margine 9,76 → 10,67 € · FC 17,4% · 425 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">5°</span>Mezze maniche alla carbonara<span class="alg">1-3-10</span></span>
+          <span class="desc">Guanciale, pecorino, tuorlo, pepe. Nient'altro<span class="sep">·</span><span class="prezzo">15</span></span>
+          <span class="form"><span class="f"><svg width="17" height="13" viewBox="0 0 32 24"><use href="#f1"/></svg>100 g</span><span class="f"><svg width="19" height="14" viewBox="0 0 32 24"><use href="#f2"/></svg>150 g <b>+6</b></span><span class="f"><svg width="21" height="14" viewBox="0 0 32 24"><use href="#f3"/></svg>220 g <b>+12</b></span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Tenuta Tre Cancelli</b> Zio Carlo Chardonnay</span></span>
+          <span class="mk">margine 9,68 → 10,59 € a 15,00 · 905 pz, il primo più ordinato</span>
+        </div>
+
+      </div>
+      <p class="nota"><b>I formati valgono +4.905 €/anno.</b> La rafforzata a +6,00 rende 4,11 € in più, il padellone a +12,00 ne rende 7,68: la semola costa poco, il prezzo no.</p>
+    </div>
+    <div class="num">— 4 —</div>
+  </section>
+
+  <section class="pag">
+    <div class="sec">
+      <div class="cap"><p class="occhiello">Dalla brace e dal forno</p><h2 class="cat prem">I grandi secondi</h2></div>
+      <div class="piatti">
+
+        <div class="p pieno pfoto">
+          <div>
+            <span class="nome">Costata di scottona frollata 45 giorni</span>
+            <span class="desc">Circa un chilo, sale grosso e nient'altro<span class="sep">·</span><span class="due">per 2</span><span class="sep">·</span><span class="prezzo">58</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>San Giovenale</b> Habemus Rosso Igt</span></span>
+            <span class="mk">nuovo · premium · margine stimato 34,00 € (17,00 a persona)</span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M4 12c2-5 14-5 16 0-2 5-14 5-16 0z"/><path d="M8 10l2 4M13 9l2 6"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="p pfoto">
+          <div>
+            <span class="nome">Filetto di scottona con midollo e fondo bruno</span>
+            <span class="desc">Cottura al sangue salvo richiesta<span class="sep">·</span><span class="prezzo">34</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Siddúra</b> Tiros Colli del Limbara</span></span>
+            <span class="mk">nuovo · premium · margine stimato 21,00 €</span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M6 8h12v8H6z"/><path d="M9 11h6M9 14h4"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="p pfoto">
+          <div>
+            <span class="nome">Ricciola scottata con crema di zucca e nocciole<span class="alg">2-8</span></span>
+            <span class="desc">Pesca del giorno, quando c'è<span class="sep">·</span><span class="prezzo">32</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Maria Ernesta Berucci</b> "Raphael" Passerina</span></span>
+            <span class="mk">nuovo · premium · margine stimato 19,80 €</span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M3 12c4-4 13-4 17 0-4 4-13 4-17 0z"/><path d="M7 12h.01M17 9l3 3-3 3"/></svg><span>FOTO</span></div>
+        </div>
+
+      </div>
+
+      <div class="cap"><p class="occhiello">Tutti i giorni</p><h2 class="cat">I secondi</h2></div>
+      <div class="piatti">
+
+        <div class="p">
+          <span class="nome"><span class="rank">2°</span>Polpo scottato con crema di piselli e datterini arrosto<span class="alg">11</span></span>
+          <span class="desc">Cotto due volte, croccante fuori<span class="sep">·</span><span class="prezzo">20</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Siddu'ra</b> Spera Vermentino di Gallura</span></span>
+          <span class="mk">margine 14,10 → 15,01 € · FC 18,4%, il più basso · 105 pz</span>
+        </div>
+
+        <div class="p bordo">
+          <span class="nome"><span class="rank">1°</span>Costoletta alla milanese con salsa olandese<span class="alg">1-3-13</span></span>
+          <span class="desc">Alta, nel burro chiarificato<span class="sep">·</span><span class="due">per 2</span><span class="sep">·</span><span class="prezzo">32</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>La Luna del Casale</b> Alessandro Igp</span></span>
+          <span class="mk">margine 18,40 → 20,22 € a 32,00 · 10,11 a persona · 329 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">3°</span>Brasato di manzo con purè di patate alle erbe<span class="alg">6-10-12</span></span>
+          <span class="desc">Quattro ore nel suo fondo<span class="sep">·</span><span class="prezzo">19</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>Siddúra</b> Fola Cannonau Riserva</span></span>
+          <span class="mk">margine 12,44 → 13,35 € a 19,00 · 1.176 pz, il piatto più venduto del locale</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">4°</span>Baccalà fritto con salsa di yogurt greco e lime<span class="alg">1-2-10</span></span>
+          <span class="desc">Dissalato da noi per tre giorni<span class="sep">·</span><span class="prezzo">19</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#E4D08A"><use href="#calice"/></svg><span><b>Artico</b> Stardust 2023 Igt</span></span>
+          <span class="mk">margine 12,43 € · FC 28,0% · 271 pz</span>
+        </div>
+
+        <div class="p">
+          <span class="nome"><span class="rank">5°</span>Galletto ruspante arrosto con erbette e miele</span>
+          <span class="desc">Allevato a terra, servito intero<span class="sep">·</span><span class="prezzo">18</span></span>
+          <span class="vin"><svg width="11" height="16" style="--w:#7E1B33"><use href="#calice"/></svg><span><b>D'ausilio</b> Sciobaco Syrah 2023</span></span>
+          <span class="mk">margine 12,08 → 12,99 € a 18,00 · solo 48 pz</span>
+        </div>
+
+      </div>
+      <p class="nota"><b>Il Brasato è il piatto n.1 di tutto Antipapa</b> con 1.176 pezzi, più della Carbonara: da solo fa il 61% dei secondi. Un euro in più su questo piatto vale <b>1.603 €/anno</b>.</p>
+    </div>
+    <div class="num">— 5 —</div>
+  </section>
+
+</div></div>
+
+<!-- ===== DOLCI | AMARI ===== -->
+<div class="spread"><p class="etichetta">Si apre · i dolci e gli amari</p>
+<div class="doppia">
+
+  <section class="pag">
+    <div class="sec">
+      <div class="cap"><p class="occhiello">Per finire</p><h2 class="cat">I dolci</h2></div>
+      <div class="piatti">
+
+        <div class="p pfoto">
+          <div>
+            <span class="nome">Il dolce del giorno</span>
+            <span class="desc">Ve lo racconta chi vi serve. Cambia con quello che troviamo<span class="sep">·</span><span class="prezzo">7</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#D9A94E"><use href="#calice"/></svg><span><b>D'ausilio</b> Costa D'ulisse Moscato di Terracina</span></span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M5 14h14v5H5z"/><path d="M7 14c0-3 2-5 5-5s5 2 5 5M12 6v3"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="p bordo pfoto">
+          <div>
+            <span class="nome">Il nostro maritozzo con la panna</span>
+            <span class="desc">Quello dolce, stavolta. Panna montata a mano<span class="sep">·</span><span class="prezzo">6</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#F2E7C4"><use href="#calice"/></svg><span><b>Maria Ernesta Berucci</b> Frusinate Frizzante</span></span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M4 13c0-4 3.6-7 8-7s8 3 8 7-3.6 6-8 6-8-2-8-6z"/><path d="M9 11c1.5-1.5 4.5-1.5 6 0"/></svg><span>FOTO</span></div>
+        </div>
+
+        <div class="p pfoto">
+          <div>
+            <span class="nome">Tiramisù</span>
+            <span class="desc">Al cucchiaio, come deve essere<span class="sep">·</span><span class="prezzo">7</span></span>
+            <span class="vin"><svg width="11" height="16" style="--w:#D9A94E"><use href="#calice"/></svg><span><b>D'ausilio</b> Costa D'ulisse Moscato di Terracina</span></span>
+          </div>
+          <div class="foto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"><path d="M5 9h14v9a2 2 0 01-2 2H7a2 2 0 01-2-2z"/><path d="M5 12h14M9 9V6M15 9V6"/></svg><span>FOTO</span></div>
+        </div>
+
+      </div>
+      <p class="nota"><b>+6.600 €/anno.</b> Il dolce oggi lo prende il 18,6% dei clienti. Scriverlo a menu con la sua foto, invece di raccontarlo a voce, lo porta al 30%.</p>
+    </div>
+    <div class="num">— 6 —</div>
+  </section>
+
+  <section class="pag panna">
+    <div class="sec">
+      <div class="cap"><p class="occhiello">Prima di uscire</p><h2 class="cat">Amari</h2></div>
+      <div class="piatti">
+        <div class="p bordo">
+          <span class="nome">L'amaro della casa</span>
+          <span class="desc">Fatto con le erbe di qui, servito ghiacciato<span class="sep">·</span><span class="prezzo">5</span></span>
+        </div>
+        <div class="p">
+          <span class="nome">Amari italiani</span>
+          <span class="desc">Chiedete la lista a chi vi serve<span class="sep">·</span><span class="prezzo">5</span></span>
+        </div>
+        <div class="p">
+          <span class="nome">Grappe e distillati</span>
+          <span class="desc">Bianche, barricate, di vinaccia<span class="sep">·</span><span class="prezzo">6 — 8</span></span>
+        </div>
+        <div class="p">
+          <span class="nome">Passito</span>
+          <span class="desc">Il fine pasto che chiude davvero<span class="sep">·</span><span class="prezzo">6</span></span>
+        </div>
+      </div>
+      <p class="nota"><b>+3.800 €/anno.</b> L'amaro oggi lo prende il 3,7% dei clienti: la penetrazione più bassa dei due locali. Una pagina sua, e il personale che lo propone, lo porta al 12%.</p>
+
+      <div class="cap" style="margin-top:4mm"><p class="occhiello">Da bere</p><h2 class="cat">Il resto</h2></div>
+      <div class="bev" style="margin-top:2mm">
+        <span>Acqua<b>2</b></span><span>Birra Raffo 20 cl<b>4</b></span>
+        <span>Birra Raffo 40 cl<b>6</b></span><span>Caffè<b>1,50</b></span>
+        <span>Focaccia calda<b>3,50</b></span>
+      </div>
+      <p class="nota"><b>La focaccia da 2,95 a 3,50 vale +1.896 €/anno</b> — la prende un cliente su tre.</p>
+    </div>
+
+    <div class="chiudi">
+      <p class="srv">Servizio e coperto <b>2,50 €</b> a persona &nbsp;·&nbsp; La carta dei vini è a parte, chiedetela</p>
+      <p class="legenda"><b>Allergeni:</b> 1 Glutine · 2 Pesce · 3 Uova · 4 Arachidi · 5 Crostacei · 6 Sedano · 7 Soia · 8 Sesamo · 9 Lupini · 10 Lattosio · 11 Molluschi · 12 Anidride solforosa · 13 Senape · 14 Frutta a guscio.
+        Alcuni prodotti sono sottoposti in loco ad abbattimento come descritto nelle procedure HACCP ai sensi del reg. CE 852/04.</p>
+    </div>
+    <div class="num">— 7 —</div>
+  </section>
+
+</div></div>
+
+</div>
+
+<script>
+(function(){
+  var b=document.body,cli=document.getElementById('bCli'),con=document.getElementById('bCon'),
+      hint=document.getElementById('hint');
+  function set(rbr){
+    b.classList.toggle('rbr',rbr);
+    cli.setAttribute('aria-pressed',String(!rbr));
+    con.setAttribute('aria-pressed',String(rbr));
+    hint.textContent=rbr
+      ?'Food cost reali dal file 02. Il numero nel cerchietto è il posto in classifica per margine.'
+      :'Il menu come lo vede chi si siede al tavolo.';
+  }
+  cli.addEventListener('click',function(){set(false)});
+  con.addEventListener('click',function(){set(true)});
+})();
+</script>
+
+</body></html>

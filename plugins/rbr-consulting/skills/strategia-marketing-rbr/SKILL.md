@@ -26,6 +26,13 @@ attacca il moltiplicatore con più leva. Un +10% su tutti e tre = +33% di fattur
 **2. Posizionamento (Merenda).** Prima dell'offerta viene l'identità: il locale deve
 essere "il numero 1 di qualcosa" nella testa del cliente della sua zona — non "buono per
 tutti". Se il posizionamento non c'è, si costruisce PRIMA di spendere in ads.
+**Il posizionamento reale è quello che i clienti ripetono**, non quello dichiarato
+(contributo di Luciano Purpi, 2026-09-03): leggi le recensioni per testo e misura la quota
+che cita la promessa di marca. Su tre clienti la macchina recensioni girava a pieno regime
+ma raccoglieva complimenti al cameriere (fino al 69% dei testi) e quasi mai la promessa
+(3 testi su 489 su un cliente, che invece era riconosciuto per il senza glutine). Il
+rimedio è lo script della richiesta in sala, con un gancio sul posizionamento — dettagli
+operativi in `google-business-ristorante`, sezione Macchina delle recensioni.
 
 **3. Offerta (Hormozi).** La promo non è uno sconto: è un'offerta il cui valore percepito
 schiaccia il prezzo. Value equation: (risultato sognato × probabilità percepita) ÷

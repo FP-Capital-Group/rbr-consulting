@@ -25,13 +25,17 @@ In RBR un'offerta non è "un post con uno sconto": è una **catena tracciata** c
 ## Procedura
 
 ### 1. Definisci l'offerta e il `code`
-Fissa: tipo sconto (€, %, prodotto gratis), target (italiani / turisti EN / riattivazione / hotel…), canale (facebook-adv, google-adv, instagram, riattivazione, hotel). Genera un `code` **parlante**: a vista deve dire offerta + target (es. `10euroturistaeng1`, `BRO10EU`, `10eurosett2`). Formato libero ma chiaro. Registra il `code` nello Sheet master — **è lui la chiave di tutta la catena**.
+Fissa: tipo sconto (€, %, prodotto gratis), target (italiani / turisti EN / riattivazione / hotel…), canale (facebook-adv, google-adv, instagram, riattivazione, hotel). Genera un `code` **parlante**: a vista deve dire offerta + target (es. `10euroturistaeng1`, `BRO10EU`, `10eurosett2`). Formato libero ma chiaro, con due vincoli di cassa (contributo di Luciano Purpi, 2026-09-03): **niente trattini** (iPratico li mangia: `amico-portato` diventa `AMICOPORTATO`) e **una sola grafia** (iPratico distingue le maiuscole: `10wifiprenotazione` e `10WIFIPRENOTAZIONE` sono due codici diversi). Registra il `code` nello Sheet master — **è lui la chiave di tutta la catena**.
+
+**Regola dei tre allineamenti**: la stessa identica stringa deve esistere nel link dell'annuncio/landing (`?code=`), nella colonna del foglio generatore e nel campo `Codice` di iPratico. Ogni volta che ne tocchi uno, controlli gli altri due.
 
 ### 2. Landing page parametrizzata (WordPress)
 Le landing sono già pubblicate e riusabili: cambia solo il querystring, non la pagina.
 - Pattern URL: `https://<dominio>/<offerta>?code=<code>&source=<source>`
 - Esempio: `https://www.misterpizza.it/10euro?code=10euroturistiita1&source=riattivazione`
 - Mappa `offerta` → URL base dallo Sheet (es. 5euro, 10euro, 20euro, siciliana, calabrese). Se l'offerta è nuova, crea la landing base una volta sola, poi riusala parametrizzata.
+- ⚠️ **Il `source` arriva a Resmio solo in certi setup** (contributo di Luciano Purpi, 2026-09-03): con l'embed classico `widget.js` Resmio lo riscrive SEMPRE con l'hostname della pagina, qualunque landing l'abbia generato. Passa intero solo col proxy PHP (Mister Pizza, Dirigì) o col link diretto al widget. **Check di 30 secondi prima di impostare l'attribuzione**: apri una landing, leggi l'URL dell'iframe generato, verifica che `source` sia sopravvissuto. Se no, il canale si traccia con `?utm=` in `booking_request_parameters` (skill `sito-landing-ristorante`, Tracciamento).
+- **Senza landing né proxy** (mail, WhatsApp, QR, bio Instagram, bot): link diretto al widget `app.resmio.com/<slug>/widget?source=<canale-campagna>&comment=<offerta in chiaro + code:CODICE>` — porta in una riga la fonte per misurare e la nota che dice al cameriere cosa ha in mano il cliente. Funziona su qualsiasi locale Resmio (contributo di Luciano Purpi, 2026-09-05). Url-encoda il testo, niente emoji. Dettagli e rimedio se il link è già partito senza comment → `references/codici-resmio-ipratico.md`.
 
 ### 3. QR code
 Genera il QR che **contiene il `code` in chiaro** (lo staff lo scansiona in cassa, non serve che punti a un URL):
@@ -41,8 +45,9 @@ Salva l'URL del QR nello Sheet 2 (Descrizioni offerte + QR), riga del `code`, co
 ### 4. Coupon sul POS (iPratico)
 Per ogni `code` creato va ricreato il coupon sul gestionale iPratico del locale.
 - **Mapping 1:1 offerta→coupon**: `5euro`→€5 off, `10euro`→€10 off, `20euro`→€20 off, `siciliana`→pizza siciliana gratis, `calabrese`→pizza calabrese gratis. Offerta nuova = nuovo mapping da decidere col cliente.
-- **Scadenza coupon**: durata lunga fissa `2025-01-01 → 2030-12-31`. Al pubblico non si comunica nessuna regola di scadenza.
+- **Scadenza coupon**: di default durata lunga fissa `2025-01-01 → 2030-12-31` e al pubblico non si comunica nessuna scadenza. Se invece la campagna comunica una scadenza (mail, landing), la cassa deve avere **la stessa**: o accorci anche quella, o è scarsità finta (regola RBR: se scade, scade) (contributo di Luciano Purpi, 2026-09-04).
 - Se il locale ha più brand/installazioni, **replica il coupon su ciascuna** (stesso `code`, POS diversi).
+- **Controlli di creazione** (contributo di Luciano Purpi, 2026-09-03/04): spunta anche "API pubbliche" in `sourceApps` (parte vuoto: senza, il codice è invisibile all'API e il QR non arriva mai); per i buoni in euro tipo "€ - Valore sconto" (parte su "%"); un **HTTP 412 = codice già esistente**, non blocco d'account; i codici del locale possono stare nella vista `/anagrafiche-cloud/promo-codes/0` mentre la `/1` dice "nessun codice" — guardale entrambe prima di crearne uno doppio. Leggi dalla DataTable valore, spesa minima, `isReusable` (1 = riusabile all'infinito, anche dalla stessa persona: per una campagna a lista decidilo consapevolmente), date e canali, e confrontali col testo della campagna. Creazione via API (jQuery.ajax, form-urlencoded) → `references/codici-resmio-ipratico.md`.
 
 ### 5. Email nel CRM (GHL)
 Manda ai clienti la mail con codice/QR via istanza MCP `ghl2-<cliente>` (segmenta per tag: città, target, riattivazione).
@@ -52,10 +57,14 @@ Manda ai clienti la mail con codice/QR via istanza MCP `ghl2-<cliente>` (segment
 
 ### 6. Registra e verifica
 Scrivi tutto nello Sheet master (code, landing, source, QR) così resta la sorgente di verità. Verifica la catena end-to-end prima di dichiarare chiusa la campagna (vedi DoD).
+- **Prima del lancio**: il codice stampato su landing, mail e materiali deve ESISTERE in cassa con lo stesso testo esatto. Caso reale Red Mike (3/9/2026): landing e testi con `10EURORIAPERTURA`, in cassa esisteva solo `RIAPERTURA10` — chi si fosse presentato non avrebbe avuto lo sconto, e la colpa sarebbe caduta sul cameriere (contributo di Luciano Purpi, 2026-09-04).
+- **Dopo il lancio si verifica dai codici DAVVERO usati**, non dal foglio: prenotazioni Resmio recenti + regex `code\s*:\s*([A-Za-z0-9_.-]+)` sul campo `comment` (su un cliente ha fatto emergere codici in circolazione che non esistevano né in cassa né nel foglio).
 
 ## Regole RBR & trabocchetti
 - ⚠️ **Il `code` è la chiave di tutto**: usa SEMPRE il `code` esatto dello Sheet, non normalizzarlo (i prefissi non sono uniformi, es. `turistiita1` vs `turistaita2`). Un code sbagliato = anello rotto.
 - ⚠️ **Landing = riuso parametrizzato**, non pagina nuova ogni volta. Cambia il querystring `?code=&source=`, non duplicare la pagina.
+- ⚠️ **`code:CODICE` nella nota Resmio è un CONTRATTO col middleware QR**, non una convenzione (contributo di Luciano Purpi, 2026-09-03): il middleware dell'agenzia partner fa una regex su `code:` nel testo del `comment` e prende quello che segue. Niente `code:` = nessun QR, in silenzio (spostare il codice nel parametro `utm` ha spento i QR per due giorni su due clienti). Dopo `code:` va il CODICE (`code:GIFTCARDCASSA`), mai la descrizione. Prima di toccare un anello montato da terzi, leggi la tabella **chi legge cosa** in `references/codici-resmio-ipratico.md`. 🟡 Aperto: il `comment` finisce nella mail di conferma (l'ospite legge l'etichetta) — o si porta tutto in un parametro invisibile adeguando il middleware, o si tiene `code:` e si tolgono le note dal template mail; da decidere con chi mantiene il middleware.
+- ⚠️ **In Resmio `comment` = nota dell'OSPITE, `notes` = nota dello STAFF** (contributo di Luciano Purpi, 2026-09-03): i codici offerta stanno nel `comment`. Cercarli in `notes` fa concludere che il tracciamento è morto (Mister Pizza + Dirigì: 400+ prenotazioni con `code:` in 3 mesi). Il `comment` arriva concatenato ai campi custom del widget (`Turista o Locale?: TuristaComment: code:...`): regex tollerante.
 - ⚠️ **iPratico è manuale e per-installazione**: quello che fai su un brand va replicato sull'altro. Non dare per scontato che il coupon esista già.
 - ⚠️ **Mai token/API key nel repo** (condiviso col team): CRM via MCP `ghl2-<cliente>`, credenziali WordPress e POS dal `.env`.
 - ⚠️ **WordPress dietro Cloudflare/WP Engine**: i fetch non-browser possono dare 403 → usa il client REST autenticato con User-Agent browser; dopo modifiche svuota la cache.
@@ -69,3 +78,5 @@ Scrivi tutto nello Sheet master (code, landing, source, QR) così resta la sorge
 - [ ] Coupon iPratico creato con mapping corretto e scadenza `2025-01-01 → 2030-12-31`, replicato su tutte le installazioni del locale
 - [ ] Email preparata nel CRM con tono asciutto codice/sconto, segmento giusto, e **inviata solo dopo ok**
 - [ ] Catena verificata end-to-end (scan QR → code leggibile → coupon riconosciuto in cassa)
+- [ ] Tre allineamenti verificati: stessa stringa in link (`?code=`), foglio generatore e campo `Codice` iPratico (niente trattini, stessa grafia); `sourceApps` con "API pubbliche"; scadenza in cassa = scadenza comunicata
+- [ ] `source` verificato nell'iframe generato (check 30 secondi) o canale tracciato con `utm`; `code:CODICE` presente nel `comment` dove c'è il middleware QR

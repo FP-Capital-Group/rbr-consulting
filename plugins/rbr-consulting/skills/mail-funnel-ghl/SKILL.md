@@ -110,8 +110,23 @@ Body creazione minimo:
   solo lettura. Per costruire l'automazione serve l'editor grafico di GHL (manualmente,
   oppure guidando l'utente passo-passo, oppure — se l'utente si logga lui stesso nel
   pannello Browser — automatizzando i click, con i limiti di fragilità di un editor
-  drag-and-drop).
+  drag-and-drop). Regola RBR: non promettere al cliente che il workflow lo montiamo noi via
+  browser; consegna la **specifica di montaggio blocco per blocco** (trigger, rami, azioni, testi).
+  Trappole del builder (canvas, editor HTML che chiude i tag, attesa ricorrente, campi
+  personalizzati, copia propria del nodo Email): `references/builder-ghl.md`.
 - Mai riusare grafiche/coupon specifici di una promo per altre senza verificarne il
   contenuto reale (rischio di mostrare un'offerta sbagliata a un cliente finale).
 - Attenzione ai comandi distruttivi in sequenza (es. DELETE su più id in un unico blocco
   bash): eseguire ed eyeball-checkare l'id giusto prima di ogni cancellazione.
+
+## Dopo il caricamento: collaudo e modifiche
+
+- **Collaudo prima di accendere** (catenaria nuova o ereditata): scarica i sorgenti, verifica con
+  script i codici HTTP di tutti i link, disiscrizione, via d'uscita, poi la lista dei 10 controlli.
+  Procedura, script, clonazione delle landing mancanti su WordPress e tracciamento via `?utm=` sul
+  sito: `references/collaudo-catenaria.md` (contributo di Luciano Purpi, 13/09/2026).
+- **Il nodo Email del workflow può avere una copia propria**: se "Sincronizza le modifiche al
+  modello" è tolta, i PATCH sul template (step 11) NON cambiano cosa parte. Verifica sempre la copia
+  nel nodo (`references/builder-ghl.md`, contributo di Luciano Purpi, 19/09/2026).
+- **Invio email singola via API** e trigger link che non si risolvono: `suite/memory/gohighlevel.md`,
+  sezione API diretta con PIT.

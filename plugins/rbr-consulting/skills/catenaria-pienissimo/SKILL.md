@@ -49,3 +49,13 @@ cambia dopo: capita che una mail prometta "tutti e sei i burger" mentre a listin
 dodici, o nomini un prodotto che non esiste più. Non correggere il testo di tua iniziativa e
 non tirare a indovinare sul prodotto: configura quello che il cliente leggerà nella mail e
 segnala la discrepanza all'utente, che è l'unico a sapere quale delle due fonti è aggiornata.
+
+## Catenaria già attiva e coupon su WhatsApp
+
+- **Modificare i testi di una catenaria attiva** senza fermarla: solo oggetto e paragrafi dei
+  `nodo_invia`, backup prima, risalvataggio dell'intero record → `playbook.md` §9 (contributo di
+  Andrea, 10/09/2026).
+- **Coupon che partono su WhatsApp**: il coupon va su WA anche con i testi WA vuoti. Per mandarli
+  solo via email: Impostazioni → Messaggi → rotellina → Impostazioni Promozioni → Modalità invio
+  PR1/PR2/PR3 = E-mail. **Mai** togliere il canale "marketing" dal numero WhatsApp: spegne tutto il
+  marketing WA → `playbook.md` §10 (contributo di Andrea, 10/09/2026).
