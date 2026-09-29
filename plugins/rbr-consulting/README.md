@@ -50,7 +50,7 @@ Installate da `/rbr-setup` a scope utente con le chiavi private (`rbr-chiavi.jso
 (PIT agency: misterpizza, personalg, democliente, dirigi, redmike, cipriano, barresi —
 cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge Marco).
 
-### Skill operative (30)
+### Skill operative (36)
 
 **Cervello condiviso**
 - `contribuisci-conoscenza` — esporta procedure/fix imparati nello Sheet contributi (fusi ogni lunedì)
@@ -61,11 +61,14 @@ cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge
 - `cdg-fatture` — CSV Agenzia Entrate → FATTURE.xlsx → foglio "Economico" (script Python + service account + master fornitori condiviso)
 - `riconciliazione-dati-cliente` — validazione dati PRIMA di compilare il CDG
 - `crea-cdg-cliente` — creare il conto economico del cliente da modello (mono e multi-store)
+- `cdg-gruppo-bilanci-commercialista` — CDG di gruppo multi-società dai bilanci di verifica: progressivi, riparto, fuori-EBITDA, controllo indipendente
 - `analisi-modello-business` — File 03: CE per fasce orarie e reparti, heat-map turni, saving
 - `foodcost-cliente` — File 02: food cost Attuale vs Nuovo, margine per piatto, FC teorico vs bilancio
 - `kpi-sheet-cliente` — Google Sheet KPI settimanale
 - `analisi-buste-paga` — cedolini PDF → Excel costo del lavoro
 - `mappa-turni` — cedolini → mappa colori griglia turni
+- `personale-oggi-domani` — turni proposti → tabella persona per persona per la riunione + taglio solo delle ore in perdita
+- `dati-delivery-portali` — venduto/ordini/commissioni da Deliveroo e Glovo per locale, split fatture, diagnosi delivery
 
 **Suite / CRM**
 - `onboarding-cliente-ghl` — nuovo cliente su GHL: sub-location, snapshot, OAuth, istanza MCP, test end-to-end
@@ -79,11 +82,14 @@ cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge
 - `catenaria-pienissimo` — monta la catenaria nel backoffice Pienissimo Pro
 - `campagna-locale` — offerta → landing → QR → coupon POS → email CRM
 - `adv-ristorante` — Google Ads + funnel Meta, KPI = costo per prenotazione
+- `google-ads-conversione-controllo` — conversione Prenota sul widget, tag sotto consenso verificato, controllo giornaliero Telegram
 - `seo-local-ristorante` — playbook SEO local
 
 **Web & presenza locale**
 - `market-discovery-ristorante` — analisi di mercato della zona: domanda, competitor, gap di posizionamento → scheda 1 pagina
 - `sito-landing-ristorante` — sito completo (metodo siti-ristoranti) + landing di campagna, con DoD di pubblicazione
+- `sito-wordpress-cliente-mcp` — sito WordPress esistente via connettore MCP: Prenota TheFork senza commissioni, pagine SEO, JSON-LD
+- `risposte-recensioni-ai-ghl` — Reviews AI di GHL: risposte automatiche multilingua e SEO, blocco sensibili, Drip per l'arretrato
 - `analytics-ristorante` — GA4 (5 eventi ristorante) + Search Console: setup, lettura mensile, mini-report 10 metriche (MCP ufficiale GA incluso)
 - `google-business-ristorante` — scheda Google Business: ottimizzazione, macchina recensioni, post, insight, API vs UI
 

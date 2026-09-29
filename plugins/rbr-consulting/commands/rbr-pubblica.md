@@ -36,3 +36,11 @@ Versione pubblicata, cosa contiene, e la regola dei tempi: server claude.ai entr
 app Cowork di ogni consulente entro l'ora successiva → ~1h30; alla prima chat nuova ognuno vede
 "🆕 Plugin aggiornato alla vX". La Conoscenza live è già attiva alla prossima chat. Chi ha fretta:
 Personalizza → Plugin → Rbr consulting → Aggiorna.
+
+## 4. Ciclo automatico, blocco e rollback (dal 23/9/2026)
+Ogni lunedì 08:00 la routine cloud prepara la release SENZA pubblicarla; il martedì 08:00 esce da sola.
+Se Marco dice "blocca la release" / "sblocca" / "rigenera la release" / "stato della release":
+`python3 <suite>/tools/release_gate.py blocca|sblocca|rigenera|stato`. "Pubblicala adesso":
+`release_gate.py pubblica --telegram`. "Rollback alla versione precedente" / "torna alla X":
+`python3 <suite>/tools/rollback.py --elenco`, conferma con Marco la versione, poi `--a X.Y.Z`
+(prima `--dry-run` per mostrare cosa cambia). Dettagli: `memory/plugin_rbr_consulting.md`.

@@ -1,0 +1,14 @@
+<!-- wp:html -->
+<!-- cliente-gads-v1: Google Ads AW-XXXXXXXXXX + conversione Prenota (widget TheFork) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','AW-XXXXXXXXXX');
+(function(){
+  var sent=false;
+  function conv(){if(sent)return;sent=true;gtag('event','conversion',{'send_to':'AW-XXXXXXXXXX/LABEL','value':1.0,'currency':'EUR'});}
+  window.addEventListener('blur',function(){setTimeout(function(){var a=document.activeElement;if(a&&a.tagName==='IFRAME'&&/thefork/i.test(a.src||''))conv();},0);});
+  document.addEventListener('click',function(e){var l=e.target&&e.target.closest?e.target.closest('a[href*="thefork"]'):null;if(l)conv();},true);
+})();
+</script>
+<!-- /wp:html -->
