@@ -36,9 +36,11 @@ gesto**: `richiesta_recensione_<lingua>`, `<cliente>_ritorno_<lingua>`,
 Nome: `conferma_prenotazione_it`
 
 > Ciao {{1}}, la tua prenotazione da {{2}} è confermata: {{3}} alle {{4}}, {{5}} persone.
-> Se qualcosa cambia, usa i pulsanti qui sotto.
+> Se qualcosa cambia, puoi modificarla o annullarla da qui.
 
-Pulsanti (risposta rapida): **Confermo** · **Disdico** · **Voglio modificare**
+Pulsante (URL, suffisso dinamico): **Modifica o annulla** → link di gestione della
+prenotazione su Resmio. **Un solo pulsante, nessun «Confermo»**: il pulsante serve a chi
+disdice. Mai link di annullamento GHL (annullano in GHL, il tavolo su Resmio resta).
 
 | Var | Mappa | Esempio |
 |---|---|---|
@@ -51,9 +53,12 @@ Pulsanti (risposta rapida): **Confermo** · **Disdico** · **Voglio modificare**
 ## 2. Promemoria del giorno — Utility
 Nome: `promemoria_prenotazione_it`
 
-> Ciao {{1}}, ti aspettiamo oggi alle {{2}} da {{3}}. Ci confermi che ci sei?
+> Ciao {{1}}, ti aspettiamo oggi alle {{2}} da {{3}}. Se hai un imprevisto, puoi
+> modificare o annullare da qui: il tavolo torna libero per qualcun altro.
 
-Pulsanti: **Ci sono** · **Disdico** · **Arrivo in ritardo**
+Pulsante (URL): **Modifica o annulla** → link di gestione Resmio. Invio **4 ore prima**:
+è il flusso che ripaga il canale (ogni disdetta anticipata è un tavolo rivenduto).
+Mai chiedere conferma.
 
 | Var | Mappa | Esempio |
 |---|---|---|

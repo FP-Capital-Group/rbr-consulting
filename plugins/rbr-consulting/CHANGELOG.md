@@ -1,6 +1,11 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.14.1 — 2026-09-28
+Ogni versione ha una sezione `## v2.15.0 — 2026-10-05
+- Nuova skill checklist-marketing-rbr: il sistema marketing RBR dalla fonte di traffico al cliente che torna (21 fonti, setup per cliente nuovo, controllo settimanale/mensile/trimestrale, giro di verifica). Foglio di stato condiviso «RBR - Stato marketing clienti» + PDF della checklist.
+- Wi-Fi con portale (Omada OC200 + EAP650 + form GHL): kit da comprare con link, setup e trappole. Titolare dei dati è il locale, RBR non è responsabile del trattamento.
+- Correzioni: conferma e promemoria WhatsApp con un solo pulsante «Modifica o annulla» + ramo per chi risponde a parole; flussi che partono dal campo di stato, non dal tag; Google Ads: conversione principale = prenotazione onorata (il clic nel widget solo secondaria); sync TheFork solo come attività programmata.
+
+## v2.14.1 — 2026-09-28
 - GHL: nuovo Workflow Validation Gate + GPT-6 Sol/Luna nei nodi AI Agent/Workflow
 - Make: nuova app nativa AI Toolkit (sentiment, categorizzazione, traduzione, riassunto)
 - Meta: nuovo abbonamento Meta One (Business Agent AI, analytics estese) - da valutare solo su richiesta cliente

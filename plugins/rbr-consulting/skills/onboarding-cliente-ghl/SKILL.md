@@ -19,7 +19,7 @@ description: Procedura completa RBR per onboardare un nuovo cliente ristoratore 
 1. Agency View → **Sub-Accounts → + Create Sub-Account**
 2. Business Name = nome cliente reale · Address = indirizzo locale · **Time Zone `Europe/Amsterdam`** (GHL non offre Rome, stesso fuso) · Currency `EUR` · Industry Restaurant
 3. **Apply Snapshot durante la creazione: `RBR Blueprint v1`** → Save → attendi 2-5 min
-4. Verifica post-snapshot (via MCP o UI): **14 Custom Field + 13 Custom Values + 3 tag (`locale`, `turista`, `fidelity`) + 15 email template + 2 workflow** (Smistamento Lead + Funnel RBR). Se manca qualcosa → skill `diagnosi-suite`, sezione "Snapshot non applicato".
+4. Verifica post-snapshot (via MCP o UI): **14 Custom Field + 13 Custom Values + 3 tag (`locale`, `turista`, `fidelity`) + 15 email template (13 catenaria: Locali Sett 1-9 + Turisti 1-4, più 2 trigger: Compleanno e Review Request — per questo gli oggetti da impostare allo Step 5 sono 13) + 2 workflow** (Smistamento Lead + Funnel RBR). Se manca qualcosa → skill `diagnosi-suite`, sezione "Snapshot non applicato".
 
 ## Step 2 — Installa app OAuth v2 + sync token (~2 min)
 L'app v2 è Private + Agency Only Install: NON è visibile nel marketplace del cliente, solo in quello agency (oppure via Install Link bookmark "🔧 Install RBR app", URL in `GHL_OAUTH_SA_INSTALL_LINK` in `mister-pizza/.env`).

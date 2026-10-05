@@ -54,6 +54,14 @@ importi in euro interi crearlo subito di tipo Numero.
 
 ---
 
+### 7. Sync TheFork → Resmio come ciclo nel browser: si ferma quando il Mac dorme
+Un ciclo (loop, `/loop`, script in una scheda Chrome) che copia le prenotazioni TheFork su
+Resmio **muore in silenzio** appena il Mac va in stop: su Dirigì è rimasto fermo **41 ore**
+e in un giorno si è persa metà delle prenotazioni. **Regola (03/10/2026):** il sync TheFork
+gira solo come **attività programmata** (scheduled task / routine cloud / GitHub Actions /
+cron su server) con un controllo «sync vivo» nel giro settimanale della checklist
+marketing (`checklist-marketing-rbr`). Mai come ciclo nel browser del consulente.
+
 ## B. Metodo sui dati del cliente
 
 ### 1. Backup prima di sovrascrivere, rilettura dopo: il 202 non è una prova

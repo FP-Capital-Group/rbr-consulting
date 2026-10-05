@@ -160,8 +160,15 @@ Le regole di sintesi:
   template Marketing ("Ecco il tuo codice: XXX") somiglia a un OTP e viene
   **rifiutato automaticamente in pochi secondi**.
 - **Pulsanti, non domande aperte.** "Rispondi a questo messaggio per confermare"
-  produce risposte libere che nessun workflow sa smistare; tre bottoni
-  (Confermo · Disdico · Voglio modificare) restituiscono un dato pulito e gratuito.
+  produce risposte libere che nessun workflow sa smistare.
+- **Conferma e promemoria: UN SOLO pulsante «Modifica o annulla»** (pulsante URL) che
+  porta al **link di gestione della prenotazione del gestionale** (Resmio). Mai chiedere
+  «confermi?» (il pulsante serve a chi disdice, non a chi viene) e **mai i link di
+  annullamento di GHL**: annullano in GHL ma il tavolo su Resmio resta occupato.
+  (Correzione Luciano + checklist marketing RBR, 03/10/2026.)
+- **Ogni flusso con pulsanti ha il ramo «risposta a parole»**: il pulsante ascolta solo
+  il pulsante. Chi scrive «sì» a mano cade nel nulla (Barresi, gift card: 15 «sì», 0
+  prenotazioni) → l'Orecchio (Pattern C) deve raccoglierlo e avvisare la sala.
 - Un template rifiutato **non si ripara**: si crea da zero con nome nuovo — e il
   rifiutato si toglie dall'elenco (vedi trappole).
 - Il motivo del rifiuto GHL non lo mostra e Meta lo scrive generico: non perdere ore
@@ -207,12 +214,17 @@ che rende affidabili tag e conteggi su questo pubblico.
 
 ### Pattern A — Uscita su evento (conferme, promemoria) e ponte col gestionale
 Architettura (contributo di Luciano Purpi, 2026-09-04): **gestionale → ponte
-(Make/webhook) che cerca il contatto in GHL PER NUMERO DI TELEFONO → tag di stato
-(es. `status_confirmed`) → workflow** che formatta data/ora, ramifica per stato,
-manda il **template WhatsApp** e **rimuove il tag alla fine**.
+(Make/webhook) che cerca il contatto in GHL PER NUMERO DI TELEFONO → scrive il
+**campo di stato** (`statoprenotazione`) → workflow con trigger «Contact Changed» su
+quel campo** che formatta data/ora, ramifica per stato e manda il **template WhatsApp**.
+⚠️ **Standard RBR dal 03/10/2026: innesco sul CAMPO di stato, non sul tag** (come il
+flusso 01 Ponte di `onboarding-cliente-ghl/references/modello-base-locale.md`). I tag si
+sommano e scattano solo la prima volta (Barresi, Mister Pizza). Il vecchio schema
+«tag di stato → workflow → rimuovi tag» resta solo per i sub-account già montati così,
+finché non si migrano.
 Tre errori da evitare:
-1. **Non rimuovere il tag**: la seconda prenotazione non innesca più (rimuoverlo è
-   ciò che fa ripartire la conferma a ogni modifica della prenotazione).
+1. **(schema vecchio a tag) Non rimuovere il tag**: la seconda prenotazione non innesca
+   più. Con l'innesco sul campo il problema sparisce.
 2. **Numero non normalizzato in +39**: matching fallito e contatti doppi.
 3. **Ramo che conferma e scrive anche sul gestionale**: loop (vedi Anti-loop).
 
