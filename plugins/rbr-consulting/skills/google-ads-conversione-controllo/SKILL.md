@@ -15,8 +15,15 @@ description: Chiude il cerchio di una campagna Google Ads di un ristorante — c
 
 ## Procedura
 1. **Conversione**: via MCP (`execute_google_ads_mutate`) crea una ConversionAction WEBPAGE,
-   categoria BOOK_APPOINTMENT, **primaria**, conteggio una per clic, valore fisso 1 €.
-   Prendi il `send_to` (`AW-<id>/<label>`).
+   categoria BOOK_APPOINTMENT, **SECONDARIA** (osservazione), conteggio una per clic,
+   valore fisso 1 €. Prendi il `send_to` (`AW-<id>/<label>`).
+   ⚠️ **Standard RBR dal 03/10/2026**: la conversione **primaria** (quella su cui
+   l'algoritmo ottimizza) è la **prenotazione onorata importata offline** col gclid
+   (gclid → `comment` Resmio con `rbr-track.js` → import da Sheet/Apps Script). Il clic nel
+   widget come primaria fa ottimizzare sui tocchi, non sulle prenotazioni (Barresi: 42
+   «conversioni» contro 39 prenotazioni vere). Finché l'import offline non è pronto si
+   può tenere il blur-trick come primaria **solo temporaneamente**, scritto nella memoria
+   cliente con la data in cui si passa all'offline.
 2. **Evento sul widget** (il widget è un iframe cross-origin: i clic dentro non si vedono):
    - *blur trick*: su `window.blur`, se `document.activeElement` è un IFRAME con `thefork` (o `resmio`)
      nello `src` → conversione;
@@ -45,7 +52,8 @@ description: Chiude il cerchio di una campagna Google Ads di un ristorante — c
 - Se aggiungi Meta nello stesso footer, stesso metodo (evento `Schedule` sul widget) e stessa verifica.
 
 ## Definition of Done
-- [ ] Conversione primaria creata, `send_to` salvato nella memoria cliente
+- [ ] Conversione widget (secondaria) creata, `send_to` salvato nella memoria cliente
+- [ ] Import offline prenotazioni onorate col gclid impostato come primaria (o data prevista scritta in memoria)
 - [ ] Tag online sotto consenso, verificato con cookie rifiutati E accettati
 - [ ] Search attiva, Smart in pausa, annunci approvati
 - [ ] Task giornaliero attivo con riepilogo Telegram, regola di ritocco scritta nella memoria cliente
