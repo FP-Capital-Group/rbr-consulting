@@ -63,6 +63,9 @@ Passa i dati all'agente Alex nel formato `menu_data` (`nome_ristorante`, `catego
 - **Il canale cambia il margine**: la matrice è per piatto, ma un piatto venduto in delivery con commissione al 32% rende molto meno che in sala. Se il delivery pesa, leggi la classificazione insieme al margine per canale della skill `analisi-modello-business`.
 - **Menu delivery integrato**: se il POS pubblica il menu tramite un middleware (es. Deliverect), il Menu Manager della piattaforma è vuoto e senza pulsante "crea" — non è un bug. Si modifica nel middleware (dal portale viene sovrascritto al primo sync): chiedi al cliente le credenziali del middleware PRIMA di promettere il lavoro sul menu delivery.
 
+## Normativa (ott 2026)
+Prima di consegnare qualsiasi carta: `references/normativa-menu.md` — allergeni (menu o registro scritto + dicitura), asterisco su ogni piatto congelato, menu con prezzi esposto fuori, QR mai da solo, coperto vietato nel Lazio, legge antifrode 75/2026 (DOP/provenienze solo se documentati), niente bistecca/filetto per piatti vegetali.
+
 ## Regole RBR & trabocchetti
 - ⚠️ Mediane **per categoria**, non sull'intero menu: un antipasto e un secondo non si confrontano.
 - ⚠️ Food cost mancante = margine inventato. Non classificare a occhio, chiedi i dati.
@@ -78,4 +81,5 @@ Passa i dati all'agente Alex nel formato `menu_data` (`nome_ristorante`, `catego
 - [ ] Raccomandazioni scritte con azione + motivazione numerica per piatto
 - [ ] Decisioni aperte (tagli, ritocchi prezzo) numerate e discusse col cliente
 - [ ] 5 pilastri applicati al layout (scelta, posizione, prezzi, estetica, nomi)
+- [ ] Checklist legale di `references/normativa-menu.md` passata
 - [ ] Menu grafico generato (PDF, eventuale IDML), caricato su Drive e condiviso

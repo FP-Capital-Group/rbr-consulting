@@ -1,15 +1,13 @@
 ---
 name: sito-landing-ristorante
 description: >-
-  Metodo RBR per costruire il sito completo di un ristorante o la landing page di
-  una promo. Usala quando devi mettere online la presenza web di un locale —
-  "fai il sito al ristorante", "rifacciamo il sito", "serve una landing page",
-  "pagina per la promo", "il cliente non ha un sito decente". Due percorsi:
-  (A) sito completo col metodo siti-ristoranti di Marco (generatore AI Node.js,
-  template mobile-first, form → email+GHL, deploy VPS); (B) landing singola di
-  campagna collegata a campagna-locale (offerta → form GHL → QR). NON inventare
-  stack alternativi (WordPress nuovo, Wix, site builder a caso): il metodo e il
-  template esistono già — segui questa skill.
+  Landing page di una promo/campagna di un ristorante (offerta → modulo nel GHL
+  del cliente → QR) e riferimento storico del vecchio metodo siti-ristoranti
+  (generatore + server di Marco, DISMESSO per i clienti dal 12/10/2026). Usala
+  per "serve una landing page", "pagina per la promo", "landing della gift
+  card", "QR della promo". Per un SITO COMPLETO nuovo o rifatto usa
+  sito-wordpress-ristorante (WordPress sull'hosting e dominio del cliente, mai
+  sui server RBR); per un WordPress esistente sito-wordpress-cliente-mcp.
 ---
 
 # Sito + landing page ristorante (percorso A: sito completo · percorso B: landing di campagna)
@@ -18,7 +16,8 @@ description: >-
 Un ristoratore non ha bisogno di "un sito": ha bisogno di una pagina che su mobile carichi subito, mostri il menu con foto giuste, faccia prenotare in 2 tap e mandi il lead nel CRM. RBR ha già un metodo collaudato (progetto **siti-ristoranti** di Marco, `~/Desktop/AI/siti-ristoranti/`): generatore AI + template con regole hard nate da errori reali + deploy standard. Questa skill codifica quel metodo e il suo gemello leggero, la **landing di campagna**. Se improvvisi uno stack diverso, perdi le regole hard e il tracciamento.
 
 ## Quando usarla
-- Un cliente (o un locale diretto) ha bisogno di un sito nuovo o di rifare quello vecchio → **Percorso A**.
+- Un cliente ha bisogno di un sito nuovo o di rifare quello vecchio → **NON questa skill**: `sito-wordpress-ristorante`.
+- Manutenzione di un sito statico già online col vecchio metodo → Percorso A (solo riferimento).
 - Serve la pagina di una singola offerta/promo (coupon, gift card, riapertura, evento) → **Percorso B**.
 - Devi collegare form del sito → CRM GHL del cliente, o preparare il QR di una promo.
 - NON usarla per: SEO on-page e pagine local per sede/città → skill `seo-local-ristorante`; catena completa offerta→coupon→cassa → skill `campagna-locale` (la landing è solo un anello di quella catena).
@@ -32,7 +31,13 @@ Un ristoratore non ha bisogno di "un sito": ha bisogno di una pagina che su mobi
 
 ---
 
-## Percorso A — Sito completo del ristorante
+## Percorso A — Sito completo del ristorante (⚠️ METODO DISMESSO per i clienti)
+
+> **Dal 12/10/2026 (decisione Marco) i siti dei clienti NON si fanno più così.** Niente generatore,
+> niente server/VPS di Marco, niente sottodomini `ristoranteonline.ai`, niente builder `/api/form-submit`:
+> il cliente compra dominio + hosting WordPress e il sito vive lì → skill **`sito-wordpress-ristorante`**.
+> Questa sezione resta solo come riferimento per i siti statici già online (Red Mike, Griss, Ca' di Pieri,
+> Zio Bibi) e per le regole di design/tracciamento, che valgono anche su WordPress.
 
 Il metodo è quello del progetto **siti-ristoranti** (`ristoranteonline.ai`): sito statico generato via AI, non un CMS.
 
@@ -41,7 +46,7 @@ Il metodo è quello del progetto **siti-ristoranti** (`ristoranteonline.ai`): si
 - **Generazione AI**: `step2_generazione/generatore.js` — Gemini (vision per classificare foto e menu) con fallback Groq (`lib/llm.js`). Legge i dati del lead da GHL.
 - **Acquisizione dati**: `step1_scraping/scraper.js` — lookup Google Places (placeId, stelle, recensioni, foto, indirizzo) → push lead su GHL.
 - **Output**: sito statico in `output/siti/<slug>/` (HTML+CSS+JS vanilla, foto ottimizzate).
-- **Deploy**: `step3_deploy/deploy_vps.js --slug <slug>` → live su `https://<slug>.ristoranteonline.ai` (HTTPS Let's Encrypt). ⚠️ I siti già migrati stanno su **Oracle** (130.110.2.70, web server **Caddy**, builder systemd su :3100): per quelli il deploy è rsync su `/var/www/sites/<slug>/` + eventuale blocco Caddyfile — e Caddy Oracle ha admin API off → **sempre `systemctl restart caddy`, mai `reload`**. `deploy_vps.js` punta al vecchio Contabo, obsoleto per i siti migrati. 🟡 **Da validare con Marco**: percorso di deploy standard per un sito NUOVO oggi (il business ristoranteonline.ai è in pausa dal 2026-06-23; per un cliente consulenza va deciso host e dominio caso per caso).
+- **Deploy**: `step3_deploy/deploy_vps.js --slug <slug>` → live su `https://<slug>.ristoranteonline.ai` (HTTPS Let's Encrypt). ⚠️ I siti già migrati stanno su **Oracle** (web server **Caddy**, builder systemd su :3100): per quelli il deploy è rsync su `/var/www/sites/<slug>/` + eventuale blocco Caddyfile — e Caddy Oracle ha admin API off → **sempre `systemctl restart caddy`, mai `reload`**. `deploy_vps.js` punta al vecchio Contabo, obsoleto per i siti migrati. 🟡 **Da validare con Marco**: percorso di deploy standard per un sito NUOVO oggi (il business ristoranteonline.ai è in pausa dal 2026-06-23; per un cliente consulenza va deciso host e dominio caso per caso).
 
 ### A2. Avvio progetto nuovo (workflow "crea il sito per X")
 1. **Lookup Google Places** → placeId, stelle, recensioni, indirizzo, foto.
@@ -96,13 +101,14 @@ La landing è **un anello della catena** della skill `campagna-locale` (code →
 
 ### B1. Scegli il contenitore (non crearne uno nuovo)
 - **Locale con sito WordPress** (es. Mister Pizza, Dirigì): le landing base esistono già e si **riusano parametrizzate** via querystring `?code=<code>&source=<source>` — non duplicare la pagina (regola di `campagna-locale`). ⚠️ Se la landing contiene l'embed classico Resmio, `source` non arriva alla prenotazione (vedi A6): aggiungi `utm=<landing>-<canale>` e verifica l'URL dell'iframe generato.
-- **Locale con sito generato/statico** (es. Red Mike): pagina HTML dedicata dentro la cartella del sito (`output/siti/<slug>/<promo>.html`), deployata sullo stesso host. Su Caddy Oracle: `try_files` per URL puliti (`/riapertura` → `riapertura.html`) e `systemctl restart caddy` (mai reload).
+- **Cliente con WordPress fatto con `sito-wordpress-ristorante`**: pagina WordPress (template pagina piena, noindex) con il modulo `[rbr_modulo tipo="novita"]` del plugin rbr-moduli → contatto nel GHL del cliente con tag `form-novita` → workflow della promo. Una pagina riusata via querystring, non una per campagna.
+- **Locale con sito statico GIÀ online col vecchio metodo** (es. Red Mike — solo manutenzione, nessun sito/landing nuovo così): pagina HTML dedicata dentro la cartella del sito (`output/siti/<slug>/<promo>.html`), deployata sullo stesso host. Su Caddy Oracle: `try_files` per URL puliti (`/riapertura` → `riapertura.html`) e `systemctl restart caddy` (mai reload).
 
 ### B2. Struttura della pagina (dall'alto in basso)
 1. **Headline con l'offerta** — il beneficio concreto subito: "Gift Card da 10€", "Pizza siciliana in omaggio". Niente giri di parole: tono asciutto RBR, al centro il codice e lo sconto.
 2. **Posizionamento** — 1-2 righe su chi è il locale e perché (stesse regole palette/foto del template: toni caldi, foto ambiente vera).
 3. **Prova sociale** — stelle + recensioni Google Places reali (se serve, filtrate client-side quando citano cose non più in menu — caso reale Red Mike/pizza).
-4. **Form / CTA coupon** — nome, telefono e/o email (almeno uno), consenso marketing. Submit → `/api/form-submit` (siti statici) o form GHL nativo (WordPress) → contatto in GHL con tag campagna → parte la **catenaria** (email/WhatsApp col codice) lato CRM. La consegna del codice avviene DOPO il form, non in chiaro in pagina, se l'offerta va tracciata.
+4. **Form / CTA coupon** — nome, telefono e/o email (almeno uno), consenso marketing. Submit → plugin `rbr-moduli` o form GHL nativo sul WordPress del cliente (`/api/form-submit` solo sui vecchi siti statici già online) → contatto in GHL con tag campagna → parte la **catenaria** (email/WhatsApp col codice) lato CRM. La consegna del codice avviene DOPO il form, non in chiaro in pagina, se l'offerta va tracciata.
 5. **Urgenza** — scadenza o quantità limitata SOLO se vera; ricorda che il coupon iPratico ha scadenza tecnica lunga e al pubblico non si comunicano regole di scadenza diverse dal frame di campagna.
 6. **T&C in piccolo** — spesa minima, non cumulabile, una per tavolo: sempre esplicitati (caso reale Red Mike: minimo €45, no domicilio).
 
@@ -119,9 +125,9 @@ La landing è **un anello della catena** della skill `campagna-locale` (code →
 ---
 
 ## Regole RBR & trabocchetti
-- ⚠️ **Non inventare stack**: il metodo siti-ristoranti esiste — generatore + template + regole hard. Un sito "fatto a mano diverso" perde tutti i fix accumulati.
-- ⚠️ **Il progetto siti-ristoranti è un business SEPARATO** da RBR consulenza: usane il metodo e il template, ma per un cliente consulenza dominio/hosting/pricing si decidono con Marco (🟡 l'offerta storica era €1000 una tantum su `ristoranteonline.ai` — da validare per il contesto consulenza).
-- ⚠️ **Deploy Oracle**: Caddy con admin off → `restart`, mai `reload`; `deploy_vps.js` punta a Contabo (obsoleto per i siti migrati).
+- ⚠️ **Siti e landing nuovi dei clienti: solo sul WordPress/hosting del cliente** (skill `sito-wordpress-ristorante`), mai sui server di Marco. Le regole hard del template (palette, foto menu, FormSubmit, lazy) valgono uguale.
+- ⚠️ **Il progetto siti-ristoranti è un business SEPARATO** da RBR consulenza e non si usa per i clienti (né generatore né server).
+- ⚠️ **Solo per i vecchi siti statici già online — Deploy Oracle**: Caddy con admin off → `restart`, mai `reload`; `deploy_vps.js` punta a Contabo (obsoleto per i siti migrati).
 - ⚠️ **FormSubmit bandito**, palette fredda vietata, foto menu mai per indice cieco: regole hard, non preferenze.
 - ⚠️ **Verifica visiva menu post-generazione obbligatoria** — mai dichiarare finito senza.
 - ⚠️ **Landing WordPress = riuso parametrizzato**, mai pagina duplicata per ogni campagna.

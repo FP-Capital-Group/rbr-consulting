@@ -67,7 +67,7 @@ Segui `references/checklist-master.md` sez. 3 nell'ordine. Per ogni blocco usa l
 | 3.3 Tracciamento | `sistema-tracciamento-locale`, `google-ads-conversione-controllo`, `analytics-ristorante` |
 | 3.4 Meta + Google Ads | `adv-ristorante` (strategia: `strategia-marketing-rbr`, mercato: `market-discovery-ristorante`) |
 | 3.4 Profilo Google | `google-business-ristorante` |
-| 3.4 Sito / SEO / landing | `sito-landing-ristorante`, `sito-wordpress-cliente-mcp`, `seo-local-ristorante` |
+| 3.4 Sito / SEO / landing | `sito-wordpress-ristorante` (sito nuovo), `sito-landing-ristorante`, `sito-wordpress-cliente-mcp`, `seo-local-ristorante` |
 | 3.4 Agente vocale | `agenti-vocali-deepagent` |
 | 3.4 Bot Conversation AI | `onboarding-cliente-ghl` → `references/conversation-ai.md` |
 | 3.4 Wi-Fi con portale | `references/wifi-portale.md` (in questa skill) |

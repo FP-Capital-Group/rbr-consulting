@@ -10,7 +10,7 @@ description: Chiude il cerchio di una campagna Google Ads di un ristorante — c
 
 ## Prerequisiti
 - Campagna Search pronta (`adv-ristorante`), MCP `google-ads` con accesso all'account del cliente.
-- Accesso al sito (`sito-wordpress-cliente-mcp` o `sito-landing-ristorante`).
+- Accesso al sito (`sito-wordpress-ristorante` per i siti nuovi, `sito-wordpress-cliente-mcp` per quelli esistenti).
 - Sapere quale banner cookie usa il sito e con che categoria blocca gli script.
 
 ## Procedura

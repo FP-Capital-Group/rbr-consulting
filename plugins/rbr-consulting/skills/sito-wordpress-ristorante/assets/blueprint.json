@@ -1,0 +1,13 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/wp-admin/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "steps": [
+    { "step": "login" },
+    { "step": "setSiteLanguage", "language": "it_IT" },
+    { "step": "setSiteOptions", "options": { "timezone_string": "Europe/Rome", "permalink_structure": "/%postname%/", "default_comment_status": "closed" } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "translatepress-multilingual" } },
+    { "step": "activatePlugin", "pluginPath": "rbr-moduli/rbr-moduli.php" },
+    { "step": "activateTheme", "themeFolderName": "NOME-CARTELLA-TEMA" }
+  ]
+}

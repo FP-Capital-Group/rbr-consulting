@@ -1,6 +1,11 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.15.0 — 2026-10-05
+Ogni versione ha una sezione `## v2.15.1 — 2026-10-12
+- Menu: nuova guida normativa ott 2026 (menu-engineering → references/normativa-menu.md) con checklist legale in 7 punti, collegata anche a carta-menu-rbr. Prima di consegnare una carta passate la checklist.
+- Da sapere: menu solo QR non è a norma (serve sempre il cartaceo + menu con prezzi fuori); asterisco su OGNI piatto congelato (la nota generica da sola è frode per la Cassazione); coperto vietato nel Lazio; legge antifrode 75/2026: DOP, provenienze e 'fatto in casa' solo se documentati.
+- Sito WordPress (rbr-moduli): campo compleanno nel modulo novità e mappa campi modulo → campi GHL configurabile.
+
+## v2.15.0 — 2026-10-05
 - Nuova skill checklist-marketing-rbr: il sistema marketing RBR dalla fonte di traffico al cliente che torna (21 fonti, setup per cliente nuovo, controllo settimanale/mensile/trimestrale, giro di verifica). Foglio di stato condiviso «RBR - Stato marketing clienti» + PDF della checklist.
 - Wi-Fi con portale (Omada OC200 + EAP650 + form GHL): kit da comprare con link, setup e trappole. Titolare dei dati è il locale, RBR non è responsabile del trattamento.
 - Correzioni: conferma e promemoria WhatsApp con un solo pulsante «Modifica o annulla» + ramo per chi risponde a parole; flussi che partono dal campo di stato, non dal tag; Google Ads: conversione principale = prenotazione onorata (il clic nel widget solo secondaria); sync TheFork solo come attività programmata.
