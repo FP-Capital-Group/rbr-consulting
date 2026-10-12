@@ -88,6 +88,7 @@ cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge
 **Web & presenza locale**
 - `market-discovery-ristorante` — analisi di mercato della zona: domanda, competitor, gap di posizionamento → scheda 1 pagina
 - `sito-landing-ristorante` — sito completo (metodo siti-ristoranti) + landing di campagna, con DoD di pubblicazione
+- `sito-wordpress-ristorante` — sito NUOVO su WordPress sull'hosting e dominio del cliente (modello Cartabianca): tema a blocchi, plugin rbr-moduli → GHL del cliente, TheFork, IT/EN, in costruzione + anteprima. Mai server RBR
 - `sito-wordpress-cliente-mcp` — sito WordPress esistente via connettore MCP: Prenota TheFork senza commissioni, pagine SEO, JSON-LD
 - `risposte-recensioni-ai-ghl` — Reviews AI di GHL: risposte automatiche multilingua e SEO, blocco sensibili, Drip per l'arretrato
 - `analytics-ristorante` — GA4 (5 eventi ristorante) + Search Console: setup, lettura mensile, mini-report 10 metriche (MCP ufficiale GA incluso)

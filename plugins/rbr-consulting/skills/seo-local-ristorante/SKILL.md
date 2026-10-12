@@ -16,6 +16,7 @@ Un ristorante vive di ricerche **local con intento** ("pizzeria Firenze Duomo", 
 - Il locale ha pubblico turistico e il sito è solo in italiano.
 
 ## Prerequisiti
+- ⚠️ **Siti fatti con `sito-wordpress-ristorante`**: multilingua con TranslatePress e traduzioni scritte (niente GTranslate/traduzione automatica), stelle e recensioni statiche (mai Places dal browser), plugin SEO facoltativo; accesso con l'utente admin del consulente. Le indicazioni GTranslate/Yoast qui sotto valgono per i siti esistenti che li hanno già.
 - Accesso **WordPress** del sito (REST API + Application Password) per audit ed editing.
 - **SEO plugin** installato (tipicamente Yoast) per meta/title/schema.
 - Proprietà/accesso al **Google Business Profile** di ogni sede (leva local #1). Spesso è su un account Google diverso da quello "principale" del cliente → verificalo subito.

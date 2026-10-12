@@ -96,7 +96,9 @@ la tipografia. Esempi veri in `esempi/` (aprili come riferimento di struttura e 
    Lo script dice `OK … N pagine` o `⚠️ ATTESE`. Sul libro compatta da solo se una facciata sfora.
    Sul soffietto le ante tagliano quello che sfora (non vanno a pagina nuova): **guarda sempre il PNG**
    (`pdftoppm -r 40 -png out.pdf prova`) prima di consegnare e, se serve, riduci la scala nel CSS extra.
-7. Consegna: link artifact (per la call) + PDF (per il grafico/tipografia) + riepilogo €/anno.
+7. Controllo legale: checklist di `menu-engineering/references/normativa-menu.md` (allergeni, asterisco
+   congelati sui singoli piatti, coperto vietato nel Lazio, DOP/provenienze documentate, QR mai da solo).
+8. Consegna: link artifact (per la call) + PDF (per il grafico/tipografia) + riepilogo €/anno.
 
 ## Trappole WeasyPrint (già pagate)
 - Il **flex orizzontale** per affiancare ante/pagine le impila → ante a coordinate assolute (lo fa lo script).
