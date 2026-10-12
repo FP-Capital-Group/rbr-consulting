@@ -4,7 +4,8 @@ webhook del plugin e parcheggiati nel Data Store Make "RBR contributi conoscenza
 
 Perché: i consulenti inviano i contributi senza chiavi (webhook Make); Make non ha ancora una
 connessione Google Sheets, quindi il Data Store fa da buffer. Questo script (lato Marco: task
-locale del lunedì o routine cloud) sposta le righe nel foglio e marca su_sheet=true.
+locale del lunedì o routine cloud) sposta le righe nel foglio e le CANCELLA dal Data Store
+(limite 1 MB: il 12/10/2026 si è riempito perché i record restavano marcati su_sheet=true).
 
 Token Make API: $MAKE_API_TOKEN → ~/.claude/rbr/config.json (make_api_token) → tools/rbr-chiavi.json (make_api_token).
 Service account: ~/.claude/rbr/credentials.json (o $RBR_CREDENTIALS, o tools/rbr-chiavi.json → service_account).
@@ -72,25 +73,42 @@ def make_req(path, method="GET", body=None):
         return json.loads(raw) if raw.strip() else {}
 
 
+def tutti_i_record():
+    recs, off = [], 0
+    while True:  # pg[limit] max 100: senza paginazione oltre il 100° record non si vedeva nulla
+        pag = make_req(f"/data-stores/{DS_ID}/data?pg%5Blimit%5D=100&pg%5Boffset%5D={off}").get("records", [])
+        recs += pag
+        if len(pag) < 100:
+            return recs
+        off += 100
+
+
+def cancella(keys):
+    for i in range(0, len(keys), 50):
+        make_req(f"/data-stores/{DS_ID}/data", "DELETE", {"keys": keys[i:i + 50]})
+
+
 def main():
     dry = "--dry-run" in sys.argv
-    recs = make_req(f"/data-stores/{DS_ID}/data?pg%5Blimit%5D=100").get("records", [])
+    recs = tutti_i_record()
+    vecchi = [r["key"] for r in recs if (r.get("data") or {}).get("su_sheet")]  # già nello Sheet: liberano spazio
     nuovi = [r for r in recs if not (r.get("data") or {}).get("su_sheet")]
-    print(f"record nel Data Store: {len(recs)}, da copiare: {len(nuovi)}")
-    if not nuovi:
-        return
+    print(f"record nel Data Store: {len(recs)}, da copiare: {len(nuovi)}, già copiati da cancellare: {len(vecchi)}")
     righe = [[(r["data"].get("data") or ""), r["data"].get("autore", ""), r["data"].get("area", ""),
-              r["data"].get("titolo", ""), r["data"].get("contenuto", ""), r["data"].get("stato") or "nuovo"] for r in nuovi]
+              r["data"].get("titolo", ""), (r["data"].get("contenuto") or "")[:49000], r["data"].get("stato") or "nuovo"] for r in nuovi]
     if dry:
         for x in righe: print("  [dry-run]", x[:4])
+        return
+    if vecchi:
+        cancella(vecchi)
+    if not nuovi:
         return
     tok = google_token(service_account())
     rng = urllib.parse.quote("'Contributi'!A:F", safe="")
     req = urllib.request.Request(f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}/values/{rng}:append?valueInputOption=RAW",
                                  json.dumps({"values": righe}).encode(), {"Authorization": f"Bearer {tok}", "Content-Type": "application/json"})
-    urllib.request.urlopen(req, timeout=30).read()
-    for r in nuovi:
-        make_req(f"/data-stores/{DS_ID}/data/{urllib.parse.quote(r['key'], safe='')}", "PATCH", {"su_sheet": True})
+    urllib.request.urlopen(req, timeout=60).read()
+    cancella([r["key"] for r in nuovi])  # solo dopo l'append riuscito
     print(f"✅ copiati nello Sheet {len(righe)} contributi: " + "; ".join(f"{x[1]} → {x[3][:40]}" for x in righe))
 
 

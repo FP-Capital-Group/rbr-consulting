@@ -1,6 +1,9 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.16.0 — 2026-10-12
+Ogni versione ha una sezione `## v2.16.1 — 2026-10-12
+- Contributi: il travaso dal Data Store ora cancella i record già copiati e legge oltre i primi 100 (il buffer da 1 MB si era riempito il 12/10). Niente da fare per voi.
+
+## v2.16.0 — 2026-10-12
 - Nuova skill sito-wordpress-ristorante: il sito del ristorante si fa SEMPRE su WordPress con dominio e hosting comprati e intestati al cliente (modello Cartabianca), mai su server RBR.
 - Dentro: grafica pagina per pagina, prenotatore sempre in evidenza (TheFork senza commissione/Resmio), normative (footer P.IVA, privacy, cookie, allergeni), CRM GHL con 4 flussi pronti e plugin moduli rbr-moduli da caricare.
 - sito-landing-ristorante: il vecchio metodo generatore + server di Marco è dismesso per i clienti.
