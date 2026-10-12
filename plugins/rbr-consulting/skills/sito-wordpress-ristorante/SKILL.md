@@ -1,6 +1,6 @@
 ---
 name: sito-wordpress-ristorante
-description: Costruisce DA ZERO il sito di un ristorante cliente su WordPress, sull'hosting e sul dominio comprati e intestati al CLIENTE — tema a blocchi solo core (modello Cartabianca), pagine home/locali/menu/prenota/eventi/privacy, prenotatore TheFork o Resmio, moduli che scrivono direttamente nel GoHighLevel del cliente (plugin rbr-moduli incluso), IT/EN con TranslatePress, SEO local e JSON-LD, «sito in costruzione» con link di anteprima, collaudo e consegna. Usala quando il consulente dice "fai il sito a X", "rifacciamo il sito del ristorante", "sito nuovo su WordPress", "il cliente ha comprato dominio e hosting", "mettiamo online il sito su Aruba", "sito come quello di Cartabianca". MAI su server, domini, account o builder di Marco/RBR. Per un WordPress già esistente fatto da un'agenzia usa sito-wordpress-cliente-mcp; per SEO di un sito esistente seo-local-ristorante.
+description: Costruisce DA ZERO il sito di un ristorante cliente su WordPress, sull'hosting e sul dominio comprati e intestati al CLIENTE — tutto il metodo RBR (modello Cartabianca): grafica e impaginazione pagina per pagina, prenotatore sempre in evidenza (TheFork senza commissione, Resmio o richiesta), CRM GoHighLevel del cliente (campi, tag, flussi con prompt pronti, plugin rbr-moduli incluso), normative (footer obbligatorio, privacy GDPR, cookie Garante, allergeni, recensioni, accessibilità), tema a blocchi solo core, IT/EN con TranslatePress, SEO local e JSON-LD, «sito in costruzione» con link di anteprima, collaudo e consegna. Usala quando il consulente dice "fai il sito a X", "rifacciamo il sito del ristorante", "sito nuovo su WordPress", "il cliente ha comprato dominio e hosting", "mettiamo online il sito su Aruba", "sito come quello di Cartabianca". MAI su server, domini, account o builder di Marco/RBR. Per un WordPress già esistente fatto da un'agenzia usa sito-wordpress-cliente-mcp; per SEO di un sito esistente seo-local-ristorante.
 ---
 
 # Sito WordPress del ristorante — sull'hosting del cliente
@@ -23,6 +23,19 @@ Perché: il sito è del cliente. Se domani il rapporto finisce, il sito continua
 migrare niente. E un VPS da 1 GB condiviso fra tutti i clienti è già andato giù per 35 minuti (07/10/2026).
 Se ti accorgi che serve qualcosa "che solo un server può fare" → c'è quasi sempre il modo nel WordPress
 del cliente o nel suo GHL (workflow, notifiche interne). Chiedi a Marco prima di inventare infrastruttura.
+
+## Mappa della skill (leggi il file giusto prima di ogni fase)
+| File | Cosa contiene |
+|---|---|
+| `references/grafica-e-layout.md` | come deve essere fatto: colori, font, bottoni, foto, header/footer, ogni pagina sezione per sezione, cose vietate |
+| `references/prenotatore.md` | il prenotatore sempre in evidenza: dove va (7 punti), TheFork/Resmio/richiesta, testi, tracciamento, collaudo |
+| `references/crm-e-moduli.md` | sub-account GHL, campi standard, plugin moduli, tag, flussi con i prompt pronti, chat, collaudo CRM |
+| `references/normative.md` | footer obbligatorio, privacy GDPR, cookie (Garante 2021), allergeni, recensioni, vendita online, accessibilità, fidelity/concorsi |
+| `references/tema-a-blocchi.md` | il tema WordPress: file, theme.json, codice per in costruzione, carosello, pop-up, menu, lingue, plugin Avvio |
+| `references/hosting-dominio.md` | cosa compra il cliente, Aruba e trappole, DNS, SMTP, plugin ammessi, manutenzione |
+| `references/lezioni-siti-rbr.md` | tutte le regole nate dagli errori sui siti fatti finora |
+| `assets/rbr-moduli.zip` | plugin moduli → GHL del cliente, pronto da caricare (sorgente in `assets/rbr-moduli/`) |
+| `assets/blueprint.json` | WordPress Playground per lo sviluppo in locale |
 
 ## Quando usarla
 - Sito nuovo o rifatto per un cliente RBR → sì.
@@ -55,7 +68,8 @@ in costruzione. Mai inventare foto, recensioni, premi, prezzi o orari.
 - **Colori e font si leggono dal brand** (logo, insegna, sito vecchio, menu stampato) e si verificano col
   contrasto ≥ 4,5:1 → metodo in `sito-landing-ristorante/references/colori-brand.md`. Senza identità chiara:
   toni caldi (mai blu/rosa/grigio freddo), beige crema `#F5EFE0`.
-- Mappa pagine e un solo obiettivo per pagina. Struttura standard:
+- Mappa pagine e un solo obiettivo per pagina. Struttura standard (sezione per sezione in
+  `references/grafica-e-layout.md` §7):
   - **Home**: hero/carosello con foto vera del locale → **prenota subito dopo l'hero** (widget a schede se
     più locali) → perché sceglierci (3 punti concreti) → menu in evidenza → locali → eventi/feste → dove siamo.
   - **Pagina per locale** `/locali/<nome>/` (H1 «Ristorante X a Città», orari, mappa, foto, prenota, FAQ).
@@ -64,6 +78,12 @@ in costruzione. Mai inventare foto, recensioni, premi, prezzi o orari.
   - **Eventi e feste** (modulo `evento`), **Contatti**, **Privacy** + **Cookie**.
   - Facoltative: fidelity/club (premi = regali, mai sconti), pagina del piatto firma per la SEO, blog.
 - Una sola nav, uguale su tutte le pagine, con al massimo 2 bottoni (es. «Prenota» pieno + «Chiama»/«Ordina»).
+- **Il prenotatore si progetta per primo**: deve essere raggiungibile da header, home subito dopo la copertina, barra
+  fissa mobile, ogni pagina locale, fine di menu/eventi, pagina `/prenota/` → `references/prenotatore.md`.
+- **Normative da preparare subito** (servono dati dal cliente): ragione sociale, sede, P.IVA, REA e capitale per il
+  footer; fornitori reali per l'informativa; allergeni del menu → `references/normative.md`.
+- **CRM pronto prima del sito**: sub-account, campi standard, token del sito, flussi S1-S4 in bozza →
+  `references/crm-e-moduli.md`.
 
 ### 2. Sviluppo: in locale o direttamente sull'hosting in costruzione
 Niente server intermedi. Due modi:
@@ -83,10 +103,11 @@ Niente server intermedi. Due modi:
   lingua, prenotatore a schede).
 - **Moduli**: plugin incluso `assets/rbr-moduli/` (testato) → blocco Shortcode `[rbr_modulo tipo="prenotazione"]`
   (tipi: `prenotazione`, `evento`, `contatto`, `novita`). Scrive DIRETTAMENTE nel GHL del cliente:
-  upsert contatto (niente doppioni) → tag `lead-sito-<dominio>`, `form-<tipo>`, `sede-<locale>`, `consenso-marketing`,
+  upsert contatto (niente doppioni) → tag `lead-sito-<dominio>`, `form-<tipo>`, `pv-<locale>`, `consenso-marketing`,
   `lingua-en` → nota con il riepilogo. Mail al ristorante a ogni invio; se il CRM non risponde, copia in
-  *Moduli → Invii*. Antibot: gettone (regge la cache), campo trappola, tempo minimo 3 s. Dettagli e workflow
-  GHL in `references/moduli-crm.md`.
+  *Moduli → Invii*. Campi personalizzati del modello base GHL (`pv`, `giorno_prenotazione`, `orario_prenotazione`,
+  `numerodipersone`, `compleanno_gg_mm`, `lingua`). Antibot: gettone firmato, ora firmata, campo trappola, max 5
+  invii/10 min per IP. Dettagli, flussi e prompt GHL in `references/crm-e-moduli.md`.
 - **Prenotazioni**: iframe del widget TheFork senza commissione (`widget.thefork.com/<uuid>`, `/en/<uuid>`
   in inglese) in un blocco HTML marcato «non modificare»; Resmio con `referrerpolicy` e `?utm=` (vedi
   `sito-landing-ristorante` A5-A6). Sotto il widget sempre il piano B: «Chiama» + modulo `contatto`.
@@ -117,8 +138,9 @@ define( 'RBR_GHL_LOCATION', '…' );      // location id del cliente
   Vecchio sito/sottodominio → redirect 301 sulle nuove pagine.
 
 ### 5. Tracciamento e cookie
-- Banner cookie sul sito del cliente (plugin gratuito tipo Complianz/CookieYes free o quello dell'hosting):
-  Pixel, Google Ads, GA4, mappe incorporate partono SOLO dopo il consenso. Aggiorna privacy e cookie policy.
+- Banner cookie a norma Garante (Accetta/Rifiuta uguali, X = rifiuto; plugin gratuito tipo Complianz/CookieYes
+  free o quello dell'hosting): Pixel, Google Ads, GA4, mappe incorporate partono SOLO dopo il consenso; Consent Mode
+  v2 se c'è Google. Privacy e cookie policy coi fornitori reali → checklist in `references/normative.md` §9.
 - Pixel/tag con gli **ID del cliente**; verifica col numero reale (`curl -sL dominio | grep -c <ID>` > 0 e
   `grep -c PIXEL_ID` = 0) e a runtime dopo «Accetta» (`fbq.getState().pixels`, cookie `_fbp`). Il plugin
   moduli manda già `Schedule`/`Lead` a Pixel e `rbr_modulo_inviato` al dataLayer.
@@ -155,10 +177,12 @@ pagina, IT ed EN. **Non far aprire i widget TheFork ai test automatici** (antibo
       account RBR/Marco nel sito (`grep` su tema e plugin: `ristoranteonline`, `marco`, IP)
 - [ ] HTTPS sul dominio definitivo, `www` e senza `www` → stessa versione, permalink puliti
 - [ ] Mobile 360/390 senza scroll orizzontale, nav/hamburger ok, campi ≥ 48 px, zero errori in console
-- [ ] Contrasto ≥ 4,5:1 su ogni coppia testo/sfondo; palette dal brand
-- [ ] Prenota raggiungibile in ≤ 1 clic da ogni pagina; widget ok anche con cookie RIFIUTATI; piano B «Chiama»
-- [ ] Modulo vero inviato per ogni tipo usato → mail arrivata alla casella del cliente + contatto in GHL con
-      tag e nota → contatto di test cancellato (`@rbr-test.local`)
+- [ ] Contrasto ≥ 4,5:1 su ogni coppia testo/sfondo; palette dal brand; grafica conforme a `grafica-e-layout.md` §9
+- [ ] Checklist normativa `normative.md` §9 tutta spuntata (footer obbligatorio, privacy, cookie, allergeni)
+- [ ] Prenotatore nei 7 punti di `prenotatore.md`, ≤ 1 clic da ogni pagina, mai coperto da pop-up/chat; widget ok
+      anche con cookie RIFIUTATI; piano B «Chiama» + richiamami; link preferito nella scheda Google
+- [ ] Collaudo CRM di `crm-e-moduli.md` §6 per ogni tipo di modulo: contatto unico con campi, tag e nota, mail
+      arrivata, flusso S partito con avviso di tipo Email → contatti di prova cancellati (`@rbr-test.local`)
 - [ ] IT/EN completi (menu, moduli, banner cookie, alt), nessuna stringa italiana su `/en/`
 - [ ] Title/description/H1/alt, JSON-LD validato (validator.schema.org), sitemap
 - [ ] Pixel/tag con ID reale verificati dopo il consenso; privacy e cookie policy aggiornate

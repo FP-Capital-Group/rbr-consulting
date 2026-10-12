@@ -1,6 +1,11 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.15.1 — 2026-10-12
+Ogni versione ha una sezione `## v2.16.0 — 2026-10-12
+- Nuova skill sito-wordpress-ristorante: il sito del ristorante si fa SEMPRE su WordPress con dominio e hosting comprati e intestati al cliente (modello Cartabianca), mai su server RBR.
+- Dentro: grafica pagina per pagina, prenotatore sempre in evidenza (TheFork senza commissione/Resmio), normative (footer P.IVA, privacy, cookie, allergeni), CRM GHL con 4 flussi pronti e plugin moduli rbr-moduli da caricare.
+- sito-landing-ristorante: il vecchio metodo generatore + server di Marco è dismesso per i clienti.
+
+## v2.15.1 — 2026-10-12
 - Menu: nuova guida normativa ott 2026 (menu-engineering → references/normativa-menu.md) con checklist legale in 7 punti, collegata anche a carta-menu-rbr. Prima di consegnare una carta passate la checklist.
 - Da sapere: menu solo QR non è a norma (serve sempre il cartaceo + menu con prezzi fuori); asterisco su OGNI piatto congelato (la nota generica da sola è frode per la Cassazione); coperto vietato nel Lazio; legge antifrode 75/2026: DOP, provenienze e 'fatto in casa' solo se documentati.
 - Sito WordPress (rbr-moduli): campo compleanno nel modulo novità e mappa campi modulo → campi GHL configurabile.

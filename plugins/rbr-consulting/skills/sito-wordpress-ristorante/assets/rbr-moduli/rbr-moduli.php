@@ -152,7 +152,7 @@ add_shortcode(
 		}
 		$priv = esc_url( home_url( rbrm_opt( 'privacy' ) ) );
 		$f[]  = '<p class="rbrm-check"><label><input type="checkbox" name="privacy" value="1" required> ' . sprintf( rbrm_t( 'Ho letto l\'<a href="%s">informativa privacy</a>', 'I have read the <a href="%s">privacy policy</a>' ), $priv ) . '</label></p>';
-		$f[]  = '<p class="rbrm-check"><label><input type="checkbox" name="marketing" value="1"> ' . esc_html( rbrm_t( 'Voglio ricevere novità e offerte (facoltativo)', 'I want to receive news and offers (optional)' ) ) . '</label></p>';
+		$f[]  = '<p class="rbrm-check"><label><input type="checkbox" name="marketing" value="1"> ' . esc_html( rbrm_t( 'Voglio ricevere novità e offerte via email, WhatsApp e SMS (facoltativo)', 'I want to receive news and offers by email, WhatsApp and SMS (optional)' ) ) . '</label></p>';
 		// campo trappola per i bot (nascosto con CSS, non con type=hidden)
 		$f[] = '<p class="rbrm-hp" aria-hidden="true"><label>Sito web<input name="sito_web" type="text" tabindex="-1" autocomplete="off"></label></p>';
 
@@ -329,12 +329,12 @@ function rbrm_riepilogo( $tipo, $d ) {
 	return implode( "\n", $r );
 }
 
-/** Tag uguali su tutti i siti RBR: <prefisso>, form-<tipo>, sede-<slug>, consenso-marketing, lingua-en. */
+/** Tag uguali su tutti i siti RBR: <prefisso>, form-<tipo>, pv-<locale>, consenso-marketing, lingua-en. */
 function rbrm_tag( $tipo, $d ) {
 	$p = sanitize_title( rbrm_opt( 'prefisso' ) );
 	$t = array( $p, 'form-' . $tipo );
 	if ( $d['sede'] ) {
-		$t[] = 'sede-' . $d['sede'];
+		$t[] = 'pv-' . $d['sede']; // famiglia pv-<locale> del modello base GHL
 	}
 	if ( $d['marketing'] ) {
 		$t[] = 'consenso-marketing';
