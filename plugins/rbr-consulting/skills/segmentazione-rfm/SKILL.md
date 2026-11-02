@@ -50,12 +50,14 @@ Regola fissa: `search_operations` → `describe_operation` → `execute_operatio
 `ghl2-<cliente>`. Mai curl diretto sull'API GHL.
 - Cerca le operazioni contatti (`search_operations` con "contacts search") e custom field.
 - Scarica i contatti con i CF RFM/statistiche e verifica se sono popolati.
+- Per contare chi ha davvero un campo personalizzato valorizzato usa `contacts/search` con filtro `field: "customFields.<id>"` e operatore `exists` (oppure `eq` con un valore preciso, es. Consenso Marketing = 1) — l'operatore `not_empty` NON esiste per i campi personalizzati. Gli id dei campi si leggono una volta sola dai custom field della location. Per la paginazione servono `startAfter` e `startAfterId` insieme. Il conteggio va fatto prima di ogni campagna o pulizia, per sapere su quanti contatti si lavora davvero. *(contributo di Andrea Chirivì, 2026-10-12)*
 
 ### 2. Procurati i dati di acquisto
 - CF popolati → usali direttamente.
 - CF vuoti → estrai gli ordini dal POS o da un export del cliente. Per ogni cliente ti servono:
   data ultimo ordine, numero ordini nel periodo (12-24 mesi), spesa totale.
 - Riconcilia POS↔GHL sulla chiave concordata. Elenca a parte i non matchabili (senza fidelity).
+- Se i dati vengono da un import, controlla la data dell'import e cosa li ha aggiornati da allora (vedi `references/sei-stati-ristorante.md`, punto 1-bis: lo stato importato è una fotografia ferma).
 
 ### 3. Scoring R-F-M in Python (locale)
 Per ogni contatto matchato:
@@ -98,6 +100,7 @@ Marco prima dell'uso sui clienti:
   CF `rfm_recenza`/`rfm_frequenza`/`rfm_monetario` se il cliente ha il blueprint.
 - Operazioni: `search_operations` per "add tags to contact" / "update contact", poi
   `describe_operation` e `execute_operation` in batch.
+- ⚠️ **Rileggi sempre il contatto dopo la prima scrittura**: GHL può rispondere ok anche quando non scrive davvero il campo personalizzato. Se l'operazione MCP non scrive, usa `PUT /contacts/{id}` con `customFields: [{"id": "<id campo>", "field_value": <valore>}]` e il token di integrazione privata (PIT) del sotto-account. Sull'upsert (`POST /contacts/upsert`) la forma che funziona è `{id, value}`; con `key` + `field_value` l'API risponde 200 e lascia i campi vuoti senza avvisare — mai `key`. Prima della scrittura serve il CSV di anteprima confermato, durante un log con valore vecchio/nuovo per il rollback, e User-Agent esplicito negli script. Un contatore che un workflow deve incrementare va in un campo NUMERICO, mai testo (l'azione Math non accetta testo). *(contributo di Andrea Chirivì, 2026-10-12 — verificato sul PUT, 13.529 contatti senza errori; ⚠️ da verificare se l'MCP `ghl2-<cliente>` del plugin passa già la forma giusta)*
 - 🟡 Convenzione naming tag RFM non ancora standardizzata in RBR — proponi `rfm-<segmento>` e
   fai confermare a Marco.
 
@@ -105,11 +108,17 @@ Marco prima dell'uso sui clienti:
 - Smart list / filtri GHL sul tag segmento → destinatari campagna.
 - 🟡 Il piano prevede workflow GHL triggerati sul **cambio** di segmento (`at_risk` → Win-back,
   `champion` → VIP invite): non esistono ancora nel blueprint, vanno creati col cliente.
+- **Prima di proporre una campagna su un database ereditato**: conta SUBITO i contattabili per il canale scelto (email: indirizzo valido + Consenso Marketing=1 + nessun DND; WhatsApp: telefono + consenso, vedi `whatsapp-ghl-locale/references/consenso-e-liste.md`), mostrando anche gli esclusi e il motivo. Dividi poi i contattabili per numero di visite (0 · 1 · 2-3 · 4-9 · 10+) e per anno dell'ultima presenza: su un database ereditato il blocco più grosso e più economico è spesso "venuto una volta sola, ultima visita l'anno scorso" — va in una campagna una tantum a scaglioni (vedi `onboarding-cliente-ghl/SKILL.md`, warm-up), non nei flussi ricorrenti. Riconta SEMPRE dopo la pulizia dello stato ereditato (punto 1-bis di `references/sei-stati-ristorante.md`), mai sui tag grezzi dell'import.
 - Per i testi: skill `funnel-email-crm` / `mail-funnel-ghl`.
+
+### 7. Misura il ritorno
+- Misura RBR del ritorno: clienti già conosciuti (almeno una visita prima del mese) che tornano nel mese ÷ clienti serviti nel mese.
+- Trappole quando i numeri vengono da un CRM terzo (Cooperto, Pienissimo, TheFork): (a) leggi la definizione del KPI (tooltip o API) prima di sommare — un "clienti di ritorno" che conta solo chi ha ≥2 visite DENTRO la finestra scelta sottostima se sommi mesi separati invece di leggere la finestra intera; (b) un NPS non è la media dei mesi, si ricalcola sulle risposte (stessa fonte); (c) i coupon usati sono tavoli, non persone — per le persone servono i coperti; (d) separa sempre i lead caricati in blocco dalla parte organica prima di citare la dimensione del database. *(contributo di Andrea Chirivì, 2026-10-12)*
 
 ## Regole RBR & trabocchetti
 - ❌ Mai curl/script diretti sull'API GHL: sempre MCP `ghl2-<cliente>`.
 - ⚠️ Quintili calcolati SUL locale, non su tutti i clienti RBR insieme.
+- ⚠️ I tag di stato importati sono la fotografia del giorno dell'import: non usarli mai come destinatari di una riattivazione senza averli incrociati prima con le visite registrate dopo l'import (`references/sei-stati-ristorante.md`, punto 1-bis).
 - ⚠️ Senza dati POS non inventare M: un RFM solo su R (data creazione contatto) non è RFM. Sui ristoranti il sostituto della M sono i coperti (vedi step 4).
 - ⚠️ **Il tetto da dire PRIMA di promettere**: su Barresi il 46% delle visite (75 su 162) non aveva né telefono né email → metà sala invisibile al CRM. La leva vera è chiedere il contatto al tavolo (il QR di riscatto dà un motivo per lasciarlo). *(contributo di Luciano Purpi, 2026-09-13)*
 - ⚠️ Snapshot dei conteggi per segmento PRIMA di taggare in massa; il tagging bulk è reversibile
@@ -121,5 +130,6 @@ Marco prima dell'uso sui clienti:
 - [ ] Scoring R-F-M a quintili dinamici calcolato per tutti i contatti matchabili
 - [ ] Contatti non matchabili elencati a parte con motivo
 - [ ] Segmenti mappati e conteggi per segmento mostrati a Marco/consulente
-- [ ] Tag/CF scritti su GHL via MCP (dopo conferma 🟡 se bulk grande)
+- [ ] Tag/CF scritti su GHL via MCP (dopo conferma 🟡 se bulk grande), contatto riletto dopo la scrittura
+- [ ] Contattabili per canale contati (consenso, email o telefono, DND) prima di proporre una campagna
 - [ ] Punti 🟡 (soglie segmenti, naming tag, workflow trigger) esplicitati e validati con Marco

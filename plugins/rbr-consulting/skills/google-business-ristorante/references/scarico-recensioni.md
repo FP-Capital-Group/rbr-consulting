@@ -40,3 +40,20 @@ Risultato misurato: 800 recensioni in 8 pagine, fino a due mesi indietro, in cir
 Menu "Ordina → Più recenti" della scheda Maps pubblica; pannello `tbm=lcl`; Maps pubblica
 (si ferma a ~40 recensioni); `maps/rpc/listugcposts` (403 senza session token);
 `listentitiesreviews` e `/async/reviewDialog` (404).
+
+## Metodo veloce senza login, per verificare l'esito di segnalazioni/risposte
+Per un controllo rapido senza accedere al Profilo:
+- Su Maps pubblico, le barre del riepilogo voti hanno il conteggio esatto per stella
+  nell'`aria-label` (es. "5 stelle, 775 recensioni").
+- Su **GHL Reputation** si fa un hook XHR su `/reputation/reviews` e poi un pull completo.
+  Parametri: `pageNumber` e `pageSize=100` — **non** `page`/`limit`. Si tolgono i filtri
+  `starRating`; `filterParams[deleted][0][value]=true` mostra anche le cancellate. Il mirror
+  GHL può contare 1-2 recensioni Google in più del pubblico, tiene Facebook a parte e non
+  anticipa Google: va trattato come una stima vicina, non come il dato esatto.
+- **Il confronto va fatto PER STELLA, mai sul totale**: solo così si vede se è sparita una
+  negativa o una positiva dopo una segnalazione.
+- Le risposte non cambiano i voti in modo prevedibile: su un caso, dopo oltre 1.000 risposte,
+  a 2 giorni non si era mosso nulla, a 7 giorni un voto senza testo era già cambiato. Si
+  ricontrolla **a 48 ore** chi ha cambiato voto — la vecchia risposta resta appesa sotto il
+  voto nuovo e va aggiornata.
+*(contributo di Andrea Chirivì, con il controllo a 48 ore di Luciano Purpi, 2026-10-12)*

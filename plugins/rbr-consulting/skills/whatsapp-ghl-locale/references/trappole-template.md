@@ -54,6 +54,13 @@ successive usa un suffisso (su Barresi: `_consenso`, `_consenso_2`, `_consenso_3
   assistenza Meta — giorni di attesa. Prima di arrivarci, cambia la struttura:
   codici fuori, pulsanti, testo più corto, categoria giusta.
 
+## 5bis. Utility riclassificato Marketing DOPO l'approvazione
+
+Meta può approvare un template e poi riclassificarlo Marketing (costa circa 2,7
+volte e vuole il consenso): vedi SKILL.md §4 per la regola completa (messaggio di
+servizio secco, invito a tornare in un messaggio a parte) e le finestre di
+contestazione Meta. (contributo di Andrea Chirivì e Luciano Purpi, 2026-10-12)
+
 ## 5. Regole di forma che evitano problemi a monte
 
 - **Corto.** Un template lungo è un template a rischio. Il "cosa ricevi" lo racconta
@@ -72,6 +79,23 @@ successive usa un suffisso (su Barresi: `_consenso`, `_consenso_2`, `_consenso_3
   altrimenti Meta rifiuta (vedi punto 7).
 - L'immagine di header è **uguale per tutti i destinatari**: mai promettere QR o
   contenuti personalizzati dentro il messaggio.
+- **Tempi reali di approvazione osservati**: Marketing attivi in 1-10 minuti (anche
+  2 minuti con un link nel corpo), Utility con variabili circa 40 minuti, Utility
+  riscritto dopo riclassificazione "poche ore". Percorso: Settings → WhatsApp →
+  Templates → Create → Blank → categoria. Il campo del pulsante "Visit website" ha
+  già `https://`: scrivi l'URL senza ripeterlo. (contributo di Andrea Chirivì,
+  2026-10-12)
+- **Ritoccare un template già approvato senza perdere le mappature** ⚠️ (confermato
+  solo per questo punto; il resto della nota è da verificare — contributo di
+  Luciano Purpi e Andrea Chirivì, 2026-10-12): riscrivere tutto il corpo **svuota
+  le mappature delle variabili**, e l'anteprima mente perché mostra solo il valore
+  di esempio. Si fanno sostituzioni chirurgiche via JS col setter nativo della
+  textarea, senza toccare i `{{n}}`, e si verifica nel DOM prima di salvare.
+  Salvare la mappatura NON fa ripartire l'approvazione. Per una variante: menu ⋮ →
+  "Clone modello" (nasce `copy_<nome>`, da rinominare). ⚠️ Da verificare se cambiare
+  solo il testo crei di fatto un nuovo template lato Meta: finché non è provato su
+  un conto non in produzione, tratta ogni modifica di testo su un template in uso
+  con la stessa prudenza delle altre modifiche (clone, non riscrittura in place).
 
 ## 6. La trappola d'ambiente che ha inquinato tutto
 
@@ -102,4 +126,18 @@ così che nascono i template approvati che poi partono con "Ciao ,".
 - **Verifica sempre** dopo aver selezionato, leggendo i `value` degli input della
   pagina. Non fidarti dell'anteprima: mostra il contenuto di esempio, non la variabile.
 - I **campi personalizzati** invece si cercano tranquillamente col nome completo (i
-  nomi sono unici) e danno `{{contact.<chiave>}}`.
+  nomi sono unici) e danno `{{contact.<chiave>}}`. Per "nome completo" si intende la
+  **chiave interna** del campo (es. `orariodellaprenotazione`), non l'etichetta
+  mostrata nell'interfaccia (precisazione di Andrea Chirivì, 2026-10-12).
+
+### Il metodo che regge per aprire il selettore (contributo di Andrea Chirivì, 2026-10-12)
+
+Lavora dalla pagina **Settings → WhatsApp → Templates**, non dall'iframe del
+builder aperto altrove: solo quella pagina espone l'albero di accessibilità. Per i
+campi personalizzati: clic sul textbox "Search" del selettore → trova il
+`form_input` col nome del campo → clic sul risultato (hover + clic sul riferimento;
+il clic per coordinate spesso non salva) → rileggi sempre il `value` dopo. La voce
+`{{contact.id}}` è "ID" in fondo al ramo Contact. I campi creati dopo l'apertura
+della pagina non compaiono: ricarica. Il selettore tipo campo / lingua **non prende
+Invio**: si clicca l'opzione (diverso dalle tendine dei workflow, dove clic poi
+Invio funziona — vedi SKILL.md "Trappole d'ambiente").

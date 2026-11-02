@@ -32,6 +32,7 @@ prenotazione, una conferma o un coperto salvato.
 | `references/orecchio-e-stop.md` | per montare il workflow in entrata e la gestione STOP (workflow o Human Handover) |
 | `references/invio-di-massa.md` | prima di mandare un template a una lista (Bulk WhatsApp, drip, pulizia rubrica) |
 | `references/costi-limiti-misura.md` | preventivi al cliente, limiti di invio, misura dei risultati |
+| `references/ponte-fatto-in-casa.md` | quando il ponte di terzi si ferma e serve un ponte PHP sul server del cliente |
 
 ## Come funziona l'integrazione (l'architettura in breve)
 
@@ -146,6 +147,11 @@ tu monti. Il pattern "consenso prima dell'offerta" (`consenso-e-liste.md`) sfrut
 regola: il template chiede, la risposta del cliente riapre le 24 ore e il seguito è
 testo libero.
 
+**Fuori finestra e senza un template adatto**: si scrive a mano **dal telefono del
+LOCALE** (coexistence), mai da un numero personale. Così la risposta del cliente
+rientra nel CRM, l'agente riprende e la prenotazione finisce sul gestionale; da un
+numero personale si perde tutto. (contributo di Luciano Purpi, 2026-10-12)
+
 ## 4. Template: categorie, forma e trappole
 
 Leggi **`references/trappole-template.md`** PRIMA di scrivere o inviare in
@@ -183,12 +189,39 @@ Le regole di sintesi:
 - **Nomi** (contributo di Luciano Purpi, 2026-09-13): `<funzione>_<lingua>` per il
   servizio, `<cliente>_<funzione>_<lingua>` per il marketing; lingua sempre in coda
   così le due versioni dello stesso messaggio stanno vicine in elenco.
+- **Lingua dal prefisso telefonico, mai dal tag "turista"** (un italiano di
+  un'altra città risulta "turista" ma parla italiano): `+39` o nessun `+` →
+  italiano, tutto il resto → inglese. In GHL il filtro va scritto `Phone Contiene
+  "+39"` **OPPURE** `Phone Non contiene "+"` (il CRM salva sia `3000000000` sia
+  `+393000000000`); sul canvas può comparire "contiene 39" ma il valore salvato è
+  `+39` — apri sempre il nodo per controllare. Monta un ramo inglese solo se serve
+  davvero. **Fascia oraria: nessun messaggio automatico fuori dalle 10:00-20:00**,
+  nemmeno con testo già approvato (l'approvazione del testo non è approvazione
+  dell'orario); unica eccezione la conferma di prenotazione (chi prenota a tarda
+  sera la riceve subito). Il drip sta nel dialogo di aggiunta del Bulk WhatsApp, non
+  nelle impostazioni del flusso. (contributo di Luciano Purpi, 2026-10-12)
+- **Utility o Marketing lo decide Meta, anche DOPO l'approvazione.** Meta può
+  approvare un template e poi riclassificarlo Marketing (costa circa 2,7 volte e
+  vuole il consenso). Il messaggio di servizio resta **secco**, senza inviti né
+  importi che suonano da offerta (es. niente "prenota di nuovo" con tono invitante
+  su un annullo, niente "hai 10 € in meno sul conto" su un conto di un gettone
+  usato): l'invito a tornare va in un **altro** messaggio. Recensioni, gift card,
+  novità e richieste di consenso sono **sempre Marketing**: una richiesta di
+  recensione messa in Utility è stata bloccata all'invio ("Categoria non
+  corrispondente"). Finestre Meta: 24 ore per chiedere un controllo sui template
+  contrassegnati, 60 giorni per contestare una riclassificazione. (contributo di
+  Andrea Chirivì e Luciano Purpi, 2026-10-12)
 
 ## 5. Workflow autonomi: i pattern che funzionano
 
-I workflow GHL **si montano a mano nell'editor** (non esistono via API, e l'editor
-gira in un iframe che l'automazione del browser non riesce a pilotare — vedi
-`invio-di-massa.md`).
+I workflow GHL **si montano a mano nell'editor** (non esistono via API). ⚠️
+Correzione (contributo di Luciano Purpi e Andrea Chirivì, 2026-10-12): l'editor SI
+PILOTA dall'automazione browser se la **scheda Chrome è visibile** (vedi la
+"trappola n.1" in `mail-funnel-ghl/references/builder-ghl.md`) — la regola
+"l'iframe non riceve gli eventi sintetici" era osservata a scheda nascosta. Resta
+vero per `invio-di-massa.md` che la vista **Workflow → Send WhatsApp** non è
+quella interessata da questa correzione (è un'altra schermata, sempre da scheda
+visibile per sicurezza).
 
 **Cosa si può fare via API/MCP e cosa no** (contributo di Andrea, 2026-09-10):
 - L'API pubblica GHL **NON invia template WhatsApp**: `POST /conversations/messages`
@@ -205,6 +238,20 @@ gira in un iframe che l'automazione del browser non riesce a pilotare — vedi
   workflow GHL "Tag Added → Send WhatsApp template → Remove tag". Trappola Make: nel
   modulo `http:ActionSendData` il campo `timeout` dev'essere un numero, non una
   stringa.
+- **Cercare un contatto per telefono**: `POST /contacts/search` con filtro `phone`,
+  operatore `eq`, valore `+39…` — restituisce anche i `customFields` in una sola
+  chiamata; alternativa `/contacts/search/duplicate?number=`. `/contacts/lookup`
+  risponde sempre "Contact with id lookup not found" e `/contacts/?query=` sui
+  numeri torna vuoto: non usarli.
+- **Gli orari letti da GHL (API e registri) sono UTC.** Converti con l'ora legale
+  prima di spostare finestre o accusare un flusso di qualcosa che non ha fatto.
+- **Template WhatsApp con variabili via API interna non documentata** (sessione
+  browser aperta, header `token-id` della pagina, può cambiare senza preavviso):
+  `POST backend.leadconnectorhq.com/phone-system/whatsapp/location/<loc>/template`
+  con `name`, `category`, `language` `it`, `parameterFormat POSITIONAL`, `BODY` con
+  `text`/`example.body_text`/`customVariables`, `BUTTONS QUICK_REPLY`. Ogni
+  occorrenza di variabile ha il suo numero anche se il campo è lo stesso; quick
+  reply al massimo 25 caratteri. (contributo di Andrea Chirivì, 2026-10-12)
 
 Un vantaggio strutturale per un database di soli-telefono: con
 `allowDuplicateContact` disattivato GHL riconosce il contatto **dal numero di
@@ -222,11 +269,57 @@ flusso 01 Ponte di `onboarding-cliente-ghl/references/modello-base-locale.md`). 
 sommano e scattano solo la prima volta (Barresi, Mister Pizza). Il vecchio schema
 «tag di stato → workflow → rimuovi tag» resta solo per i sub-account già montati così,
 finché non si migrano.
-Tre errori da evitare:
+Tre errori da evitare, più tre trappole del ponte verificate sul campo (contributo
+di Andrea Chirivì e Luciano Purpi, 2026-10-12):
 1. **(schema vecchio a tag) Non rimuovere il tag**: la seconda prenotazione non innesca
    più. Con l'innesco sul campo il problema sparisce.
 2. **Numero non normalizzato in +39**: matching fallito e contatti doppi.
 3. **Ramo che conferma e scrive anche sul gestionale**: loop (vedi Anti-loop).
+4. **Cliente con due schede (due numeri, stessa email)**: scrivere l'email sulla
+   scheda trovata per telefono fa rispondere **400 "does not allow duplicated
+   contacts"** e il ponte si ferma (niente campi, tag, appuntamento, conferma). Al
+   400 si riprova coi soli campi, senza email; prima di dare la colpa al cliente
+   ("scheda vuota") leggi le righe `ko` del registro.
+5. **Guardia sullo stato prima di ogni invio**: sui conti ancora a tag il ponte
+   riapplica il tag a ogni cambio di stato (`confirmed` → `seated` → `finished`) e
+   col rientro il workflow riparte (caso reale: sei clienti hanno ricevuto la
+   conferma mentre erano già a tavola). Guardia: `statoprenotazione` **Nessuno di**
+   `seated, finished, no_show, noshow, cancelled, canceled`, messa **DOPO** il nodo
+   che rimuove il tag (il tag va tolto anche nel ramo che non manda). Stessa guardia
+   per marcare "ha usato la gift card".
+6. **Tag "a impulso"**: per far ripartire ogni volta un workflow Tag Added, via API
+   fai prima DELETE del tag e poi POST (scatta anche se il contatto aveva già il
+   tag); il workflow deve avere il rientro ON. I campi personalizzati **non si
+   creano coi PIT** (manca lo scope): si creano dalla UI. Gestione errori dei moduli
+   GHL (handleErrors + onerror Break, 3 tentativi, dlq/dataloss): vedi
+   `make-scenario-dod/SKILL.md`.
+
+**Appuntamenti GHL e promemoria 4 ore — `toNotify`** (contributo di Andrea Chirivì,
+2026-10-12). Un appuntamento creato via API con `toNotify:false` **non fa scattare**
+"Customer booked appointment" (le automazioni non partono): niente promemoria, e il
+buco resta nascosto finché qualcuno non lo nota. Regola: `toNotify:true` alla
+creazione se mancano più di 4 ore (+2 min), `false` su PUT e sugli annulli. Dopo aver
+sostituito un ponte, collauda SEMPRE il promemoria su una prenotazione nata col ponte
+NUOVO, mai su una vecchia. Prenotazione arrivata a **meno di 4 ore**: il workflow non
+manda nulla da solo; per farlo partire comunque serve un appuntamento tecnico a
++4h03 con `toNotify:true` (parte il promemoria coi campi veri dopo ~3 minuti, poi PUT
+`cancelled` con `toNotify:false`), escludendo chi ha due prenotazioni la stessa sera
+e chi non ha la scheda agganciata. Per **fermare** un promemoria si annulla
+l'appuntamento GHL prima delle 4 ore (anche con `toNotify:false`): togliere il
+contatto dal workflow non basta se l'appuntamento resta `confirmed`. I workflow non
+si creano via API, ma un contatto **si può far uscire**:
+`DELETE /contacts/{id}/workflow/{workflowId}` funziona col PIT dei contatti senza
+scope `workflows` (lo stato di pubblicazione dei workflow resta illeggibile coi PIT,
+401).
+
+**Nodo WhatsApp nei workflow**: "Enable branches" va acceso **solo** con un template
+a pulsanti, spento quando il template non ne ha. In cima al menu "Select WhatsApp
+Template" c'è **"None - Free form message"**: sembra imporre un template ma non è
+così, e serve in ogni ramo dopo un'azione del cliente (pulsante, risposta) dove la
+finestra delle 24 ore è aperta — con None si spegne anche Enable branches. I merge
+field si digitano (`{{contact.first_name}}`) e diventano chip: se il chip non si
+forma il nome del campo è sbagliato. (contributo di Andrea Chirivì e Luciano Purpi,
+2026-10-12)
 
 ### Pattern B — Il ramo "senza email" (il caso di questa skill)
 Dentro qualunque workflow di comunicazione, condizione If/Else:
@@ -255,19 +348,32 @@ campo "Replied message", notifica interna): `references/orecchio-e-stop.md`.
 Chi chiede di non ricevere più messaggi deve uscire **da solo e subito** da ogni
 flusso Marketing. Due strade, da usare entrambe (contributi di Luciano Purpi,
 2026-09-04 / 08 / 13):
-1. **Pulsante nativo "Marketing opt-out"** nel template Marketing: Meta compila da sé
-   piè di pagina ed etichetta, tradotti in automatico (nessuna riga aggiunta al
-   corpo, quindi nessuna nuova approvazione).
-2. **Chi scrive la parola** (STOP, BASTA, CANCELLAMI…) → tag di esclusione + DND
-   **solo sul canale WhatsApp** + conferma breve e gentile. Si monta:
+1. **Pulsante nativo "Marketing opt-out"** nel template Marketing. ⚠️ In GHL il
+   pulsante aggiunge un piè di pagina **FISSO in inglese** ("Not interested? Tap
+   Stop promotions"), che non si toglie né si personalizza: un piè di pagina col
+   nome del locale non può stare insieme all'opt-out nativo (da verificare se
+   l'app del destinatario lo mostra localizzato). Due effetti verificati: chi lo
+   preme passa in **DND da solo** (circa 15 minuti dopo l'invio, nessun intervento
+   nostro); il tap su una quick reply conta come "risposta del cliente" e fa
+   partire anche l'orecchio (filtro da mettere sul trigger Customer Replied, vedi
+   `references/orecchio-e-stop.md`).
+2. **Chi scrive la parola** (STOP, BASTA, CANCELLAMI…) → tag di esclusione →
+   **risposta di conferma (free form)** → attesa 1 minuto → DND **solo sul canale
+   WhatsApp** → rimozione del consenso marketing. **L'ordine è obbligato: la
+   conferma va PRIMA del DND**, altrimenti dopo il DND non esce più niente e il
+   cliente non sa se è stato ascoltato. Si monta:
    - nel ramo STOP dell'orecchio (workflow), se sul numero non c'è un agente AI;
    - in uno **scenario di Human Handover "Disiscrizione"** del Conversation AI, se
-     sul numero risponde un agente: senza scenario dedicato lo STOP cade in "Human
+     sul numero risponde un agente (il piccolo workflow "Tag Added → DND" va messo
+     DOPO il Final Message): senza scenario dedicato lo STOP cade in "Human
      Requested" e il cliente si sente rispondere "Ti metto in contatto con un
      collega".
-Procedura passo passo di entrambe: `references/orecchio-e-stop.md`.
+Procedura passo passo di entrambe, incluso il DND di massa via import CSV:
+`references/orecchio-e-stop.md`.
 **La condizione "ha il tag di esclusione → esci" va IN TESTA a ogni flusso di
 marketing**, non solo come filtro nel CRM.
+(Sequenza STOP corretta e trappola del pulsante nativo: contributo di Andrea
+Chirivì e Luciano Purpi, 2026-10-12.)
 
 ### Anti-loop (quando c'è un ponte esterno)
 Se un ponte terzo spinge gli eventi del gestionale dentro GHL (webhook
@@ -290,11 +396,22 @@ doppioni.
 
 ## 7. Invio di massa
 
-Per mandare un template a una lista **non serve un workflow**: Contatti → seleziona →
+Per mandare un template a una lista **non serve un workflow** — ma questo vale
+**SOLO per template senza pulsanti di risposta rapida**: Contatti → seleziona →
 More → **Send WhatsApp**, con modalità **drip** per rilasciare a lotti (contributo di
 Luciano Purpi, 2026-09-08). Prima di premere invio: rubrica ripulita da fornitori e
 contatti di prova, numero nuovo scaldato con un lotto sonda, messaggi automatici
 dell'app spenti, STOP attivo. Tutto in `references/invio-di-massa.md`.
+
+⚠️ **Con un template a quick reply (es. il consenso "Sì, lo voglio"), Contatti →
+Send WhatsApp NON funziona**: i pulsanti non generano rami e chi preme non riceve
+niente. Serve un **workflow SENZA trigger** (parte solo quando lo decidiamo) con
+**Enable branches acceso**, alimentato da Contatti → seleziona → **Attiva
+automazione**, con "Invia in modalità graduale" nel dialogo di aggiunta. Trappola: il
+drip del dialogo ("Carica Attivo") e la finestra oraria del workflow **non si
+parlano**: un lotto rilasciato in un giorno escluso dalla finestra resta in coda e si
+somma al lotto successivo (es. 500 messaggi il lunedì invece di 250) — togli la
+domenica anche dal drip. (contributo di Luciano Purpi, 2026-10-12)
 
 ## Checklist di consegna (prima di dire "fatto" al cliente)
 
@@ -306,18 +423,37 @@ dell'app spenti, STOP attivo. Tutto in `references/invio-di-massa.md`.
 4. ☐ Email finte di appoggio contate e taggate `email-non-valida`
 5. ☐ Ramo senza-email presente nei workflow di comunicazione
 6. ☐ **Ponte gestionale attivo**: contatto trovato per telefono in +39, tag rimosso a
-   fine workflow, nessuna scrittura di ritorno dal ramo di conferma
+   fine workflow, nessuna scrittura di ritorno dal ramo di conferma. Se il ponte è
+   **nostro** (fatto in casa, vedi `references/ponte-fatto-in-casa.md`): registro
+   ok/ko e giro di recupero delle righe `ko` attivi.
 7. ☐ Workflow in entrata (Customer Replied) attivo, con UN nome e UN numero per la sveglia
-8. ☐ **STOP testato**: un contatto di prova scrive STOP → tag di esclusione + DND
-   WhatsApp + conferma; condizione di uscita in testa ai flussi marketing
+8. ☐ **STOP testato**: un contatto di prova scrive STOP → tag di esclusione →
+   **conferma ricevuta PRIMA del DND** → DND WhatsApp; condizione di uscita in testa
+   ai flussi marketing (verifica che la conferma arrivi davvero, non solo che il DND
+   scatti)
 9. ☐ **Consenso popolato**: tag `consenso-marketing` + campi `consenso_data` e
    `consenso_origine` sui contatti che ricevono Marketing
 10. ☐ **Link tracciati** nei template: `source=whatsapp-<campagna>`
-11. ☐ Test end-to-end con un contatto di prova: messaggio partito, risposta smistata
-12. ☐ Costi spiegati al cliente: 15 $/mese + consumo a messaggio template consegnato
+11. ☐ Test end-to-end con un contatto di prova: messaggio partito, risposta smistata.
+    **Per sostituire un template dentro un flusso già vivo**: prima si costruisce un
+    flusso "(PROVA)" acceso da un tag `prova-…`, provato sul contatto del
+    consulente (il pannello "Test workflow" del builder non trova i contatti: cerca
+    solo sul primo token). Il flusso vero non si tocca finché tutta la catena non è
+    collaudata (template approvato, messaggio ricevuto, eventuale sondaggio,
+    aggancio al contatto, foglio, Google, blocco 60 giorni); poi si pulisce (righe di
+    prova, tag, flusso di prova in bozza). Solo con l'ok si cambia il nodo del
+    flusso vero, si rilegge la pagina ricaricata e **la mattina dopo si controlla
+    quale template è partito davvero** (caso reale: nodo non cambiato, 4 richieste
+    uscite col template vecchio). Cambiare template dentro un flusso è sicuro solo
+    se nessun ramo dipende dalla risposta a quel template. (contributo di Andrea
+    Chirivì, 2026-10-12)
+12. ☐ **Credito del wallet**: prima di un invio massivo, credito ≥ N × costo a
+    messaggio; ricarica automatica $25 con soglia $10 (vedi `references/costi-limiti-misura.md`)
+13. ☐ Costi spiegati al cliente: 15 $/mese + consumo a messaggio template consegnato
 
 (Punti 6, 8, 9, 10 aggiunti da Luciano Purpi il 2026-09-04; punto 2 dai contributi
-dell'8 e 13 set 2026.)
+dell'8 e 13 set 2026; punti 11 e 12 completati da Andrea Chirivì e Luciano Purpi il
+2026-10-12.)
 
 ## Trappole d'ambiente (perdono ore)
 
@@ -331,5 +467,13 @@ dell'8 e 13 set 2026.)
 - **Le tendine GHL non selezionano al clic**: clic sulla voce (la evidenzia) POI
   Invio. Con le frecce attenzione allo sfasamento: dopo un clic la prima voce è già
   evidenziata, quindi Giù porta alla SECONDA (contributo di Luciano Purpi, 2026-09-19).
+  Vale per le tendine dei workflow; **non vale per il selettore variabili dei
+  template** (vedi `references/trappole-template.md` §7), che non prende Invio: lì
+  si clicca l'opzione.
 - In coexistence i "non letti" di GHL possono essere stati gestiti dal telefono dello
   staff: verificare prima di allarmare il cliente.
+- **GHL resta bianca se la finestra di Chrome è coperta.** La pagina Contatti non
+  disegna nulla quando `document.visibilityState = hidden`: portala in primo piano o
+  su un secondo schermo. Non è un guasto della pagina. Diverso dalla rotta
+  inesistente di Conversation AI, che resta bianca anche con `document.hasFocus()`
+  vero. (contributo di Andrea Chirivì, 2026-10-12)

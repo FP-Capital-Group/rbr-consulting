@@ -50,7 +50,7 @@ Installate da `/rbr-setup` a scope utente con le chiavi private (`rbr-chiavi.jso
 (PIT agency: misterpizza, personalg, democliente, dirigi, redmike, cipriano, barresi —
 cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge Marco).
 
-### Skill operative (36)
+### Skill operative (49)
 
 **Cervello condiviso**
 - `contribuisci-conoscenza` — esporta procedure/fix imparati nello Sheet contributi (fusi ogni lunedì)
@@ -72,6 +72,7 @@ cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge
 
 **Suite / CRM**
 - `onboarding-cliente-ghl` — nuovo cliente su GHL: sub-location, snapshot, OAuth, istanza MCP, test end-to-end
+- `bot-risposte-ghl` — bot Conversation AI GHL per risposta automatica su WhatsApp/IG/FB: setup, KB, handover, deploy
 - `make-scenario-dod` — scenari Make secondo lo standard RBR (payload 8 campi, router, DoD, attivazione post-fix)
 - `diagnosi-suite` — troubleshooting: Resmio 401/403, webhook, token, snapshot GHL, errori Make, iPratico
 - `segmentazione-rfm` — segmenti RFM sui contatti GHL + tagging via MCP
@@ -96,6 +97,7 @@ cliente nuovo = una riga con il suo locationId in `rbr-chiavi.json`, la aggiunge
 
 **Prodotto & contenuti**
 - `menu-engineering` — matrice Kasavana-Smith + menu grafico
+- `menu-grafica-rbr` — menu engineering avanzato + creazione grafica carte da stampare (casi Cartabianca, Luna Blu)
 - `traduci-pdf` — PDF EN→IT reimpaginato per la stampa (logica agente rbr-translate)
 - `relazione-rbr` — relazioni Word brandizzate RBR (logo, filetti rossi, tabelle, firma) per ogni consegna al cliente
 

@@ -79,13 +79,27 @@ caricati). Per ciascuno fai una chiamata reale di test:
 - **meta-ads** → prova a listare gli ad account. Se chiede login: guida l'utente
   nell'OAuth Facebook (deve usare l'utenza aggiunta al Business Manager RBR — accesso: Marco).
 - **google-ads** → `list_google_ads_customers`. Token dell'account RBR (pipeboard): se
-  fallisce con errore di token, segnala a Marco.
+  fallisce con errore di token, segnala a Marco. Se invece risponde «MCP usage limit
+  exceeded. Current usage: 30/30» NON è l'errore di token: è il tetto di chiamate del
+  connettore condiviso (vedi `adv-ristorante/SKILL.md` §5 per come continuare dal browser
+  e avvisare Marco). «Customer … is not in the allowed customer list» vuol dire che
+  l'account non è sotto il proprio MCC/Pipeboard; `USER_PERMISSION_DENIED` vuol dire
+  nessun accesso: in nessuno dei due casi è un problema del tetto di chiamate.
 - **make** → `users_me`.
 - **ghl2-<cliente>** → `search_operations` su ghl2-democliente, poi `describe_operation` +
-  `execute_operation` di `get-location` (deve rispondere `success: true`).
+  `execute_operation` di `get-location` (deve rispondere `success: true`). Se nella sessione
+  compare un server GHL con un nome diverso (es. un MCP personale `gohighlevel` invece di
+  `ghl2-<cliente>`), segnalalo in tabella: le Regole RBR e `regole-rbr.md` parlano di
+  `ghl2-<cliente>`, il consulente deve sapere quale usare.
 Se google-ads/make/ghl2 NON compaiono o falliscono con "chiavi RBR non installate": il ponte
 non trova `~/.claude/rbr/mcp_servers.json` → punto 0, poi chat nuova. Se la chat è stata
 aperta prima del setup: basta una chat nuova.
+Confronta anche la versione installata (`installed_plugins.json`) con quella pubblicata
+(`marketplace.json`, dopo `git fetch` in `~/.claude/plugins/marketplaces/rbr-consulting`):
+l'hook di auto-update fa lo stesso controllo ma tace se fallisce. Se i messaggi del team
+citano un pacchetto o marketplace privato (es. «rbr-consulting-team») e GitHub risponde 404,
+l'accesso lo dà Marco: segnalo in checklist come ❌ con la soluzione, non come "niente di
+nuovo". (contributo di Andrea Chirivì, 2026-10-12)
 
 ## 2. Cliente GHL mancante
 
@@ -120,6 +134,9 @@ Chiudi il punto ripetendo la regola: ogni foglio cliente va condiviso come Edito
 
 - Verifica che le skill del plugin siano visibili (elenca 5-6 skill `rbr-consulting` a titolo di prova).
 - Le "Regole RBR" devono comparire nel contesto di sessione (se leggi questo comando dal plugin, sì).
+- Verifica che compaia anche il blocco **Conoscenza live RBR**. Se manca, torna al punto 0 (chiavi):
+  è quasi sempre la chiave del service account mancante, non la rete (l'hook non dà errori in quel
+  caso). (contributo di Andrea Chirivì, 2026-10-12)
 
 ## 5. Checklist finale
 

@@ -36,10 +36,24 @@ QR che non trova e il flusso si ferma **in silenzio**.
   note (Red Mike, 04/09/2026: `?source=TEST-nota&comment=code:RIAPERTURA10` → prenotazione con
   source e comment corretti). Usabile in mail, WhatsApp, QR, bio Instagram, bot.
 - Testo url-encodato, **niente emoji** (il test con emoji è tornato 404).
+- **I parametri `&date=AAAA-MM-GG` e `&people=<n>`** preselezionano rispettivamente il giorno e il
+  numero di ospiti sul widget diretto. Aperto come link diretto il `source` arriva intatto. Uso tipico:
+  landing di eventi (un link per serata, data già impostata, source dedicato tipo
+  `ghl-eventi-<serata>`) e messaggi dei bot. La combinazione con `&comment=` non risulta provata
+  insieme: testala con una prenotazione di prova prima di usarla in produzione.
+- ⚠️ **Se il locale ha un ponte Resmio→GHL attivo (webhook BOOKING_UPDATED), il rimedio PATCH va
+  bloccato finché non sai come quel ponte tratta gli UPDATED**: ogni PATCH su una prenotazione genera un
+  evento UPDATED che un ponte proprio può rielaborare e creare appuntamenti GHL nuovi, facendo ripartire
+  conferme e workflow (vedi l'anti-loop in `whatsapp-ghl-locale/SKILL.md`). Regola: le correzioni di
+  attribuzione si fanno alla fonte (link, snippet) o non si fanno. Se proprio serve il rimedio PATCH,
+  usalo solo dopo aver verificato il comportamento del ponte del cliente sugli UPDATED, e prima su una
+  sola prenotazione riletta.
 - Rimedio se il link è già partito senza comment (capitato: 83 mail): leggere le ultime
   prenotazioni, filtrare per `source` della campagna con `comment` vuoto e scrivere la nota con
   `PATCH /v1/facility/<slug>/bookings/<id>` (header `X-CSRFToken` dal cookie, risposta 202 →
   rileggere).
+
+(contributo di Andrea Chirivì, 12/10/2026)
 
 ## 4. `source` dell'embed classico = sempre l'hostname
 Con `static.resmio.com/static/<lang>/widget.js` il loader fa
@@ -77,6 +91,31 @@ l'URL dell'iframe generato, guarda se `source` è sopravvissuto. Se no → canal
    sede sola.
 8. **Il salvataggio in UI** è il pulsante "Salva" in fondo, non "⟳ Aggiorna" in alto (vedi
    `diagnosi-suite` → `references/trappole-strumenti.md`).
+9. **Valore 0 = la cassa RIFIUTA il codice** ("QR code non valido"): nei codici non esiste un importo
+   manuale, il valore è sempre fisso in % o in €. Un omaggio non si fa con un codice a valore 0 — serve
+   invece un prodotto a 0 € (vedi SKILL.md §4, "Omaggio senza codice").
+10. **"Applicabile al totale" NON si salva dal form di creazione** (confermato due volte): senza quella
+    spunta e senza categorie selezionate la cassa risponde "nessun prodotto trovato per il codice". Dopo
+    la creazione riapri il codice in modifica, spunta "Applicabile al totale" cliccando col mouse (il
+    `.click()` via JS non aggancia il toggle), salva e rileggi; in alternativa seleziona le categorie
+    (sconto riga per riga).
+11. **"Numero di volte utilizzabile" 0 = infinito, 1 = monouso**, e NON si modifica dopo la creazione:
+    va deciso prima (si lega a `isReusable` del punto 2).
+12. **La cassa scarica i codici nuovi in ritardo**: sincronizza la cassa prima di dichiarare che un
+    codice non funziona.
+
+(contributo di Andrea Chirivì, 12/10/2026 — supera una nota precedente dello stesso giorno che
+ipotizzava un importo manuale sul valore 0: è sbagliata, il valore 0 è sempre rifiutato)
+
+## 5bis. Interruttore Pienissimo
+Se il locale è o è stato su **Pienissimo**, i Promo Codes di iPratico possono risultare DISABILITATI a
+favore di quelli Pienissimo: qualunque codice iPratico creato non funziona in cassa finché non lo
+riattivi. L'interruttore è in Impostazioni di base → sezione Pienissimo → "Disabilita i Promo Code di
+Pienissimo (Riabilita quelli di iPratico)". Prima di girarlo, verifica che non ci siano coupon
+Pienissimo ancora vivi (catenarie attive che mandano coupon) — vedi anche `catenaria-pienissimo/SKILL.md`,
+sezione "Catenaria già attiva e coupon su WhatsApp".
+
+(contributo di Andrea Chirivì, 12/10/2026)
 
 ## 6. Verifica dai codici DAVVERO usati, non dal foglio
 `GET /v1/facility/<slug>/bookings?limit=1000&order_by=-created` su Resmio + regex

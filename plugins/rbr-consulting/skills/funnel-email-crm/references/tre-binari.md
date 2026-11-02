@@ -20,6 +20,16 @@ l'offerta: due danni al prezzo di uno. Chi è venuto da poco riceve racconto SÌ
    il calice, l'assaggio del pezzo nuovo, la precedenza), perché una percentuale ha un prezzo
    confrontabile in testa al cliente, una cosa no. E non deve essere prevedibile (alla 5a visita, il
    primo del mese): va agganciato a un fatto vero, o in tre giri diventa un diritto.
+   **Innesco**: sul CONTATORE visite (es. "campo visite_totali modificato in 5"), con rientro OFF
+   (una volta sola) — agganciato al contatore e non allo stato più una condizione sul numero, così
+   il valore è già scritto quando il flusso parte e non c'è corsa fra due eventi. Attesa di 1 giorno
+   dentro la finestra lun-sab 11-19 (mai la domenica, mai mentre il cliente è a tavola), poi
+   WhatsApp "premio" e tag `premio-inviato`. **Il testo non nomina mai il numero di visite**: il
+   premio non deve sembrare una raccolta punti (es. "ti scrivo perché ti conosciamo… la prossima
+   volta dimmelo prima e te lo metto da parte io. Non è un'offerta e non scade."). Il contatore
+   visite parte da zero il giorno in cui si accende e non conta lo storico, a meno di una pulizia
+   una tantum via API con anteprima prima di applicarla — va detto al titolare prima che lo chieda.
+   *(contributo di Luciano Purpi, 2026-10-12)*
 3. **RIAGGANCIO** — a chi si è fermato, l'unico binario che può contenere offerte.
 
 Perché separati davvero: in GHL la catena è lineare, per saltare un nodo servono condizione + "Vai a"
@@ -45,6 +55,50 @@ punto solo.
   giovedì sei quasi solo, chi legge può prenotare sia per venerdì che per sabato, e la sala sistema
   meglio una prenotazione con un giorno di margine. (Come impostare l'attesa in GHL: skill
   `mail-funnel-ghl`, `references/builder-ghl.md`.)
+- La stessa regola dell'orario vale a due livelli diversi: **giovedì 18:00** per newsletter/lancio
+  a tutta la lista (sotto), **giovedì 11:30** per il riaggancio automatico al singolo contatto (qui
+  sopra) — non vanno confusi.
+
+## Montaggio in GHL (verificato su clienti veri)
+
+- **Timer dello stato**: tag `stato-attivo` (rientro ON) → attendi 90 giorni → togli `stato-attivo`
+  e metti `stato-abituale-fermo`. Ogni nuova visita toglie il contatto dal timer e rimette il tag
+  `stato-attivo`.
+- **Riaggancio**: trigger tag `stato-abituale-fermo` (rientro ON) → attendi giovedì 11:30 → guardia
+  "è ancora fermo?" (il tag `stato-abituale-fermo` c'è ancora) → mail con un motivo, senza sconto →
+  attendi 19 giorni → guardia "è tornato?" (tag `stato-attivo`) → se no, mail con l'offerta (intorno
+  al giorno 110). **Perché serve la prima guardia**: fra il tag e il giovedì passano fino a 6 giorni
+  — se nel frattempo il cliente ha già prenotato, la mail col motivo non deve partire lo stesso.
+- Concentrare gli invii in un solo giorno/orario va bene per l'**email**. Su **WhatsApp** gli invii
+  vanno spalmati a ondate, non tutti insieme (stessa regola del controllo settimanale Make/GHL).
+- `{{custom_values.novita_del_mese}}` (vedi sotto) è un valore **facoltativo**: il testo deve reggere
+  anche se è vuoto, senza riquadri o frasi a metà. Il flusso che lo usa non parte finché il titolare
+  non lo riempie la prima volta.
+*(contributo di Luciano Purpi — montaggio verificato su clienti RBR, 2026-10-12)*
+
+## Invii a tutta la lista: newsletter settimanale
+
+La newsletter settimanale è la forma concreta del binario RACCONTO, finora solo un principio
+("a tutti, sempre, mai sconti"):
+
+- Una mail a settimana, sempre, a tutta la lista con consenso marketing.
+- Un'idea sola per mail: il processo, l'ingrediente, la persona, il territorio o il premio. Apre
+  con la promessa (vedi SKILL.md, Regola della promessa d'oro) e non contiene sconti.
+- Chiude sempre con l'invito a iscriversi alla fidelity e a ritirare il regalo di benvenuto.
+- Vale la regola della verità qui sotto: i prodotti si citano come repertorio, mai come
+  disponibilità del giorno.
+- **Motivo**: senza le settimanali il lancio promozionale arriva su una lista fredda e rende la
+  metà. Un'offerta mandata da sola parla di prezzo, e chi risponde al prezzo torna solo per il
+  prezzo.
+- Orario: **giovedì alle 18:00**, a tutta la lista (diverso dal giovedì 11:30 del riaggancio al
+  singolo contatto, sopra).
+
+⚠️ **Il lancio mensile con offerta a tutta la lista (mossa 9 del Piano Marketing di Roberto) NON è
+ancora stato integrato**: confligge con i tetti di questa skill (max 3 gesti/anno a persona, di cui
+1 solo sconto; silenzio 90 giorni; offerte solo a chi si è fermato). Va deciso con Roberto e
+Luciano come conciliarlo prima di scriverlo come regola — non è una decisione che si può prendere
+da soli compilando questo file.
+*(contributo di Roberto/RBR — Piano Marketing RBR v1.0, mossa 9, settembre 2026)*
 
 ## Regola della verità
 

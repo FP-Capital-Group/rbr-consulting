@@ -105,10 +105,31 @@ Chiedi anche se le **durate** configurate corrispondono al turno reale, e se il 
 immediato o serve un cuscinetto fra un turno e l'altro. Il cuscinetto costa caro — misuralo e
 mostraglielo invece di deciderlo tu.
 
+Quarto paletto da concordare: **l'ora oltre la quale su Resmio si segnala e basta**, senza più
+spostamenti né annulli (salvo richiesta esplicita del titolare) — i giri serali oltre quell'ora
+diventano sola lettura. Serve a evitare di lavorare su tavoli già sistemati dalla sala in pieno
+servizio.
+*(contributo di Andrea Chirivì, 2026-10-12)*
+
 ### 4. Ricompatta
 
 Assegna partendo dalle tavolate **più vincolate** — le più numerose, poi per orario — perché
 hanno meno alternative. Le piccole entrano dopo, nei buchi che restano.
+
+**Se il cliente ha dato un ordine di tavoli** (es. partendo dal palco), ogni sera si riempie
+prima quella lista: le comitive grandi per prime, ognuna sul tavolo più piccolo che la
+contiene *dentro* la lista (a parità vince chi viene prima nell'ordine). Le combinazioni si
+fanno solo fra tavoli della stessa zona, e i tavoli fuori zona si usano solo a zona piena. Il
+campo `priority` non rappresenta questo ordine di riempimento.
+
+**Una serata già piena si ripassa in modo incrementale, mai da zero**: ricalcolare tutto
+produce molti più spostamenti del necessario e può buttare fuori zona chi ci stava già bene.
+Ordine del ripasso: 1) chi è già in un posto valido nella zona resta; 2) i posti liberi della
+zona si riempiono con chi sta fuori (priorità a chi ha chiesto esplicitamente la zona, poi ai
+gruppi grandi); 3) chi è sui tavoli fuori zona in un posto valido resta — e quei posti validi
+si **bloccano prima** di ricollocare quelli non validi. È la generalizzazione della "passata di
+rientro" di `trappole.md`.
+*(contributo di Andrea Chirivì, 2026-10-12)*
 
 Per ogni prenotazione, fra le unità libere che la contengono scegli quella con il **residuo
 temporale minore**: la somma dei minuti sprecati prima e dopo dentro la finestra libera. A
@@ -136,6 +157,16 @@ Sul piano calcolato, controlla e riporta:
 - la riserva di coppie non scende mai sotto la soglia concordata
 - quali tavoli restano intonsi per tutta la serata, e quanti posti sono
 
+**Le capienze (anche quelle degli abbinamenti) si verificano in sala con il cliente, in
+entrambe le direzioni**: le capienze ereditate possono essere sbagliate sia per eccesso sia
+per difetto (tavoli con numero posti diverso da quanto a sistema, un abbinamento che in sala
+ne contiene di più o di meno del `max` dichiarato), e la sala a volte unisce tavoli senza
+registrarlo a sistema. Per un abbinamento su più tavoli la capienza di riferimento è il `max`
+della riga di `resource_combinations` corrispondente, **non la somma delle `capacity`** dei
+tavoli coinvolti (vedi `api-resmio.md`). Una persona in più dei posti nominali (es. 7 su un
+tavolo da 6) è quasi sempre una sedia aggiunta apposta: si segnala, non si sposta.
+*(contributo di Andrea Chirivì, 2026-10-12)*
+
 Poi presenta il piano **prima di applicarlo**, con il confronto prima/dopo sui tavoli liberi
 al picco. Un documento visivo con la timeline tavolo per tavolo si verifica in un minuto;
 una lista di venti spostamenti no.
@@ -145,10 +176,32 @@ una lista di venti spostamenti no.
 Una sola prenotazione per prima, poi controlla che non sia partita nessuna mail all'ospite
 (`trappole.md` spiega come). Solo dopo il resto, in sequenza.
 
+**Rileggi la serata prima di OGNI scrittura, mai sullo snapshot di mezz'ora prima**: in meno di
+due ore possono arrivare molte prenotazioni nuove con tavoli già rimaneggiati. Mai spostare
+tavoli già sistemati dalla sala. Se la sala inserisce a mano mentre tu stai scrivendo, avvisa il
+responsabile **prima** di toccare qualcosa, altrimenti ci si cancella a vicenda. Chiudere le
+prenotazioni online quando finiscono i tavoli è una decisione del titolare: riporta il conto di
+tavoli e posti liberi, senza toccare l'impostazione da soli.
+*(contributo di Andrea Chirivì, 2026-10-12)*
+
 Alla fine rileggi **tutta** la serata da Resmio — non fidarti dei codici di risposta — e
 rimisura `available_authenticated` sulle fasce che prima erano a zero. Il salto da 0 a
 tredici o quattordici posti vendibili in una fascia di punta è il risultato vero: quei posti
 tornano in vendita su Google, TheFork e sito nello stesso istante.
+
+**Dopo la serata**: la permanenza vera si misura dall'ora prenotata al pagamento in cassa, per
+taglia di tavolata — è il dato su cui tarare i `booking_timespans`, invece di chiederlo solo
+al cliente. Per una serata piena, una cronostoria incrocia Resmio (prese, tenute, arrivate,
+annullate, mai viste), lista arrivi e cassa: ritardo della prima ondata, onde di arrivo,
+permanenza, cambi tavolo, tempo arrivo→comanda per fascia e taglia, e i tavoli battuti in cassa
+senza prenotazione (walk-in non registrati). Verifica le ipotesi sugli arrivi sui dati prima di
+cambiare gli slot — non sono sempre quello che sembrano. Fonte: `GET
+/v1/facility/<slug>/activities?limit=100` (paginato con `meta.next`): contiene
+`booking_created/changed/cancelled/confirmed/noshow/email_event` con contesto (cliente, ora,
+coperti, source, nomi dei tavoli). Gli annulli riportano `done_by_guest` e l'operatore, i
+`changed` non dicono chi: un `changed` che toglie il tavolo mostra ancora quello vecchio,
+incrocia sempre con lo stato attuale della prenotazione.
+*(contributo di Andrea Chirivì, 2026-10-12)*
 
 ## Quando la richiesta è "dove metto questo gruppo?"
 

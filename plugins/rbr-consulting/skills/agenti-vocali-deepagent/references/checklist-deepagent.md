@@ -95,7 +95,7 @@ selezionato: è normale.
 
 ## 5. Istruzioni
 
-- **Modalità Avanzata** attiva, prompt compilato incollato, nessun `{{...}}`.
+- **Modalità Avanzata** attiva, prompt compilato incollato, nessun segnaposto del template rimasto (`{{NOME_LOCALE}}`, `{{SLUG}}`...). Le variabili di sistema `{{system__...}}` (es. `{{system__time}}` del Blocco F) invece DEVONO restare: non sono segnaposto da compilare. *(correzione 2026-10-12: la versione precedente, "nessun `{{...}}`", contraddiceva il Blocco F)*
 - **Obiettivo principale**: elenca TUTTI gli esiti buoni (prenotazione registrata,
   operatore, ordine indirizzato al canale giusto, informazione data corretta) e i
   fallimenti — testo standard in SKILL.md §6. Con il solo "prenotazione oppure

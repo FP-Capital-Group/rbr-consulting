@@ -29,18 +29,57 @@ LC_ALL=C grep -aL 'href="http' audit/*.html     # chi non ha una via d'uscita
 
 1. Le pagine di destinazione esistono (codice HTTP vero).
 2. Ogni email ha almeno un link per prenotare.
-3. La disiscrizione c'è in TUTTE.
+3. La disiscrizione c'è in TUTTE. ⚠️ A ogni email SENZA link di disiscrizione LC
+   Email aggiunge da sé una riga in **inglese** che il cliente italiano non
+   riconosce (non si toglie da Impostazioni → Email Services; il grep di questo
+   punto trova proprio queste email). Rimedio da verificare con un invio vero: una
+   riga di disiscrizione in italiano nel corpo col merge field del link (menu dei
+   merge field nell'editor). Il link di GHL disiscrive al **PRIMO clic senza
+   conferma**: basta un clic accidentale o un antivirus/scanner che pre-carica i
+   link — nei collaudi non si clicca mai il link su contatti di clienti veri, il
+   test si fa su un'email ricevuta da un indirizzo del consulente, poi si rimette a
+   posto con "Unsubscribed by mistake. Subscribe again" (`resubscribed=true`). Il
+   DND in blocco su una lista si imposta con un **import CSV**. (contributo di
+   Luciano Purpi e Andrea Chirivì, 2026-10-12)
 4. Indirizzo e telefono giusti (a Barresi il civico era sbagliato).
 5. Le foto mostrano persone che ci sono ancora (turnover alto: una squadra di due anni fa smentisce il testo).
 6. Nessuna email o pagina linkata cita un dominio che il cliente non controlla più (quello storico
    di Barresi era stato ripreso da altri e riempito di spam: nominarlo trascina giù la reputazione del mittente).
 7. La lingua è quella del destinatario (un ramo "turisti" in italiano non serve a niente).
 8. Tracciamenti presenti e distinti, uno per email.
-9. Condizioni dell'offerta scritte (durata, non cumulabile, una per tavolo, solo in sala).
-10. I campi dinamici hanno un ripiego (`{{contact.first_name}}` vuoto produce "Ciao ,").
+9. Condizioni dell'offerta scritte (durata, non cumulabile, una per tavolo, solo in sala). **La
+   mail che consegna un coupon/beneficio deve dire COSA si riceve** (non solo le
+   condizioni) e mostrare la **foto del prodotto** dell'offerta su un URL pubblico
+   stabile — dettaglio: `SKILL.md` passo 7. (contributo di Andrea Chirivì, 2026-10-12)
+10. I campi dinamici hanno un ripiego (`{{contact.first_name}}` vuoto produce "Ciao ,"). Il
+    **ripiego si imposta cliccando il chip del campo** nell'editor, voce "Testo
+    predefinito" (valore usato se il campo è vuoto). ⚠️ Un "Ciao ," vuoto in una
+    prova partita dallo strumento di test dei Lead Ads di Meta **non è un merge
+    field rotto**: è il dato finto di Meta (inizia con "<" e viene mangiato dal
+    renderer HTML). (contributo di Luciano Purpi e Andrea Chirivì, 2026-10-12)
+11. **Condizioni e rami**: nessun "Go to" che torna all'inizio del funnel (loop), nessun
+    "Delete contact" a fine funnel, le righe troncate sotto i nodi sono state aperte e
+    verificate (vedi `builder-ghl.md`, sezione "Condizioni e rami").
 
 Più il controllo di coerenza: il testo di ogni email corrisponde al PUNTO del percorso in cui si
 trova il cliente (i testi migrano fra flussi quando si duplicano i workflow — vedi `builder-ghl.md`).
+
+## Prima di accendere una catena su una lista grande (contributo di Andrea Chirivì, 2026-10-12)
+
+1. **Conta i destinatari su domini Microsoft** (hotmail, live, outlook, msn): su un
+   cliente reale erano il 10% dell'anagrafica e il 20% di una lista compleanni.
+   Finché l'IP condiviso LC Email del sub-account è nella blocklist Microsoft,
+   quelle mail rimbalzano o vanno in spam — escludile dal primo invio e raggiungi
+   quei contatti su WhatsApp.
+2. ⚠️ Mai tutti gli inattivi in un colpo: scaglioni sui domini buoni, leggendo i
+   rimbalzi a ogni scaglione (sopra il 2-3% di bounce la reputazione cala e va in
+   spam anche la posta buona). Piano da verificare: non risulta ancora misurato con
+   gli scaglioni effettivamente applicati.
+3. In parallelo chiedi a GHL, tramite l'agenzia, lo spostamento di IP o un IP
+   dedicato; i contatti Microsoft rientrano solo dopo.
+4. **Validazione dell'indirizzo sul modulo di cattura**: dal precompilato Meta
+   arriva circa il 15% di indirizzi storpiati (`gimail.it`, `gmail.it`).
+   Complementare al warm-up IP di `onboarding-cliente-ghl/SKILL.md`.
 
 ## Le pagine mancanti si clonano, non si riscrivono (WordPress + Elementor)
 

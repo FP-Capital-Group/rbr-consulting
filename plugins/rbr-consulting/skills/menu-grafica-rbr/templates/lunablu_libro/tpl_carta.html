@@ -1,0 +1,374 @@
+<title>Carta Luna Blu inverno 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@400;500&display=swap">
+<style>
+/* Libro A4 a facciate come la carta Cartabianca: bianco da leggere, blu notte Luna Blu su copertina, premium ed Experience */
+:root{
+  color-scheme:light;
+  --blu:#1E2A6E; --blu-2:#3B4C9B; --cielo:#9DBDE3; --ghiaccio:#EEF3FA;
+  --carta:#FFFFFF; --linea:#D9DFEC; --testo:#1B2140; --soft:#5C6584;
+  --fondo:#0E1431;
+  --disp:'Lora',Georgia,"Times New Roman",serif;
+  --body:'Lora',Georgia,"Times New Roman",serif;
+  --util:'Jost',"Futura","Avenir Next",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--testo);font-family:var(--body);font-size:15px;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between;
+  padding:11px 20px;background:rgba(14,20,49,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.12);color:var(--ghiaccio)}
+.bar .id{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.bar .id b{font-family:var(--disp);font-weight:500;font-size:17px;letter-spacing:.18em;color:#fff}
+.bar .id span{font-size:11.5px;color:rgba(238,243,250,.66);letter-spacing:.14em;text-transform:uppercase}
+.toggle{display:flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;overflow:hidden}
+.toggle button{font-family:var(--util);font-weight:500;font-size:12px;letter-spacing:.09em;text-transform:uppercase;padding:7px 16px;border:0;cursor:pointer;background:transparent;color:rgba(238,243,250,.7)}
+.toggle button[aria-pressed="true"]{background:var(--blu-2);color:#fff}
+.toggle button:focus-visible{outline:2px solid var(--cielo);outline-offset:2px}
+.hint{font-family:var(--util);font-size:12.5px;color:rgba(238,243,250,.66);max-width:46ch;line-height:1.45;margin:0}
+
+.piano{padding:30px 16px 70px;overflow-x:auto}
+.spread{width:max-content;margin:0 auto 42px}
+.etichetta{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(238,243,250,.45);font-weight:500;margin:0 0 10px 2px}
+.doppia{display:flex;box-shadow:0 26px 64px -22px rgba(0,0,0,.85)}
+.pag{width:210mm;flex:0 0 210mm;min-height:297mm;background:var(--carta);padding:16mm 15mm 22mm;display:flex;flex-direction:column;gap:5.5mm;position:relative}
+.pag+.pag{border-left:1px solid var(--linea)}
+.pag.blu{background:var(--blu);color:var(--ghiaccio)}
+.pag.centrata{justify-content:center;align-items:center;text-align:center}
+.piede{position:absolute;left:15mm;right:15mm;bottom:9mm;margin:0;font-size:6.4pt;line-height:1.5;color:var(--soft);opacity:.85}
+
+h2.cat{font-family:var(--disp);font-weight:500;font-size:25pt;line-height:1.05;color:var(--blu);margin:0;text-wrap:balance}
+h2.cat i{font-weight:400}
+h3.sub{font-family:var(--disp);font-weight:500;font-size:15pt;color:var(--blu);margin:2mm 0 0}
+.sec{display:flex;flex-direction:column;gap:3.4mm}
+.piatti{display:flex;flex-direction:column;gap:3.2mm}
+.p{display:block}
+.nome{font-family:var(--disp);font-weight:600;font-size:11.5pt;line-height:1.25;color:var(--testo);display:block}
+.desc{font-size:9pt;line-height:1.5;color:var(--soft);margin-top:.6mm;display:block;max-width:132mm}
+.sep{margin:0 1mm;opacity:.7}
+.prezzo{font-weight:400;color:inherit;font-size:.92em;white-space:nowrap}
+.due{font-style:italic}
+.vin{display:flex;align-items:center;gap:1.6mm;margin-top:1mm;font-size:8pt;font-style:italic;color:var(--blu-2)}
+.vin b{font-style:normal;font-weight:500}
+.abb{display:inline;margin-left:2.4mm;font-family:var(--disp);font-weight:400;font-style:italic;font-size:7.6pt;color:var(--soft);vertical-align:1px}
+.ab{display:inline;white-space:nowrap}
+.ab svg{vertical-align:-2px;margin-right:.8mm}
+.dot{margin:0 1mm;opacity:.6}
+
+.p.bordo{border:1pt solid var(--blu);padding:3mm 4mm 3.2mm;margin:0}
+.p.bordo .desc{max-width:none}
+.p.bordo.pfoto{grid-template-columns:1fr 34mm;padding:4mm 5mm}
+.p.bordo.pfoto .foto{width:34mm}
+.p.bordo .nome{color:var(--blu)}
+.p.pfoto{display:grid;grid-template-columns:1fr 30mm;gap:4mm;align-items:center}
+.foto{border:.9pt dashed var(--cielo);background:var(--ghiaccio);display:grid;place-items:center;position:relative;aspect-ratio:1;color:var(--blu-2);border-radius:50%}
+.foto svg{opacity:.55}
+.foto span{position:absolute;bottom:18%;left:0;right:0;text-align:center;font-size:5.4pt;letter-spacing:.16em;color:var(--soft)}
+
+.premio{display:grid;grid-template-columns:1fr 46mm;gap:5mm;align-items:center;padding:4.6mm 5mm}
+.premio.bordo{border:1pt solid var(--blu)}
+.premio.pieno{background:var(--blu);color:var(--ghiaccio)}
+.premio-l{display:flex;flex-direction:column;gap:3mm}
+.premio.pieno .nome{color:#fff;font-size:13pt}
+.premio.pieno .desc{color:rgba(238,243,250,.85)}
+
+.premio.pieno .vin,.premio.pieno .abb{color:var(--cielo)}
+.premio.pieno .foto{background:rgba(255,255,255,.06);border-color:rgba(157,189,227,.55);color:var(--cielo)}
+.premio.pieno .foto span{color:rgba(238,243,250,.6)}
+.premio .foto.grande{width:42mm;height:42mm;flex:0 0 42mm}
+
+.banda{display:flex;flex-direction:column;gap:2.4mm;padding:1mm 0}
+.bt{font-family:var(--disp);font-style:italic;font-weight:400;font-size:16pt;color:var(--blu);text-align:center}
+.bs{font-size:8pt;font-style:italic;color:var(--soft);text-align:center;margin:0}
+.flist{display:flex;gap:4mm;justify-content:space-around;align-items:flex-end}
+.fcard{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.8mm}
+.ico{color:var(--blu);height:9mm;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.misure{width:150mm;margin:0 auto;justify-content:space-between}
+.misure .fcard{flex:0 0 40mm}
+.fn{font-family:var(--disp);font-style:italic;font-size:11.5pt;color:var(--blu)}
+.fd{font-size:7.8pt;color:var(--soft);line-height:1.35}
+.foto.mini{width:19mm;height:19mm;margin-bottom:1.6mm}
+.foto.mini span{bottom:14%;font-size:4.6pt}
+.cont{display:grid;grid-template-columns:1fr 1fr;gap:3mm 8mm}
+.cont .nome{font-size:10.5pt}
+.cont .desc{font-size:8.5pt}
+
+.exp-occ{font-family:var(--util);font-size:9pt;letter-spacing:.42em;text-transform:uppercase;color:var(--cielo)}
+.exp-tit{font-family:var(--disp);font-style:italic;font-weight:500;font-size:46pt;line-height:1;color:#fff;margin:2mm 0 4mm}
+.exp-sotto{font-size:10pt;line-height:1.6;color:rgba(238,243,250,.82);max-width:40ch;margin:0}
+.exp-sotto b{color:#fff;font-weight:500}
+.tappe{display:flex;flex-direction:column;gap:6mm;margin:12mm 0 8mm}
+.tappa .t{display:block;font-family:var(--disp);font-style:italic;font-size:19pt;color:#fff}
+.tappa small{display:block;font-size:8.6pt;color:rgba(238,243,250,.7);margin-top:1mm}
+.tappa small b{font-family:var(--disp);font-style:italic;font-weight:500;color:#fff}
+.exp-prezzo{font-size:9.5pt;color:rgba(238,243,250,.75);letter-spacing:.04em}
+.exp-prezzo s{opacity:.55;margin-right:2mm}
+.exp-nota{position:absolute;bottom:12mm;left:15mm;right:15mm;font-size:6.6pt;color:rgba(238,243,250,.6)}
+
+.marchio{font-family:var(--disp);font-weight:500;font-size:40pt;letter-spacing:.28em;color:#fff;padding-left:.28em}
+.marchio-sub{font-family:var(--disp);font-style:italic;font-size:17pt;color:var(--cielo);margin-top:3mm}
+.marchio-tag{font-family:var(--util);font-size:8.5pt;letter-spacing:.42em;text-transform:uppercase;color:rgba(238,243,250,.72);margin-top:5mm}
+.luna{width:30mm;height:30mm;border-radius:50%;border:1.2pt solid var(--cielo);margin:0 auto 9mm;position:relative;overflow:hidden}
+.luna::after{content:"";position:absolute;inset:-2mm -2mm -2mm 8mm;border-radius:50%;background:var(--blu)}
+.indirizzo{font-family:var(--util);position:absolute;bottom:14mm;left:0;right:0;text-align:center;font-size:7.4pt;letter-spacing:.3em;text-transform:uppercase;color:rgba(238,243,250,.62)}
+.chiusa{font-family:var(--disp);font-style:italic;font-size:12pt;line-height:1.7;color:rgba(238,243,250,.9);margin-top:8mm}
+
+.mk{display:none;font-family:var(--util);margin-top:1.2mm;font-size:7.6pt;font-weight:500;font-variant-numeric:tabular-nums;color:#132050;background:#D7E4F7;border-radius:999px;padding:.6mm 2.4mm}
+body.rbr .mk{display:inline-block}
+.premio.pieno .mk{background:#D7E4F7;color:#132050}
+.nota{display:none;font-size:8.4pt;line-height:1.5;color:#10241B;background:#C7E5D2;border-radius:2.2mm;padding:2.4mm 3.2mm;margin:0}
+body.rbr .nota{display:block}
+.nota b{font-weight:600}
+.rank{display:none;font-family:var(--util);font-weight:500;font-size:7pt;color:var(--soft);border:.7pt solid var(--linea);border-radius:999px;padding:.1mm 1.5mm;margin-right:1.6mm;vertical-align:2px}
+body.rbr .rank{display:inline-block}
+.premio.pieno .rank{color:var(--cielo);border-color:rgba(157,189,227,.5)}
+.pag.ariosa{padding-top:24mm}
+.pag.ariosa h2.cat{font-size:32pt;margin-bottom:4mm}
+.pag.ariosa .piatti{gap:7.5mm}
+.pag.ariosa .nome{font-size:14.5pt}
+.pag.ariosa .desc{font-size:10.5pt;max-width:120mm}
+.pag.ariosa .vin{font-size:9pt}
+.foto.img{border:0;background:none;border-radius:0;aspect-ratio:1}
+.foto.img img{width:100%;height:100%;object-fit:contain;display:block}
+.premio.pieno .foto.img{background:none}
+.pag.pizze .piatti{gap:2.3mm}
+.pag.pizze .desc{max-width:none;font-size:8.6pt}
+.pag.pizze .sec{gap:2.6mm}
+.pag.pizze .banda{gap:1.6mm}
+.desc{max-width:none!important}
+.p.pienobox{background:var(--blu);color:#fff;padding:5mm 6mm;width:158mm;display:grid;grid-template-columns:1fr 46mm;gap:5mm;align-items:center}
+.p.pienobox .nome{color:#fff;font-size:14pt}
+.p.pienobox .desc{color:rgba(238,243,250,.86)}
+.p.pienobox .foto.img{width:46mm;height:46mm}
+.p.asta{border-left:2.6pt solid var(--blu);padding:1mm 0 1mm 5mm}
+.p.asta .nome{font-size:13pt;color:var(--blu)}
+.p.asta .desc{font-size:9.8pt}
+.p.asta.pfoto{grid-template-columns:1fr 40mm;gap:6mm}
+.p.asta .foto.img{width:40mm;height:40mm}
+.p.bordo.pfoto{align-items:center}
+.p.bordo.pfoto .foto.img{width:28mm;height:28mm}
+.piatti.tre{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm 6mm}
+.piatti.tre .nome{font-size:10.5pt}
+.piatti.tre .desc{font-size:8.4pt}
+.banda.giu{position:absolute;left:15mm;right:15mm;bottom:14mm}
+.p.pienobox{position:relative;width:150mm;display:block;padding:5mm 50mm 5.5mm 6mm;margin:10mm 0 10mm}
+.p.pienobox .foto.img{position:absolute;right:-12mm;top:50%;margin-top:-23mm;width:46mm;height:46mm}
+.p.asta{border-left:0;padding:0}
+.p.asta.pfoto > div:first-child{border-left:2.6pt solid var(--blu);padding:.6mm 0 .6mm 5mm;align-self:center}
+.pag.pizze + .pag.pizze .piatti{gap:4.6mm}
+.p.pienobox{margin:5mm 0 6mm!important;padding:4.6mm 44mm 4.8mm 6mm}
+.p.pienobox .foto.img{width:40mm!important;height:40mm!important;margin-top:-20mm!important;right:-8mm!important}
+.p.asta.pfoto{margin:-6mm 0}
+.p.asta.pfoto:not(.pag.pizze *) .foto.img{width:36mm;height:36mm}
+.p.asta:not(.pfoto){border-left:2.6pt solid var(--blu);padding:.6mm 0 .6mm 5mm}
+.tag{display:inline-block;margin-left:2mm;font-family:var(--util);font-size:6.6pt;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--blu);padding:.5mm 2mm;border-radius:999px;vertical-align:2px}
+.pag.pizze .p.asta.pfoto{margin:0}
+.pag.pizze .p.asta .foto.img{width:34mm;height:34mm}
+/* spaziature uniformi per la stampa */
+h2.cat{margin-bottom:.4mm}
+
+.sec{gap:3mm!important}
+.piatti{gap:3.4mm!important}
+.pag.pizze + .pag.pizze .piatti{gap:3.4mm!important}
+.pag .sec + .sec, .pag .sec + .banda, .pag .banda + .sec{margin-top:3mm}
+.p.pienobox{margin:4mm 0 4mm!important;padding:4.6mm 40mm 4.8mm 6mm!important}
+.p.pienobox .foto.img{width:34mm!important;height:34mm!important;margin-top:-17mm!important;right:-6mm!important}
+.p.asta.pfoto{margin:-5mm 0!important}
+.pag.pizze .p.asta.pfoto{margin:-5mm 0!important}
+.pag.pizze .p.asta .foto.img{width:38mm!important;height:38mm!important}
+.banda.giu{position:static!important;margin-top:7mm}
+.tag{margin-left:2mm}
+.flist.impasti{width:120mm;margin:0 auto;justify-content:space-between;align-items:flex-end}
+.flist.impasti .fcard{flex:0 0 34mm}
+.pag.ariosa .piatti{gap:5.6mm!important}
+.pag.ariosa .sec + .sec{margin-top:6mm}
+.pag.ariosa .p.pienobox{width:150mm;margin:6mm 0 6mm!important;padding:5.5mm 50mm 6mm 6mm!important}
+.pag.ariosa .p.pienobox .foto.img{width:44mm!important;height:44mm!important;margin-top:-22mm!important;right:-14mm!important}
+.pag.ariosa .p.pienobox .nome{font-size:15.5pt}
+.pag.ariosa .p.pienobox .desc{font-size:10.4pt}
+.sec.contorni{margin-top:16mm!important}
+.sec.contorni .cont{gap:6mm 8mm}
+.sec.contorni h3.sub{font-size:17pt}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="calice" viewBox="0 0 16 24"><path d="M3 2h10c0 5-1.6 7.6-4 8.4V20h3v1.6H4V20h3v-9.6C4.6 9.6 3 7 3 2z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M3.4 3.4h9.2c-.15 3.3-1.3 5.3-4.6 5.9C4.7 8.7 3.55 6.7 3.4 3.4z" fill="var(--w)"/></symbol>
+  <symbol id="boccale" viewBox="0 0 20 24"><path d="M3 5h11v15.5c0 .8-.7 1.5-1.5 1.5h-8C3.7 22 3 21.3 3 20.5z" fill="var(--w)" stroke="currentColor" stroke-width="1.1"/><path d="M14 9h2.4c1 0 1.6.7 1.6 1.6v4.8c0 .9-.6 1.6-1.6 1.6H14" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M3 5c0-1.6 1.3-2.6 2.8-2.6.6-1 1.6-1.4 2.7-1.4s2.2.6 2.7 1.5c1.6-.2 2.8.9 2.8 2.5z" fill="#fff" stroke="currentColor" stroke-width="1"/></symbol>
+  <symbol id="f1" viewBox="0 0 32 24"><circle cx="16" cy="12" r="6.6" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="16" cy="12" r="4" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/></symbol>
+  <symbol id="f2" viewBox="0 0 32 24"><circle cx="16" cy="12" r="9.4" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="16" cy="12" r="6" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/></symbol>
+  <symbol id="f3" viewBox="0 0 32 24"><circle cx="13" cy="12" r="10.4" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="13" cy="12" r="6.6" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/><path d="M23.6 12H31" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="pz" viewBox="0 0 32 24"><circle cx="16" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="16" cy="12" r="7.6" fill="none" stroke="currentColor" stroke-width=".8" opacity=".55"/><circle cx="13" cy="10" r="1.3" fill="currentColor" opacity=".5"/><circle cx="19" cy="13.5" r="1.3" fill="currentColor" opacity=".5"/><circle cx="14.5" cy="15.5" r="1" fill="currentColor" opacity=".5"/></symbol>
+  <symbol id="pzi_old" viewBox="0 0 32 24"><circle cx="16" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M10 9l3 1M18 7l2 2M12 15l2-1M19 15l3 1M15 11l1 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/></symbol>
+  <symbol id="pzt_old" viewBox="0 0 32 24"><ellipse cx="16" cy="12" rx="13" ry="7.5" fill="none" stroke="currentColor" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10.5" ry="5.4" fill="none" stroke="currentColor" stroke-width=".7" opacity=".5"/></symbol>
+  <symbol id="pzl_old" viewBox="0 0 32 24"><circle cx="16" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M12 8c2 1 6 1 8 0M11 12h10M12 16c2-1 6-1 8 0" stroke="currentColor" stroke-width=".9" opacity=".55"/><path d="M6 21L26 3" stroke="currentColor" stroke-width="1.2" opacity=".7"/></symbol>
+  <symbol id="pzi" viewBox="0 0 32 32"><path d="M16 30V8" stroke="#8A6A2B" stroke-width="1.4" fill="none" stroke-linecap="round"/><g fill="#D9A83B" stroke="#8A6A2B" stroke-width=".8"><ellipse cx="13.3" cy="9" rx="2.2" ry="3.6" transform="rotate(-25 13.3 9)"/><ellipse cx="18.7" cy="9" rx="2.2" ry="3.6" transform="rotate(25 18.7 9)"/><ellipse cx="13" cy="15.5" rx="2.3" ry="3.8" transform="rotate(-25 13 15.5)"/><ellipse cx="19" cy="15.5" rx="2.3" ry="3.8" transform="rotate(25 19 15.5)"/><ellipse cx="13" cy="22" rx="2.3" ry="3.8" transform="rotate(-25 13 22)"/><ellipse cx="19" cy="22" rx="2.3" ry="3.8" transform="rotate(25 19 22)"/><ellipse cx="16" cy="4.6" rx="1.8" ry="3"/></g></symbol>
+  <symbol id="pzt" viewBox="0 0 32 32"><ellipse cx="16" cy="19" rx="14" ry="6.5" fill="#E9B464" stroke="#9C5B1E" stroke-width="1"/><ellipse cx="16" cy="18.4" rx="11.2" ry="4.6" fill="#D9442E"/><circle cx="12" cy="18" r="1.6" fill="#FFF4D6"/><circle cx="19" cy="17" r="1.8" fill="#FFF4D6"/><circle cx="16.5" cy="20.2" r="1.4" fill="#FFF4D6"/><path d="M9 8.5l1.6-3M15.5 7l.6-3.4M22 8.4l1.8-3" stroke="#9C5B1E" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="pzl" viewBox="0 0 32 32"><path d="M12.5 4h7v3.6l3 4.6V27a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V12.2l3-4.6z" fill="#EAF2FC" stroke="#3B4C9B" stroke-width="1.2" stroke-linejoin="round"/><path d="M9.5 16.5h13V27a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2z" fill="#FFFFFF" stroke="#3B4C9B" stroke-width="1.2"/><path d="M5 28L27 6" stroke="#D23B3B" stroke-width="2.4" stroke-linecap="round"/></symbol>
+</defs></svg>
+
+<div class="bar">
+  <div class="id"><b>LUNA BLU</b><span>Carta autunno-inverno 2026 · libro A4 · proposta RBR</span></div>
+  <div class="toggle" role="group" aria-label="Vista">
+    <button id="bCli" aria-pressed="true">Vista cliente</button>
+    <button id="bCon" aria-pressed="false">Vista consulente</button>
+  </div>
+  <p class="hint" id="hint">Il menu come lo vede chi si siede al tavolo.</p>
+</div>
+
+<div class="piano">
+
+<div class="spread"><p class="etichetta">Copertina</p><div class="doppia">
+  <section class="pag blu centrata">
+    
+    <div class="marchio">LUNA BLU</div>
+    <div class="marchio-sub">dal 1980</div>
+    <div class="marchio-tag">Ristorante · Pizzeria</div>
+    <div class="indirizzo">Via Antonio Gramsci 11 · Parma</div>
+  </section>
+</div></div>
+
+<div class="spread"><p class="etichetta">Si apre · antipasti e la Luna Blu Experience</p><div class="doppia">
+  <section class="pag ariosa">
+    <div class="sec">
+      <h2 class="cat">Antipasti</h2>
+      <div class="piatti">{{ANTI}}</div>
+      <p class="nota"><b>7 voci, ordinate per margine, il n.1 in seconda posizione.</b> Escono l'impepata di cozze (5 al mese, margine 9,37 €) e la bruschetta (5 al mese, 6,24 €): vendono poco e rendono poco. Il Misto mare a 27 € a persona è il piatto più redditizio della carta (20,79 € di margine, 41,58 € al tavolo da due), quindi ha riquadro e foto. Prezzi +1 € (Misto mare +2): <b>+{{T_antipasti}} €/anno</b>.</p>
+    </div>
+    <div class="sec">
+      <h2 class="cat">Insalate</h2>
+      <div class="piatti">{{INS}}</div>
+      <p class="nota"><b>Vendono poco (1-4 al mese) ma rendono tanto: stanno con gli antipasti, dove si sceglie il piatto leggero.</b> Ne restano tre, esce quella del nonno. <b>+{{T_insalatone}} €/anno</b>.</p>
+    </div>
+    <p class="piede">I piatti che presentano l'asterisco potrebbero essere preparati con prodotti congelati o abbattuti in base alla disponibilità.<br>L'elenco completo degli allergeni presenti nei nostri piatti è disponibile su richiesta. Consulta il personale o richiedi il documento dedicato.<br>Prezzi espressi in euro. Coperto e Servizio | 3</p>
+  </section>
+  <section class="pag blu centrata">
+    <span class="exp-occ">Luna Blu</span>
+    <h2 class="exp-tit">Experience</h2>
+    <p class="exp-sotto">Un percorso per assaggiare la nostra cucina. Scegliete il vostro viaggio: <b>tra terra e mare</b>.</p>
+    <div class="tappe">
+      <div class="tappa"><span class="t">Un antipasto da dividere</span><small>al centro del tavolo</small></div>
+      <div class="tappa"><span class="t">Una portata a testa</span><small>a scelta tra <b>La pasta</b> e <b>I secondi</b></small></div>
+      <div class="tappa"><span class="t">e un dolce da dividere</span><small>per chiudere il viaggio</small></div>
+    </div>
+    <p class="exp-prezzo"><s>32</s> 27 a persona</p>
+    <p class="nota" style="max-width:150mm;text-align:left"><b>Serve a portare il dolce al tavolo, non a scontare.</b> Costo materie prime stimato 5,70 € a persona (mezzo antipasto 1,80 + portata 3,00 + mezzo dolce 0,90): margine circa 18,80 € contro i 13,40 € di una portata da sola. Se lo sceglie 1 coperto su 20 (circa 320 all'anno) vale <b>circa +1.700 €/anno</b>. Zero piatti nuovi in cucina.</p>
+    <p class="exp-nota">La portata a testa si sceglie tra le sezioni «La pasta» e «I secondi». Coperto e bevande esclusi.</p>
+  </section>
+</div></div>
+
+<div class="spread"><p class="etichetta">Si apre · i primi e i secondi</p><div class="doppia">
+  <section class="pag">
+    <div class="sec">
+      <h2 class="cat">I primi d'autore</h2>
+      {{PREMP}}
+      <p class="nota"><b>Premium in alto: fanno da ancora.</b> Dopo un risotto da 21 e le vongole da 22, la pasta da 16-19 sembra il prezzo giusto. Tutti e tre sono piatti invernali già fatti in cucina. Tagliatelle da 15 a 18: porcini di stagione, 12 al mese. <b>+{{T_primi_autore}} €/anno</b>.</p>
+    </div>
+    <div class="banda">
+      <div class="bt">Che fame hai?</div>
+      <div class="flist misure">
+        <div class="fcard"><span class="ico"><svg width="30" height="24"><use href="#f1"/></svg></span><span class="fn">normale</span><span class="fd">100 g</span><span class="fd fp">&nbsp;</span></div>
+        <div class="fcard"><span class="ico"><svg width="34" height="26"><use href="#f2"/></svg></span><span class="fn">abbastanza</span><span class="fd">150 g</span><span class="fd fp">+ 4</span></div>
+        <div class="fcard"><span class="ico"><svg width="38" height="28"><use href="#f3"/></svg></span><span class="fn">tanta</span><span class="fd">220 g</span><span class="fd fp">+ 6</span></div>
+      </div>
+      <p class="nota"><b>Formati sulla pasta.</b> 50 g di pasta in più costano pochi centesimi. Circa 1.670 primi all'anno: se 8 clienti su 100 scelgono un formato più grande, <b>circa +470 €/anno</b>.</p>
+    </div>
+    <div class="sec">
+      <h2 class="cat">La pasta</h2>
+      <div class="piatti">{{PASTA}}</div>
+      <p class="nota"><b>Base invernale, due sole voci dall'estivo</b>: linguine allo scoglio (27 al mese, il primo più venduto dell'anno, prendono il posto degli scialatielli) e paccheri al polpo (9 al mese contro i 4 dei paccheri alla livornese, che escono). Risotto ai porcini e anolini in brodo li vendete già fuori carta: entrano. Lasagne da 10 a 12, la più sotto prezzo. <b>+{{T_pasta}} €/anno</b>, senza contare il risotto ai porcini che oggi non è in carta.</p>
+    </div>
+    <p class="piede">I piatti che presentano l'asterisco potrebbero essere preparati con prodotti congelati o abbattuti in base alla disponibilità.<br>L'elenco completo degli allergeni presenti nei nostri piatti è disponibile su richiesta. Consulta il personale o richiedi il documento dedicato.<br>Prezzi espressi in euro. Coperto e Servizio | 3</p>
+  </section>
+  <section class="pag">
+    <div class="sec">
+      <h2 class="cat">I grandi secondi</h2>
+      {{PREMS}}
+      <p class="nota"><b>I tre piatti da 25 diventano il riquadro premium</b> (filetto e grigliata a 28, spigola a 26). Il filetto in cassa è battuto anche come «costata». <b>+{{T_grandi_secondi}} €/anno</b>.</p>
+    </div>
+    <div class="sec">
+      <h2 class="cat">I secondi</h2>
+      <div class="piatti">{{SEC}}</div>
+      <p class="nota"><b>La frittura è il secondo più venduto</b> (31 al mese): da 18 a 20 vale da sola circa 690 €/anno. La grigliata di carne a 20 (versione estiva) sostituisce lo spiedino da 18: stessi ingredienti, 1,80 € di margine in più. Totale sezione <b>+{{T_secondi}} €/anno</b>.</p>
+    </div>
+    <div class="sec contorni">
+      <h3 class="sub">Contorni</h3>
+      <div class="cont">{{CONT}}</div>
+      <p class="nota"><b>Contorni a 6,50.</b> Patatine 44 al mese. Le patate al forno entrano in carta (oggi fuori carta a 4 €), escono le verdure al vapore. <b>+{{T_contorni}} €/anno</b>.</p>
+    </div>
+    
+  </section>
+</div></div>
+
+<div class="spread"><p class="etichetta">Si apre · le pizze</p><div class="doppia">
+  <section class="pag pizze">
+    <div class="sec">
+      <h2 class="cat">Le tradizionali</h2>
+      <div class="piatti">{{PTRA}}</div>
+      <p class="nota"><b>+1 € su tutte.</b> <b>+{{T_tradizionali}} €/anno</b>.</p>
+    </div>
+    <div class="banda">
+      <div class="bt">Scegli il tuo impasto</div>
+      <div class="flist misure">
+        <div class="fcard"><span class="foto mini img"><img src="img/lb_imp_integrale.webp" alt="Impasto integrale"></span><span class="fn">integrale</span><span class="fd">più leggera + 2</span></div>
+        <div class="fcard"><span class="fn">croccante</span><span class="fd">sottile + 2,5</span></div>
+        <div class="fcard"><span class="foto mini img"><img src="img/lb_imp_lattosio.webp" alt="Mozzarella senza lattosio"></span><span class="fn">senza lattosio</span><span class="fd">mozzarella + 2</span></div>
+      </div>
+      <p class="nota"><b>Gli impasti oggi sono scritti in piccolo in fondo alla pagina:</b> qui diventano una scelta. Se 8 clienti su 100 ne scelgono uno (circa 1,50 € di margine), <b>circa +820 €/anno</b>. La pizza maxi a metro esce dalla carta: resta su richiesta per feste e gruppi.</p>
+    </div>
+    <div class="sec">
+      <h2 class="cat">Le classiche</h2>
+      <div class="piatti">{{PCLA}}</div>
+      <p class="nota"><b>La Margherita esce dalla carta</b> (come su Cartabianca) ma resta in cassa a 8 €: chi la vuole la chiede comunque, gli altri scelgono una pizza che rende di più. 94 al mese, +1 € vale circa 1.020 €/anno. Le classiche sono le più vendute e quelle che rendono meno: +1 € su tutte, <b>+{{T_classiche}} €/anno</b>. Prosciutto e funghi con gli champignon: con i porcini aveva il food cost al 37%. <b>Tutte le pizze insieme: +{{T_pizze}} €/anno</b>.</p>
+    </div>
+    <p class="piede">I piatti che presentano l'asterisco potrebbero essere preparati con prodotti congelati o abbattuti in base alla disponibilità.<br>L'elenco completo degli allergeni presenti nei nostri piatti è disponibile su richiesta. Consulta il personale o richiedi il documento dedicato.<br>Prezzi espressi in euro. Coperto e Servizio | 3</p>
+  </section>
+  <section class="pag pizze">
+    <div class="sec">
+      <h2 class="cat">Le pizze d'autore</h2>
+      {{PAUT}}
+      <p class="nota"><b>Le tre pizze più care fanno da ancora</b> per le speciali da 11-13. La Mondiale diventa «Santa Croce» (stessa ricetta, nome legato alla storia del locale). Escono Blue Moon e Bronte e Mazara. Entrano l'Amalfi a 16 € (12,74 € di margine, food cost 12%) e la Pistacchina a 14 € (food cost stimato). <b>+{{T_pizze_autore}} €/anno</b>.</p>
+    </div>
+    <div class="sec">
+      <h2 class="cat">Le speciali di Luna Blu</h2>
+      <div class="piatti">{{PSPE}}</div>
+      <p class="nota"><b>+1 € su tutte, descrizioni su una riga.</b> In evidenza la Crudo e stracciatella (12 al mese), non la Pescatora: le pizze di mare si vendono poco. Resta solo la Viennese (Chip & Chop esce). Entrano Patatosa special (dall'estivo, invernale: patate al forno e salsiccia) e Speck & gorgo. Escono Gorgo calabrese (doppione della Diavola), Quattro stagioni (doppione della Capricciosa), Patatosa, Blue Moon, Estiva, Del carrozziere, Speck & gorgo, Caprese, Italia, Sorpresa, Pistacchina, Delicata, Allegra, Norvegese, Amalfi e i due calzoni: tutte sotto le soglie di vendita o di margine. <b>+{{T_speciali}} €/anno</b>.</p>
+    </div>
+    <div class="banda giu">
+      <div class="bt">La vuoi ancora più buona?</div>
+      <div class="flist">
+        <div class="fcard"><span class="foto mini img"><img src="img/lb_add_bufala.webp" alt="Bufala DOP"></span><span class="fn">Bufala DOP</span><span class="fd">spezzata a mano + 3</span></div>
+        <div class="fcard"><span class="foto mini img"><img src="img/lb_add_stracciatella.webp" alt="Stracciatella"></span><span class="fn">Stracciatella</span><span class="fd">aggiunta a crudo + 3</span></div>
+        <div class="fcard"><span class="foto mini img"><img src="img/lb_add_crudo.webp" alt="Crudo di Parma"></span><span class="fn">Crudo di Parma</span><span class="fd">24 mesi a fette sottili + 3</span></div>
+        <div class="fcard"><span class="foto mini img"><img src="img/lb_add_porcini.webp" alt="Funghi porcini"></span><span class="fn">Funghi porcini</span><span class="fd">saltati in padella + 3,5</span></div>
+      </div>
+      <p class="nota"><b>Le aggiunte oggi non sono scritte.</b> Circa 6.900 pizze all'anno: se 8 clienti su 100 ne aggiungono una (circa 2 € di margine), <b>circa +1.100 €/anno</b>.</p>
+    </div>
+    
+  </section>
+</div></div>
+
+<div class="spread"><p class="etichetta">Retro</p><div class="doppia">
+  <section class="pag blu centrata">
+    <div class="luna" aria-hidden="true"></div>
+    <div class="marchio" style="font-size:26pt">LUNA BLU</div>
+    <div class="marchio-tag">Ristorante · Pizzeria · Parma</div>
+    <p class="chiusa">Grazie di essere stati nostri ospiti.<br>Chiedete la carta dei dolci e quella dei vini e delle birre.</p>
+    <p class="nota" style="max-width:160mm;text-align:left;margin-top:10mm"><b>Potenziale della carta: circa +{{T_tutto}} €/anno dai prezzi dei piatti in carta</b>, più circa 1.020 € dalla Margherita a 8 in cassa, a parità di pezzi venduti. In più: formati pasta (~470), aggiunte pizza (~1.100), impasti (~820), Experience (~1.700). <b>Totale circa +14.000 €/anno</b> sul cibo alla carta, senza contare birre e vini (in carta a parte). I piatti tolti (13 pizze, la Margherita fuori carta, 14 panuozzi, 4 piatti di cucina) spostano clienti verso piatti che rendono di più. Food cost dei piatti solo invernali (lasagne, vongole, tris, tagliatelle, risotti, anolini, filetto) stimato per analogia: servono le ricette.</p>
+    <div class="indirizzo">Via Antonio Gramsci 11 · Parma</div>
+  </section>
+</div></div>
+
+</div>
+
+<script>
+(function(){
+  var b=document.body,cli=document.getElementById('bCli'),con=document.getElementById('bCon'),hint=document.getElementById('hint');
+  function set(rbr){
+    b.classList.toggle('rbr',rbr);
+    cli.setAttribute('aria-pressed',String(!rbr));con.setAttribute('aria-pressed',String(rbr));
+    hint.textContent=rbr?'Margini da file 02 Food Cost, pezzi venduti dalla cassa (ott-mag). Il numero nel cerchietto è il posto in classifica per margine.':'Il menu come lo vede chi si siede al tavolo.';
+  }
+  cli.addEventListener('click',function(){set(false)});con.addEventListener('click',function(){set(true)});
+})();
+</script>
+

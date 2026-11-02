@@ -1,6 +1,6 @@
 ---
 name: catenaria-pienissimo
-description: Costruisce una catenaria email completa (funnel posizionamento + promo + remind) nel backoffice Pienissimo Pro, creando promozioni, tag e i nodi del workflow via API. Usa questa skill ogni volta che l'utente parla di catenaria, workflow o funnel email su Pienissimo, deve caricare in piattaforma un file di mail già scritte, chiede di creare promozioni o coupon su Pienissimo, o nomina un locale cliente insieme a Pienissimo — anche se non dice esplicitamente "catenaria".
+description: Costruisce una catenaria email completa (funnel posizionamento + promo + remind) nel backoffice Pienissimo Pro, creando promozioni, tag e i nodi del workflow via API. Usa questa skill ogni volta che l'utente parla di catenaria, workflow o funnel email su Pienissimo, deve caricare in piattaforma un file di mail già scritte, chiede di creare promozioni o coupon su Pienissimo, o nomina un locale cliente insieme a Pienissimo — anche se non dice esplicitamente "catenaria". Vale anche per "promo vecchie", "spegnere/pulire le promozioni su Pienissimo", "account Pienissimo ereditato".
 ---
 
 # Catenaria su Pienissimo Pro
@@ -46,9 +46,19 @@ dillo esplicitamente.
 
 **Segnala gli scostamenti tra testo e listino.** Le mail sono scritte prima, il listino POS
 cambia dopo: capita che una mail prometta "tutti e sei i burger" mentre a listino ce ne sono
-dodici, o nomini un prodotto che non esiste più. Non correggere il testo di tua iniziativa e
-non tirare a indovinare sul prodotto: configura quello che il cliente leggerà nella mail e
-segnala la discrepanza all'utente, che è l'unico a sapere quale delle due fonti è aggiornata.
+dodici, o nomini un prodotto che non esiste più. Vale anche per le immagini: una foto di un
+piatto tolto dalla carta è uno scostamento come una frase sbagliata. Non correggere il testo di
+tua iniziativa e non tirare a indovinare sul prodotto: configura quello che il cliente leggerà
+nella mail e segnala la discrepanza all'utente, che è l'unico a sapere quale delle due fonti è
+aggiornata.
+
+**Le immagini "già approvate" vanno comunque controllate.** Approvate vuol dire caricate dal
+cliente, non attuali: scarta anche le foto di piatti non più a listino (confronto col listino
+POS attuale; se non riconosci il piatto chiedi al titolare) e quelle di persone che non
+lavorano più lì. La prima mail (POS1) arriva a tutta la lista: fai rileggere testo e foto al
+titolare prima che la attivi. Quando riscrivi una catenaria attiva, controlla le foto di
+**tutte** le mail, non solo la prima: la stessa foto da correggere può restare in più punti del
+funnel dopo che hai sistemato solo l'inizio.
 
 ## Catenaria già attiva e coupon su WhatsApp
 
@@ -57,5 +67,10 @@ segnala la discrepanza all'utente, che è l'unico a sapere quale delle due fonti
   Andrea, 10/09/2026).
 - **Coupon che partono su WhatsApp**: il coupon va su WA anche con i testi WA vuoti. Per mandarli
   solo via email: Impostazioni → Messaggi → rotellina → Impostazioni Promozioni → Modalità invio
-  PR1/PR2/PR3 = E-mail. **Mai** togliere il canale "marketing" dal numero WhatsApp: spegne tutto il
-  marketing WA → `playbook.md` §10 (contributo di Andrea, 10/09/2026).
+  PR1/PR2/PR3 = E-mail (motivo: Meta può bloccare il numero per lo scarico di QR coupon via WA, e
+  col numero bloccato si fermano anche le conferme di prenotazione). **Mai** togliere il canale
+  "marketing" dal numero WhatsApp: spegne tutto il marketing WA → `playbook.md` §10 (contributo di
+  Andrea, 10/09/2026). Per questo, su una catenaria con coupon, l'impostazione di default è
+  PR1/PR2/PR3 = E-mail.
+- **Account ereditato da una gestione precedente**: prima di costruire, censisci e valuta se
+  spegnere promo e catenarie già attive → `playbook.md` §11 (contributo di Andrea, 12/10/2026).

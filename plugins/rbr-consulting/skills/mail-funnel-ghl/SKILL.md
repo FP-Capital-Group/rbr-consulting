@@ -64,11 +64,32 @@ per ogni promo** — è uno step standard della procedura, non va richiesto ogni
    proporre esplicitamente una card in HTML/CSS (tabella con due pannelli, colori del
    brand, titolo offerta, dettaglio, dicitura "Mostra questo coupon in cassa") e far
    approvare lo stile prima di applicarlo a tutte le promo.
+   - **Oltre alle condizioni, l'email deve dire COSA si riceve** (es. "la birra
+     offerta con un panino della Burger Selection"), con validità e condizioni —
+     controllo pratico: leggendo solo l'email consegnata, il cameriere sa cosa dare?
+     (contributo di Andrea Chirivì, 2026-10-12)
+   - **La mail mostra la foto del piatto o del prodotto dell'offerta**, non solo
+     testo e QR: caso reale, miniatura 84×84 di ciascun prodotto accanto alla sua
+     descrizione. Le immagini stanno su un **URL pubblico stabile** (uploads del
+     sito del cliente o libreria media GHL), mai su un link temporaneo. Due limiti
+     da scrivere accanto: Outlook spesso non scarica le immagini, quindi l'offerta
+     deve restare comprensibile anche senza foto (vedi il punto sul beneficio in
+     chiaro sopra); la foto è quella del prodotto di QUELLA promo, mai un prodotto
+     escluso dall'offerta. (contributo di Andrea Chirivì, 2026-10-12)
 8. **Test prima della massa**: creare UN solo template di prova via
    `POST /emails/locations/:locationId/templates` (body: `name`, `editorType:"html"`,
    `editorContent`, `subjectLine`), poi aprire il `previewUrl`/`editorContentUrl`
    restituito nel browser e leggere il testo/verificare visivamente. Solo dopo conferma
    dell'utente, procedere con gli altri in batch.
+   - **Genera la shell e i corpi in solo ASCII con entità** (`&mdash;`, `&euro;`,
+     `&egrave;`…) e controlla che il file non abbia byte fuori dall'ASCII prima del
+     POST — dettaglio e come riconoscere il guasto (accenti storpiati da un
+     problema di appunti, non da GHL): `references/builder-ghl.md`. (contributo di
+     Andrea Chirivì, 2026-10-12)
+   - **L'oggetto che parte è quello del nodo Email del workflow**, non il
+     `subjectLine` del template. Sui messaggi letti via API il campo `subject`
+     risulta `None` anche per email che hanno l'oggetto: controllalo nel nodo o
+     nell'email ricevuta.
 9. **Batch**: script Python con `subprocess`+`curl` per l'HTTP (su alcune macchine
    `urllib`/`requests` falliscono per `CERTIFICATE_VERIFY_FAILED`: preferire `curl`).
    Loggare ogni risposta in un `results.json` con gli id creati, per poter poi correggere
@@ -107,17 +128,30 @@ Body creazione minimo:
 ## Attenzione / limiti noti
 
 - Le API pubbliche GHL **non permettono di creare o modificare workflow/automazioni**:
-  solo lettura. Per costruire l'automazione serve l'editor grafico di GHL (manualmente,
-  oppure guidando l'utente passo-passo, oppure — se l'utente si logga lui stesso nel
-  pannello Browser — automatizzando i click, con i limiti di fragilità di un editor
-  drag-and-drop). Regola RBR: non promettere al cliente che il workflow lo montiamo noi via
-  browser; consegna la **specifica di montaggio blocco per blocco** (trigger, rami, azioni, testi).
-  Trappole del builder (canvas, editor HTML che chiude i tag, attesa ricorrente, campi
-  personalizzati, copia propria del nodo Email): `references/builder-ghl.md`.
+  solo lettura. ⚠️ **Correzione (contributo di Luciano Purpi e Andrea Chirivì,
+  2026-10-12)**: nel browser, con la **scheda Chrome visibile** (trappola n.1, vedi
+  `references/builder-ghl.md`), il builder **SI PILOTA** a screenshot + clic —
+  confermato montando e pubblicando workflow interi. La regola "l'editor gira in un
+  iframe che non riceve gli eventi sintetici" era osservata a scheda nascosta ed è
+  superata per il canvas dei workflow; restano non pilotabili Form Builder v2, page
+  builder dei funnel e Brizy. Regola RBR invariata: **non si promette al cliente che
+  il workflow lo montiamo noi**, si consegna comunque la **specifica di montaggio
+  blocco per blocco** (trigger, rami, azioni, testi) e la pubblicazione/ogni invio
+  restano decisioni di una persona. **Mai modifiche a un workflow da un'automazione
+  non presidiata** (task programmato, `/loop`, script lasciato girare): un caso
+  reale ha generato un loop da 575 messaggi.
+  Trappole del builder (scheda visibile, canvas, condizioni e rami, editor HTML,
+  tendine, attesa ricorrente, campi personalizzati, copia propria del nodo Email,
+  backend interno): `references/builder-ghl.md`.
 - Mai riusare grafiche/coupon specifici di una promo per altre senza verificarne il
   contenuto reale (rischio di mostrare un'offerta sbagliata a un cliente finale).
 - Attenzione ai comandi distruttivi in sequenza (es. DELETE su più id in un unico blocco
   bash): eseguire ed eyeball-checkare l'id giusto prima di ogni cancellazione.
+- **Il tool MCP `emails_create-template` crea solo il guscio** del template (vuoto o
+  importato da Mailchimp/ActiveCampaign/Kajabi): non ha un campo per il corpo. Il
+  contenuto si carica con la REST v3 (`POST` con `editorContent`, passo 8, o
+  `PATCH`, passo 11) oppure si incolla nell'editor — non provare a caricare la
+  catenaria dal solo connettore MCP. (contributo di Andrea Chirivì, 2026-10-12)
 
 ## Dopo il caricamento: collaudo e modifiche
 

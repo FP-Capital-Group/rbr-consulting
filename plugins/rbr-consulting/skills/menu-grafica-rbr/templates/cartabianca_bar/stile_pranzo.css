@@ -1,0 +1,190 @@
+:root{
+  color-scheme:light;
+  /* palette del sito nuovo cartabianca.ristoranteonline.ai (03/10/2026) */
+  --carta:#FFFFFF; --panna:#F5EFE0; --inchiostro:#3C2118; --grafite:#2E170D;
+  --soft:#6E5D52; --linea:#E8E2DA; --oro:#A6192E; --oro-chiaro:#F3D9A4;
+  --marrone:#4A2617; --rosso:#A6192E;
+  --display:'Lora',Georgia,serif;
+  --wide:'DM Sans','Helvetica Neue',Arial,sans-serif;
+  --script:'Lora',Georgia,serif;
+  --body:'DM Sans','Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--grafite);color:var(--inchiostro);font-family:var(--body);font-size:15px;-webkit-font-smoothing:antialiased}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between;
+  padding:11px 20px;background:rgba(22,21,20,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.12);color:#EEEAE3}
+.bar .id{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.bar .id b{font-family:var(--wide);font-weight:600;font-size:14px;letter-spacing:.32em;color:#fff}
+.bar .id span{font-size:12px;color:rgba(238,234,227,.62);letter-spacing:.12em;text-transform:uppercase}
+.toggle{display:flex;border:1px solid rgba(255,255,255,.26);border-radius:999px;overflow:hidden}
+.toggle button{font-family:var(--wide);font-weight:500;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border:0;cursor:pointer;background:transparent;color:rgba(238,234,227,.66);transition:background .18s,color .18s}
+.toggle button[aria-pressed="true"]{background:var(--oro);color:#161514}
+.toggle button:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:2px}
+.hint{font-size:12.5px;color:rgba(238,234,227,.62);max-width:44ch;line-height:1.45;margin:0}
+
+.piano{padding:30px 16px 70px;overflow-x:auto}
+.spread{width:max-content;margin:0 auto 44px}
+.etichetta{font-family:var(--wide);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(238,234,227,.45);font-weight:500;margin:0 0 11px 2px}
+.doppia{display:flex;box-shadow:0 26px 64px -22px rgba(0,0,0,.85)}
+.pag{width:210mm;flex:0 0 210mm;min-height:297mm;background:var(--carta);padding:17mm 17mm 14mm;display:flex;flex-direction:column;gap:5.5mm;position:relative}
+.pag::before{content:"";position:absolute;top:6mm;left:6mm;right:6mm;bottom:6mm;border:1.6pt solid var(--inchiostro);pointer-events:none}
+.pag::after{content:"";position:absolute;top:7.6mm;left:7.6mm;right:7.6mm;bottom:7.6mm;border:.5pt solid var(--inchiostro);pointer-events:none}
+.pag+.pag{border-left:1px solid var(--linea)}
+.pag.nero{background:var(--inchiostro);color:#F4F1EB}
+.pag.nero::before,.pag.nero::after{border-color:rgba(244,241,235,.55)}
+.pag.panna{background:var(--panna)}
+.pag.centrata{justify-content:center;align-items:center;text-align:center;gap:0}
+.num{position:absolute;bottom:9.5mm;left:0;right:0;text-align:center;font-family:var(--wide);font-size:7pt;color:var(--soft);letter-spacing:.24em}
+.pag.nero .num{color:rgba(244,241,235,.45)}
+
+/* titoli: occhiello dritto in maiuscolo + titolo in corsivo come la carta di oggi */
+.cap{display:block;text-align:center;margin-top:1mm}
+.occhiello{font-family:var(--wide);font-weight:500;font-size:7pt;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);margin:0}
+h2.cat{font-family:var(--script);font-weight:400;font-size:34pt;line-height:1;color:var(--inchiostro);margin:.5mm 0 0;text-wrap:balance}
+.sec{display:flex;flex-direction:column;gap:4mm}
+
+/* piatto */
+.piatti{display:flex;flex-direction:column;gap:3.2mm}
+.p{display:block}
+.nome{font-weight:700;font-size:10.4pt;line-height:1.3;display:block;letter-spacing:.01em}
+.alg{font-size:6.4pt;font-weight:400;font-style:italic;color:var(--soft);margin-left:1.4mm;vertical-align:1px}
+.desc{font-size:8.8pt;line-height:1.42;color:var(--soft);font-style:italic;margin-top:.5mm;display:block}
+.prezzo{font-style:normal;font-weight:600;color:var(--inchiostro);white-space:nowrap;font-variant-numeric:tabular-nums}
+.sep{margin:0 1.3mm;opacity:.5;font-style:normal}
+.due{font-style:normal;font-weight:600;color:var(--inchiostro)}
+.vin,.birra{display:flex;align-items:center;gap:1.8mm;margin-top:1mm;font-size:7.8pt;color:var(--soft);line-height:1.3}
+.vin b,.birra b{font-weight:600;color:var(--inchiostro)}
+.vin svg,.birra svg{flex:0 0 auto;color:var(--inchiostro)}
+
+/* evidenze: massimo una per tipo per sezione */
+.p.pieno{background:var(--inchiostro);border-radius:2.6mm;padding:3mm 4mm 3.4mm;color:#F4F1EB}
+.p.pieno .nome,.p.pieno .prezzo,.p.pieno .due{color:#fff}
+.p.pieno .desc,.p.pieno .alg,.p.pieno .vin,.p.pieno .birra{color:rgba(244,241,235,.72)}
+.p.pieno .vin b,.p.pieno .birra b{color:var(--oro-chiaro)}
+.p.pieno .vin svg,.p.pieno .birra svg{color:var(--oro-chiaro)}
+.p.pieno .rank{color:rgba(244,241,235,.8);border-color:rgba(244,241,235,.4)}
+.p.bordo{border:.9pt solid var(--inchiostro);border-radius:2.6mm;padding:2.8mm 4mm 3mm}
+.p.asta{border-left:2.2pt solid var(--oro);padding-left:3.4mm}
+
+/* premium: blocco nero in cima alla pagina */
+.premio{background:var(--inchiostro);color:#F4F1EB;border-radius:3mm;padding:4mm 5mm 4.6mm;text-align:left}
+.premio .occhiello{color:var(--oro-chiaro);text-align:center}
+.premio h2.cat{color:#fff;text-align:center;font-size:30pt}
+.pre-sotto{font-size:8.3pt;font-style:italic;color:rgba(244,241,235,.65);text-align:center;margin:.6mm 0 0}
+.premio .piatti{margin-top:3mm;gap:3mm}
+.premio .nome,.premio .prezzo,.premio .due{color:#fff}
+.premio .desc,.premio .alg,.premio .vin,.premio .birra{color:rgba(244,241,235,.7)}
+.premio .vin b,.premio .birra b{color:var(--oro-chiaro)}
+.premio .vin svg,.premio .birra svg{color:var(--oro-chiaro)}
+.premio .foto{border-color:rgba(244,241,235,.3);background:rgba(255,255,255,.05);color:var(--oro-chiaro)}
+.premio .foto span{color:rgba(244,241,235,.5)}
+
+.p.pfoto{display:grid;grid-template-columns:1fr 20mm;gap:4mm;align-items:start}
+.foto{border-radius:2mm;border:.8pt dashed var(--linea);background:rgba(22,21,20,.03);display:grid;place-items:center;position:relative;aspect-ratio:1;color:var(--inchiostro);max-width:100%}
+.foto span{position:absolute;bottom:1mm;left:0;right:0;text-align:center;font-family:var(--wide);font-size:5pt;letter-spacing:.2em;color:var(--soft)}
+
+/* bande formati / impasti */
+.banda{border-top:.9pt solid var(--inchiostro);border-bottom:.9pt solid var(--inchiostro);padding:3mm 0 3.4mm;display:flex;flex-direction:column;gap:2.4mm}
+.bt{font-family:var(--wide);font-weight:600;font-size:8.5pt;letter-spacing:.3em;text-transform:uppercase;text-align:center}
+.bs{font-size:8pt;font-style:italic;color:var(--soft);text-align:center;margin:.6mm 0 0}
+.flist{display:flex;gap:4mm;justify-content:space-between;align-items:flex-end}
+.fcard{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.8mm}
+.ico{height:10mm;display:grid;place-items:end center;color:var(--inchiostro)}
+.fg{font-family:var(--display);font-weight:600;font-size:12pt}
+.fn{font-family:var(--wide);font-weight:600;font-size:6.8pt;text-transform:uppercase;letter-spacing:.18em}
+.fd{font-size:7.8pt;color:var(--soft);line-height:1.3;font-style:italic}
+.fp{font-family:var(--display);font-weight:600;font-size:10.5pt}
+.impasti .flist{align-items:flex-start}
+
+/* copertina e percorso */
+.cop-cornice{display:flex;flex-direction:column;align-items:center}
+.marchio{font-family:var(--display);font-weight:500;font-size:78pt;line-height:.9;letter-spacing:.04em;color:#fff}
+.marchio-sub{font-family:var(--wide);font-weight:500;font-size:17pt;letter-spacing:.34em;margin:4mm 0 0 .34em;color:#fff}
+.filetto{width:20mm;height:1.2pt;background:var(--oro);margin:12mm 0 10mm}
+.cop-luogo{font-family:var(--wide);font-size:9pt;letter-spacing:.36em;text-transform:uppercase;color:rgba(244,241,235,.85);line-height:2;margin:0}
+.cop-luogo span{color:rgba(244,241,235,.55)}
+.perc-occ{font-family:var(--wide);font-size:7.5pt;letter-spacing:.36em;text-transform:uppercase;color:var(--oro-chiaro)}
+.perc-tit{font-family:var(--script);font-weight:400;font-size:52pt;line-height:1;color:#fff;margin:4mm 0 0}
+.perc-sotto{font-size:9.5pt;line-height:1.6;color:rgba(244,241,235,.75);max-width:36ch;margin:3mm 0 0;font-style:italic}
+.portate{display:flex;flex-direction:column;width:100%;max-width:130mm;margin-top:8mm}
+.portata{display:grid;grid-template-columns:8mm 1fr;gap:3.5mm;align-items:baseline;padding:3.6mm 0;border-bottom:.6pt solid rgba(244,241,235,.2);text-align:left}
+.portata:last-child{border-bottom:0}
+.portata .n{font-family:var(--display);font-size:10pt;color:var(--oro-chiaro)}
+.portata .t{font-size:10.5pt;font-weight:600;line-height:1.35;color:#fff}
+.portata .t small{display:block;font-weight:400;font-size:8.5pt;font-style:italic;color:rgba(244,241,235,.62);margin-top:.6mm}
+.perc-prezzo{margin-top:8mm;font-size:11pt;color:#fff;text-align:center;line-height:1.9}
+.perc-prezzo b{font-family:var(--display);font-weight:600;font-size:15pt}
+.perc-prezzo .r{display:block;font-size:8.5pt;color:rgba(244,241,235,.65);font-style:italic}
+
+.bev{display:flex;flex-wrap:wrap;gap:2.2mm 7mm;align-items:baseline;justify-content:center}
+.bev span{font-size:9.2pt}
+.bev b{font-weight:600;margin-left:1.6mm;font-variant-numeric:tabular-nums}
+.amari{display:block;column-count:2;column-gap:8mm}
+.amari .p{break-inside:avoid;margin-bottom:2.6mm}
+.desc .birra.in,.desc .vin.in{display:inline-flex;margin:0 0 0 1.6mm;vertical-align:-2px}
+.p.sorb{text-align:center}
+.chiudi{margin-top:auto;padding-top:3.4mm;border-top:.7pt solid var(--linea);display:flex;flex-direction:column;gap:2.6mm}
+.srv{font-size:9pt;margin:0}
+.srv b{font-weight:700}
+.qr{display:flex;align-items:center;gap:3mm;font-style:italic;color:var(--soft)}
+.qrbox{flex:0 0 13mm;height:13mm;border:.8pt solid var(--inchiostro);display:grid;place-items:center;font-family:var(--wide);font-size:6pt;letter-spacing:.2em;color:var(--soft);font-style:normal}
+.legenda{font-size:6.8pt;line-height:1.6;color:var(--soft);font-style:italic;margin:0}
+.legenda b{font-style:normal;font-weight:700;color:var(--inchiostro)}
+.indirizzo{font-family:var(--wide);font-size:7.2pt;letter-spacing:.2em;text-transform:uppercase;text-align:center;margin:1mm 0 0}
+
+/* vista consulente */
+.mk{display:none;margin-top:1.2mm;font-size:7.6pt;font-weight:500;font-style:normal;font-variant-numeric:tabular-nums;color:#3D2E10;background:#F1E4C3;border-radius:999px;padding:.6mm 2.6mm;line-height:1.35}
+body.rbr .mk{display:inline-block}
+.nota{display:none;font-size:8.4pt;line-height:1.5;color:#10241A;background:#CBE7D4;border-radius:2.2mm;padding:2.6mm 3.4mm;margin:0;text-align:left;font-style:normal}
+body.rbr .nota{display:block}
+.pag.nero .nota{max-width:150mm;margin-top:6mm}
+.nota b{font-weight:700}
+.rank{display:none;font-family:var(--wide);font-size:6.8pt;font-weight:500;color:var(--soft);border:.6pt solid var(--linea);border-radius:999px;padding:.1mm 1.6mm;margin-right:1.6mm;vertical-align:1px}
+body.rbr .rank{display:inline-block}
+
+.riepilogo{display:none;width:min(420mm,100%);margin:0 auto 34px}
+body.rbr .riepilogo{display:block}
+.rbox{background:#F4F1EB;border-radius:10px;padding:18px 22px;color:var(--inchiostro)}
+.rbox h3{font-family:var(--wide);font-weight:500;font-size:15px;margin:0 0 12px;letter-spacing:.02em}
+.rbox h3 b{font-weight:700;color:#1F6B3F}
+.rbox table{width:100%;border-collapse:collapse;font-size:13.5px}
+.rbox td{padding:6px 8px;border-top:1px solid #DDD6CA;vertical-align:top}
+.rbox td.n{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rbox td.dove{color:var(--soft);white-space:nowrap}
+.rnote{font-size:12px;color:var(--soft);margin:12px 0 0;line-height:1.5}
+
+@media (max-width:900px){.doppia{flex-direction:column;zoom:.46}.pag+.pag{border-left:0;border-top:1px solid var(--linea)}.spread{width:auto}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- stile sito Cartabianca (03/10/2026): meno riquadri, una cornice sola, premium chiaro ---- */
+.pag::after{display:none}
+.pag::before{border:.6pt solid var(--linea)}
+h2.cat{font-style:italic;font-weight:400;font-size:24pt;color:var(--marrone)}
+.occhiello{color:var(--rosso);letter-spacing:.28em}
+.nome{font-family:var(--wide);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:9.4pt;color:var(--marrone)}
+.desc{font-family:var(--display);font-style:italic}
+.prezzo{font-family:var(--wide);color:var(--marrone)}
+.p.asta{border-left:2pt solid var(--rosso);padding-left:3.4mm}
+.pag.nero{background:var(--marrone)}
+.marchio{font-family:var(--display);font-style:italic;font-weight:400}
+.perc-tit{font-family:var(--display);font-style:italic;font-size:38pt}
+.filetto{background:var(--oro-chiaro)}
+.premio{background:var(--panna);color:var(--inchiostro);border-radius:2mm;border-top:1.2pt solid var(--rosso)}
+.premio .occhiello{color:var(--rosso)}
+.premio h2.cat{color:var(--marrone);font-size:22pt}
+.pre-sotto{color:var(--soft)}
+.premio .nome,.premio .prezzo,.premio .due{color:var(--marrone)}
+.premio .desc,.premio .alg,.premio .vin,.premio .birra{color:var(--soft)}
+.premio .vin b,.premio .birra b{color:var(--inchiostro)}
+.premio .vin svg,.premio .birra svg{color:var(--inchiostro)}
+.foto{border-color:#D9CDBD}
+.fg,.fp{font-family:var(--wide)}
+.bar,.toggle button[aria-pressed="true"]{}
+.nome{font-size:10.6pt}
+.desc{font-size:10pt;line-height:1.45}
+.piatti{gap:4.2mm}
+.vin,.birra{font-size:8.4pt}
+h2.cat{font-size:27pt}
+
+

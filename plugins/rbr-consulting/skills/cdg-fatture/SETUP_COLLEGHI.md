@@ -21,7 +21,10 @@ non ci si sovrascrive a vicenda.
    Solo per clienti multi-punto-vendita con XML: `brew install openssl poppler`
    (openssl per le fatture firmate .p7m, poppler per i PDF allegati alle fatture).
 2. **Service account**: `credentials.json` viene installato da `/rbr-setup` in `~/.claude/rbr/` — tieni il
-   plugin/repo **privato**: è una chiave d'accesso.
+   plugin/repo **privato**: è una chiave d'accesso. **Non copiarla mai sull'hosting
+   di un cliente** (WordPress, PHP, cron): `fp-cdg-service` vede i CDG di tutti i
+   clienti RBR, non solo quello (vedi `google-accessi.md`, sezione "Dove NON deve
+   stare la chiave").
 3. **Per ogni cliente**, condividi il suo foglio "Economico" in **Editor** con:
    `fp-cdg-service@fp-cdg-automation.iam.gserviceaccount.com`
 4. (Opzionale) Per correggere il master fornitori a mano da browser, fatti condividere

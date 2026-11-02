@@ -1,6 +1,7 @@
 # Il sistema marketing RBR: checklist master
 
 > **v1.0, approvata da Marco il 03/10/2026.** Unisce la bozza di Claude (memorie e skill del plugin) con il PDF di Luciano «Sistema_Marketing_RBR_Checklist» (verifiche sul campo). Dove le due fonti si contraddicevano ha vinto la verifica sul campo.
+> **12/10/2026:** integrate le migliorie di Andrea Chirivì dalla verifica completa su clienti e sistemi reali (con contributi di Roberto Falcon, Luciano Purpi e Leo).
 > **Skill:** `checklist-marketing-rbr` (plugin rbr-consulting). **Foglio di stato:** [RBR - Stato marketing clienti](https://docs.google.com/spreadsheets/d/1CeZDWC3kyyof9N0bLuO0gaWghmWO8IgfMIHP82OoqGo/edit) (tab Stato, Controllo mensile, Prossime mosse).
 
 **Come si usa.** Il documento ha tre pezzi:
@@ -21,7 +22,7 @@ Ogni voce si segna con: ✅ attiva · 🟡 a metà · ⬜ da fare · ❓ mai ver
 
 Se manca una delle tre, quella è spesa e non marketing.
 
-**Il numero che giudica tutto** è il **costo per prenotazione** (onorata). Poi vengono la **% di coperti con un contatto nel CRM** e l'**imbuto del coupon** (consegnati → scaricati → riscattati). CPC, CTR e like non sono risultati.
+**Il numero che giudica tutto** è il **costo per prenotazione** (onorata). Poi vengono la **% di coperti con un contatto nel CRM** e l'**imbuto del coupon** (consegnati → scaricati → riscattati → **tornati**, cioè chi rientra senza offerta entro una finestra fissa, es. il mese dopo o i 90 giorni del silenzio promozionale: è il numero che giudica davvero una promo). CPC, CTR e like non sono risultati.
 
 **L'ordine conta.** Mai comprare traffico prima che CRM e servizio reggano: CRM → tracciamento → servizio → coupon provato → fonti gratuite → pubblicità.
 
@@ -40,6 +41,9 @@ Se manca una delle tre, quella è spesa e non marketing.
 
 ## 2. La mappa: le fonti di traffico e dove devono finire
 
+Il CRM è un contenitore, non una strategia: senza un sistema di raccolta e un calendario di
+invii, in tre mesi è solo un abbonamento (contributo di Roberto Falcon).
+
 | # | Fonte | Dove atterra | Firma del canale | Cosa parte dopo |
 |---|---|---|---|---|
 | 1 | Meta Ads (locali + turisti per lingua) | landing `?code=X&source=Y` → widget Resmio (link diretto) | `source` + `comment code:X` | conferma, promemoria, coupon, catenaria |
@@ -57,8 +61,11 @@ Se manca una delle tre, quella è spesa e non marketing.
 | 13 | Database vecchio (Keap, TheFork, Excel…) | campagna WhatsApp / email | `utm=riattivazione` | riaggancio |
 | 14 | Liste fredde WhatsApp | primo messaggio = richiesta di consenso | tag `consenso-marketing` + `consenso_origine` | catenaria |
 | 15 | Gift card | landing gift card | code `GIFTCARD` | consegna + promemoria a 7 e 17 giorni |
-| 16 | Partner (hotel, B&B, concierge) | link / QR per partner | source `hotel-<nome>` | come le prenotazioni |
+| 16 | Partner (hotel, B&B, concierge) ed eventi locali | link / QR per partner; guida al posto con QR, banchetto agli eventi | source `hotel-<nome>` / `evento-<nome>` | come le prenotazioni |
+| 16b | Struttura ricettiva collegata | ogni ospite entra in lista al check-in | source `struttura-<nome>` | offerta cena |
 | 17 | Porta un amico | codice personale (es. RAIAMICO) | code `<AMICO>` | coupon + catenaria |
+| 17b | Vetrina con QR | visibile anche a locale chiuso | fonte `qr-vetrina` | come QR in cassa |
+| 17c | Scontrino e menu con QR stampato | impostato una volta sul gestionale | fonte `qr-scontrino` / `qr-menu` | come QR in cassa |
 | 18 | Delivery (Glovo / Deliveroo / Just Eat) | volantino nel sacchetto → QR | fonte `delivery` | porta il cliente in sala |
 | 19 | Volantini / locandine / hostess / eventi | landing o modulo GHL | `source=volantino` / `hostess` / `evento` | coupon + catenaria; eventi → avviso allo store manager |
 | 20 | Social organici (IG/TikTok, influencer locali) | link in bio → prenota | `utm=ig-bio` | come le prenotazioni |
@@ -84,12 +91,53 @@ Nessun contatto resta solo su Make, su uno Sheet o in una piattaforma senza pass
 
 ## 3. MASTER: il setup (una volta, all'ingresso del cliente)
 
+### 3.0a Onboarding: foto di partenza e kickoff (prima degli accessi)
+*(contributo di Roberto Falcon — guida v1.0)*
+
+**Foto di partenza congelata**, prima di toccare qualsiasi cosa — senza non si dimostra il
+risultato e non ci si fa pagare:
+- [ ] MOLD diretto mese per mese, ultimi 12 mesi, dal CDG
+- [ ] Coperti e incasso per servizio degli ultimi 3 mesi, scontrino medio, coperti per giorno della settimana
+- [ ] Contatti in lista e da dove arrivano
+- [ ] Recensioni (numero e media) su Google, TheFork e TripAdvisor
+- [ ] Profilo Google a 90 giorni (visualizzazioni, chiamate, indicazioni)
+- [ ] Spesa marketing e provvigioni
+- [ ] Chi fa cosa oggi, agenzie e contratti
+
+**Kickoff di un'ora col titolare** e con chi gestirà la sala, tre messaggi:
+1. il marketing a pagamento non parte questa settimana (prima si ascoltano i clienti e si scrive la promessa);
+2. il primo mese produce coperti da TheFork e decisioni, non campagne;
+3. ci sono cose che deve fare lui (dare gli accessi, far consegnare il QR col conto, far dire la promessa al personale).
+
 ### 3.0 Accessi
 - [ ] Accessi a GHL, Resmio, cassa (iPratico / Cassa in Cloud), Meta BM, Google Ads, Profilo Google, Search Console, GA4, sito, TheFork, TripAdvisor, DeepAgent, WhatsApp
+- [ ] **Come si chiedono gli accessi**, non solo cosa:
+  - accessi a nome del cliente, consulente come utente aggiunto o partner del Business Manager, doppio fattore sul telefono del titolare — mai credenziali dette a voce;
+  - se il cliente manda in chat le sue credenziali personali (es. l'account Meta), non si usano: si chiede l'invito come partner e si consiglia il cambio password;
+  - inventario degli accessi intestati alla società del cliente;
+  - per ogni accesso, sapere quale mossa salta se manca;
+  - senza accessi dopo 10 giorni è un problema di ingaggio, non di tempo: va portato in riunione col direttore tecnico;
+  - Meta bloccata da un'agenzia precedente: il recupero lo fa il titolare (è il suo profilo), poi il consulente entra come partner del Business Manager e la vecchia agenzia viene tolta dagli accessi.
 - [ ] **Foto del router** del locale: decide il Wi-Fi (porte libere, operatore)
 - [ ] **Cellulare personale** di chi riceve gli avvisi (non il numero WhatsApp del locale)
 - [ ] **Informativa privacy** con il locale come titolare + consenso marketing separato e facoltativo
 - [ ] Carta del cliente sul sub-account GHL con ricarica automatica di $50 (senza carta non parte niente)
+- [ ] **Stack diverso da Resmio/iPratico** (es. Cooperto, Cassa in Cloud): prima di proporre un
+  cambio cassa, censisci cosa è collegato (es. una cassa automatica self-pay legata al software
+  attuale) e fai una call a tre col referente del fornitore. Dati da chiedere per i preventivi
+  (iPratico, Resmio, GHL): postazioni, marca e contratto della cassa automatica, stampanti
+  comande, palmari per la sera, bilance del banco, tavoli e posti, numero WhatsApp, chi gestisce,
+  mail dell'account. Se il cliente è su un prenotatore come Cooperto o Plateform, chiedi alla sala
+  di segnare la nota del canale (es. "TF" per TheFork) e controlla serata per serata la cassa
+  contro il CRM: senza nota, le prenotazioni di un canale esterno non si distinguono nel CRM.
+
+### 3.0b Uscita da un'agenzia marketing esterna (se presente)
+*(contributo di Andrea Chirivì + Roberto Falcon)*
+- Griglia con le attività dell'agenzia e dove vanno: consulente, interno, fornitori locali.
+- Sequenza: 1) inventario di proprietà e accessi, tutto intestato alla società del cliente; 2) lettura dell'accordo (durata, preavviso, proprietà degli asset, fatture mancanti); 3) ripresa del CRM e della misura; 4) convivenza; 5) chiusura ordinata.
+- Prima della chiusura, i file originali degli shooting vanno nella cartella condivisa del cliente.
+- Principio RBR: l'advertising non si delega a un'agenzia esterna, fuori si affida solo la produzione di foto e video.
+- 🟡 Le cifre indicative di mercato per un'agenzia social (frequenza shooting, costo mensile) variano molto caso per caso: non prenderle come riferimento RBR, chiedile sempre al cliente.
 
 ### 3.1 Fondamenta CRM (modello base GHL)
 - [ ] Sub-account con lo snapshot **RBR Blueprint v1**, fuso Europe/Amsterdam, valuta EUR. Il «Funnel RBR» del blueprint va **in bozza** finché non è personalizzato: cancella i turisti e manda mail segnaposto.
@@ -163,8 +211,9 @@ Nessun contatto resta solo su Make, su uno Sheet o in una piattaforma senza pass
 - [ ] 1 post a settimana per sede, WhatsApp sulla scheda, Q&A.
 
 **Sito**
-- [ ] Popup con buono.
-- [ ] **Landing coupon sempre noindex**, altrimenti il buono lo usano i clienti già acquisiti.
+- [ ] **Offerta di benvenuto su tre porte**, non solo il popup (chi lo chiude non la ritrova più): pagina dedicata, voce nel menu del sito, sitelink Google Ads a livello di ACCOUNT. Ognuna con la sua etichetta di provenienza riscritta nel modulo.
+- [ ] **Popup con buono**, ma **non mostrato al traffico di marca**: l'annuncio di marca punta a `/?marca=1`, il popup ha condizioni "pagina = home" **e** "URL non contiene marca=1" con "display when all" (trappola: la tendina Match va su "Is not", non "Is" — altrimenti l'effetto si rovescia). Si verifica con due visite: la home normale mostra il popup, quella con `?marca=1` no.
+- [ ] **Landing coupon sempre noindex**, altrimenti il buono lo usano i clienti già acquisiti. Stessa logica del popup escluso dal traffico di marca.
 - [ ] PDF vecchi del menu fuori dall'indice.
 - [ ] Pagine SEO per sede (`/<tipo>-<città>-<quartiere>/`, schema Restaurant), GTranslate.
 - [ ] Form → GHL (FormSubmit vietato).
@@ -183,7 +232,12 @@ Nessun contatto resta solo su Make, su uno Sheet o in una piattaforma senza pass
 - [ ] Senza l'azione **«Attiva un flusso di lavoro»** il bot non prenota niente (Barresi: 0 prenotazioni). Con quella, passa la richiesta alla sala.
 
 **TheFork**
-- [ ] Sync verso Resmio come **attività programmata**, mai come ciclo nel browser: quando il Mac dorme si ferma (Dirigì: 41 ore ferme, metà prenotazioni perse in un giorno).
+- [ ] Sync verso Resmio come **attività programmata** — routine cloud, cron sul server o GitHub Actions, mai come ciclo nel browser o task locale che parte solo ad app aperta: quando il Mac dorme (o l'app è chiusa) si ferma (Dirigì: 41 ore ferme, metà prenotazioni perse in un giorno).
+- [ ] **Mossa d'ingresso** (contributo di Roberto Falcon), non solo il sync:
+  - scheda controllata: categoria e tipo di cucina giusti, almeno 15 foto vere, menu completo coi prezzi, tutti gli slot aperti;
+  - sconto di lancio al **50% su tutto, weekend compreso, di default** — si esclude il weekend solo quando i numeri del locale dicono che è già pieno;
+  - risposta automatica alla conferma che invita a iscriversi alla lista CRM;
+  - risposta a ogni recensione entro 48 ore.
 
 **Wi-Fi con portale + QR in cassa**
 - [ ] Sono le due leve che portano la copertura dei contatti dal ~40% all'**85–90%**. Vedi sez. 7.
@@ -192,8 +246,10 @@ Nessun contatto resta solo su Make, su uno Sheet o in una piattaforma senza pass
 - [ ] Promo solo sul portale (es. 2x1), menu aggiornato, volantino con QR nel sacchetto.
 
 ### 3.5 Reputazione
-- [ ] **Sondaggio 3 ore dopo la prima visita**, con **link personale**: con un link statico tutte le risposte risultano dello stesso cliente (Mister Pizza).
-- [ ] **Richiesta di recensione il giorno dopo**, con QR al tavolo + template WhatsApp. Va **verificato che parta davvero**: a Mister Pizza e Noolas il motore era configurato ma non è mai partita nessuna richiesta.
+- [ ] **Un solo WhatsApp alle 10:00 del mattino dopo**, a tutti gli entrati con nome e telefono su Resmio (i «Seduto» senza nome sono walk-in e restano fuori), con **link personale**: con un link statico tutte le risposte risultano dello stesso cliente (Mister Pizza). Modelli standard in `references/sondaggi-standard.md`.
+- [ ] **Il sondaggio sostituisce la richiesta di recensione, non si aggiunge.** In fondo al sondaggio Google viene proposto a tutti, mai solo a chi ha dato un voto alto.
+- [ ] **Al massimo un messaggio ogni 60 giorni**: rientro spento nel workflow e un If/Else sul tag della richiesta come secondo controllo. Va **verificato che parta davvero**: a Mister Pizza e Noolas il motore era configurato ma non è mai partita nessuna richiesta.
+- [ ] La profilazione va **a parte**, con un premio (vedi `references/sondaggi-standard.md`).
 - [ ] **Reviews AI** in auto-risposta:
   - **lingua di ripiego controllata** (Barresi: clienti palermitani con la risposta in inglese);
   - negative trattenute e scritte a mano (Hold sensitive ON);
@@ -217,7 +273,12 @@ Nessun contatto resta solo su Make, su uno Sheet o in una piattaforma senza pass
 
 **Consegna del coupon**
 - [ ] Mail + WhatsApp col QR → sollecito al giorno 3 → ultimo giro al giorno 7.
-- [ ] Cruscotto con i 4 stati: inviato → scaricato → riscattato → scaduto.
+- [ ] Cruscotto con i 5 stati: inviato → scaricato → riscattato → scaduto → **tornato** (chi rientra senza offerta entro la finestra del silenzio promozionale).
+
+**Regole dell'offerta, da decidere prima del lancio**
+- [ ] Regolamento scritto per la cassa (PDF con i casi limite e le parole da usare in sala): quale piatto è gratis nel 2x1 (proposta: il meno caro), QR che non si legge (si onora, si segnano nome ed email, il cliente non paga un guasto nostro), uno a persona o a tavolo, scadenza dei gettoni, non cumulabilità fra offerte. 🟡 Le regole proposte dal consulente si segnano **«da confermare»** dal titolare, non si danno per attive.
+- [ ] Regalo di compleanno: varianti costate sul listino vero, scelte **prima** che parta il flusso automatico.
+- [ ] Gift card stampate (se previste): formato, tagli, numerazione, card partner e registro di cassa. Prima della tipografia il titolare decide: quante copie, quali partner, la scadenza, se si dà il resto, come si batte lo scontrino.
 
 **Catenaria**: di default si usano i **tre binari** (sez. 6).
 - [ ] Le alternative per chi non ha ancora le visite nel CRM sono la standard da 28 mail (1 a settimana, 7 promo) e quella da 57 mail (skill `funnel-email-crm`). Su Pienissimo c'è la skill `catenaria-pienissimo`.
@@ -243,6 +304,17 @@ Nessun contatto resta solo su Make, su uno Sheet o in una piattaforma senza pass
 - [ ] Collaudo mail in 10 punti (link a 200, disiscrizione, `first_name` con valore di riserva, lingua…). Sul nodo Email «Sincronizza le modifiche» va su ON.
 - [ ] **Anteprima al cliente prima di qualunque invio**
 - [ ] Una prenotazione di prova per ogni fonte accesa (sez. 2)
+- [ ] **Prima di dire che un flusso funziona, controlla uno per uno** (contributo di Luciano Purpi + Andrea Chirivì):
+  - un nodo SMS senza sistema telefonico non è partito anche se il registro dice «Eseguito»;
+  - WhatsApp free form parte solo entro 24 ore dall'ultimo messaggio del cliente, con template parte sempre;
+  - il template è Attivo e non «In sospeso»;
+  - la variabile è mappata e ha un esempio, verificato nel DOM e non solo in anteprima (altrimenti esce «Ciao ,»);
+  - il registro di esecuzione è stato letto;
+  - per le mail, si sta guardando il MODELLO o la COPIA nel nodo;
+  - il flusso è pubblicato e non in bozza;
+  - il destinatario della notifica interna esiste come utente;
+  - la finestra oraria del flusso è allineata al drip dell'invio.
+- [ ] **Conta i tag via API prima di dire che un funnel funziona** (scaricato / utilizzato): un flusso pubblicato da settimane ma con solo poche prove e nessun cliente vero non è "partito".
 
 ---
 
@@ -252,9 +324,66 @@ Non è un report di numeri: i numeri servono a trovare dove il cliente si ferma.
 
 | Quando | Cosa si guarda |
 |---|---|
-| **Ogni settimana** | Conversazioni senza risposta (devono essere zero) · richieste del bot inserite su Resmio · chiamate DeepAgent fallite · negative trattenute · sync TheFork vivo · errori nei flussi · annunci bocciati o landing in 404 (Dirigì: campagna ferma senza avviso) · Google Ads: riepilogo giornaliero |
-| **Ogni mese** | Costo per prenotazione per canale · % di coperti con un contatto nel CRM · imbuto coupon (consegnati → scaricati → riscattati) · qualità del numero WhatsApp · media delle recensioni in arrivo · coerenza di orari, menu e prezzi su tutti i canali · statistiche mail (open, click) · GA4 e insight del Profilo Google (pannello / card AI / AI Overview) · KPI settimanale del cliente |
-| **Ogni 3 mesi** | Soglie della catenaria ritarate sui dati veri · quale offerta d'ingresso rende di più · budget per stagione e per lingua · accessi ai profili (togliere chi non lavora più col locale) · segmentazione RFM · analisi reputazione (media + % negative per causa e mese) |
+| **Ogni settimana** | Conversazioni senza risposta (devono essere zero) · richieste del bot inserite su Resmio · chiamate DeepAgent fallite · negative trattenute · sync TheFork vivo · errori nei flussi · annunci bocciati o landing in 404 (Dirigì: campagna ferma senza avviso) · Google Ads: riepilogo giornaliero · **provenienze** (sotto) · cruscotto in 5 numeri: arrivati (tag `status_arrived`), coupon usati su scaricati, prenotazioni avviate da Google, % senza fonte, speso al giorno |
+| **Ogni mese** | Costo per prenotazione per canale · % di coperti con un contatto nel CRM · imbuto coupon (consegnati → scaricati → riscattati → tornati) · qualità del numero WhatsApp · media delle recensioni in arrivo · coerenza di orari, menu e prezzi su tutti i canali · statistiche mail (open, click) · GA4 e insight del Profilo Google (pannello / card AI / AI Overview) · KPI settimanale del cliente · **% coperti prenotati** (prenotati ÷ coperti battuti in cassa + canale di inserimento) · **% prenotazioni senza fonte** · **tavoli aperti in cassa contro tavoli sul gestionale** (regola alla sala: l'accoglienza mette SEMPRE il tavolo sul gestionale, walk-in e sale interne compresi) · riunione mensile coi numeri contro la foto di partenza (sotto) |
+| **Ogni 3 mesi** | Soglie della catenaria ritarate sui dati veri · quale offerta d'ingresso rende di più · budget per stagione e per lingua · accessi ai profili, con metodo (sotto) · segmentazione RFM · analisi reputazione (media + % negative per causa e mese) |
+
+### Riunione mensile: numeri contro la foto di partenza
+*(contributo di Roberto Falcon + Leo)*
+- MOLD diretto contro lo stesso mese dell'anno prima
+- coperti reali contro i due break-even (diretto e totale)
+- spesa marketing e provvigioni sul fatturato
+- contatti nuovi per fonte
+- iscritti alla fidelity e visite per iscritto
+
+Tre domande a cui rispondere senza aprire il file: quanto spende il cliente, quanto gli rientra in
+MOLD, a che mossa siamo. Le **3 azioni** di chiusura si scrivono con lo schema **CHECK** (cosa
+verifico) · **ACTION** (cosa attivo) · **CONTROL** (cosa misuro) · **NEXT** (cosa miglioro).
+
+### Le prime settimane dopo ogni accensione
+*(contributo di Luciano Purpi + Andrea Chirivì)*
+Oltre al controllo settimanale standard:
+- nodo WhatsApp → Statistiche (Delivered, Read, Failed) — **"Read" è un pavimento**: chi ha spento le conferme di lettura non conta, non fidarsi solo di quello;
+- cruscotto dell'agente: azioni attivate = 0 vuol dire che l'agente parla e basta;
+- contatori dei TAG, non degli iscritti (es. `giftcard-consegnata`, `giftcard-prenotata`, `whatsapp-stop`);
+- registri di esecuzione;
+- Conversazioni → Non letto;
+- recensioni sul profilo pubblico, che possono non coincidere col CRM;
+- Impostazioni → WhatsApp → Limiti.
+
+Verifica di copertura di ogni flusso post-visita: confronta gli arrivati su Resmio coi messaggi
+partiti. Ogni arrivato non raggiunto ha la sua spiegazione (walk-in senza nome, limite di 60
+giorni, assente in GHL, due contatti con due numeri diversi — non è un bug). Misura anche il
+ritardo fra orario prenotato e messaggio partito.
+
+### Conversazioni non lette: chi presidia, e una sentinella
+*(contributo di Luciano Purpi + Andrea Chirivì)*
+Prima di ogni invio di massa: leggi Conversazioni → Non letto, onora gli opt-out già arrivati e
+nomina una persona precisa che presidia la casella — una prenotazione o un opt-out mai visti sono
+un rischio reale, non teorico. Dove le risorse lo permettono, rinforza il controllo settimanale
+«conversazioni senza risposta = zero» con una sentinella: uno script programmato ogni 10 minuti
+nelle ore di servizio che, se una conversazione resta senza risposta, manda una notifica e mette
+il tag che avvisa lo staff (al massimo un avviso ogni 30 minuti). Estendila anche alle risposte a
+parole alla richiesta di recensione.
+
+### Controllo settimanale delle provenienze
+*(contributo di Andrea Chirivì — confermato su un cliente, da estendere)*
+- Quadro delle prenotazioni create nella settimana, raggruppate per canale.
+- **Zero prenotazioni col dominio del sito come source**: se compare, `widget.js` di Resmio è tornato a riscrivere il canale (vedi trappole, sez. 8).
+- Nessun ripiego anonimo nuovo e i codici di fonte previsti compaiono davvero.
+- Se il gestionale non è accessibile, il controllo **avvisa e si ferma**: un controllo nato per scoprire guasti silenziosi non deve fallire in silenzio.
+- Gira su un orologio che non dipende da un Mac acceso (routine cloud, cron sul server, Make), mai su un'attività programmata locale che parte solo ad app aperta (vedi skill `make-scenario-dod`).
+
+### Pulizia trimestrale degli accessi: il metodo
+*(contributo di Andrea Chirivì)*
+- Meta Business → Persone: la colonna «Ultima attività» registra l'ACCESSO, non l'azione.
+- Per le azioni: Gestione inserzioni → seleziona tutte le campagne → icona orologio (cronologia modifiche). Il filtro «Modifica di» non filtra per persona: i nomi stanno nella colonna.
+- Controlla anche i partner collegati e gli account pubblicitari in cui il consulente non entra.
+- Google Ads e GA4: utenti e MCC di agenzia.
+- WordPress: amministratori, password applicazione e log `access_ssl_log` via FTP (circa 12 giorni), filtrando `/wp-admin/` ed escludendo `admin-ajax.php`.
+- Restano da controllare Plesk, registrar, utenti GHL e password Instagram.
+- Le impostazioni Meta chiedono la passkey del titolare.
+- 🟡 Se nelle notifiche Instagram del cliente compaiono avvisi del Centro gestione account (account Facebook rimossi o aggiunti), segnalali subito al titolare perché confermi se sono modifiche sue — segnale visto su un caso solo, da verificare come regola generale.
 
 ---
 
@@ -263,6 +392,7 @@ Non è un report di numeri: i numeri servono a trovare dove il cliente si ferma.
 | Voce | Da compilare |
 |---|---|
 | Posizionamento («il n.1 di…» nella zona) | |
+| No-list: frasi vietate dal posizionamento di questo cliente | |
 | Pubblico: % locali / turisti, lingue | |
 | Offerta d'ingresso (codice, valore, scadenza, strada di riscatto A/B) | |
 | Premio ai fedeli (oggetto, mai sconto) | |
@@ -305,7 +435,10 @@ Non è un report di numeri: i numeri servono a trovare dove il cliente si ferma.
 - Copy:
   - mai affermazioni non verificate (forno a legna, «fatto in casa»);
   - mai foto stock spacciate per piatti del locale;
-  - tono asciutto, prima persona singolare.
+  - tono asciutto, prima persona singolare;
+  - rispetta la no-list per cliente (Scheda cliente, sez. 5): frasi che rafforzano un posizionamento da rompere restano fuori anche se usate altrove;
+  - mai promettere quello che le operations non reggono — ogni fatto si verifica col menu o col fornitore prima di pubblicare.
+- **Quando cambia un dato** (orari, grammatura, frequenza di una serata) si corregge nello stesso giro su landing, pagine del sito, descrizioni SEO, testi delle campagne, menu e CRM. Il controllo mensile di coerenza resta come rete, non come primo momento della correzione.
 - Campagne e catenaria solo a chi ha il `consenso-marketing`; agli altri solo messaggi di servizio.
 
 ---

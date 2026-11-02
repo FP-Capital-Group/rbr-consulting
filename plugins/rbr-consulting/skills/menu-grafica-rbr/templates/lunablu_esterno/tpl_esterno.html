@@ -1,0 +1,105 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8">
+<title>Menu esterno Luna Blu</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@400;500&display=swap">
+<style>
+@page{size:1200mm 700mm;margin:0}
+:root{--blu:#1E2A6E;--blu2:#3B4C9B;--cielo:#9DBDE3;--ghiaccio:#EEF3FA;--linea:#D9DFEC;--testo:#1B2140;--soft:#5C6584}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff}
+body{font-family:'Lora',Georgia,serif;color:var(--testo);width:1200mm;height:700mm;overflow:hidden}
+.tab{width:1200mm;height:700mm;position:relative;background:#fff}
+.testa{position:absolute;left:0;right:0;top:0;height:74mm;background:var(--blu);color:var(--ghiaccio);padding:0 40mm}
+.testa .m{position:absolute;left:40mm;top:15mm;font-size:62pt;font-weight:500;letter-spacing:.2em;color:#fff;line-height:1}
+.testa .s{position:absolute;left:41mm;top:46mm;font-family:'Jost',sans-serif;font-size:17pt;letter-spacing:.34em;text-transform:uppercase;color:var(--cielo)}
+.testa .tit{position:absolute;left:0;right:0;top:12mm;text-align:center;font-size:74pt;font-style:italic;font-weight:400;color:#fff;line-height:1}
+.testa .r{position:absolute;right:40mm;top:22mm;text-align:right;font-family:'Jost',sans-serif;font-size:17pt;letter-spacing:.18em;text-transform:uppercase;color:var(--ghiaccio);line-height:1.6}
+.metà{position:absolute;top:86mm;font-family:'Jost',sans-serif;font-size:15pt;letter-spacing:.42em;text-transform:uppercase;color:var(--blu2)}
+.griglia{position:absolute;left:34mm;right:34mm;top:100mm;bottom:30mm;display:grid;grid-template-columns:repeat(6,1fr);column-gap:24mm}
+.col{position:relative}
+.col.div{border-left:.6mm solid var(--linea);padding-left:12mm;margin-left:-12mm}
+h2{font-size:50pt;font-weight:500;color:var(--blu);margin:0 0 5mm;line-height:1.05}
+h2 i{font-weight:400}
+.sec{margin-bottom:12mm}
+.p{margin-bottom:6.2mm}
+.nm{font-size:26.5pt;font-weight:600;color:var(--blu);line-height:1.15}
+.ds{font-size:18pt;line-height:1.32;color:var(--testo);margin-top:1mm}
+.pr{font-weight:600;color:var(--blu2);white-space:nowrap}
+.pr::before{content:"· ";color:var(--soft);font-weight:400}
+.tag{display:inline-block;margin-left:3mm;font-family:'Jost',sans-serif;font-size:12.5pt;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--blu2);padding:.6mm 3mm;border-radius:2mm;vertical-align:middle}
+.p.asta{border-left:2.2mm solid var(--blu2);padding-left:5mm}
+.p.bordo{border:.7mm solid var(--blu);border-radius:4mm;padding:5mm 6mm}
+.pf{display:grid;grid-template-columns:1fr 46mm;column-gap:5mm;align-items:center}
+.pf img{width:46mm;height:46mm;object-fit:contain}
+.premio{position:relative;border-radius:5mm;padding:7mm 8mm 3mm;margin-bottom:12mm}
+.premio.pieno{background:var(--blu);color:var(--ghiaccio)}
+.premio.pieno .nm{color:#fff}.premio.pieno .ds{color:var(--ghiaccio)}.premio.pieno .pr{color:#fff}.premio.pieno .pr::before{color:var(--cielo)}
+.premio.pieno .tag{background:var(--cielo);color:var(--blu)}
+.premio.bordo{border:.8mm solid var(--blu)}
+.premio img.big{position:absolute;right:-6mm;top:-10mm;width:52mm;height:52mm;object-fit:contain}
+.premio img.big + .p{padding-right:44mm}
+.premio .p{margin-bottom:5mm}
+.c{font-size:18pt;margin-bottom:3mm;line-height:1.3}
+.c b{font-size:24pt;font-weight:600;color:var(--blu)}
+.box{background:var(--ghiaccio);border-radius:4mm;padding:6mm 7mm;margin-bottom:12mm}
+.box .bt{font-size:30pt;font-style:italic;color:var(--blu);margin-bottom:4mm}
+.fc{display:grid;grid-template-columns:repeat(3,1fr);column-gap:4mm;text-align:center}
+.fc.q{grid-template-columns:repeat(2,1fr);row-gap:4mm}
+.fc .n{display:block;font-size:20pt;font-weight:600;color:var(--blu);line-height:1.15}
+.fc .d{display:block;font-size:15.5pt;color:var(--testo)}
+.fc img{display:block;width:30mm;height:30mm;object-fit:contain;margin:0 auto 1.5mm}
+.fc svg{display:block;margin:0 auto 2mm}
+.piede{position:absolute;left:34mm;right:34mm;bottom:10mm;font-family:'Jost',sans-serif;font-size:13pt;color:var(--soft);text-align:center;letter-spacing:.02em}
+.sub{font-size:17pt;font-style:italic;color:var(--soft);margin:-3mm 0 5mm}
+</style></head><body><div class="tab">
+<div class="testa">
+  <div class="m">LUNA BLU</div><div class="s">dal 1980 · ristorante pizzeria</div>
+  <div class="tit">Menù</div>
+  <div class="r">Via Antonio Gramsci 11<br>Parma</div>
+</div>
+<div class="metà" style="left:34mm">La cucina</div>
+<div class="metà" style="left:612mm">Le pizze</div>
+<div class="griglia">
+  <div class="col">
+    <div class="sec"><h2>Antipasti</h2>{{ANTI}}</div>
+    <div class="sec"><h2>Insalate</h2>{{INS}}</div>
+    <div class="sec"><h2>Contorni</h2>{{CONT}}</div>
+  </div>
+  <div class="col">
+    <h2>I primi <i>d'autore</i></h2>{{PREMP}}
+    <div class="box"><div class="bt">Che fame hai?</div><div class="fc">
+      <div><svg style="width:26mm;height:17mm" viewBox="0 0 30 20"><ellipse cx="15" cy="12" rx="10" ry="4.5" fill="none" stroke="#1E2A6E" stroke-width="1.2"/></svg><span class="n">normale</span><span class="d">100 g</span></div>
+      <div><svg style="width:30mm;height:19mm" viewBox="0 0 34 22"><ellipse cx="17" cy="13" rx="13" ry="5.5" fill="none" stroke="#1E2A6E" stroke-width="1.2"/><path d="M10 11c3-3 11-3 14 0" fill="none" stroke="#3B4C9B" stroke-width="1"/></svg><span class="n">abbastanza</span><span class="d">150 g · + 4</span></div>
+      <div><svg style="width:34mm;height:21mm" viewBox="0 0 38 24"><ellipse cx="19" cy="14" rx="16" ry="6.5" fill="none" stroke="#1E2A6E" stroke-width="1.2"/><path d="M9 12c4-6 16-6 20 0" fill="none" stroke="#3B4C9B" stroke-width="1"/></svg><span class="n">tanta</span><span class="d">220 g · + 6</span></div>
+    </div></div>
+    <div class="sec"><h2>La pasta</h2>{{PASTA}}</div>
+  </div>
+  <div class="col">
+    <h2>I grandi <i>secondi</i></h2>{{PREMS}}
+    <div class="sec"><h2>I secondi</h2>{{SEC}}</div>
+  </div>
+  <div class="col div">
+    <div class="sec"><h2>Le tradizionali</h2>{{PTRA}}</div>
+    <div class="sec"><h2>Le classiche</h2>{{PCLA}}</div>
+  </div>
+  <div class="col">
+    <div class="sec"><h2 style="font-size:41pt">Le speciali <i>di Luna Blu</i></h2>{{PSPE}}</div>
+    <div class="box"><div class="bt">Scegli il tuo impasto</div><div class="fc">
+      <div><img src="img/lb_imp_integrale.webp" alt=""><span class="n">integrale</span><span class="d">più leggera · + 2</span></div>
+      <div><div style="height:31.5mm"></div><span class="n">croccante</span><span class="d">sottile · + 2,5</span></div>
+      <div><img src="img/lb_imp_lattosio.webp" alt=""><span class="n">senza lattosio</span><span class="d">mozzarella · + 2</span></div>
+    </div></div>
+  </div>
+  <div class="col">
+    <h2>Le pizze <i>d'autore</i></h2>{{PAUT}}
+    <div class="sec"><h2>I panuozzi</h2><p class="sub">Pane di pizza appena sfornato, farcito e ripassato in forno</p>{{PAN}}</div>
+    <div class="box"><div class="bt">La vuoi ancora più buona?</div><div class="fc q">
+      <div><img src="img/lb_add_bufala.webp" alt=""><span class="n">Bufala DOP</span><span class="d">+ 3</span></div>
+      <div><img src="img/lb_add_stracciatella.webp" alt=""><span class="n">Stracciatella</span><span class="d">+ 3</span></div>
+      <div><img src="img/lb_add_crudo.webp" alt=""><span class="n">Crudo di Parma</span><span class="d">+ 3</span></div>
+      <div><img src="img/lb_add_porcini.webp" alt=""><span class="n">Funghi porcini</span><span class="d">+ 3,5</span></div>
+    </div></div>
+  </div>
+</div>
+<p class="piede">I piatti con l'asterisco potrebbero essere preparati con prodotti congelati o abbattuti in base alla disponibilità · Elenco allergeni disponibile su richiesta · Prezzi in euro · Coperto e servizio al tavolo | 3</p>
+</div></body></html>
+

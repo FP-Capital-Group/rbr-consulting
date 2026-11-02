@@ -1,0 +1,65 @@
+/* PDF pranzo bar: libro A4 verticale 4 facciate, una colonna, stile DM Sans + Lora */
+.pag{position:relative}
+.pag.copertina{background:#FFFDF9 !important}
+.pag:not(.copertina){padding:13mm 20mm 12mm !important}
+.piatti{display:block !important}
+.piatti > .p{margin-bottom:3.4mm !important}
+.vn{font-size:10.6pt !important} .vd{font-size:9.8pt !important}
+.cap{margin-bottom:3.5mm !important} .pag>.cap~.cap{margin-top:5mm !important}
+.pag > .cap h2.cat{font-size:24pt !important}
+.fame{margin:0 0 5mm !important}
+.fame-opz{display:block !important;text-align:center;width:100%}
+.fame-opz>div{display:inline-block !important;width:32%;vertical-align:bottom}
+.fame-opz>div span{display:block}
+.p.pfoto{display:flex !important;align-items:center}
+.p.pfoto > div:first-child{flex:1 1 auto}
+.foto{flex:0 0 17mm !important;width:17mm !important;height:17mm !important}
+.p.pfoto{gap:6mm !important}
+.p.uno.pfoto > div:first-child{border-left:2pt solid #A6192E !important;padding-left:3.6mm !important}
+.foto{flex:0 0 30mm !important;width:30mm !important;height:22mm !important}
+.fame{margin:1mm 0 5mm !important}
+/* 06/10: secondi in evidenza (pagina destra) */
+.pag.secondi{padding-top:30mm !important}
+/* 06/10 sera: riquadro n.1 con illustrazione, prezzo in coda */
+.p.bx{display:flex !important;align-items:center !important;gap:5mm !important}
+.p.bx > .tx{flex:1 1 auto}
+.illu,.ft{flex:0 0 32mm !important;width:32mm !important;height:22mm !important}
+.piatti > .p.bx{margin-bottom:4.4mm !important}
+.fame-opz>div .fn span{display:inline !important}
+.pag:not(.copertina):not(.secondi) .piatti > .p{margin-bottom:2.5mm !important}
+.pag:not(.copertina):not(.secondi) .piatti > .p.bx{margin-bottom:3mm !important;padding-top:2.2mm !important;padding-bottom:2.2mm !important}
+.pag:not(.copertina):not(.secondi) .vd{line-height:1.32 !important;margin-top:.3mm !important}
+.pag:not(.copertina):not(.secondi) .illu,.pag:not(.copertina):not(.secondi) .ft{height:19mm !important}
+.pag > .cap h2.cat{font-size:22pt !important}
+.pag:not(.copertina){padding-top:14mm !important}
+.pag.secondi{padding-top:30mm !important}
+.fame{padding:2.6mm 4mm !important;margin:0 0 4mm !important}
+.fame .fame-tit{margin-bottom:1.4mm !important}
+.et{margin-bottom:.4mm !important}
+/* ===== 07/10 sera (Marco): descrizioni su una riga, pagine 2 e 3 allineate, testi più grandi ===== */
+.pag:not(.copertina),.pag.secondi{padding-top:16mm !important}
+.pag > .cap h2.cat,.secondi h2.cat{font-size:27pt !important}
+.pag > .cap,.secondi .cap{margin:0 0 4.5mm !important}
+.vn,.secondi .vn{font-size:11.8pt !important}
+.vd,.secondi .vd,.pag:not(.copertina):not(.secondi) .vd{font-size:10.9pt !important;line-height:1.35 !important;margin-top:.5mm !important;white-space:nowrap}
+.pz,.secondi .pz{font-size:8.8pt !important}
+.pag:not(.copertina) .piatti > .p,.secondi .piatti .p{margin-bottom:4.2mm !important}
+.pag:not(.copertina) .piatti > .p.bx,.secondi .piatti > .p.bx{margin-bottom:4.6mm !important;padding-top:2.6mm !important;padding-bottom:2.6mm !important}
+.illu,.ft,.pag:not(.copertina):not(.secondi) .illu,.pag:not(.copertina):not(.secondi) .ft{flex:0 0 30mm !important;width:30mm !important;height:21mm !important}
+.pag:not(.copertina):not(.secondi) .piatti > .p{margin-bottom:5.2mm !important}
+.pag:not(.copertina):not(.secondi) .piatti > .p.bx{margin-bottom:5.4mm !important}
+.pag:not(.copertina):not(.secondi) .fame{margin:1mm 0 7mm !important}
+.secondi .piatti .p,.secondi .piatti > .p.bx{margin-bottom:9mm !important}
+.secondi .fascia{margin-top:10mm !important}
+.secondi .giorno-bx{margin-top:12mm !important}
+.pag.secondi:not(.copertina) .piatti > .p,.pag.secondi:not(.copertina) .piatti > .p.bx{margin-bottom:9.5mm !important}
+.pag.secondi:not(.copertina) .fascia{margin-top:12mm !important}
+.pag.secondi:not(.copertina) .giorno-bx{margin-top:14mm !important}
+
+/* ===== 08/10 v9: pagina 2 con 5 insalate (aggiunta «Insalata tonno e fagioli», Emiliano 07/10): spazi più stretti SOLO a pag. 2 ===== */
+.pag[class='pag']:not(.copertina):not(.secondi){padding-top:14mm !important}
+.pag[class='pag']:not(.copertina):not(.secondi) > .cap{margin:0 0 2.6mm !important}
+.pag[class='pag']:not(.copertina):not(.secondi) .piatti > .p{margin-bottom:4.2mm !important}
+.pag[class='pag']:not(.copertina):not(.secondi) .piatti > .p.bx{margin-bottom:4.4mm !important}
+.pag[class='pag']:not(.copertina):not(.secondi) .fame{margin:0 0 4.5mm !important}
+

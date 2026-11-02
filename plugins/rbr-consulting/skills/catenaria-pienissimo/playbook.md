@@ -14,6 +14,8 @@ Procedura operativa completa. Ordine consigliato: leggi le trappole, poi segui l
 8. [Verifica e consegna](#8-verifica-e-consegna)
 9. [Modificare una catenaria già attiva](#9-modificare-una-catenaria-già-attiva)
 10. [Coupon e WhatsApp](#10-coupon-e-whatsapp)
+11. [Account ereditato: promo e catenarie della gestione precedente](#11-account-ereditato-promo-e-catenarie-della-gestione-precedente)
+12. [Primo controllo di resa](#12-primo-controllo-di-resa)
 
 ---
 
@@ -492,4 +494,55 @@ Se devi comunque lavorare sulla pagina Canali di invio:
 
 **Log per verificare:** Statistiche → Logs → Messaggi (WhatsApp, con motivo dell'errore) e
 Logs → E-mail. **Per ritestare** serve una promo diversa: il form promo ha un anti-doppione per
-contatto + promo.
+contatto + promo. Fai il test con un numero verificato, mai copiato da lead vecchi: un refuso nel
+numero fa sembrare fallito l'invio WA (compare come errore in Logs → Messaggi). Dopo ogni modifica
+alla Modalità invio, controlla in Logs → Messaggi che nessun PR1 parta più su WhatsApp.
+
+**Alternativa a pagamento** (solo se il cliente vuole comunque i coupon su WhatsApp): profilo
+WhatsApp a pagamento. 🟡 Il costo non è verificato, non proporlo senza prima controllarlo.
+
+---
+
+## 11. Account ereditato: promo e catenarie della gestione precedente
+
+(contributo di Andrea, 12/10/2026)
+
+Quando l'account Pienissimo arriva da una gestione precedente (agenzia, consulente uscente),
+prima di costruire va fatta pulizia.
+
+1. **Censisci** tutte le promo e catenarie ATTIVE. Per ogni promo segna nome interno, nome
+   pubblico, `valore_sconto`, tipologia, giorni di validità, remind, distribuiti/usati e
+   condizioni scritte nel messaggio. Per ogni catenaria segna il tag di Start e cosa manda. I
+   nodi si leggono anche senza API: `contextmenu` sul `.drawflow-node` e lettura del pannello
+   Impostazioni (§1).
+2. **Trova da dove viene distribuita** ogni promo: una catenaria (tag di Start), il winback, un
+   invio massivo, un link diretto, oppure un riquadro nella web app del locale (sezione
+   Visibilità della promo, interruttore "Visibile su PWA": il checkbox `pwa` è nascosto nel DOM,
+   va cliccato via JS, poi salvato col floppy in alto a destra — compare il toast "Promozione
+   aggiornata", verifica a pagina ricaricata). Se dal backoffice il canale non si trova, chiedi
+   al titolare dove la vedono i clienti.
+3. **Controlla che `valore_sconto` corrisponda al nome.** Un nome pubblico può non coincidere col
+   valore reale configurato.
+4. **Spegni SOLO con l'ok esplicito** del consulente o del titolare, perché è una scrittura su un
+   sistema del cliente. Catenaria: `details/<id>` → "Impostazioni generali" → toggle Attivo →
+   "Aggiorna". Per la promo il percorso va registrato la prima volta che lo fai (non è annotato
+   qui). Spegni le **promozionali** (sconti e catenarie che li distribuiscono). Lascia **ACCESE**
+   quelle di servizio: compleanno, sondaggi, richiesta recensione, fidelity/punti, saluto
+   WhatsApp, preventivi, visualizzazione menu — spegnerle ferma sondaggi e compleanni, e il
+   titolare se ne accorge.
+5. **I coupon già scaricati vanno onorati anche a promo spenta**, a mano se il QR non passa più
+   in cassa dopo la disattivazione. Scrivilo nel messaggio al titolare, insieme all'elenco di
+   cosa è stato spento e cosa resta acceso. Il messaggio è una bozza: la manda il consulente.
+
+---
+
+## 12. Primo controllo di resa (a catenaria attiva)
+
+(contributo di Andrea, 12/10/2026)
+
+**Dove si legge:** Statistiche → Email. La catenaria compare come "workflow adv", i coupon come
+"promozione". Per ogni promo si leggono distribuiti/usati; i log stanno in Statistiche → Logs.
+
+🟡 Un riferimento numerico di resa coupon (quota distribuiti/usati) è in verifica su un caso
+cliente: prima di usarlo come benchmark RBR va riletto sul pannello Promozioni e confermato quale
+promo rappresenti davvero.

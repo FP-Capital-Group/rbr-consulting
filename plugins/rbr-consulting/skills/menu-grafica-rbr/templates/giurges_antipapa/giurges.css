@@ -1,0 +1,165 @@
+/* Carta Giurgés 2026 — revisione 07/10. Brand dai post Instagram @giurges_ 2026:
+   terracotta #CB6028 (sfondo post e logo), ruggine #A4441C (pillole), crema #F2E8DA (lettering logo),
+   testo marrone #3A2219. Titoli: bastoni pesanti stretti (Bricolage Grotesque 800, wdth 75) come «HYDRATION BREAK»;
+   testo Oswald; corsivo a mano Caveat Brush come «sorsi e mozzichi». Sfondo carta chiaro. */
+:root{
+  --terra:#CB6028; --ruggine:#A4441C; --crema:#F2E8DA; --carta:#FFFCF7;
+  --ink:#3A2219; --soft:#7A6457; --linea:#EADCCB;
+  --tit:'Bricolage Grotesque','Oswald',sans-serif; --body:'Oswald','Helvetica Neue',sans-serif; --script:'Caveat Brush',cursive;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#2A1A12;color:var(--ink);font-family:var(--body);font-weight:300;-webkit-font-smoothing:antialiased}
+
+/* barra artifact */
+.bar{position:sticky;top:0;z-index:9;display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:10px 18px;
+  background:rgba(42,26,18,.96);color:var(--crema);font-size:12px;letter-spacing:.08em}
+.bar b{font-family:var(--tit);font-weight:800;font-stretch:75%;font-size:18px;color:var(--terra);letter-spacing:.02em}
+.bar span{opacity:.7;text-transform:uppercase}
+.toggle{margin-left:auto;display:flex;border:1px solid rgba(242,232,218,.3);border-radius:99px;overflow:hidden}
+.toggle button{font:400 12px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:7px 15px;border:0;background:none;color:var(--crema);cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--terra);color:#fff}
+.piano{padding:24px 16px 60px;overflow-x:auto}
+.blocco{width:max-content;margin:0 auto 40px}
+.etichetta{color:rgba(242,232,218,.5);font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin:0 0 8px}
+@media screen{ .foglio{zoom:.62} }
+@media screen and (max-width:900px){ .foglio{zoom:.3} }
+
+/* foglio e ante */
+.foglio{position:relative;height:297mm;background:var(--carta);box-shadow:0 20px 60px -20px #000}
+.anta{position:absolute;top:0;height:297mm;padding:13mm 10mm 12mm;background:var(--carta);overflow:hidden;border-right:.3mm solid var(--linea)}
+.anta:last-child{border-right:0}
+.anta.scura{background:var(--ruggine);color:var(--crema);--bgfine:var(--ruggine)}
+.anta.terra{background:var(--terra);color:var(--crema);--bgfine:var(--terra)}
+body.rbr .anta{overflow:visible;height:auto;min-height:297mm}
+body.rbr .foglio{height:auto;min-height:297mm}
+
+/* titoli: come i post */
+h2{font-family:var(--tit);font-weight:800;font-stretch:75%;font-size:31pt;line-height:.95;text-transform:uppercase;color:var(--terra);margin:0 0 4.6mm;letter-spacing:.005em}
+h2.h2s{font-size:21pt;margin-top:8mm}
+
+/* piatto */
+.piatti{display:block}
+.p{display:block;margin:0 0 4.6mm;position:relative}
+.p:last-child{margin-bottom:0}
+.nome{font-family:var(--body);font-weight:500;font-size:12.6pt;line-height:1.2;text-transform:uppercase;letter-spacing:.03em;color:var(--ink)}
+.desc{font-size:10.4pt;line-height:1.36;color:var(--soft);margin-top:.6mm}
+.pz{white-space:nowrap}
+.abb{font-size:8.4pt;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-top:1mm}
+.ic{vertical-align:-.5mm;margin-right:1.4mm}
+/* il n.1: cornice sottile terracotta; foto vera a destra solo se esiste */
+.p.uno{border:.45mm solid var(--terra);border-radius:2.4mm;padding:3mm 3.4mm 3.2mm}
+.p.cf{min-height:34mm;padding-right:44mm}
+.fp{position:absolute;right:2.4mm;top:2.4mm;bottom:2.4mm;width:38mm;height:calc(100% - 4.8mm);object-fit:cover;border-radius:1.6mm}
+/* taglie: piccole icone accanto al nome */
+.tg{display:inline-block;margin-left:1.6mm;vertical-align:.4mm}
+.tg i,.tgl i{display:inline-block;font-style:normal;font-family:var(--body);font-weight:500;font-size:6.2pt;line-height:4.2mm;
+  min-width:4.2mm;height:4.2mm;padding:0 .9mm;text-align:center;border:.3mm solid var(--terra);color:var(--terra);border-radius:99px;margin-right:.8mm;letter-spacing:0}
+.tgleg{font-size:8.6pt;color:var(--soft);margin:-2.2mm 0 3.6mm}
+.tgl{white-space:nowrap}
+.tgx{font-style:italic}
+.bimbo{font-size:10pt;color:var(--soft);margin:3.4mm 0 0}
+.bimbo b{font-weight:500;color:var(--ink);text-transform:uppercase;letter-spacing:.03em;margin-right:1.2mm}
+.due .piatti{column-count:2;column-gap:7mm}
+.due .p{break-inside:avoid;margin-bottom:3.4mm}
+.due .p.uno{padding:2mm 2.6mm}
+
+/* pezzi grossi: blocco terracotta pieno */
+.grossi{background:var(--terra);color:var(--crema);border-radius:3mm;padding:5.5mm 6mm 6mm;margin:0 0 7mm}
+.grossi h2{color:var(--crema);margin-bottom:4mm}
+.grossi .nome{color:#fff}
+.grossi .desc,.grossi .abb{color:rgba(255,248,240,.9)}
+.grossi .p.uno{border-color:var(--crema)}
+.grossi .tg i{border-color:var(--crema);color:var(--crema)}
+.grossi .ic path{stroke:#fff}
+
+/* aggiunte: una riga sola, poco evidenti */
+.aggiunte{margin:4.6mm 0 0;border-top:.3mm solid var(--linea);padding-top:3.4mm;font-size:9.4pt;color:var(--soft)}
+.agt{font-family:var(--script);font-size:14pt;color:var(--terra);margin-right:2mm}
+.ag b{font-weight:500;text-transform:uppercase;letter-spacing:.03em;color:var(--ink)}
+
+/* liste birre / vini */
+.lst{display:block}
+.lr{display:block;margin:0 0 2.9mm;font-size:10.4pt;line-height:1.3;overflow:hidden}
+.ln{display:inline;color:var(--soft)}
+.ln b{font-weight:500;text-transform:uppercase;letter-spacing:.03em;margin-right:1mm;color:var(--ink)}
+.lp{float:right;color:var(--soft)}
+
+/* mezza anta menù (ruggine) */
+.hm{font-size:24pt;margin:2mm 0 9mm;color:var(--crema)}
+.combo{border:.35mm solid rgba(242,232,218,.45);border-radius:3mm;padding:7mm 6mm 7mm;margin:0 0 9mm}
+.combo.oro{border-color:var(--crema);background:rgba(242,232,218,.12)}
+.ct{font-family:var(--tit);font-weight:800;font-stretch:75%;font-size:17pt;line-height:1;color:var(--crema)}
+.cs{font-size:11.4pt;line-height:1.65;color:rgba(242,232,218,.85);margin:3.5mm 0 4.5mm}
+.cp{font-family:var(--tit);font-weight:800;font-stretch:75%;font-size:27pt;color:#fff;line-height:1}
+.cp s{font-family:var(--body);font-weight:300;font-size:13pt;color:rgba(242,232,218,.6);margin-right:1.5mm}
+.cp small{display:block;font-family:var(--body);font-weight:300;font-size:7.5pt;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,232,218,.7);margin-top:1.4mm}
+
+/* retro: dolci e amari */
+.r1 .p{margin-bottom:5.6mm} .r1 h2.h2s{margin-top:11mm}
+.amari{column-count:1}
+.am,.caffe{font-size:11pt;margin:0 0 3.2mm}
+.am b,.caffe b{font-weight:500;text-transform:uppercase;letter-spacing:.03em}
+.am .pz,.caffe .pz{color:var(--soft)}
+.caffe{margin-top:5mm}
+
+/* manifesto con foto vere */
+.terra .script{font-family:var(--script);font-size:30pt;margin:8mm 0 4mm;color:#fff;text-align:center}
+.terra .big{font-family:var(--tit);font-weight:800;font-stretch:75%;font-size:40pt;line-height:.95;text-transform:uppercase;margin:0 0 9mm;color:var(--crema);text-align:center}
+.coll{position:relative;height:150mm;margin:0 2mm}
+.coll img{position:absolute;object-fit:cover;border-radius:2.4mm;border:1.4mm solid var(--crema)}
+.coll .c1{left:0;top:0;width:78mm;height:118mm}
+.coll .c2{right:0;top:34mm;width:78mm;height:76mm}
+.terra .small{position:absolute;left:10mm;right:10mm;bottom:16mm;font-size:12pt;letter-spacing:.06em;margin:0;color:var(--crema);text-align:center}
+
+/* info */
+.info{margin-top:18mm}
+.ir{border-bottom:.3mm solid var(--linea);padding:0 0 6mm;margin:0 0 6mm}
+.ir .k{display:block;font-size:8pt;letter-spacing:.22em;text-transform:uppercase;color:var(--terra);margin-bottom:1.6mm}
+.ir .v{display:block;font-family:var(--tit);font-weight:800;font-stretch:75%;font-size:21pt;text-transform:uppercase;line-height:1;color:var(--ink)}
+.hero3{display:block;width:84mm;height:118mm;object-fit:cover;border-radius:2.4mm;margin:9mm auto 0}
+.cop .logo{position:absolute;left:50%;top:50%;width:190mm;transform:translate(-50%,-50%)}
+
+/* testo legale piccolo in fondo a ogni anta */
+.legale{position:absolute;left:10mm;right:10mm;bottom:6mm;font-size:6.2pt;line-height:1.4;color:var(--soft);margin:0}
+.scura .legale{color:rgba(242,232,218,.65)}
+body.rbr .legale{position:static;margin-top:6mm}
+
+/* vista consulente */
+.mk{display:none;margin-top:1mm;font-size:7.6pt;font-weight:400;color:#2A1206;background:#FFD9C2;border-radius:99px;padding:.5mm 2.4mm}
+body.rbr .mk{display:inline-block}
+.nota{display:none;font-size:8.6pt;line-height:1.45;color:#12211C;background:#C6E6D2;border-radius:2mm;padding:2.4mm 3mm;margin:3.5mm 0 0}
+body.rbr .nota{display:block}
+.nota b{font-weight:500}
+.rank{display:none;font-size:7pt;color:var(--soft);border:.25mm solid var(--linea);border-radius:99px;padding:0 1.4mm;margin-right:1.4mm;vertical-align:.4mm}
+body.rbr .rank{display:inline-block}
+.grossi .mk,.scura .mk{background:#FFE6D6}
+
+/* anta 2 piena: pezzi grossi + panini */
+.a2 .p{margin-bottom:3.6mm} .a2 .nome{font-size:12pt} .a2 .desc{font-size:9.8pt;line-height:1.32}
+.a2 h2{font-size:27pt;margin-bottom:3.6mm} .a2 .grossi{padding:5mm 5.5mm;margin-bottom:6mm}
+.a2 .grossi .p{margin-bottom:3.4mm}
+
+/* 07/10 riempimento ante: carattere più grande dove c'è spazio */
+.a1 .nome,.a3 .nome,.r1 .nome{font-size:14pt} .a1 .desc,.a3 .desc,.r1 .desc{font-size:11.4pt}
+.a1 .p,.a3 .p{margin-bottom:6.6mm} .a1 h2,.a3 h2{font-size:36pt;margin-bottom:6mm} .a1 h2.h2s,.a3 h2.h2s{font-size:24pt;margin-top:11mm}
+.a1 .due .p{margin-bottom:4.6mm}
+.a3 .lr{font-size:11.2pt;margin-bottom:3.6mm}
+.a2 .p{margin-bottom:4.4mm} .a2 .nome{font-size:12.8pt} .a2 .desc{font-size:10.4pt}
+.a2 .grossi .p{margin-bottom:4mm}
+.p.cf{min-height:31mm;padding-right:50mm} .fp{width:44mm}
+.r1 .p{margin-bottom:6.6mm} .r1 h2{font-size:31pt} .r1 .am,.r1 .caffe{font-size:12pt;margin-bottom:4mm}
+.a1 .p,.a3 .p{margin-bottom:5.2mm} .a1 h2.h2s,.a3 h2.h2s{margin-top:8.5mm} .a1 h2,.a3 h2{margin-bottom:5mm}
+.a3 .lr{margin-bottom:2.7mm;font-size:10.8pt}
+.a1 .due .p{margin-bottom:3.6mm}
+.terra .script{margin-top:14mm} .terra .big{font-size:44pt;margin-bottom:12mm}
+.coll{height:170mm} .coll .c1{width:84mm;height:128mm} .coll .c2{width:80mm;top:62mm;height:86mm}
+.terra .small{bottom:20mm;font-size:13pt}
+.info{margin-top:24mm} .hero3{width:96mm;height:132mm;margin-top:12mm}
+/* 07/10 revisione: prezzi bevande attaccati, prezzi menù piccoli */
+.lp{float:none;color:var(--soft)}
+.cp{font-family:var(--body);font-weight:400;font-size:12pt;font-stretch:100%;color:var(--crema)}
+.cp s{font-size:10pt}
+.due .p{padding:2mm 2.6mm;border:.45mm solid transparent;border-radius:2.4mm} .due .p.uno{border-color:var(--terra)}
+.r1 .legale{position:absolute}
+

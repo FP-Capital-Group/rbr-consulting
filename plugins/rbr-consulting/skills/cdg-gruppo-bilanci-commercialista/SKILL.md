@@ -18,6 +18,8 @@ description: Compila e revisiona il conto economico (CDG) di un gruppo con più 
 - **Ricavi per locale**: il commercialista = scontrini + FATTURE emesse dalla cassa, netto IVA.
   Dall'API della cassa le fatture vanno prese a parte (i report «riconciliazioni» di solito contengono
   solo gli scontrini). Netto IVA con le aliquote reali delle chiusure (10/22/4 %), mai «÷1,1» secco.
+  Se l'API della cassa non dà le fatture emesse, la fonte di riserva è il cassetto fiscale (portale
+  Fatture e Corrispettivi dell'AdE, imponibile). (contributo di Andrea Chirivì, 2026-10-12)
 
 ## Riparto dei costi condivisi
 1. **Diretto** quando il fornitore è di un solo locale (mappa fornitori validata dal cliente).
@@ -33,7 +35,14 @@ description: Compila e revisiona il conto economico (CDG) di un gruppo con più 
 - **Affitto ramo d'azienda pagato fra società del gruppo** → fuori in tutti gli anni (vista di gruppo).
 - Interessi/spese verso soci o società del gruppo → fuori (infragruppo).
 - **Premi di fine anno dei fornitori** → spalmati come riduzione della merce su tutti i mesi, in
-  proporzione alla merce locale-mese. **TARI** e canoni annui → spalmati sui 12 mesi.
+  proporzione alla merce locale-mese. **TARI**, canoni annui (polizze, cartellonistica/insegne) e costi
+  fissi anomali concentrati in un solo mese → importo dell'anno ÷ 12 su tutti i mesi, con la formula a
+  vista (es. `=1715,49/12`) e una nota nel tab «Fonti e logica». Il SALDO dell'anno precedente fatturato
+  nell'anno corrente (es. saldo TARI 2025 arrivato nel 2026) si TOGLIE dal CE corrente: è un costo
+  dell'anno prima, non di quest'anno. Le polizze con premi mensili reali restano nei mesi veri. Questi
+  dodicesimi valgono solo per i costi che NASCONO annuali — personale, merce e utenze con bolletta
+  mensile restano mese per mese col dato vero. (contributo di Andrea Chirivì, 2026-10-12; principio
+  TARI/canoni ÷12 di Marco, Cartabianca set 2026; dodicesimi su costi fissi anomali di Roberto)
 - Rimanenze: solo se il cliente fa inventario davvero.
 
 ## Trappole verificate
@@ -54,7 +63,11 @@ description: Compila e revisiona il conto economico (CDG) di un gruppo con più 
 3. **Confronto anno su anno a parità di locali** («stessi locali» = esclusi solo quelli aperti o chiusi
    nel periodo; definiscilo per scritto). Il personale PER LOCALE spesso non è confrontabile fra anni:
    confronta i totali.
-4. Backup del file prima di ogni scrittura (`_archivio/BACKUP_<file>_<data>_pre-<cosa>.xlsx`).
+4. Backup del file prima di ogni scrittura (`_archivio/BACKUP_<file>_<data>_pre-<cosa>.xlsx`). Se il CE è
+   un Google Sheet l'xlsx non basta: salva anche il dump in json delle FORMULE del range che si toccherà
+   (`values.batchGet` con `valueRenderOption=FORMULA`) in `<cartella cliente>/fatture/CE_backup_formule_<data>_<motivo>.json`,
+   poi scrivi e rileggi. La cronologia versioni di Sheets ripristina il file intero, non la singola riga:
+   il json permette di rimettere a posto solo quello che serve. (contributo di Andrea Chirivì, 2026-10-12)
 
 ## Tab «Fonti e logica» (primo tab del CDG)
 Perimetro, fonti per riga, metodo di riparto, decisioni del consulente con data, correzioni fatte,
