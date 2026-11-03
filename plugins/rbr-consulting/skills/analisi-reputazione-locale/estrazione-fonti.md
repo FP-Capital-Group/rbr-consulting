@@ -97,8 +97,21 @@ Cerca il locale su `yelp.com` **e** su `yelp.it` (sono indici diversi). Se non c
 verifica che i concorrenti diretti della stessa via ci siano: è quello che rende
 l'assenza significativa invece che irrilevante.
 
-Su TripAdvisor spesso basta il dato aggregato (media e numero) che compare già nei
-risultati di ricerca Google della scheda del locale, insieme a quello di TheFork pubblico.
+Su TripAdvisor, se il locale ha poco volume basta il dato aggregato (media e numero) che
+compare già nei risultati di ricerca Google, insieme a quello di TheFork pubblico. Ma
+**quando TripAdvisor ha volume** (centinaia di recensioni), leggi davvero: la
+distribuzione (Eccellente…Pessimo), i **sotto-voti** (Servizio, Atmosfera, Cibo,
+Qualità/prezzo) e i testi in italiano, per data — non fermarti all'aggregato.
+
+---
+
+## Sondaggi Cooperto
+
+Si legge `panoramicarisultati.aspx?Pagina=N&g=<guid sondaggio>` via fetch nella sessione
+loggata (100 righe a pagina, 23 colonne). Funziona anche quando l'interfaccia dice
+"Applicazione in manutenzione". L'export CSV va in coda fino a 10 minuti. Un output lungo
+si scrive nel DOM della scheda e si legge con `get_page_text`, perché lo strumento
+JavaScript tronca intorno ai 2.000 caratteri.
 
 ---
 

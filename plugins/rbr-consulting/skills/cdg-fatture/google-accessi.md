@@ -31,6 +31,15 @@ Il SA non ha quota Drive: un file creato da zero dal SA finisce senza spazio. Fl
 Nota storica: esiste anche il SA `rbr-bot` (pipeline interne Marco/Misterpizza). Per i
 consulenti e il plugin vale SOLO fp-cdg-service.
 
+## Dove NON deve stare la chiave (contributo di Andrea Chirivì, 2026-10-12)
+
+`fp-cdg-service` è Editor su **tutti** i CDG dei clienti RBR e vede l'intero albero
+Clienti RBR. Copiare `credentials.json` sull'hosting di un locale (WordPress, PHP,
+cron del cliente) aprirebbe a quel server i dati di **tutti gli altri clienti**. Gli
+script che scrivono su Google Sheets girano **solo sul computer del consulente o in
+un ambiente RBR**. Se serve un'automazione lato cliente, usa un service account
+**dedicato** con accesso solo ai fogli di quel cliente, mai `fp-cdg-service`.
+
 ## API vs MCP — quando usare cosa
 
 - **Script + SA (via principale)**: tutto ciò che scrive celle con precisione (CDG,
@@ -51,3 +60,20 @@ Editor col SA, una volta per foglio.
   file": ripartire da una copia del modello fatta da un umano
 - Due caricamenti dello stesso periodo → gli importi si sommano (vedi skill
   cdg-fatture): mai ricaricare senza verificare
+- **`[400] The document must not be an Office file`**: un `.xlsx` caricato su
+  Drive e aperto in modalità compatibilità **non è un Google Sheet**, e l'API Sheets
+  risponde 400. Si riconosce dall'ID corto nell'URL (circa 33 caratteri contro 44 di
+  un vero Google Sheet) e dalla scritta ".XLSX" accanto al titolo. Rimedio: File →
+  Salva come Foglio Google, poi ri-condividi in Editor col service account il file
+  **nuovo** (ha un URL diverso dall'originale). (contributo di Andrea Chirivì,
+  2026-10-12)
+- **Il SA non può caricare un file NUOVO in My Drive**: errore 403 "Service Accounts
+  do not have storage quota" (il SA può comunque leggere un file già caricato e
+  verificarne dimensione e md5). Per un binario nuovo (zip di una skill, PDF, xlsx
+  da conservare) carica dal **browser del consulente** (Drive → Nuovo → Caricamento
+  file). Per **aggiornare** un file già condiviso usa "Gestisci versioni" /
+  "Sostituisci file esistente": tiene ID, link e condivisioni esistenti e lascia la
+  versione vecchia nella cronologia — ricaricarlo da zero crea invece un secondo
+  file con un link diverso. Dopo il caricamento controlla dimensione e md5 contro la
+  copia locale. (contributo di Andrea Chirivì, 2026-10-12; equivalente via API non
+  ancora verificato su binari)

@@ -54,6 +54,16 @@ di quanto sembri. Casi realmente trovati:
 **Non rinominare i tool per fare ordine.** Sono agganciati ai webhook del gestionale.
 Si allinea il prompt al nome registrato, mai il contrario.
 
+**Prima il tool, poi la procedura nel prompt.** Prima di scrivere nel prompt una procedura
+(annullare, modificare, spostare, lista d'attesa…) verifica nella scheda Azioni che esista il
+tool che la esegue. Se non c'è, quella procedura è un trasferimento all'operatore, mai una frase
+che finge l'azione. Caso reale: un agente aveva nel prompt "Cancellazione: chiedo solo nome e
+cognome" senza nessun tool di cancellazione — ha detto "annullo la prenotazione di stasera", il
+tavolo è rimasto occupato tutta la sera e il cliente era convinto di aver disdetto. Vale anche il
+contrario: quando il tool arriva, la regola va riscritta. Sui DeepAgent standard i tool sono solo
+`get_disponibilit_<slug>`, `set_prenotazione_<slug>`, `transfer_to_human`, `end_call` e
+`skip_turn`: annulli e modifiche vanno sempre all'operatore.
+
 ---
 
 ## 2. Trappole della piattaforma
@@ -68,6 +78,8 @@ Queste fanno perdere tempo o, peggio, fanno credere che una modifica sia stata a
 - **Il campo "Obiettivo principale" torna indietro da solo** dopo alcuni salvataggi. Va ricontrollato a fine sessione. Nella configurazione scrive `personality.agentGoal` e `primaryGoal`; il `success_goal` di primo livello (`['Make a sale']` su tutti) è un default della piattaforma senza significato, non va "corretto".
 - **L'endpoint del gestionale è lo stesso per più clienti** (un ingresso unico che smista a valle). Non è un errore di copia-incolla e non va "corretto".
 - **Modalità Avanzata** deve essere attiva perché il prompt arrivi all'agente così com'è.
+- **La rotta di prenotazione può rispondere 200 anche quando fallisce.** Il ponte verso il gestionale può restituire `{"ResmioPrenotazione":"null","status":"error"}` con HTTP 200, e l'agente la legge come un successo se controlla solo l'esito tecnico della chiamata, non il contenuto della risposta. Caso reale: una cliente ha richiamato 5 volte per un tavolo che non esisteva, per un numero storpiato dalla trascrizione. Da chiedere a chi mantiene la rotta: un codice 4xx/5xx vero quando fallisce. Fino ad allora, l'agente deve leggere la risposta (vedi Blocco D e §4) e il collaudo deve includere un caso con dati volutamente sbagliati (§8).
+- **Se il prompt contiene variabili di sistema** (`{{system__time}}`, `{{system__timezone}}`, `{{system__time_utc}}`), il salvataggio dall'interfaccia può toglierle — da verificare caso per caso, non ancora documentato con un esempio concreto. Per prudenza, rileggi il prompt via API (`agentBuilder.getById`) prima e dopo ogni salvataggio dalla UI e controlla che ci siano ancora; per i prompt con variabili preferisci il salvataggio via API più `deploy-simple`.
 
 ---
 
@@ -246,6 +258,23 @@ Verifica la disponibilità di un tavolo da {{LOCALE}}. Passa la data in formato 
 > Body Parameters veri e propri** senza coinvolgere chi gestisce l'endpoint: passare da "nessuno
 > schema" a "schema esplicito" può rompere un'integrazione che oggi funziona.
 
+**Dopo `set_prenotazione_<slug>` l'agente deve leggere la risposta, non solo l'esito tecnico
+della chiamata.** Se la risposta non contiene una prenotazione vera (es. `ResmioPrenotazione`
+vuoto/`"null"`, o `status:"error"`), la prenotazione NON è presa anche se lo strumento non ha
+dato errore (vedi §2, la rotta può rispondere 200 su un fallimento). L'agente non dice mai
+"confermato" in quel caso: dice al cliente che non è riuscito a registrarla e passa a un
+operatore (Blocco B). Aggiungere questa regola anche nel toolkit del `prompt-master-template.md`
+e nel Blocco B/D del prompt.
+
+**Una sola chiamata a `set_prenotazione_<slug>` per telefonata.** Dopo aver registrato, se il
+cliente aggiunge mail/nota o corregge il nome, NON si registra una seconda prenotazione: le
+piccole correzioni si dicono in sala. Se cambia giorno, ora o persone, si passa all'operatore
+(non esiste un tool di modifica). Controllo periodico sui doppioni: prenotazioni con fonte
+deepAgent, stesso telefono e stessa data, create a meno di 10 minuti l'una dall'altra, entrambe
+non annullate — NON serve che nome e coperti coincidano (una correzione può cambiarli). Si tiene
+la seconda (di solito ha nota/mail/correzione) e si controlla se ha l'email prima di annullare la
+prima.
+
 ### Blocco F — L'orologio di sistema
 
 L'agente **non sa che ore sono**. Se il prompt gli dice "guarda l'ora e scegli", la deduce da
@@ -261,14 +290,21 @@ resto della chiamata. Va **da solo, in alto, subito dopo `<environment>`**, prim
 regola che dipende dall'ora, e si apre dicendo che è la prima cosa da guardare.
 
 ```xml
-<orologio_di_sistema>RIFERIMENTO ORARIO DI SISTEMA — è la PRIMA cosa che guardo in ogni chiamata, prima ancora di capire cosa vuole il cliente. L'orario UTC di questa chiamata è {{system__time_utc}}. L'ora italiana è quella UTC più DUE ore quando è in vigore l'ora legale (dall'ultima domenica di marzo all'ultima domenica di ottobre) e più UNA ora nel resto dell'anno. Uso SOLO questo riferimento per sapere che ore sono e che giorno è: non lo deduco da quello che dice il cliente né da come mi saluta. Ogni volta che devo scegliere un comportamento che dipende dall'ora — quale numero uso se il trasferimento ha fasce diverse, il saluto di chiusura, se siamo aperti adesso, la disponibilità di oggi — guardo prima qui e mi dico l'ora in formato 24 ore. Se il riferimento risulta vuoto o illeggibile non tiro a indovinare: scelgo il comportamento più prudente e, se devo trasferire, uso il numero della fascia diurna.
+<orologio_di_sistema>RIFERIMENTO ORARIO DI SISTEMA — è la PRIMA cosa che guardo in ogni chiamata, prima ancora di capire cosa vuole il cliente. Adesso è {{system__time}} (fuso {{system__timezone}}). Questo riferimento è GIÀ in ora locale: non lo converto, non aggiungo e non tolgo ore. Qualunque fascia oraria scritta nelle regole è in ora locale e va confrontata con questo riferimento così com'è. Uso SOLO questo riferimento per sapere che ore sono e che giorno è: non lo deduco da quello che dice il cliente né da come mi saluta. Ogni volta che devo scegliere un comportamento che dipende dall'ora — quale numero uso se il trasferimento ha fasce diverse, il saluto di chiusura, se siamo aperti adesso, la disponibilità di oggi — guardo prima qui e mi dico l'ora in formato 24 ore. Se il riferimento risulta vuoto o illeggibile non tiro a indovinare: scelgo il comportamento più prudente e, se devo trasferire, uso il numero della fascia diurna.
 VENIRE ADESSO — vale SOLO se l'ora italiana di ADESSO, letta qui sopra, è già dentro l'orario di servizio. Se siamo prima dell'apertura, "fra dieci minuti" non esiste: dico l'ora di apertura e propongo quella, senza mai spacciare un orario più tardi per "fra poco". Se invece siamo già dentro l'orario, non do per scontato che l'istante esatto sia prenotabile: verifico il primo quarto d'ora utile successivo e, se c'è posto, dico "Vieni pure adesso, ti segno alle [orario]: tanto il tempo che arrivi siamo lì". ATTENZIONE: il PRIMO orario che mi restituisce il gestionale NON vuol dire "fra poco" — è il primo orario prenotabile della giornata, che quasi sempre coincide con l'apertura. Prima di presentarlo come "adesso" lo confronto con l'ora vera: se dista più di mezz'ora da questo momento non è "adesso", quindi dico l'orario esatto e lascio scegliere al cliente. Non dico MAI "non c'è posto" solo perché l'ora esatta di questo momento non risulta prenotabile.
 DISPONIBILITÀ VUOTA DENTRO L'ORARIO — se la verifica di disponibilità torna vuota mentre siamo ancora dentro l'orario in cui si prenota, non liquido il cliente con "non c'è posto": può essere un problema tecnico e il locale magari ha spazio. Gli dico che non riesco a prenotare io e passo la chiamata all'operatore, invece di mandarlo via.</orologio_di_sistema>
 ```
 
-> ⚠️ **La conversione ora legale/solare va scritta dentro il blocco.** Con solo "UTC più due
-> ore", a fine ottobre l'agente sbaglia fascia di un'ora e nessuno se ne accorge finché un
-> cliente non finisce sul numero sbagliato.
+> ⚠️ **Correzione urgente (dal cambio dell'ora, 25/10/2026): niente più conversione UTC a mano.**
+> La vecchia versione del blocco faceva calcolare all'agente l'ora locale a partire da
+> `{{system__time_utc}}` ("UTC più due ore in ora legale..."): con la conversione lasciata al
+> modello, una fascia 18-24 è diventata 20-02 e i trasferimenti prima delle 20 venivano
+> rifiutati (2 eseguiti su 12 annunciati, contro 94 su 8 su un altro locale). `{{system__time}}`
+> è già nel fuso dell'agente: non si converte più. Prima di mettere in onda, verifica che il
+> fuso dell'agente sia **Europe/Rome** con una chiamata di prova e la sua trascrizione (se no
+> l'orario esce in UTC). **Da verificare, non ancora visto sostituito in una chiamata vera**:
+> `{{system__time_hour}}` non è fra le variabili di sistema documentate da ElevenLabs — non
+> usarlo. (contributo di Luciano Purpi, skill locale `sistema-locale-completo`)
 
 > ⚠️ **Perché "VENIRE ADESSO" è scritto così.** La prima stesura diceva "verifico il primo
 > quarto d'ora utile successivo": il modello l'ha letta come "il primo della lista", che è
@@ -295,6 +331,7 @@ Oltre ai blocchi di base, un agente ben fatto ha:
 - **Riepilogo parlato e conferma esplicita** prima di registrare, con giorno della settimana + data per far emergere i malintesi
 - **Mai proporre un orario non verificato** via API
 - **Guardrail**: niente ordini al telefono, niente piatti o prezzi inventati, niente codici prenotazione, privacy rimandata al sito
+- **Niente domanda "come ci ha conosciuto?"**: misura la memoria del cliente, non il motivo della chiamata, e allunga una telefonata che serve solo a prenotare. Le prenotazioni dell'agente si riconoscono già dal marcatore che lascia il tool; il motivo della chiamata (es. campagna a pagamento) si misura fuori dalla telefonata, col report chiamate di Google Ads col numero di inoltro (skill `adv-ristorante`). *(decisione di Andrea Chirivì, Noolas, 2026-08-30)*
 
 ---
 
@@ -385,6 +422,19 @@ nomi tool e gestionale · primo messaggio · criteri di successo
 conta e i menù cambiano di stagione. Nel prompt solo ciò che governa il flusso (fasce
 prenotabili, soglie, chiusure, allergeni, dove rimandare).
 
+> **I canali di asporto e consegna scritti nel prompt vanno controllati sul sito del cliente**
+> e sui portali dove il locale è davvero attivo, non ereditati dalla copia di un altro agente
+> ("Deliveroo, Glovo, Just Eat" per abitudine). Caso reale: l'agente mandava tutti su tre
+> portali, mentre il locale aveva solo Deliveroo e il ritiro era "ordini per telefono". Scrivi
+> separati: domicilio = quali portali, ritiro = come (operatore, telefono, app).
+
+> **Voci del layer che si dimenticano spesso** (chiedile sempre, anche solo per scrivere
+> "non c'è"): opzioni vegane/vegetariane reali (solo quello che c'è davvero, distinto dagli
+> allergeni); eventi con una data di scadenza scritta, così il blocco smette di citarli da solo;
+> ritardo tollerato in minuti; conto alla romana o separato sì/no; primo messaggio scritto
+> foneticamente se il nome del locale si presta a essere letto male, con la nota "non
+> correggere" in scheda.
+
 ---
 
 ## 6. Il campo "Obiettivo principale" e il tasso di successo
@@ -423,19 +473,22 @@ campo è arrivato vuoto o con un valore inventato.
 
 Ordine di indagine:
 
-1. **Controlla il `phone` nei parametri passati al tool.** Prima di ogni altra ipotesi (il conteggio lo fai tu sul payload, mai l'agente davanti al cliente). Un `phone` da 9 cifre invece di 10 fa rifiutare la prenotazione senza che da nessuna parte compaia un messaggio comprensibile, e l'agente lo racconta al cliente come "problema tecnico". Il controllo si fa in due mosse: aprire il chip del tool nella trascrizione e leggere il payload, poi aprire una chiamata **riuscita** dello stesso agente e confrontare campo per campo. Se l'unica differenza è il telefono, hai finito.
-2. **I tool registrati corrispondono a quelli citati nel prompt?** È la causa più frequente e la più invisibile.
-3. **La descrizione del tool dice il nome del locale giusto?** Su quattro agenti su cinque diceva il nome di un altro cliente, residuo di duplicazioni.
-4. **La regola incriminata esiste in più punti del prompt?** Controllare sempre anche gli esempi tradotti.
-5. **Il campo Obiettivo contiene i criteri o il prompt?**
-6. **Il gestionale è allineato?** L'agente può annunciare gli orari giusti e poi interrogare un gestionale rimasto sui vecchi turni: la prenotazione si perde senza che nessuno capisca perché.
+1. **Controlla il `phone` nei parametri passati al tool, E la risposta che il tool ha dato.** Prima di ogni altra ipotesi (il conteggio lo fai tu sul payload, mai l'agente davanti al cliente). Un `phone` da 9 cifre invece di 10 fa rifiutare la prenotazione senza che da nessuna parte compaia un messaggio comprensibile, e l'agente lo racconta al cliente come "problema tecnico". Il controllo si fa in due mosse: aprire il chip del tool nella trascrizione e leggere il payload E la risposta (la rotta può rispondere 200 anche su un fallimento, §2), poi aprire una chiamata **riuscita** dello stesso agente e confrontare campo per campo. Se l'unica differenza è il telefono, hai finito.
+2. **Ogni azione che il prompt promette ha il suo tool?** Verifica nella scheda Azioni prima di dare per buona una procedura scritta nel prompt (vedi §1, "prima il tool").
+3. **I tool registrati corrispondono a quelli citati nel prompt?** È la causa più frequente e la più invisibile.
+4. **La descrizione del tool dice il nome del locale giusto?** Su quattro agenti su cinque diceva il nome di un altro cliente, residuo di duplicazioni.
+5. **La regola incriminata esiste in più punti del prompt?** Controllare sempre anche gli esempi tradotti.
+6. **Il campo Obiettivo contiene i criteri o il prompt?**
+7. **Il gestionale è allineato?** L'agente può annunciare gli orari giusti e poi interrogare un gestionale rimasto sui vecchi turni: la prenotazione si perde senza che nessuno capisca perché.
 
 ---
 
 ## 8. Prima di andare live
 
 - [ ] Blocchi A, B, C nel prompt, con i nomi tool reali
-- [ ] Blocco F (orologio) da solo subito dopo `<environment>`, con la regola ora legale/solare
+- [ ] Blocco F (orologio) da solo subito dopo `<environment>`, con `{{system__time}}` in ora locale e senza conversioni a mano
+- [ ] Nessuna procedura nel prompt (annulla, modifica, lista d'attesa...) senza un tool reale che la esegua
+- [ ] Dopo `set_prenotazione_<slug>`: letta la risposta, non solo il codice HTTP — se non contiene una prenotazione vera non si dice "confermato"
 - [ ] I tre orari (locale, cucina, prenotazioni) scritti separati
 - [ ] Blocco D nelle descrizioni di entrambi i tool
 - [ ] `{{REGOLA_SEDE}}` solo se multisede
@@ -458,6 +511,7 @@ Ordine di indagine:
 7. **Lingua straniera dalla prima frase** — deve rispondere in quella lingua da subito e chiedere comunque le cifre
 8. **Domanda su allergeni** — deve dire la verità senza minimizzare e senza esitare
 9. **"Posso venire adesso?"** prima dell'apertura e a fine servizio — deve dire l'ora di apertura o la fascia cucina, mai spacciare l'apertura per "fra poco"
+10. **Prenotazione con un numero volutamente sbagliato/storpiato** — se la rotta di prenotazione risponde "ok" ma senza una prenotazione vera (§2), l'agente deve accorgersene dalla risposta del tool, dire che non è riuscito a registrarla e trasferire — mai dire "confermato". Nei test non usare `test@example.com` come mail: il dominio riservato può far fallire la prenotazione.
 
 ---
 
@@ -469,3 +523,6 @@ Alcune cose non vanno fatte in automatico, per ragioni diverse dalla difficoltà
 - **Archiviare il prompt precedente** prima di sostituirlo: il rollback deve essere un copia-incolla. Prima di una modifica di massa, backup di tutti i prompt in un JSON (procedura in `references/api-pubblicazione-deepagent.md`).
 - **Non promettere l'assoluto sugli allergeni.** Se un cliente celiaco chiede della contaminazione, l'agente deve rispondere con sicurezza e spiegare **come** si lavora — ambiente separato, utensili dedicati, cottura in teglia dedicata — ma non dichiarare "zero rischio" quando la lavorazione non è completamente separata (forno condiviso, per esempio). Una prova concreta come "lo facciamo da oltre dieci anni e non abbiamo mai avuto un problema" convince più di una garanzia assoluta, ed è vera e verificabile. Una garanzia sanitaria falsa su una chiamata registrata è un rischio per la persona e per il locale.
 - **Se un account del gestionale contiene più clienti**, verificare il nome della sede in cima alla pagina prima di ogni singola modifica. Nel dubbio, non toccare.
+- **Su un agente in produzione, il salvataggio (`agentBuilder.update`) o il deploy possono essere negati** dal classificatore come "Production Deploy". Non si aggira: o il consulente autorizza esplicitamente quell'azione, o incolla lui il prompt. Prima prepara: backup JSON della configurazione in onda (`getById`), file del nuovo prompt, impronta SHA-256 del file prima di incollare (dopo il salvataggio la piattaforma compatta gli a capo e l'impronta non torna più — si confronta allora la lunghezza o il testo con spazi normalizzati). Per incollare testi lunghi da Mac: `LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 pbcopy` (senza, le lettere accentate si rompono).
+
+*(contributo di Luciano Purpi; "non chiedere come ci ha conosciuto" e canali d'asporto: Andrea Chirivì — pacchetto migliorie 2026-10-12)*

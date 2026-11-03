@@ -190,7 +190,10 @@ function titleBlock(nome, sottotitolo, data) {
   ];
 }
 
-function signature(nome = 'Leo Franco') {
+function signature(nome) {
+  // Nessun default: la firma è sempre il nome del consulente che presenta
+  // questo documento al cliente, mai un nome fisso (vedi SKILL.md, Regole di scrittura).
+  if (!nome) throw new Error('signature(nome): passa il nome del consulente che firma, niente default');
   return [
     spacer(320),
     new Paragraph({

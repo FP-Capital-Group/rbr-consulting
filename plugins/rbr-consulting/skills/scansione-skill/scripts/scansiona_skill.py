@@ -5,15 +5,18 @@ Uso: scansiona_skill.py [--json <file>] [--all] [--radici <dir1,dir2,...>]
 
 Stampa un inventario Markdown (per Claude) e, se richiesto, un JSON con i dettagli.
 NON legge il contenuto per intero: solo frontmatter (name/description), dimensioni,
-elenco file e due flag: `segreti` (token/chiavi nel testo) e `percorsi_personali`
-(path assoluti /Users/<nome>). NON invia nulla: la condivisione la fa `condividi_skill.py`
-dopo la scelta del consulente.
+elenco file e i flag `segreti` (token/chiavi nel testo), `percorsi_personali` (file
+esterni alla cartella: /Users/<nome>, ~/, $HOME, Desktop/, Documents/), `file_mancanti`
+(percorsi scripts/references/assets/templates citati nel testo ma assenti nella cartella)
+e `doppione_plugin` (per le skill personali: None se il plugin RBR non ha una skill
+omonima, altrimenti "identica" o "diversa"). NON invia nulla: la condivisione la fa
+`condividi_skill.py` dopo la scelta del consulente.
 
 Esclusi di default (già del team o pubblici): il plugin rbr-consulting stesso,
 i plugin del marketplace ufficiale Anthropic, cowork-plugin-management, telegram.
 `--all` li include comunque (solo elenco).
 """
-import os, re, sys, json, glob, argparse, datetime
+import os, re, sys, json, glob, argparse, datetime, filecmp
 
 HOME = os.path.expanduser("~")
 ESCLUSI_PLUGIN = {"rbr-consulting", "cowork-plugin-management", "telegram",
@@ -23,9 +26,31 @@ RE_SECRET = re.compile(
     r"\b\d{9,10}:[A-Za-z0-9_-]{30,}\b|Bearer\s+[A-Za-z0-9._-]{20,}|"
     r"pk_[A-Za-z0-9]{20,}|xox[bap]-[A-Za-z0-9-]{10,}|"
     r"(?i:(api[_-]?key|secret|password|token)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{16,}))")
-RE_USER_PATH = re.compile(r"/Users/[^/\s'\"]+/")
+# file/percorsi esterni alla cartella della skill: il collega che la riceve non li ha
+RE_USER_PATH = re.compile(
+    r"(/Users/[^/\s'\"]+/|~/(?!\.claude/skills/)|\$HOME\b|(?<![\w/.])Desktop/|(?<![\w/.])Documents/)")
+# percorsi relativi citati nel testo (scripts/, references/, assets/, templates/...) da controllare
+# che esistano davvero dentro la cartella della skill
+RE_REL_REF = re.compile(r"\b(?:scripts|references|assets|templates)/[\w./-]+")
 TEXT_EXT = {".md", ".py", ".js", ".ts", ".json", ".txt", ".yaml", ".yml", ".html",
             ".css", ".csv", ".sh", ".toml", ".jinja", ".j2", ".sql"}
+# cartella skills/ del plugin RBR (due livelli sopra questo script), per il confronto doppioni
+PLUGIN_SKILLS_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+
+
+def confronta_plugin(nome, path_locale):
+    """None se il plugin RBR non ha una skill con questo nome; altrimenti 'identica' o 'diversa'
+    (filecmp.dircmp: stesso contenuto file per file, ricorsivo solo al primo livello)."""
+    p = os.path.join(PLUGIN_SKILLS_DIR, nome)
+    if not os.path.isdir(p):
+        return None
+    try:
+        cmp = filecmp.dircmp(path_locale.rstrip("/"), p)
+    except OSError:
+        return None
+    if not cmp.left_only and not cmp.right_only and not cmp.diff_files and not cmp.funny_files:
+        return "identica"
+    return "diversa"
 
 
 def frontmatter(path):
@@ -66,8 +91,9 @@ def frontmatter(path):
 
 
 def analizza_dir(d):
-    """file testuali, dimensione totale, flag segreti/percorsi."""
+    """file testuali, dimensione totale, flag segreti/percorsi esterni, file citati ma mancanti."""
     files, size, segreti, percorsi = [], 0, False, False
+    referenziati = set()
     for root, dirs, fnames in os.walk(d):
         dirs[:] = [x for x in dirs if x not in ("node_modules", "__pycache__", ".git", "dist")]
         for fn in fnames:
@@ -92,24 +118,28 @@ def analizza_dir(d):
                     segreti = True
                 if RE_USER_PATH.search(txt):
                     percorsi = True
-    return files, size, segreti, percorsi
+                referenziati.update(m.rstrip(").,:;`'\"") for m in RE_REL_REF.findall(txt))
+    mancanti = sorted(r for r in referenziati if not os.path.exists(os.path.join(d, r)))
+    return files, size, segreti, percorsi, mancanti
 
 
 def voce(tipo, fonte, path, is_dir=True):
     fm = frontmatter(os.path.join(path, "SKILL.md") if is_dir else path)
     if is_dir:
-        files, size, segreti, percorsi = analizza_dir(path)
+        files, size, segreti, percorsi, mancanti = analizza_dir(path)
     else:
         files, size = [os.path.basename(path)], os.path.getsize(path)
         txt = open(path, encoding="utf-8", errors="ignore").read()
-        segreti, percorsi = bool(RE_SECRET.search(txt)), bool(RE_USER_PATH.search(txt))
+        segreti, percorsi, mancanti = bool(RE_SECRET.search(txt)), bool(RE_USER_PATH.search(txt)), []
     nome = os.path.basename(path.rstrip("/")).replace(".md", "")
     desc = fm["description"]
     if fm["name"] and fm["name"] != nome:
         desc = f"[{fm['name']}] {desc}"
+    doppione = confronta_plugin(nome, path) if (tipo == "skill" and is_dir) else None
     return {"tipo": tipo, "fonte": fonte, "nome": nome, "path": path,
             "descrizione": desc, "n_file": len(files), "kb": round(size / 1024, 1),
-            "file": files[:40], "segreti": segreti, "percorsi_personali": percorsi}
+            "file": files[:40], "segreti": segreti, "percorsi_personali": percorsi,
+            "file_mancanti": mancanti, "doppione_plugin": doppione}
 
 
 def plugin_name(pdir):
@@ -195,7 +225,11 @@ def markdown(voci, claude_md, memorie):
         if v["segreti"]:
             flag.append("segreti")
         if v["percorsi_personali"]:
-            flag.append("path personali")
+            flag.append("file esterni")
+        if v.get("file_mancanti"):
+            flag.append(f"file mancanti ({len(v['file_mancanti'])})")
+        if v.get("doppione_plugin"):
+            flag.append(f"doppione plugin: {v['doppione_plugin']}")
         desc = (v["descrizione"] or "—").replace("|", "/")
         if len(desc) > 140:
             desc = desc[:137] + "…"

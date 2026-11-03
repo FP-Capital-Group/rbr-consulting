@@ -25,14 +25,24 @@ porta comunque il pulsante nativo "Marketing opt-out" (vedi `trappole-template.m
 ## Strada A — Workflow "orecchio" nella forma minima (Noolas, 13 set 2026)
 
 **Trigger**: Customer Replied → canale WhatsApp.
-- **Ramo STOP**: messaggio contiene "stop" **OR** "basta" (aggiungi "cancellami" se
-  vuoi) →
+- **Ramo STOP**: messaggio contiene "stop" **OR** "basta" **OR** "cancellami" →
   1. tag `whatsapp-stop`;
-  2. rimuovi tag `consenso-marketing`;
-  3. **DND in uscita sul SOLO canale WhatsApp**;
-  4. risposta breve di conferma (es. "Va bene, non ti scriviamo più. Se cambi idea
-     siamo qui.").
+  2. **risposta di conferma (free form)**;
+  3. attesa 1 minuto;
+  4. **DND in uscita sul SOLO canale WhatsApp**;
+  5. rimuovi tag `consenso-marketing` (o azzera il campo consenso).
+  **⚠️ Ordine obbligato: la conferma va PRIMA del DND, mai dopo.** Dopo il DND non
+  esce più nulla sul canale: con l'ordine vecchio (DND poi conferma) il cliente non
+  riceve mai la conferma e non sa se è stato ascoltato (montato così su Noolas il
+  22/09/2026). Verifica in collaudo che la conferma arrivi davvero prima del DND.
 - **Ramo None** (tutto il resto) → notifica interna a una persona precisa.
+- Filtro sul trigger Customer Replied: aggiungi **Corpo del messaggio · Non contiene
+  · `<testo del pulsante opt-out>`** (una frase sola; non è documentato se un elenco
+  di valori conti come OR o AND). Il tap sul pulsante nativo "Marketing opt-out"
+  conta come risposta del cliente e farebbe scattare anche l'orecchio: senza questo
+  filtro il titolare riceve "ha risposto a parole" a ogni opt-out. Per i template in
+  inglese aggiungi anche il testo del pulsante inglese e verifica.
+  (contributo di Andrea Chirivì e Luciano Purpi, 2026-10-12)
 
 Dettagli che costano un'ora se non li sai:
 - **DND "per canali specifici", non "tutti i canali"**: in GHL il DND è per canale.
@@ -43,6 +53,14 @@ Dettagli che costano un'ora se non li sai:
   ramo None. Portalo a **OR** dal selettore in fondo al ramo e verifica che
   l'etichetta fra le due condizioni sia diventata "Or".
 - Il campo da confrontare si chiama **"Replied message"** (gruppo Contact reply).
+- **Enable branches genera rami SOLO dai pulsanti, mai dalle risposte scritte.** Su
+  una campagna, 116 persone su 224 hanno risposto a parole — più di chi ha premuto un
+  pulsante. I filtri del trigger si sommano in AND e non vedono le etichette: monta
+  il trigger "Customer Replied" sul canale WhatsApp + un If/Else DENTRO il flusso sul
+  campo Tags (ha il tag della campagna E non ha già la richiesta E non ha già la
+  consegna → aggiunge il tag che fa partire la consegna). Una frase d'apertura fissa
+  nel template aiuta a riconoscere chi risponde. (contributo di Andrea Chirivì e
+  Luciano Purpi, 2026-10-12)
 - Notifica interna di tipo **"Notification"** (in-app): non costa e non esce
   dall'account. La **"Pagina di reindirizzamento" è OBBLIGATORIA**: finché non la
   scegli il salvataggio fallisce con un generico "Please check the fields for valid
@@ -56,7 +74,17 @@ Dettagli che costano un'ora se non li sai:
 
 Negli scenari di Human Handover del Conversation AI **ogni scenario ha un Final
 Message proprio e può applicare tag** al contatto: lo STOP si monta lì dentro, senza
-toccare i workflow (che spesso non sono nemmeno pilotabili dall'automazione browser).
+toccare i workflow. (Nota: la regola "i workflow non sono pilotabili dall'automazione
+browser" è superata se la scheda Chrome è visibile — vedi `mail-funnel-ghl` per il
+dettaglio.)
+
+**⚠️ Reactivate bot after deve essere SPUNTATO.** Se la casella non è spuntata, dopo
+l'handover il contatto resta "AI Bot (inactive)" **senza scadenza**, per sempre:
+caso osservato, 17 chat su 100 rimaste mute, due disdette della sera mai lavorate.
+Togliere l'owner dal contatto non lo riattiva; si rimette Active dal riquadro con le
+stelline accanto al campo messaggio. Controlla la spunta in ogni scenario di
+handover e fai un giro periodico delle chat assegnate. (contributo di Andrea
+Chirivì, 2026-10-12)
 
 Agente → Actions → Human Handover → **+ New Scenario**:
 - **Scenario name**: "Disiscrizione"
@@ -78,6 +106,17 @@ Da verificare sul conto: lo scenario applica il tag, ma il DND WhatsApp e la
 rimozione di `consenso-marketing` non li fa. Se servono (liste con consenso
 registrato), aggiungi un piccolo workflow "Tag Added: `<tag di esclusione>` →
 rimuovi `consenso-marketing` + DND WhatsApp".
+
+## DND di massa via import CSV
+
+Le azioni di massa su Contatti non hanno un'opzione DND diretta: si fa con un
+**import CSV** con colonna `DND = true`, modalità "Update contacts only", colonna
+`Contact Id` mappata su "Contact ID". L'ultimo passo dell'import chiede di
+confermare il consenso di tutti i contatti del file (clausola anti-liste comprate):
+se il file include persone senza consenso, conferma solo dopo averlo detto al
+cliente, non in silenzio. Il DND non è un tag "non contattare" (un tag da solo non
+blocca niente) né la cancellazione del contatto (perde la memoria del rifiuto).
+(contributo di Luciano Purpi, 2026-10-12)
 
 ## Test prima di dire fatto
 

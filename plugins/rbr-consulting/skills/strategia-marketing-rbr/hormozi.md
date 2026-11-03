@@ -19,7 +19,8 @@ sui 4 fattori.
 ## Grand Slam Offer — checklist promo RBR
 
 Una promo è pronta solo se ha TUTTI questi elementi:
-1. **Offerta concreta e visualizzabile** ("bottiglia di vino a scelta in omaggio" > "sconto 15%")
+1. **Offerta concreta e visualizzabile** ("bottiglia di vino in omaggio da una lista che
+   esclude le etichette costose (Barolo, Barbaresco, Franciacorta)" > "sconto 15%")
 2. **Motivo credibile** (anniversario, nuovo menu, giorno specifico — mai sconto senza perché)
 3. **Scarsità/urgenza reale** (fino al X, solo N tavoli, solo mar-gio) — mai finta: se scade, scade
 4. **Condizioni in una riga** (dove, quando, per chi, come si riscatta)
@@ -28,6 +29,35 @@ Una promo è pronta solo se ha TUTTI questi elementi:
 
 Gli sconti nudi (X% su tutto, sempre) sono vietati: abbassano il posizionamento e
 attirano cacciatori di sconti che non tornano.
+
+## Il conto della promo prima di lanciarla
+
+Prima di sponsorizzare o proporre una promo, sette controlli numerici:
+1. **Scelta dall'obiettivo**: più coperti, frequenza, giorni scarichi, contatti o
+   recensioni → poi si verifica il margine con `foodcost-cliente`. Le promo da catenaria
+   rendono solo su contatti già in lista: col CRM vuoto prima si costruisce il database.
+2. **Costo vero**: un omaggio in prodotto costa il suo food cost; uno sconto in euro
+   costa il ricavo pieno. Es.: buono 50€ = 50€ di ricavo (margine 15€ su un tavolo da
+   100€); 50€ di prodotto a incidenza 52% = 25€ di materia prima (margine 40€). Su un
+   dormiente il confronto è 0€ contro 40€: una soglia bassa va bene in riattivazione,
+   è sbagliata su un cliente attivo.
+3. **Conto della sostituzione**: ogni abituale che usa un coupon su una visita che
+   avrebbe fatto comunque costa la differenza di margine — serve stimare quanti clienti
+   nuovi servono per pareggiare quella perdita, e se i coperti liberati bastano.
+4. **Bundle e cashback**: si giudicano sulla spesa media reale letta in cassa, non sul
+   massimo della carta.
+5. **Ancoraggio "alla carta X → bundle Y"**: si calcola solo sul massimo dei piatti
+   DENTRO il bundle, perimetro confermato col titolare.
+6. **Prima di inventare un'offerta**, si legge menu e sito per intero: spesso l'offerta
+   esiste già e manca solo comunicarla e renderla misurabile.
+7. Il margine della promo va sempre confrontato col costo atteso per cliente delle ads
+   che la sponsorizzano: se il margine è inferiore (es. lunch box basso margine), non si
+   sponsorizza — resta sulle app a prezzo delivery e si sponsorizza invece l'occasione a
+   margine pieno. Ogni promo si misura in costo per ingresso, confrontato col costo a
+   coperto delle ads: il front end può arrivare a pareggio sul margine della prima
+   visita, mai sotto.
+
+*(contributo di Andrea Chirivì, 2026-10-12)*
 
 ## Core Four — i 4 canali di acquisizione
 
@@ -42,6 +72,15 @@ Ogni piano marketing RBR dichiara quali dei 4 canali usa e perché:
    prenotazione. Si accendono DOPO che offerta e posizionamento sono a posto.
 
 Regola di sequenza: prima si spreme il warm (costa ~0), poi si compra il cold.
+
+## Architettura delle offerte
+
+Il reparto eroe del locale (2-3 prodotti firma, non un piatto solo) non entra mai in
+offerta né nel conto di un bundle: la sua unica offerta è il Benvenuto. Mai creatività
+"2x1" o "−20%" in campagne di copertura/traffico ampio: comprano notorietà di massa sulla
+leva vietata (sconto nudo). *(contributo di Andrea Chirivì, 2026-10-12 — il resto della
+proposta, tre offerte per temperatura e Money Back a gettoni, è da validare: non ancora
+misurato e da conciliare con le offerte Meta del Piano Marketing di Roberto)*
 
 ## Lead magnet per ristoranti
 

@@ -1,0 +1,72 @@
+.pag{padding-bottom:22mm !important}
+.premio .foto.grande{width:40mm !important;height:40mm !important;flex:0 0 40mm !important}
+.premio{display:flex !important;gap:5mm;align-items:center}
+.premio-l{flex:1 1 auto;display:block !important}
+.premio-l > .p{margin-bottom:2.6mm}
+.misure{display:flex !important}
+.p.bordo{width:auto !important}
+.p.bordo.pfoto .foto{flex:0 0 32mm !important;width:32mm !important;height:32mm !important}
+.p.bordo.pfoto{padding:4mm 5mm !important}
+.foto.img{border:0 !important;background:none !important}
+.foto.img img{width:100%;height:100%;object-fit:contain}
+.foto.mini.img{width:19mm !important;height:19mm !important}
+.pag.pizze .piatti > .p{margin-bottom:2mm !important}
+.pag.pizze .desc{max-width:none !important;font-size:8.4pt !important}
+.pag.pizze .sec{margin-bottom:3.6mm !important}
+.p.pienobox{display:flex !important;gap:5mm;align-items:center;width:158mm !important}
+.p.pienobox > div:first-child{flex:1 1 auto}
+.p.pienobox .foto.img{flex:0 0 44mm !important;width:44mm !important;height:44mm !important}
+.p.asta.pfoto .foto.img{flex:0 0 38mm !important;width:38mm !important;height:38mm !important}
+.piatti.tre{display:table !important;width:100%;table-layout:fixed}
+.piatti.tre > .p{display:table-cell !important;padding-right:5mm;vertical-align:top}
+.banda.giu{position:absolute !important;left:15mm;right:15mm;bottom:14mm}
+.p.pienobox{display:block !important;position:relative !important;width:150mm !important;padding:5mm 50mm 5.5mm 6mm !important;overflow:visible;margin:10mm 0 10mm !important}
+.p.pienobox > div:first-child{display:block}
+.p.pienobox .foto.img{position:absolute !important;right:-12mm;top:50%;margin-top:-23mm;width:46mm !important;height:46mm !important;flex:none !important}
+.p.asta.pfoto > div:first-child{border-left:2.6pt solid #1E2A6E;padding-left:5mm}
+.p.bordo.pfoto .foto.img{flex:0 0 26mm !important;width:26mm !important;height:26mm !important}
+.p.bordo.pfoto{align-items:center}
+.pag.pizze + .pag.pizze .piatti > .p{margin-bottom:4.6mm !important}
+.p.pienobox{margin:5mm 0 6mm !important;padding:4.6mm 44mm 4.8mm 6mm !important}
+.p.pienobox .foto.img{width:40mm !important;height:40mm !important;margin-top:-20mm !important;right:-8mm !important}
+.p.asta.pfoto{margin-top:-4mm !important;margin-bottom:-2mm !important}
+.p.asta:not(.pfoto){border-left:2.6pt solid #1E2A6E;padding-left:5mm}
+.pag.pizze .p.asta.pfoto{margin:0 0 4mm !important}
+.pag.pizze .p.asta.pfoto .foto.img{flex:0 0 32mm !important;width:32mm !important;height:32mm !important}
+.p.asta.pfoto .foto.img{flex:0 0 34mm !important;width:34mm !important;height:34mm !important}
+.p.asta.pfoto{margin-top:-6mm !important;margin-bottom:-4mm !important}
+.pag.pizze .p.asta.pfoto{margin:0 0 4mm !important}
+/* spaziature uniformi */
+.piatti > .p{margin-bottom:3.4mm !important}
+.pag.pizze .piatti > .p, .pag.pizze + .pag.pizze .piatti > .p{margin-bottom:3.4mm !important}
+.sec{margin-bottom:6mm !important}
+.pag.pizze .sec{margin-bottom:6mm !important}
+.p.pienobox{margin:4mm 0 4mm !important;padding:4.6mm 40mm 4.8mm 6mm !important}
+.p.pienobox .foto.img{width:34mm !important;height:34mm !important;margin-top:-17mm !important;right:-6mm !important}
+.p.asta.pfoto{margin-top:-5mm !important;margin-bottom:-2mm !important}
+.pag.pizze .p.asta.pfoto{margin-top:-5mm !important;margin-bottom:-2mm !important}
+.pag.pizze .p.asta.pfoto .foto.img{flex:0 0 38mm !important;width:38mm !important;height:38mm !important}
+.banda.giu{position:static !important;margin-top:8mm !important}
+.piatti.tre > .p{margin-bottom:0 !important}
+h2.cat{margin-bottom:3.4mm !important}
+h3.sub{margin-bottom:2.4mm !important}
+.premio{margin-bottom:1mm}
+.p.asta.pfoto, .pag.pizze .p.asta.pfoto{margin-top:-6mm !important;margin-bottom:-4mm !important}
+.flist.impasti{width:120mm !important;margin:0 auto !important;justify-content:space-between !important;align-items:flex-end !important}
+.flist.impasti .fcard{flex:0 0 34mm !important}
+.pag.ariosa{padding-top:22mm !important}
+.pag.ariosa h2.cat{font-size:30pt !important;margin-bottom:5mm !important}
+.pag.ariosa .nome{font-size:14pt !important}
+.pag.ariosa .desc{font-size:10.2pt !important}
+.pag.ariosa .piatti > .p{margin-bottom:5.6mm !important}
+.pag.ariosa .sec{margin-bottom:9mm !important}
+.pag.ariosa .p.pienobox{margin:7mm 0 7mm !important}
+.pag.ariosa .p.pienobox .nome{font-size:15pt !important}
+.pag.ariosa .p.pienobox{width:150mm !important;margin:6mm 0 6mm !important;padding:5.5mm 50mm 6mm 6mm !important}
+.pag.ariosa .p.pienobox .foto.img{width:44mm !important;height:44mm !important;margin-top:-22mm !important;right:-14mm !important}
+.pag.ariosa .p.pienobox span.nome{font-size:15.5pt !important}
+.pag.ariosa .p.pienobox span.desc{font-size:10.4pt !important;line-height:1.5 !important}
+.sec.contorni{margin-top:16mm !important}
+.sec.contorni h3.sub{font-size:17pt !important;margin-bottom:4mm !important}
+.sec.contorni .cont > *{margin-bottom:5mm}
+

@@ -23,6 +23,27 @@ nella testa del cliente della sua zona. Procedura RBR:
 Anti-pattern da correggere nei clienti: menu-lenzuolo che dice "facciamo tutto",
 promo copiate dal vicino, comunicazione che parla del locale invece che al cliente.
 
+**Trovare la differenza che già c'è.** Spesso il locale ha già un elemento differenziante
+e non lo dice: va scritto dove il cliente cerca (scheda Google, TheFork, app delivery,
+landing promo) e la sala conta i tavoli che lo richiedono. Argomento utile col titolare:
+quanto spende già per averlo (es. basi senza glutine in fattura ≈ 470€/mese, contro una
+promo a sconto che non la nomina mai).
+
+**Diluizione del posizionamento.** Ogni elemento che diluisce l'identità va nominato col
+suo peso reale in cassa, anche se oggi rende (es. una fascia secondaria che fa il 2% del
+fatturato con quasi metà delle voci del menu). Non ci si riposiziona su un trend passeggero
+sotto un'identità storica: se l'offerta tocca una sola gamba della promessa, si allarga
+l'offerta, non si cambia la parola — e la promessa non si cambia per sei mesi (Roberto).
+Una parola a due livelli (stretta + larga) serve solo quando la stretta escluderebbe la
+massa del pubblico locale; se il prodotto di massa è già nella frase non serve.
+
+**Tradurre una mossa del concorrente**: si porta sul cliente solo se passa due filtri —
+(1) vista più di una volta (non un episodio isolato); (2) risolve un problema che il
+cliente ha davvero. Si replica il meccanismo, non il tema; si correggono i suoi errori
+invece di copiarli.
+
+*(contributo di Andrea Chirivì, 2026-10-12)*
+
 ## Vendere è una procedura, non un talento
 
 La vendita al tavolo (upsell) e la vendita della consulenza seguono script provati,
@@ -32,6 +53,11 @@ non improvvisazione:
   frasi esatte, misurando lo scontrino medio prima/dopo.
 - **In consulenza**: prima la diagnosi con i numeri (CDG), poi la terapia. Mai
   presentare la soluzione prima che il cliente abbia visto il problema nei SUOI dati.
+  Un numero detto in call per spiegare non è una proposta: non va scritto come prezzo in
+  messaggi, grafiche o bozze finché manca l'analisi (margine a menu, frequenza) — sulla
+  grafica resta "da definire". Una raccomandazione resta proposta finché il cliente non
+  la conferma esplicitamente, e non si propaga in altri materiali prima di quel sì.
+  *(contributo di Andrea Chirivì, 2026-10-12)*
 
 ## Il marketing a risposta diretta
 

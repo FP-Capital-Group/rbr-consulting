@@ -31,12 +31,16 @@ Incident completo + storia chiavi: `suite/memory/incident_resmio_key_revoked_202
 ## 2. Webhook che non arrivano (prenotazione fatta, niente contatto/QR/WhatsApp)
 
 Risali la catena in quest'ordine:
-1. **Il webhook Resmio esiste per QUELLA facility?** Incident MP 2026-06-11: Duomo e Mestre non avevano NESSUN webhook configurato — non era un bug, mancava proprio. UI Resmio → `/<facility>/settings/integration#developers` → deve esserci `https://hook.eu1.make.com/8f726kbr6l5swrcf8mjf9q7hvr52go73` con eventi BOOKING_CREATED/UPDATED. Solo UI (API read-only sui webhook)
+1. **Il webhook Resmio esiste per QUELLA facility?** Incident MP 2026-06-11: Duomo e Mestre non avevano NESSUN webhook configurato — non era un bug, mancava proprio. UI Resmio → `/<facility>/settings/integration#developers` → deve esserci `https://hook.eu1.make.com/8f726kbr6l5swrcf8mjf9q7hvr52go73` con eventi BOOKING_CREATED/UPDATED. Solo UI (API read-only sui webhook). ⚠️ **Resmio NON genera il webhook quando è l'OSPITE ad annullare** (link nella mail Resmio o pulsante "Modifica o annulla" del promemoria — attività `booking_cancelled` con `done_by_guest`): il sintomo è un promemoria "ti aspettiamo" a chi ha già disdetto, con la prenotazione annullata su Resmio ma ancora attiva nel CRM. Prima di accusare un ponte di terzi di "perdere gli UPDATE", controlla se erano annulli fatti dall'ospite. Fix: un giro di recupero fuori dal browser (ogni pochi minuti) che rilegge le prenotazioni modificate di recente, le confronta con l'ultimo stato visto e chiude appuntamento/flussi nel CRM senza scrivere al cliente. La quota esatta di annulli "persi" e se Resmio ritenta mai la consegna sono da verificare caso per caso. *(contributo di Andrea Chirivì, 2026-10-12)*
 2. **Lo scenario `RBR-Clienti` è attivo e ha ricevuto l'esecuzione?** `mcp__make__scenarios_get` (6054617): `isActive`, `isPaused`, `isinvalid`, `dlqCount`. Poi `mcp__make__executions_list` / History. Se lo scenario è auto-disattivato → sezione 5
 3. **Il cliente è nel Data Store?** `rbr_clients` (131658): record con key = `facility_id`/`client_source`, `active: true`, `webhook_smistamento_url` valorizzato. Se manca la riga, il filter "cliente trovato" scarta tutto in silenzio
 4. **Payload standard corretto?** Almeno `client_source` + `action` + email O phone (`suite/memory/rbr_payload_standard.md`). Senza email e phone il flow scarta l'evento
 5. **Workflow GHL attivi?** Via `ghl2-<cliente>`: Smistamento Lead e Funnel RBR devono essere Published + Active. Il QR richiede il workflow "QR Email" attivo e il coupon presente in `rbr_coupons` (131659) con key `{brand_key}:{code}`
 6. Replay possibile: ri-POSTa `{action: "BOOKING_CREATED", id: <booking>, facility_id: <facility>}` al webhook universale
+7. **Promemoria/automazioni sull'appuntamento che non partono o partono tardi** (ponte gestionale→CRM): se il ponte crea l'appuntamento con la notifica disattivata, nessuna automazione legata all'appuntamento scatta e **non ci sono errori**. Fix: riattivare la notifica nel ponte, riagganciare le prenotazioni future già create, e nel frattempo mandare a mano i promemoria della sera.
+8. **Una prenotazione resta senza conferma**: il cliente ha due schede nel CRM (doppione sull'email) e il ponte si blocca su quella prenotazione. Fix nel ponte: fargli scegliere una scheda e procedere; doppioni di prenotazione e appuntamenti fantasma si chiudono **senza messaggi al cliente**.
+9. **Audit dopo ogni correzione al ponte**: prenotazioni attive sul gestionale = appuntamenti confermati nel CRM (uno per prenotazione, zero fantasmi); webhook del gestionale solo quelli attesi; promemoria partiti/attesi per fascia oraria. Non sono guasti: chi prenota sotto la soglia minima d'anticipo non riceve il promemoria, e uno stato "inviato" senza conferma di consegna può essere solo il telefono che non rilascia la ricevuta. Un flusso che scatta a fine serata invece che all'arrivo può essere un ponte di terzi che scrive il campo "arrivato" in ritardo: **verifica confrontando gli orari prima di dichiararlo rotto**, non darlo per causa certa.
+*(contributo di Andrea Chirivì, 2026-10-12)*
 
 ## 3. Token / connessioni scadute
 
@@ -44,6 +48,7 @@ Risali la catena in quest'ordine:
 - **401 su singoli tool MCP ghl2 in modalità OAuth**: non è un token scaduto — sono i limiti di scope dell'app SA (niente calendari, fatture, pagamenti, prodotti). Serve PIT o estensione scope: chiedi a Marco
 - **403 `error code: 1010` su API GHL/Make da script**: CloudFlare WAF che blocca User-Agent di default Python — usa sempre un UA non-default (es. `curl/7.0`). Non è un problema di token
 - **WhatsApp disconnesso** ("Action Required" in Settings → WhatsApp): la connessione cade se il cliente non apre l'app WhatsApp Business sul telefono del locale almeno 1 volta ogni 14 giorni. Fix: Disconnect → riconnetti con lo stesso flusso Meta (login Business Manager + scansione QR). ⚠️ GHL non espone lo stato connessione WhatsApp via API — si vede solo in UI. Per token/asset Meta Business scaduti oltre questo caso → **chiedi a Marco**
+- **Un'integrazione GHL è viva se `isExpired` è `false`**; il campo `expire` non conta da solo perché avanza automaticamente (GHL rinnova i token). Un canale collegato ma vuoto (0 post pubblicati) è un buco diverso da un canale scollegato. Per chiamate dirette all'API (solo per operazioni assenti dal catalogo MCP): le conversazioni vogliono header `Version: 2021-04-15` + `User-Agent`, il Social Planner `Version: 2021-07-28`. Un PIT senza scope `workflows` risponde 401 sui workflow — lo stato di pubblicazione in quel caso si legge da UI. PIT diversi per script diversi: uno scaduto non vuol dire che lo siano tutti. *(contributo di Andrea Chirivì, 2026-10-12)*
 - **Chiave Resmio** → sezione 1 · **apiKey iPratico** → sezione 6
 
 ## 4. Snapshot GHL non applicato (mail/workflow/campi mancanti)
@@ -87,7 +92,7 @@ Endpoint DLQ (non nel catalogo MCP → curl ammesso): lista `GET /dlqs?scenarioI
 |---|---|---|
 | "Non vedo il tavolo X e non posso prenotarlo" | Un'**eccezione** (resource override) che dura giorni: il chip "Bloccato 10:00 - 16:00" mostra solo le ore, NON le date (caso reale: 2 tavoli fuori vendita 11 serate) | `GET /v1/facility/<slug>/resource_overrides` → leggi `begins`/`ends`; sospette le istanze senza `series` con fine spostata avanti |
 | Tavolo "sparito" dal piano sala | Le sale sono **schede separate** (si apre la prima) | Controlla `resource_groups` prima di cercare blocchi |
-| Prenotazioni inserite via API senza mail all'ospite e senza tavolo | `POST /bookings` non manda mail (`last_reply_sent` null) e non auto-assegna: l'auto-assegnazione vale solo per il widget | Assegna con `PATCH /bookings/{id}` su `facility_resources`. Opposto: la UI "Nuova prenotazione" riattiva da sola "Invia notifica email" quando compili l'email |
+| Prenotazioni inserite via API senza mail all'ospite e senza tavolo | `POST /bookings` non manda mail (`last_reply_sent` null) e non auto-assegna: l'auto-assegnazione vale solo per il widget | Assegna con `PATCH /bookings/{id}` su `facility_resources`. Opposto: la UI "Nuova prenotazione" riattiva da sola "Invia notifica email" quando compili l'email. ⚠️ **Per import e bot NON usare il POST pubblico del widget**: crea la prenotazione `unconfirmed`, non prende i tag e manda al locale una mail di notifica per ogni import. Usa il `POST` con Api-Key passando direttamente `facility_resources`, `status` e i `tags` come URI completi (dettagli in `ottimizzazione-tavoli-resmio/api-resmio.md`) *(contributo di Andrea Chirivì, 2026-10-12; corregge una versione precedente del 24/09)* |
 | Export prenotazioni "completo" ma di mesi sbagliati | Filtri `start`/`end` **ignorati** in silenzio | Solo `date__gte`/`date__lt`; controlla sempre data min/max del set |
 | Incastri/sovrapposizioni sbagliati | Durata occupazione presunta 90' fissa | `GET /booking_timespans` a gradini per coperti, diversa per locale: rileggerla per ogni cliente |
 | "Il tracciamento dei codici è morto" | Cercato `code:` in `notes` (nota STAFF) invece che in `comment` (nota OSPITE) — caso reale: 400+ prenotazioni con codice "invisibili" | Cerca in `comment`, con regex tollerante: arriva concatenato ai campi custom del widget |
@@ -112,6 +117,50 @@ salva, "Aggiorna" di iPratico che butta le modifiche, Sheets/GHL non pilotabili,
 202 che non ha salvato, dump dal browser troncati → `references/trappole-strumenti.md`
 (incluse le regole **backup prima di sovrascrivere + rilettura dopo** ed **estrazione massiva
 via download di un Blob** dentro la pagina).
+
+## 10. Un'integrazione di terzi smette di scrivere
+
+**Regola di metodo**: se un ponte di terzi si ferma nella stessa finestra in cui abbiamo
+lavorato sul conto (anche "solo dati"), parti dall'ipotesi che la causa sia nostra e cercane il
+meccanismo, prima di accusare il fornitore terzo.
+
+**Strumento**: Settings → Audit Logs di GHL — dalla pagina via chiamata JS a
+`…/audit/search/v2` con `startAt`, `endAt`, `page`, `pageSize`, `locationId` e gli header della
+pagina. Le integrazioni scrivono come `INTEGRATION:<id>` (PUT contatto, TAG_ADDED) e
+`PUBLIC_API:<id>` (appuntamenti): così si vede l'ultima scrittura del ponte e le nostre righe
+nella finestra del guasto (la Private Integration mostra anche "Last used"). L'endpoint degli
+Audit Logs **non è nel catalogo MCP**: va trattato come eccezione ammessa alla regola "GHL
+sempre via MCP".
+
+**Caso osservato** (da trattare come ipotesi forte, non ancora provata dai log del fornitore):
+dopo un numero molto alto di aggiornamenti di contatti in poco tempo (pulizia ciclo di vita +
+travaso), un ponte di terzi che ascoltava gli eventi contatto ha smesso di scrivere e non è
+ripartito da solo. **Regola di prudenza, questa confermata**: mai aggiornamenti di massa sui
+contatti senza avvisare chi ha integrazioni sul conto e senza lotti lenti; dopo ogni scrittura
+massiva verifica che le prenotazioni nuove arrivino con tag e campi.
+*(contributo di Andrea Chirivì, 2026-10-12)*
+
+## Prima di dare una chiave a terzi
+
+**Inventario webhook Resmio**: `GET /v1/facility/<slug>/webhooks` elenca tutti i webhook (id,
+URL, eventi, utente); il proprietario si riconosce dal dominio dell'URL. Prima di cancellarne
+uno (solo in UI, l'API è read-only) salva la lista, che contiene l'URL per ricrearlo. Un
+webhook sconosciuto ricomparso si segnala al consulente e **non si cancella da soli**.
+
+Prima di consegnare una chiave a un integratore esterno, fotografa tutto: webhook Resmio,
+facility, campi GHL con proprietario, workflow con id, tag, custom values, calendari, scenari
+Make, commit del repo e impronte dei file sul server, con un riepilogo di chi possiede cosa.
+Poi uno script in sola lettura confronta periodicamente lo stato con la fotografia, così se
+qualcosa si rompe si sa dove e chi l'ha toccato.
+*(contributo di Andrea Chirivì, 2026-10-12)*
+
+## Giro dei ponti (ogni giorno, prima del servizio — clienti con ponti propri)
+
+Controlla: il ponte di cassa non ha errori; il giro di recupero ha preso gli annulli
+dell'ospite (sezione 2); i webhook Resmio sono solo quelli attesi; gli scenari Make sono attivi
+(`isPaused`/`isinvalid` false); non è ricomparso il webhook di un fornitore a cui è stato tolto
+l'accesso. Un controllo saltato (es. timeout di rete) si scrive **SALTATO**, mai "a posto".
+*(contributo di Andrea Chirivì, 2026-10-12)*
 
 ## Se il sintomo non rientra in nessuna casella
 Documenta cosa hai osservato (scenario, execution id, payload, risposta) e **chiedi a Marco** prima di toccare workflow GHL condivisi, snapshot o scenari core.

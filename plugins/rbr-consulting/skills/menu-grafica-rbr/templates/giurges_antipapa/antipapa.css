@@ -1,0 +1,154 @@
+/* Carta Antipapa 2026 — revisione 07/10. Brand dai post Instagram @antipapafondi 2026:
+   bordeaux #690F33, corallo #E63D2A, verde #08311F, lilla #8C83D0. Logo = wordmark vero (PNG ricavato dal post «ANTI FAME»).
+   Titoli Tilt Neon (bastone tondo monolinea, come il lettering dei post), testo Archivo. */
+:root{
+  --vino:#690F33; --rosso:#E63D2A; --verde:#08311F; --lilla:#8C83D0; --carta:#FFFDFA; --panna:#F7EFE9;
+  --ink:#33202A; --soft:#7A6570; --linea:#E8DCE1;
+  --tit:'Tilt Neon','Archivo',sans-serif; --body:'Archivo',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#1F1219;color:var(--ink);font-family:var(--body);font-weight:400;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:9;display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:10px 18px;background:rgba(31,18,25,.96);color:var(--panna);font-size:12px;letter-spacing:.08em}
+.bar b{font-family:var(--tit);font-size:18px;color:var(--rosso);letter-spacing:.06em}
+.bar span{opacity:.7;text-transform:uppercase}
+.toggle{margin-left:auto;display:flex;border:1px solid rgba(255,255,255,.28);border-radius:99px;overflow:hidden}
+.toggle button{font:500 12px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:7px 15px;border:0;background:none;color:var(--panna);cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--rosso);color:#fff}
+.piano{padding:24px 16px 60px;overflow-x:auto}
+.spread{width:max-content;margin:0 auto 34px}
+.etichetta{color:rgba(247,239,233,.5);font-size:11px;letter-spacing:.22em;text-transform:uppercase;margin:0 0 8px;min-height:12px}
+.doppia{display:flex;box-shadow:0 20px 60px -20px #000}
+@media screen{ .doppia{zoom:.72} }
+@media screen and (max-width:900px){ .doppia{zoom:.42} }
+
+.pag{position:relative;width:210mm;height:297mm;background:var(--carta);padding:17mm 17mm 16mm;overflow:hidden}
+.pag+.pag{border-left:.3mm solid var(--linea)}
+body.rbr .pag{height:auto;min-height:297mm;overflow:visible}
+.pag.vino{background:var(--vino);color:var(--panna)}
+.pag.verde{background:var(--verde);color:var(--lilla)}
+.num{position:absolute;bottom:7mm;left:0;right:0;text-align:center;font-size:7.5pt;color:var(--soft);letter-spacing:.2em}
+
+h2{font-family:var(--tit);font-weight:400;font-size:32pt;line-height:1;letter-spacing:.05em;text-transform:uppercase;color:var(--vino);margin:0 0 5.5mm}
+h2.h2s{font-size:24pt;margin-top:11mm}
+
+.piatti{display:block}
+.p{position:relative;margin:0 0 6.4mm}
+.p:last-child{margin-bottom:0}
+.nome{font-weight:600;font-size:13.6pt;line-height:1.25;color:var(--ink)}
+.nome sup{font-weight:400;font-size:6.5pt;color:var(--soft);margin-left:1mm;vertical-align:2.2mm}
+.desc{font-size:11.2pt;line-height:1.42;color:var(--soft);margin-top:.7mm}
+.pz{white-space:nowrap}
+.abb{font-size:9.6pt;font-style:italic;color:var(--soft);margin-top:1.2mm}
+.abb b{font-style:normal;font-weight:600;margin-right:.8mm}
+.ic{vertical-align:-.8mm;margin-right:1.6mm;color:var(--ink)}
+.p.uno{border:.4mm solid var(--rosso);border-radius:2.4mm;padding:3.4mm 4mm 3.6mm}
+.p.cf{min-height:34mm;padding-right:50mm}
+.fp{position:absolute;right:2mm;top:50%;transform:translateY(-50%);width:46mm;max-height:38mm;object-fit:contain}
+
+/* blocco premium bordeaux */
+.blocco-v{background:var(--vino);color:var(--panna);border-radius:3mm;padding:7mm 7mm 7mm;margin:0 0 6mm}
+.blocco-v h2{color:var(--rosso);margin-bottom:5mm}
+.blocco-v .nome{color:#fff}
+.blocco-v .desc,.blocco-v .abb,.blocco-v .nome sup{color:rgba(247,239,233,.82)}
+.blocco-v .ic{color:#fff}
+.blocco-v .p.uno{border-color:var(--rosso)}
+
+/* fascia focaccia */
+.fascia{background:var(--panna);border-radius:2mm;padding:4.5mm 5mm;margin-top:9mm;font-size:11.2pt;color:var(--soft)}
+.fascia b{font-weight:600;color:var(--ink);margin-right:1.2mm}
+
+/* che fame hai */
+.fame{border-top:.35mm solid var(--vino);border-bottom:.35mm solid var(--vino);padding:3.5mm 0 3.8mm;margin:0 0 2mm;text-align:center}
+.ft{font-family:var(--tit);font-size:14pt;letter-spacing:.08em;text-transform:uppercase;color:var(--vino);margin:0 0 2.4mm}
+.fame table{width:100%;border-collapse:collapse}
+.fame td{width:33.3%;text-align:center;vertical-align:bottom;color:var(--vino)}
+.fame td svg{display:block;margin:0 auto 1.2mm}
+.fame td b{display:block;font-weight:600;font-size:9.5pt;text-transform:uppercase;letter-spacing:.08em;color:var(--vino)}
+.fame td span{display:block;font-size:9pt;color:var(--soft);margin-top:.5mm}
+
+/* liste */
+.due{column-count:2;column-gap:10mm}
+.am{font-size:12pt;margin:0 0 3.4mm;break-inside:avoid}
+.am b{font-weight:600}
+.am .pz{color:var(--soft)}
+.vini{font-size:10pt;font-style:italic;color:var(--soft);margin:5mm 0 0}
+.alg{columns:2;column-gap:10mm;padding:0;margin:0;list-style:none;font-size:11.5pt;line-height:1.9}
+.alg b{display:inline-block;width:7mm;color:var(--vino)}
+.haccp{font-size:8.6pt;line-height:1.5;color:var(--soft);margin-top:8mm}
+
+/* copertina e retro */
+.cop,.retro{text-align:center}
+.amono{display:block;width:62mm;margin:46mm auto 12mm}
+.marchio{font-family:var(--tit);font-size:46pt;letter-spacing:.1em;color:var(--rosso);line-height:1}
+.sotto{font-family:var(--tit);font-size:13pt;letter-spacing:.42em;text-transform:uppercase;color:var(--panna);margin-top:5mm}
+.claim{font-size:11pt;font-style:italic;color:rgba(247,239,233,.75);margin-top:22mm}
+.retro .amono{width:34mm;margin:36mm auto 16mm}
+.info p{font-size:11.5pt;line-height:1.55;margin:0 0 9mm;color:rgba(247,239,233,.85)}
+.info b{font-family:var(--tit);font-weight:400;font-size:16pt;letter-spacing:.06em;color:var(--panna)}
+.info .bp{font-family:var(--tit);font-size:18pt;letter-spacing:.12em;text-transform:uppercase;color:var(--rosso);margin-top:16mm}
+.info .bp small{font-family:var(--body);font-size:10pt;letter-spacing:.08em;text-transform:none;color:rgba(247,239,233,.75)}
+
+/* experience */
+.exp{text-align:center;padding-top:36mm}
+.exp-t{font-family:var(--tit);font-size:38pt;line-height:1.08;letter-spacing:.08em;text-transform:uppercase;color:var(--lilla)}
+.exp-s{font-size:11pt;color:rgba(140,131,208,.85);margin:7mm 0 12mm}
+.portate{text-align:left;margin:0 6mm}
+.pt{font-size:15pt;color:#E9E6F7;border-bottom:.3mm solid rgba(140,131,208,.35);padding:4.4mm 0}
+.pt:last-child{border-bottom:0}
+.pt span{display:inline-block;width:12mm;font-family:var(--tit);color:var(--lilla)}
+.exp-p{font-family:var(--tit);font-size:34pt;color:#E9E6F7;margin-top:14mm}
+.exp-p s{font-size:18pt;color:rgba(140,131,208,.6);margin-right:3mm}
+.exp-p small{font-family:var(--body);font-size:9pt;letter-spacing:.16em;text-transform:uppercase;color:var(--lilla);margin-left:2mm}
+.exp-n{font-size:9.5pt;color:rgba(233,230,247,.75);margin-top:4mm}
+
+.legale{position:absolute;left:17mm;right:17mm;bottom:10.5mm;font-size:6.4pt;line-height:1.4;color:var(--soft);margin:0;text-align:center}
+body.rbr .legale{position:static;margin-top:6mm}
+
+/* vista consulente */
+.mk{display:none;margin-top:1.2mm;font-size:7.8pt;font-weight:500;color:#4A1226;background:#F6CEDC;border-radius:99px;padding:.5mm 2.6mm}
+body.rbr .mk{display:inline-block}
+.nota{display:none;font-size:8.6pt;line-height:1.5;color:#12211C;background:#C7E5D2;border-radius:2mm;padding:2.6mm 3.4mm;margin:4mm 0 0;text-align:left}
+body.rbr .nota{display:block}
+.nota b{font-weight:600}
+.rank{display:none;font-size:7pt;font-weight:500;color:var(--soft);border:.25mm solid var(--linea);border-radius:99px;padding:0 1.5mm;margin-right:1.5mm;vertical-align:.4mm}
+body.rbr .rank{display:inline-block}
+
+.stretta .p{margin-bottom:4.4mm} .stretta .blocco-v{padding:6mm 7mm;margin-bottom:4.5mm} .stretta h2.h2s{margin-top:6mm}
+.stretta .p.cf{min-height:28mm} .stretta .fp{width:40mm;max-height:31mm} .stretta .fame{padding:2.6mm 0 3mm}
+.stretta .desc{font-size:10.6pt}
+
+/* 07/10: copertina e retro con wordmark e foto vere */
+.cop{padding:0}
+.cop .wm{display:block;width:150mm;margin:40mm auto 0}
+.cop-foto{display:block;width:150mm;height:150mm;object-fit:cover;border-radius:3mm;margin:16mm auto 0}
+.cop .claim{font-size:12pt;font-style:italic;color:rgba(247,239,233,.8);margin-top:10mm;text-align:center}
+.retro{padding:0}
+.ret-foto{display:block;width:176mm;height:150mm;object-fit:cover;border-radius:3mm;margin:17mm auto 0}
+.wm-s{display:block;width:96mm;margin:14mm auto 9mm}
+.retro .info p{margin-bottom:6mm}
+.exp{padding-top:22mm}
+.exp-wm{display:block;width:58mm;margin:0 auto 14mm}
+.alg-i{font-size:11pt;line-height:1.5;color:var(--soft);margin:0 0 5mm}
+h2{letter-spacing:.06em}
+/* più aria: meno piatti per facciata */
+.pag .p{margin-bottom:7.4mm} .nome{font-size:14.4pt} .desc{font-size:11.6pt}
+.fame{margin:0 0 9mm}
+.pzn{font-weight:400;font-size:11.6pt;color:var(--soft)}
+.stretta .p{margin-bottom:5mm} .stretta .nome{font-size:13.6pt} .stretta .desc{font-size:11pt} .stretta h2.h2s{margin-top:8mm} .stretta .fascia{margin-top:6mm}
+.ampia h2{font-size:40pt;margin-bottom:10mm} .ampia .p{margin-bottom:10mm} .ampia .nome{font-size:16.5pt} .ampia .desc{font-size:13pt;margin-top:1.2mm} .ampia .abb{font-size:10.5pt}
+.ampia .p.uno{padding:4.6mm 5mm}
+.ampia .fame{margin-bottom:12mm;padding:5mm 0}
+.media .p{margin-bottom:8mm} .media .nome{font-size:15.5pt} .media .desc{font-size:12.4pt} .media .am{font-size:13pt;margin-bottom:4.4mm} .media h2.h2s{margin-top:13mm}
+.ampia .p{margin-bottom:13mm} .ampia .nome{font-size:17.5pt} .ampia .desc{font-size:13.6pt} .ampia h2{margin-bottom:13mm}
+.media .p{margin-bottom:9.5mm}
+/* 07/10 revisione: copertina solo wordmark, prezzo Experience piccolo, legale visibile sul verde */
+.cop .wm{width:160mm;margin:96mm auto 0}
+.cop .claim{font-size:14pt;margin-top:16mm}
+.cop-dove{text-align:center;font-family:var(--tit);font-size:12pt;letter-spacing:.3em;text-transform:uppercase;color:var(--rosso);margin-top:70mm}
+.exp-p{font-family:var(--body);font-size:13pt;color:#E9E6F7;margin-top:12mm}
+.exp-p s{font-size:11pt;margin-right:2mm}
+.exp-p small{font-size:8pt}
+.verde .legale{color:rgba(200,195,235,.75)}
+.bere .am{font-size:13.6pt;margin-bottom:5.4mm} .bere h2.h2s{margin-top:16mm} .bere .alg{font-size:13pt;line-height:2.1} .bere .alg-i{font-size:12pt} .bere .vini{font-size:11.5pt;margin-top:8mm} .bere .haccp{font-size:10pt;margin-top:12mm}
+

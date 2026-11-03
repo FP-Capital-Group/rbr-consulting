@@ -21,6 +21,8 @@ description: >-
 > campo su Mister Pizza, Dirigì, Barresi, Red Mike, Noolas, Duilio, Geb Garden, Love), approvata da Marco.
 > Il documento completo è in `references/checklist-master.md`: **leggilo prima di lavorare**.
 > Versione PDF impaginata RBR (da girare a colleghi o mostrare al cliente): `references/Sistema_Marketing_RBR_Checklist_v1.pdf`.
+> Migliorie integrate il 12/10/2026 da verifica sul campo di Andrea Chirivì (con contributi di
+> Roberto Falcon, Luciano Purpi e Leo) — vedi nota in testa a `references/checklist-master.md`.
 
 ## La regola che tiene insieme tutto
 Ogni fonte di traffico deve:
@@ -57,11 +59,16 @@ Trappole del foglio:
 - Si scrive cella per cella, **mai sovrascrivere il foglio intero**.
 
 ## Modo 1: SETUP di un cliente nuovo
-Segui `references/checklist-master.md` sez. 3 nell'ordine. Per ogni blocco usa la skill operativa:
+Segui `references/checklist-master.md` sez. 3 nell'ordine. **Prima degli accessi, fai l'onboarding
+di Roberto** (sez. 3.0a): foto di partenza congelata (MOLD, coperti/incasso, contatti, recensioni,
+Profilo Google, spesa marketing, chi fa cosa oggi) + kickoff di un'ora col titolare. Senza foto non
+si dimostra il risultato. Per ogni blocco usa la skill operativa:
 
 | Blocco | Skill da usare |
 |---|---|
+| 3.0a Onboarding: foto di partenza + kickoff | — (vedi sopra) |
 | 3.0 Accessi (anche foto router, cellulare di chi riceve gli avvisi, informativa privacy) | — (chiedere al cliente in un solo messaggio) |
+| 3.0b Uscita da un'agenzia esterna (se presente) | — (sequenza in `references/checklist-master.md` sez. 3.0b) |
 | 3.1 CRM: sub-account, ponte, campi, tag, flussi 01–09, dominio mail | `onboarding-cliente-ghl` |
 | 3.1 WhatsApp + 3.2 Servizio: conferma, promemoria, orecchio, STOP | `whatsapp-ghl-locale` |
 | 3.3 Tracciamento | `sistema-tracciamento-locale`, `google-ads-conversione-controllo`, `analytics-ristorante` |
@@ -85,31 +92,37 @@ Segui `references/checklist-master.md` sez. 3 nell'ordine. Per ogni blocco usa l
 Poi compila la colonna del cliente nel foglio e la **Scheda cliente** (sez. 5 del master) nella memoria del cliente.
 
 ## Modo 2: CONTROLLO RICORRENTE
-Sez. 4 del master.
+Sez. 4 del master (dove sono anche i dettagli di metodo citati sotto).
 - **Settimana**:
-  - conversazioni senza risposta (devono essere zero);
+  - conversazioni senza risposta (devono essere zero) — presidiata da una persona precisa prima di ogni invio di massa, eventualmente con una sentinella ogni 10 minuti nelle ore di servizio;
   - richieste del bot inserite su Resmio;
   - chiamate DeepAgent fallite;
   - negative trattenute;
   - sync TheFork vivo;
   - errori nei flussi;
-  - annunci bocciati e landing in 404.
+  - annunci bocciati e landing in 404;
+  - **provenienze**: prenotazioni per canale, zero col dominio del sito come source, controllo su un orologio che non dipende da un Mac acceso;
+  - cruscotto in 5 numeri: arrivati, coupon usati/scaricati, prenotazioni da Google, % senza fonte, speso al giorno;
+  - nelle prime settimane dopo ogni accensione, anche: Statistiche WhatsApp, cruscotto dell'agente, contatori dei TAG, Conversazioni → Non letto.
 - **Mese**: si riempie una riga in «Controllo mensile».
   - costo per prenotazione per canale;
-  - % coperti con contatto;
-  - imbuto coupon;
+  - % coperti con contatto, **% coperti prenotati** (su quelli battuti in cassa) e **% prenotazioni senza fonte**;
+  - tavoli aperti in cassa contro tavoli sul gestionale;
+  - imbuto coupon (consegnati → scaricati → riscattati → **tornati**);
   - qualità del numero WhatsApp;
   - media delle recensioni in arrivo;
-  - coerenza di orari, menu e prezzi su tutti i canali.
+  - coerenza di orari, menu e prezzi su tutti i canali;
+  - **riunione mensile**: MOLD contro l'anno prima, coperti reali contro i break-even, spesa/provvigioni sul fatturato, contatti nuovi per fonte, iscritti/visite fidelity — contro la foto di partenza, non contro la sola attività fatta.
 - **Trimestre**:
   - soglie della catenaria;
   - offerta d'ingresso che rende di più;
   - budget per stagione e per lingua;
-  - pulizia degli accessi;
+  - pulizia degli accessi, col metodo in `references/checklist-master.md` sez. 4;
   - RFM;
   - analisi reputazione.
 
-Ogni giro chiude con **massimo 3 azioni**, ognuna con il numero che la giustifica. Le azioni vanno in «Prossime mosse».
+Ogni giro chiude con **massimo 3 azioni**, ognuna con il numero che la giustifica, scritte con lo
+schema **CHECK → ACTION → CONTROL → NEXT**. Le azioni vanno in «Prossime mosse».
 
 ## Modo 3: STATO / giro di verifica
 1. Leggi la colonna del cliente nel tab Stato.
@@ -121,6 +134,12 @@ Ogni giro chiude con **massimo 3 azioni**, ognuna con il numero che la giustific
 3. Prepara l'anteprima delle celle da cambiare (voce, valore vecchio → nuovo, prova) e mostrala al consulente.
 4. Dopo l'ok scrivi solo quelle celle.
 5. I buchi diventano righe in «Prossime mosse».
+
+**Variante estesa** (contributo di Andrea Chirivì), quando il giro standard sulle 39 voci del
+foglio non basta: 1) requisiti presi da tutte le fonti (Roberto, Leo, Marco, Luciano, Mastermind,
+chat consulenti, skill); 2) mancanze grezze; 3) mancanze distinte; 4) verifica su file e dal vivo;
+5) priorità P1/P2/P3. Esce: a che mossa del piano siamo, dove siamo nella roadmap, il cancello che
+blocca, 3-4 leve. Si ricontrolla a 30 giorni.
 
 ## Regole che valgono per tutti (sez. 6 del master)
 **Offerte**

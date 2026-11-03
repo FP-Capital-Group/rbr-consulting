@@ -10,7 +10,10 @@ Contenuto = testo. La routine del lunedì ricostruisce la skill in
 
 Sicurezza: salta credentials.json/.env/chiavi e i binari; oscura token/chiavi nel testo
 (<REDATTO>); sostituisce i path /Users/<nome>/ con ~/. File > 45.000 caratteri divisi
-in parti. Con --dry-run mostra cosa verrebbe inviato senza scrivere.
+in parti. Con --dry-run mostra cosa verrebbe inviato senza scrivere, e stampa anche i
+file SALTATI con il motivo (binario non testuale, oltre 400 KB, credenziali): se la skill
+usa font/immagini/Excel/PDF citati nel SKILL.md, questi non partono con lo Sheet e la
+skill condivisa arriva monca — in quel caso va lo zip di backup o si toglie la dipendenza.
 """
 import os, re, sys, datetime, argparse
 
@@ -45,25 +48,33 @@ def pulisci(txt):
 
 
 def raccogli(path):
-    """[(titolo, contenuto)] dei file testuali della skill."""
-    voci = []
+    """([(titolo, contenuto)] dei file testuali, [(path, motivo)] dei file SALTATI).
+    I saltati (binari come font/immagini/Excel/PDF, oltre 400 KB, credenziali) non
+    partono con lo Sheet: se la skill li usa, arriva monca (vedi --dry-run)."""
+    voci, saltati = [], []
     if os.path.isfile(path):
         voci.append((os.path.basename(path), open(path, encoding="utf-8", errors="ignore").read()))
-        return voci
+        return voci, saltati
     for root, dirs, files in os.walk(path):
         dirs[:] = [d for d in dirs if d not in ("node_modules", "__pycache__", ".git", "dist")]
         for fn in sorted(files):
-            if fn in SKIP_FILES or fn.endswith((".pem", ".key", ".DS_Store")):
-                continue
-            if os.path.splitext(fn)[1].lower() not in TEXT_EXT:
+            if fn == ".DS_Store":
                 continue
             p = os.path.join(root, fn)
-            if os.path.getsize(p) > 400_000:
+            rel = os.path.relpath(p, path)
+            if fn in SKIP_FILES or fn.endswith((".pem", ".key")):
+                saltati.append((rel, "credenziali"))
                 continue
-            voci.append((os.path.relpath(p, path), open(p, encoding="utf-8", errors="ignore").read()))
+            if os.path.splitext(fn)[1].lower() not in TEXT_EXT:
+                saltati.append((rel, "binario non testuale"))
+                continue
+            if os.path.getsize(p) > 400_000:
+                saltati.append((rel, "oltre 400 KB"))
+                continue
+            voci.append((rel, open(p, encoding="utf-8", errors="ignore").read()))
     # SKILL.md sempre per primo
     voci.sort(key=lambda v: (v[0] != "SKILL.md", v[0]))
-    return voci
+    return voci, saltati
 
 
 def spezza(titolo, testo):
@@ -85,7 +96,7 @@ def main():
         sys.exit(f"❌ path non trovato: {path}")
     nome = os.path.basename(path).replace(".md", "")
     nome = re.sub(r"[^a-z0-9-]", "-", nome.lower()).strip("-")
-    voci = raccogli(path)
+    voci, saltati = raccogli(path)
     if not voci:
         sys.exit("❌ nessun file testuale da condividere")
     righe = []
@@ -100,6 +111,10 @@ def main():
     print(f"Skill `{nome}` → {len(righe)} righe, {tot:,} caratteri:")
     for r in righe:
         print(f"  - {r[3]} ({len(r[4]):,} car.)")
+    if saltati:
+        print("NON partono (file saltati):")
+        for rel, motivo in saltati:
+            print(f"  - {rel}: {motivo}")
     if a.dry_run:
         print("(dry-run: nulla inviato)")
         return

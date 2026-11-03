@@ -1,0 +1,128 @@
+.desc .vin.in,.desc .birra.in{display:inline !important;margin:0 0 0 1.6mm !important}
+.desc .vin.in svg,.desc .birra.in svg{vertical-align:-3px;margin-right:1mm}
+.amari{display:block !important;column-count:2}
+.pag::before,.pag::after{content:"" !important}
+/* stampa: .pag è display:block, quindi gli spazi si danno coi margini (03/10 sera) */
+.pag:not(.centrata) > *{margin-bottom:7mm}
+.piatti > .p{margin-bottom:4.6mm !important}
+.piatti.inl > .p{margin-bottom:3.6mm !important}
+.cap{margin-bottom:3mm}
+.p.pfoto .foto{flex:0 0 48mm !important;width:48mm !important;height:30mm !important}
+.pag.pizze > *{margin-bottom:4mm}
+.pag.pizze .piatti.inl > .p{margin-bottom:2.8mm !important}
+.pag.pizze .fotorow.hero .ftimg{height:30mm}
+/* v5 */
+.pag:not(.centrata){padding-bottom:26mm !important}
+.pag:not(.centrata) > .tit{margin-bottom:3mm}
+.p.pfoto .foto{flex:0 0 44mm !important;width:44mm !important;height:30mm !important}
+.fotoesce .foto{width:56mm !important;height:40mm !important;flex:none !important}
+.blocco-casa{margin-bottom:6mm}
+.pag.pizze .piatti > .p{margin-bottom:3mm !important}
+.pag.pizze .blocco-casa{margin-bottom:4mm}
+.pag.pizze .tit h2{font-size:26pt}
+.blocco-casa.brace .bc-piatti{gap:2.4mm}
+.pag:not(.centrata){padding-bottom:30mm !important}
+/* v6: il testo legale sta in una fascia sua, niente ci va sopra */
+.pag:not(.centrata){padding-bottom:28mm !important}
+.pag.stretta > *{margin-bottom:4.5mm}
+.pag.stretta .piatti > .p{margin-bottom:3.2mm !important}
+.pag.stretta .piatti.inl > .p{margin-bottom:2.8mm !important}
+.upsell{margin-bottom:5mm}
+.fotoesce .foto{width:56mm !important;height:40mm !important}
+.pag.primi .blocco-casa.rosso{padding-top:4mm;padding-bottom:4mm}
+.pag.primi .blocco-casa .bc-piatti{gap:2.2mm;margin-top:2.4mm}
+.pag.primi .blocco-casa.rosso h3{font-size:19pt}
+.pag.primi .upsell{padding:3mm 5mm 3.2mm}
+.pag.primi .upsell .ut{margin-bottom:1.6mm}
+.pag.primi .tit h2{font-size:24pt}
+.legale{bottom:7mm !important}
+.pag.primi .piatti > .p{margin-bottom:2.4mm !important}
+.pag.primi > *{margin-bottom:3.6mm}
+/* v7: in stampa il testo legale torna in una fascia fissa in fondo (pagina a blocco) */
+.legale{position:absolute !important;margin:0 !important;padding:0 !important;bottom:7mm !important}
+.pag.copertina{display:flex !important;flex-direction:column;justify-content:center;align-items:center}
+.upsell2{margin-bottom:4mm}
+.pag.larga > *{margin-bottom:7mm}
+.pag.larga .piatti.inl > .p{margin-bottom:4.4mm !important}
+.exp-t{font-size:48pt !important;margin-bottom:6mm !important}
+.exp-intro{margin-bottom:12mm !important;font-size:11pt !important}
+.exp-p{margin-bottom:9mm !important}
+.exp-p h3{font-size:20pt !important}
+.exp-prezzo{margin-top:8mm !important}
+.exp-prezzo b{font-size:16pt !important}
+.p.pfoto .foto.vera{height:32mm !important}
+.pag.stretta .piatti.inl > .p,.pag.larga .piatti.inl > .p{margin-bottom:2.6mm !important}
+.pag.larga > *{margin-bottom:4.5mm}
+.pag.stretta .piatti.inl > .p{margin-bottom:2.1mm !important}
+.pag.stretta > *{margin-bottom:3.8mm}
+/* v15: descrizioni su 2 righe, pagine piene */
+.pag.stretta .desc,.pag.stretta .prezzo,.pag.stretta .sep{font-size:9.2pt !important;line-height:1.36 !important}
+.pag.primi .fame{margin:0 !important}
+.pag.primi .fame-t{margin-bottom:1mm !important}
+.pag.stretta .piatti > .p{margin-bottom:2.2mm !important}
+.pag.stretta .piatti.inl > .p{margin-bottom:1.8mm !important}
+.pag.primi .fame{margin:0 0 3mm !important}
+.contorni{display:grid !important;grid-template-columns:1fr 1fr;column-gap:10mm;column-count:auto !important}
+/* v18 */
+.pag.stretta .birra-pz{margin:1mm 0 5mm !important}
+/* v19 */
+.p .desc{max-width:128mm !important}
+.p.pfoto .desc,.blocco-casa .desc{max-width:none !important}
+.pag .tit h2,.pag .tit.l2 h2{font-size:24pt !important}
+.pag.stretta > .tit{margin-top:3mm}
+.pag.stretta .p.asta.grande .nome{font-size:12.5pt !important}
+.pag.stretta .p.asta.grande .desc,.pag.stretta .p.asta.grande .sep{font-size:9.8pt !important}
+.p.asta.grande .foto{flex:0 0 46mm !important;width:46mm !important;height:28mm !important;margin:0 !important}
+.contorni .ct{margin-bottom:3mm !important}
+.contorni{margin-top:1.5mm}
+.pag.stretta .sobria{margin-top:2mm}
+.pag.stretta .birra-pz{margin:3mm 0 7mm !important}
+.pag .tit.l3 h2{font-size:15pt !important}
+.p.asta.grande .foto{flex:0 0 42mm !important;width:42mm !important;height:25mm !important}
+.pag.stretta .contorni .ct{margin-bottom:2mm !important}
+/* v21: pizze speciali/classiche a tutta riga (a capo deciso dal testo), grandi secondi più compatti, frittura senza buco */
+.pag.stretta .piatti.inl .p .desc{max-width:none !important}
+.p.asta.grande{align-items:center !important}
+.p.asta.grande .foto{flex:0 0 36mm !important;width:36mm !important;height:22mm !important;margin:-4mm 0 -4mm 0 !important}
+.contorni{margin-top:0}
+.pag.stretta .tit.l3{margin-top:6mm !important}
+/* v22 */
+.blocco-casa.rosso.tartufo .fotoesce .foto{width:62mm !important;height:44mm !important}
+.pag.stretta .somm3{margin:4mm 0 8mm !important}
+.pag.stretta .somm3 .fame-t{font-size:17pt !important}
+.pag.larga .piatti.inl > .p{margin-bottom:2.2mm !important}
+.pag.larga > *{margin-bottom:4mm}
+.cta{margin-top:2mm !important}
+.pag.stretta .somm3{margin:1mm 0 6mm !important}
+.pag.stretta .somm3 .fame-t{font-size:15pt !important;margin-bottom:1mm !important}
+.somm3 .ic{height:26px !important}
+.somm3 .ic svg{height:24px;width:auto}
+.somm3-n{margin-top:1mm !important}
+.pag.stretta .piatti.inl > .p{margin-bottom:1.5mm !important}
+.pag.stretta > .tit{margin-top:1mm}
+.pag.stretta .tit h2{font-size:22pt !important}
+.pag.stretta .piatti.inl .desc,.pag.stretta .piatti.inl .sep{line-height:1.3 !important}
+.pag.stretta .piatti.inl > .p{margin-bottom:1.2mm !important}
+.pag.stretta .somm3{margin:0 0 4mm !important}
+/* v22b: pagine destre con margine sotto */
+.blocco-casa.rosso.tartufo .bc-piatti{gap:2.6mm !important;margin-top:1mm !important}
+.blocco-casa.rosso.tartufo{padding-top:5mm !important;padding-bottom:5mm !important}
+.pag.stretta .piatti:not(.inl) > .p{margin-bottom:1.8mm !important}
+.pag.stretta .contorni .ct{margin-bottom:1.4mm !important}
+.pag.stretta .tit.l3{margin-top:4mm !important}
+.pag.larga .piatti.inl > .p{margin-bottom:1.5mm !important}
+.pag.larga > *{margin-bottom:3mm}
+.pag.stretta .tit h2{font-size:24pt !important}
+.pag.pz6 .tit h2{font-size:22pt !important}
+.pag .tit.l3 h2,.pag.stretta .tit.l3 h2{font-size:15pt !important}
+.blocco-casa.rosso.tartufo h3 + .bc-piatti{margin-top:3mm !important}
+.pag .illu{position:absolute;left:0;bottom:24mm;width:150mm;margin:0 !important;opacity:.95}
+.pag .illu{width:140mm !important;bottom:26mm !important}
+/* 08/10 sera v2 (Marco): battuta come prima (cornice attorno al testo), foto grande «a mezzo» sul bordo destro come i tagliolini:
+   la cornice finisce sotto la foto (foto su bianco, copre il bordo) e il riquadro è più corto */
+.p.asta.pfoto.fotogrande{display:block !important;position:relative;padding:3mm 36mm 3mm 4mm !important;margin-right:28mm !important}
+.p.fotogrande .foto,.p.asta.pfoto.fotogrande .foto.vera{position:absolute !important;right:-30mm;top:50%;margin:-20.5mm 0 0 0 !important;width:62mm !important;height:41mm !important;flex:none !important}
+/* 09/10 Marco: pagina Experience con foto di sfondo (tavola imbandita dall'alto, ChatGPT) sotto un velo amaranto che tiene leggibile il testo
+   (provata anche la versione a cornice con riquadro rosso: Marco preferisce questa) */
+.pag.rossa.centrata{background:radial-gradient(ellipse 62% 48% at 50% 50%,rgba(138,28,43,.93) 0%,rgba(138,28,43,.9) 55%,rgba(138,28,43,.78) 100%),url("img/experience/tavola_bg.jpg") center/cover no-repeat,#8A1C2B !important}
+

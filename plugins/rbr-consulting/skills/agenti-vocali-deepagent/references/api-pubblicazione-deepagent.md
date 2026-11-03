@@ -72,6 +72,14 @@ Quattro regole (nate da due giorni di guasto su un cliente in produzione):
    di trasferimento (a differenza di `tools.update` via API, che azzera i parametri). Verificalo
    comunque.
 
+**Su un agente in produzione il salvataggio o il deploy possono essere negati** dal
+classificatore di Claude Code come "Production Deploy". Non si aggira: o il consulente autorizza
+esplicitamente quell'azione, o incolla lui il prompt. Prima prepara backup JSON della
+configurazione in onda (`getById`), il file del nuovo prompt e l'Obiettivo, e l'impronta SHA-256
+del file PRIMA di incollare nella textarea (dopo il salvataggio non torna più uguale, perché la
+piattaforma compatta gli a capo — vedi sotto). Per incollare testi lunghi da Mac usa
+`LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 pbcopy`, altrimenti gli accenti si rompono.
+
 **Una cosa passa senza deploy: il blocco audio** (voce, velocità, stabilità).
 `elevenlabs.updateAgent` pubblica quello e solo quello, con qualche ora di ritardo. Se un agente
 è bloccato in pubblicazione, la voce è l'unica leva che risponde in giornata.

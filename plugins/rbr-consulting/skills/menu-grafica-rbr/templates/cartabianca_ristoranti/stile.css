@@ -1,0 +1,602 @@
+:root{
+  color-scheme:light;
+  /* palette del sito nuovo cartabianca.ristoranteonline.ai (03/10/2026) */
+  --carta:#FFFFFF; --panna:#F5EFE0; --inchiostro:#3C2118; --grafite:#2E170D;
+  --soft:#6E5D52; --linea:#E8E2DA; --oro:#A6192E; --oro-chiaro:#F3D9A4;
+  --marrone:#4A2617; --rosso:#A6192E;
+  --display:'Lora',Georgia,serif;
+  --wide:'DM Sans','Helvetica Neue',Arial,sans-serif;
+  --script:'Lora',Georgia,serif;
+  --body:'DM Sans','Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--grafite);color:var(--inchiostro);font-family:var(--body);font-size:15px;-webkit-font-smoothing:antialiased}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between;
+  padding:11px 20px;background:rgba(22,21,20,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.12);color:#EEEAE3}
+.bar .id{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.bar .id b{font-family:var(--wide);font-weight:600;font-size:14px;letter-spacing:.32em;color:#fff}
+.bar .id span{font-size:12px;color:rgba(238,234,227,.62);letter-spacing:.12em;text-transform:uppercase}
+.toggle{display:flex;border:1px solid rgba(255,255,255,.26);border-radius:999px;overflow:hidden}
+.toggle button{font-family:var(--wide);font-weight:500;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border:0;cursor:pointer;background:transparent;color:rgba(238,234,227,.66);transition:background .18s,color .18s}
+.toggle button[aria-pressed="true"]{background:var(--oro);color:#161514}
+.toggle button:focus-visible{outline:2px solid var(--oro-chiaro);outline-offset:2px}
+.hint{font-size:12.5px;color:rgba(238,234,227,.62);max-width:44ch;line-height:1.45;margin:0}
+
+.piano{padding:30px 16px 70px;overflow-x:auto}
+.spread{width:max-content;margin:0 auto 44px}
+.etichetta{font-family:var(--wide);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(238,234,227,.45);font-weight:500;margin:0 0 11px 2px}
+.doppia{display:flex;box-shadow:0 26px 64px -22px rgba(0,0,0,.85)}
+.pag{width:210mm;flex:0 0 210mm;min-height:297mm;background:var(--carta);padding:17mm 17mm 14mm;display:flex;flex-direction:column;gap:5.5mm;position:relative}
+.pag::before{content:"";position:absolute;top:6mm;left:6mm;right:6mm;bottom:6mm;border:1.6pt solid var(--inchiostro);pointer-events:none}
+.pag::after{content:"";position:absolute;top:7.6mm;left:7.6mm;right:7.6mm;bottom:7.6mm;border:.5pt solid var(--inchiostro);pointer-events:none}
+.pag+.pag{border-left:1px solid var(--linea)}
+.pag.nero{background:var(--inchiostro);color:#F4F1EB}
+.pag.nero::before,.pag.nero::after{border-color:rgba(244,241,235,.55)}
+.pag.panna{background:var(--panna)}
+.pag.centrata{justify-content:center;align-items:center;text-align:center;gap:0}
+.num{position:absolute;bottom:9.5mm;left:0;right:0;text-align:center;font-family:var(--wide);font-size:7pt;color:var(--soft);letter-spacing:.24em}
+.pag.nero .num{color:rgba(244,241,235,.45)}
+
+/* titoli: occhiello dritto in maiuscolo + titolo in corsivo come la carta di oggi */
+.cap{display:block;text-align:center;margin-top:1mm}
+.occhiello{font-family:var(--wide);font-weight:500;font-size:7pt;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);margin:0}
+h2.cat{font-family:var(--script);font-weight:400;font-size:34pt;line-height:1;color:var(--inchiostro);margin:.5mm 0 0;text-wrap:balance}
+.sec{display:flex;flex-direction:column;gap:4mm}
+
+/* piatto */
+.piatti{display:flex;flex-direction:column;gap:3.2mm}
+.p{display:block}
+.nome{font-weight:700;font-size:10.4pt;line-height:1.3;display:block;letter-spacing:.01em}
+.alg{font-size:6.4pt;font-weight:400;font-style:italic;color:var(--soft);margin-left:1.4mm;vertical-align:1px}
+.desc{font-size:8.8pt;line-height:1.42;color:var(--soft);font-style:italic;margin-top:.5mm;display:block}
+.prezzo{font-style:normal;font-weight:600;color:var(--inchiostro);white-space:nowrap;font-variant-numeric:tabular-nums}
+.sep{margin:0 1.3mm;opacity:.5;font-style:normal}
+.due{font-style:normal;font-weight:600;color:var(--inchiostro)}
+.vin,.birra{display:flex;align-items:center;gap:1.8mm;margin-top:1mm;font-size:7.8pt;color:var(--soft);line-height:1.3}
+.vin b,.birra b{font-weight:600;color:var(--inchiostro)}
+.vin svg,.birra svg{flex:0 0 auto;color:var(--inchiostro)}
+
+/* evidenze: massimo una per tipo per sezione */
+.p.pieno{background:var(--inchiostro);border-radius:2.6mm;padding:3mm 4mm 3.4mm;color:#F4F1EB}
+.p.pieno .nome,.p.pieno .prezzo,.p.pieno .due{color:#fff}
+.p.pieno .desc,.p.pieno .alg,.p.pieno .vin,.p.pieno .birra{color:rgba(244,241,235,.72)}
+.p.pieno .vin b,.p.pieno .birra b{color:var(--oro-chiaro)}
+.p.pieno .vin svg,.p.pieno .birra svg{color:var(--oro-chiaro)}
+.p.pieno .rank{color:rgba(244,241,235,.8);border-color:rgba(244,241,235,.4)}
+.p.bordo{border:.9pt solid var(--inchiostro);border-radius:2.6mm;padding:2.8mm 4mm 3mm}
+.p.asta{border-left:2.2pt solid var(--oro);padding-left:3.4mm}
+
+/* premium: blocco nero in cima alla pagina */
+.premio{background:var(--inchiostro);color:#F4F1EB;border-radius:3mm;padding:4mm 5mm 4.6mm;text-align:left}
+.premio .occhiello{color:var(--oro-chiaro);text-align:center}
+.premio h2.cat{color:#fff;text-align:center;font-size:30pt}
+.pre-sotto{font-size:8.3pt;font-style:italic;color:rgba(244,241,235,.65);text-align:center;margin:.6mm 0 0}
+.premio .piatti{margin-top:3mm;gap:3mm}
+.premio .nome,.premio .prezzo,.premio .due{color:#fff}
+.premio .desc,.premio .alg,.premio .vin,.premio .birra{color:rgba(244,241,235,.7)}
+.premio .vin b,.premio .birra b{color:var(--oro-chiaro)}
+.premio .vin svg,.premio .birra svg{color:var(--oro-chiaro)}
+.premio .foto{border-color:rgba(244,241,235,.3);background:rgba(255,255,255,.05);color:var(--oro-chiaro)}
+.premio .foto span{color:rgba(244,241,235,.5)}
+
+.p.pfoto{display:grid;grid-template-columns:1fr 20mm;gap:4mm;align-items:start}
+.foto{border-radius:2mm;border:.8pt dashed var(--linea);background:rgba(22,21,20,.03);display:grid;place-items:center;position:relative;aspect-ratio:1;color:var(--inchiostro);max-width:100%}
+.foto span{position:absolute;bottom:1mm;left:0;right:0;text-align:center;font-family:var(--wide);font-size:5pt;letter-spacing:.2em;color:var(--soft)}
+
+/* bande formati / impasti */
+.banda{border-top:.9pt solid var(--inchiostro);border-bottom:.9pt solid var(--inchiostro);padding:3mm 0 3.4mm;display:flex;flex-direction:column;gap:2.4mm}
+.bt{font-family:var(--wide);font-weight:600;font-size:8.5pt;letter-spacing:.3em;text-transform:uppercase;text-align:center}
+.bs{font-size:8pt;font-style:italic;color:var(--soft);text-align:center;margin:.6mm 0 0}
+.flist{display:flex;gap:4mm;justify-content:space-between;align-items:flex-end}
+.fcard{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.8mm}
+.ico{height:10mm;display:grid;place-items:end center;color:var(--inchiostro)}
+.fg{font-family:var(--display);font-weight:600;font-size:12pt}
+.fn{font-family:var(--wide);font-weight:600;font-size:6.8pt;text-transform:uppercase;letter-spacing:.18em}
+.fd{font-size:7.8pt;color:var(--soft);line-height:1.3;font-style:italic}
+.fp{font-family:var(--display);font-weight:600;font-size:10.5pt}
+.impasti .flist{align-items:flex-start}
+
+/* copertina e percorso */
+.cop-cornice{display:flex;flex-direction:column;align-items:center}
+.marchio{font-family:var(--display);font-weight:500;font-size:78pt;line-height:.9;letter-spacing:.04em;color:#fff}
+.marchio-sub{font-family:var(--wide);font-weight:500;font-size:17pt;letter-spacing:.34em;margin:4mm 0 0 .34em;color:#fff}
+.filetto{width:20mm;height:1.2pt;background:var(--oro);margin:12mm 0 10mm}
+.cop-luogo{font-family:var(--wide);font-size:9pt;letter-spacing:.36em;text-transform:uppercase;color:rgba(244,241,235,.85);line-height:2;margin:0}
+.cop-luogo span{color:rgba(244,241,235,.55)}
+.perc-occ{font-family:var(--wide);font-size:7.5pt;letter-spacing:.36em;text-transform:uppercase;color:var(--oro-chiaro)}
+.perc-tit{font-family:var(--script);font-weight:400;font-size:52pt;line-height:1;color:#fff;margin:4mm 0 0}
+.perc-sotto{font-size:9.5pt;line-height:1.6;color:rgba(244,241,235,.75);max-width:36ch;margin:3mm 0 0;font-style:italic}
+.portate{display:flex;flex-direction:column;width:100%;max-width:130mm;margin-top:8mm}
+.portata{display:grid;grid-template-columns:8mm 1fr;gap:3.5mm;align-items:baseline;padding:3.6mm 0;border-bottom:.6pt solid rgba(244,241,235,.2);text-align:left}
+.portata:last-child{border-bottom:0}
+.portata .n{font-family:var(--display);font-size:10pt;color:var(--oro-chiaro)}
+.portata .t{font-size:10.5pt;font-weight:600;line-height:1.35;color:#fff}
+.portata .t small{display:block;font-weight:400;font-size:8.5pt;font-style:italic;color:rgba(244,241,235,.62);margin-top:.6mm}
+.perc-prezzo{margin-top:8mm;font-size:11pt;color:#fff;text-align:center;line-height:1.9}
+.perc-prezzo b{font-family:var(--display);font-weight:600;font-size:15pt}
+.perc-prezzo .r{display:block;font-size:8.5pt;color:rgba(244,241,235,.65);font-style:italic}
+
+.bev{display:flex;flex-wrap:wrap;gap:2.2mm 7mm;align-items:baseline;justify-content:center}
+.bev span{font-size:9.2pt}
+.bev b{font-weight:600;margin-left:1.6mm;font-variant-numeric:tabular-nums}
+.amari{display:block;column-count:2;column-gap:8mm}
+.amari .p{break-inside:avoid;margin-bottom:2.6mm}
+.desc .birra.in,.desc .vin.in{display:inline-flex;margin:0 0 0 1.6mm;vertical-align:-2px}
+.p.sorb{text-align:center}
+.chiudi{margin-top:auto;padding-top:3.4mm;border-top:.7pt solid var(--linea);display:flex;flex-direction:column;gap:2.6mm}
+.srv{font-size:9pt;margin:0}
+.srv b{font-weight:700}
+.qr{display:flex;align-items:center;gap:3mm;font-style:italic;color:var(--soft)}
+.qrbox{flex:0 0 13mm;height:13mm;border:.8pt solid var(--inchiostro);display:grid;place-items:center;font-family:var(--wide);font-size:6pt;letter-spacing:.2em;color:var(--soft);font-style:normal}
+.legenda{font-size:6.8pt;line-height:1.6;color:var(--soft);font-style:italic;margin:0}
+.legenda b{font-style:normal;font-weight:700;color:var(--inchiostro)}
+.indirizzo{font-family:var(--wide);font-size:7.2pt;letter-spacing:.2em;text-transform:uppercase;text-align:center;margin:1mm 0 0}
+
+/* vista consulente */
+.mk{display:none;margin-top:1.2mm;font-size:7.6pt;font-weight:500;font-style:normal;font-variant-numeric:tabular-nums;color:#3D2E10;background:#F1E4C3;border-radius:999px;padding:.6mm 2.6mm;line-height:1.35}
+body.rbr .mk{display:inline-block}
+.nota{display:none;font-size:8.4pt;line-height:1.5;color:#10241A;background:#CBE7D4;border-radius:2.2mm;padding:2.6mm 3.4mm;margin:0;text-align:left;font-style:normal}
+body.rbr .nota{display:block}
+.pag.nero .nota{max-width:150mm;margin-top:6mm}
+.nota b{font-weight:700}
+.rank{display:none;font-family:var(--wide);font-size:6.8pt;font-weight:500;color:var(--soft);border:.6pt solid var(--linea);border-radius:999px;padding:.1mm 1.6mm;margin-right:1.6mm;vertical-align:1px}
+body.rbr .rank{display:inline-block}
+
+.riepilogo{display:none;width:min(420mm,100%);margin:0 auto 34px}
+body.rbr .riepilogo{display:block}
+.rbox{background:#F4F1EB;border-radius:10px;padding:18px 22px;color:var(--inchiostro)}
+.rbox h3{font-family:var(--wide);font-weight:500;font-size:15px;margin:0 0 12px;letter-spacing:.02em}
+.rbox h3 b{font-weight:700;color:#1F6B3F}
+.rbox table{width:100%;border-collapse:collapse;font-size:13.5px}
+.rbox td{padding:6px 8px;border-top:1px solid #DDD6CA;vertical-align:top}
+.rbox td.n{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rbox td.dove{color:var(--soft);white-space:nowrap}
+.rnote{font-size:12px;color:var(--soft);margin:12px 0 0;line-height:1.5}
+
+@media (max-width:900px){.doppia{flex-direction:column;zoom:.46}.pag+.pag{border-left:0;border-top:1px solid var(--linea)}.spread{width:auto}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- stile sito Cartabianca (03/10/2026): meno riquadri, una cornice sola, premium chiaro ---- */
+.pag::after{display:none}
+.pag::before{border:.6pt solid var(--linea)}
+h2.cat{font-style:italic;font-weight:400;font-size:24pt;color:var(--marrone)}
+.occhiello{color:var(--rosso);letter-spacing:.28em}
+.nome{font-family:var(--wide);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:9.4pt;color:var(--marrone)}
+.desc{font-family:var(--display);font-style:italic}
+.prezzo{font-family:var(--wide);color:var(--marrone)}
+.p.asta{border-left:2pt solid var(--rosso);padding-left:3.4mm}
+.pag.nero{background:var(--marrone)}
+.marchio{font-family:var(--display);font-style:italic;font-weight:400}
+.perc-tit{font-family:var(--display);font-style:italic;font-size:38pt}
+.filetto{background:var(--oro-chiaro)}
+.premio{background:var(--panna);color:var(--inchiostro);border-radius:2mm;border-top:1.2pt solid var(--rosso)}
+.premio .occhiello{color:var(--rosso)}
+.premio h2.cat{color:var(--marrone);font-size:22pt}
+.pre-sotto{color:var(--soft)}
+.premio .nome,.premio .prezzo,.premio .due{color:var(--marrone)}
+.premio .desc,.premio .alg,.premio .vin,.premio .birra{color:var(--soft)}
+.premio .vin b,.premio .birra b{color:var(--inchiostro)}
+.premio .vin svg,.premio .birra svg{color:var(--inchiostro)}
+.foto{border-color:#D9CDBD}
+.fg,.fp{font-family:var(--wide)}
+.bar,.toggle button[aria-pressed="true"]{}
+.nome{font-size:10.6pt}
+.desc{font-size:10pt;line-height:1.45}
+.piatti{gap:4.2mm}
+.vin,.birra{font-size:8.4pt}
+h2.cat{font-size:27pt}
+
+/* ===== STILE EATALY BIANCO (03/10/2026 sera) — un solo carattere, amaranto, foto scontornate ===== */
+:root{--amaranto:#8A1C2B;--testo:#4A3F38;--grigio:#8A7D74}
+.pag{background:#fff;padding:16mm 18mm 14mm}
+.pag::before,.pag::after{display:none}
+.pag.panna{background:#fff}
+.occhiello{font-family:var(--display);font-style:italic;text-transform:none;letter-spacing:0;font-size:9pt;color:var(--grigio)}
+.cap{display:flex;flex-direction:column;align-items:center}
+h2.cat{font-family:var(--display);font-style:normal;font-weight:400;text-transform:uppercase;letter-spacing:.14em;font-size:15pt;color:var(--amaranto);
+  display:flex;align-items:center;gap:4mm;margin-top:.6mm}
+h2.cat::before,h2.cat::after{content:"";width:12mm;height:.5pt;background:var(--amaranto);opacity:.6}
+.nome{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:9.6pt;color:var(--amaranto)}
+.alg{font-family:var(--display);color:var(--grigio)}
+.desc,.prezzo,.due,.sep{font-family:var(--display);font-style:italic;font-weight:400;font-size:9.3pt;color:var(--testo)}
+.prezzo{white-space:nowrap}
+.vin,.birra{font-family:var(--display);font-size:8.2pt;color:var(--grigio)}
+.vin b,.birra b{color:var(--testo);font-weight:600}
+.p.asta{border-left:1.6pt solid var(--amaranto);padding-left:3.2mm}
+.piatti{gap:3.6mm}
+
+/* copertina bianca */
+.pag.centrata{background:#fff;color:var(--amaranto)}
+.cop-linee{display:flex;align-items:center;justify-content:center;gap:4mm;color:var(--amaranto)}
+.cop-linee span{width:18mm;height:.6pt;background:var(--amaranto)}
+.cop-linee em{font-family:var(--display);font-style:italic;font-size:13pt}
+.marchio{font-family:var(--display);font-style:italic;font-weight:400;font-size:54pt;color:var(--amaranto);letter-spacing:0;margin:6mm 0 8mm}
+.cop-luogo{font-family:var(--display);letter-spacing:.3em;color:var(--testo);font-size:9pt}
+.cop-luogo span{color:var(--grigio)}
+
+/* il giro della casa: la pagina rossa */
+.pag.rossa{background:var(--amaranto);color:#fff}
+.pag.rossa .perc-occ{color:#F3D9C9;font-family:var(--display);font-style:italic;letter-spacing:.1em;text-transform:none;font-size:11pt}
+.pag.rossa .perc-tit{color:#fff;font-family:var(--display);font-style:italic}
+.pag.rossa .portata{border-color:rgba(255,255,255,.25)}
+.pag.rossa .portata .n{color:#F3D9C9;font-family:var(--display)}
+.pag.rossa .portata .t,.pag.rossa .perc-prezzo{font-family:var(--display)}
+.pag.rossa .num{color:rgba(255,255,255,.6)}
+
+/* blocchi «della casa»: forme diverse */
+.premio2{display:flex;flex-direction:column;align-items:center;gap:1mm}
+.premio2 .pre-sotto{font-family:var(--display);font-style:italic;font-size:8.6pt;color:var(--grigio);margin:0}
+.pgrid{display:grid;gap:3mm 6mm;width:100%;margin-top:2.4mm}
+.pgrid.n3{grid-template-columns:1fr 1fr 1fr}
+.pgrid.n2{grid-template-columns:1fr 1fr}
+.pgrid .p{text-align:center}
+.premio2.cornice{border:.7pt solid var(--amaranto);border-radius:1.5mm;padding:4mm 5mm 4.4mm}
+.premio2.linee{border-top:.7pt solid var(--amaranto);border-bottom:.7pt solid var(--amaranto);padding:3.6mm 0 4mm}
+.premio2.tinta{background:#F7ECEA;border-radius:1.5mm;padding:4mm 6mm 4.4mm}
+.premio2.eroe .pgrid{grid-template-columns:1fr 1fr}
+.premio2.eroe .pgrid .p:first-child{grid-column:1 / -1;border-bottom:.5pt solid #E6DCD3;padding-bottom:3mm}
+.premio2.eroe .pgrid .p:first-child .nome{font-size:12.5pt}
+.premio2.eroe .pgrid .p:first-child .desc{font-size:10pt}
+.pgrid .vin,.pgrid .birra{justify-content:center}
+
+/* foto grandi scontornate, appoggiate su vetro */
+.fotorow{display:flex;justify-content:center;gap:8mm;margin:1mm 0 0}
+.ft{margin:0;flex:0 0 66mm;display:flex;flex-direction:column;align-items:center}
+.ftimg{width:66mm;height:34mm;display:flex;align-items:flex-end;justify-content:center}
+.ftimg img{max-width:100%;max-height:100%;object-fit:contain}
+.ftimg .ph{width:100%;height:100%}
+.ft figcaption{font-family:var(--display);font-style:italic;font-size:8pt;color:var(--grigio);margin-top:1mm}
+
+/* perché la nostra pizza */
+.perche{text-align:center;display:flex;flex-direction:column;gap:1.2mm}
+.perche .pq{font-family:var(--display);font-style:italic;font-size:15pt;color:var(--amaranto);margin:0}
+.perche .pt{font-family:var(--display);font-style:italic;font-size:8.8pt;color:var(--testo);margin:0}
+.ingr{display:flex;justify-content:space-between;gap:3mm;border-top:.5pt solid #E6DCD3;border-bottom:.5pt solid #E6DCD3;padding:2mm 0;margin-top:1.4mm}
+.ingr div{display:flex;flex-direction:column;align-items:center;flex:1}
+.ingr b{font-family:var(--display);font-weight:600;font-size:6.6pt;letter-spacing:.14em;text-transform:uppercase;color:var(--amaranto)}
+.ingr span{font-family:var(--display);font-style:italic;font-size:7.4pt;color:var(--testo);text-align:center}
+
+/* bande formati/impasti in serif */
+.banda{border-color:var(--amaranto);border-top-width:.5pt;border-bottom-width:.5pt}
+.bt,.fn{font-family:var(--display);color:var(--amaranto)}
+.bs,.fd,.fp,.fg{font-family:var(--display);font-style:italic;color:var(--testo)}
+.fp{font-weight:400}
+.bev{font-family:var(--display)}
+.bev span{font-family:var(--display);color:var(--testo)}
+.bev i{font-style:italic}
+.srv,.legenda,.indirizzo{font-family:var(--display)}
+.dolci-sotto{font-family:var(--display);font-style:italic;font-size:8.6pt;color:var(--grigio);text-align:center;margin:2mm 0 0}
+.pag.dolci{gap:6mm}
+/* fix impaginazione weasyprint */
+h2.cat{white-space:nowrap}
+.cop-linee em{white-space:nowrap}
+.pgrid{display:flex;flex-wrap:wrap;justify-content:center}
+.pgrid.n3 .p{width:31%}
+.pgrid.n2 .p{width:46%}
+.premio2.eroe .pgrid .p{width:46%}
+.premio2.eroe .pgrid .p:first-child{width:100%}
+.piatti.inl{gap:2.4mm}
+.pag{gap:4.2mm}
+.fotorow.hero{margin:0 0 1mm}
+.fotorow.hero .ft{flex:0 0 100mm}
+.fotorow.hero .ftimg{width:100mm;height:40mm}
+.pgrid{gap:3mm 0}
+.pgrid.n3 .p{width:33%;padding:0 2mm}
+.pgrid.n2 .p{width:50%;padding:0 3mm}
+.premio2.eroe .pgrid .p{width:50%}
+.fotorow.hero .ftimg{height:30mm}
+.fotorow.hero figcaption{display:none}
+.perche .pt{display:none}
+.piatti.inl{gap:1.7mm}
+.pag{gap:3.6mm}
+/* ===== REVISIONE 2: pulizia (presentazione «5 step») ===== */
+h2.cat::before,h2.cat::after{display:none}
+h2.cat{font-size:16pt;letter-spacing:.18em}
+.premio2 h2.cat{font-size:13pt}
+.pag{gap:5mm}
+.piatti{gap:4mm}
+.piatti.inl{gap:3mm}
+/* n.1: una cornice sottile, sempre uguale (riquadro = fino a +25% di ordini) */
+.p.asta{border:.6pt solid var(--amaranto);border-left-width:.6pt;border-radius:1.5mm;padding:2.6mm 3.4mm}
+/* foto di fianco al piatto, grandi */
+.p.pfoto{display:flex;align-items:center;gap:4mm}
+.p.pfoto>div:first-child{flex:1}
+.p.pfoto .foto{flex:0 0 38mm;width:38mm;height:24mm;border:0;background:none;aspect-ratio:auto;padding:0}
+.foto .ph{width:100%;height:100%}
+.premio2.tinta{margin-top:2mm}
+/* riempimento pagina dopo la pulizia */
+.pag{padding:20mm 20mm 16mm;gap:7mm}
+.nome{font-size:11.4pt}
+.desc,.prezzo,.due,.sep{font-size:10.4pt;line-height:1.5}
+.vin,.birra{font-size:8.8pt}
+.piatti{gap:5.6mm}
+.piatti.inl{gap:4mm}
+h2.cat{font-size:18pt}
+.premio2 h2.cat{font-size:14pt}
+.p.pfoto .foto{flex:0 0 48mm;width:48mm;height:30mm}
+.ftimg{width:72mm;height:42mm}
+.ft{flex:0 0 72mm}
+.fotorow{margin-top:4mm}
+.fotorow.hero .ftimg{width:110mm;height:38mm}
+.perche .pq{font-size:17pt}
+
+/* ===== v5 (03/10 sera): ispirazione Barresi + Red Mike — titoli grandi, emozione, blocchi diversi ===== */
+.tit{margin:0}
+.tit h2{font-family:var(--display);font-weight:700;font-size:30pt;line-height:1;color:var(--amaranto);margin:0;letter-spacing:-.005em}
+.tit p{font-family:var(--display);font-style:italic;font-size:10pt;color:var(--grigio);margin:1.2mm 0 0}
+.nome{font-family:var(--display);font-weight:700;text-transform:none;letter-spacing:0;font-size:12pt;color:#2B2220}
+.desc,.prezzo,.sep,.due{font-family:var(--display);font-style:normal;font-size:9.6pt;color:#4A3F38;line-height:1.45}
+.alg{font-size:6.5pt;color:var(--grigio);font-style:normal}
+.vin,.birra{font-size:8.4pt}
+/* n.1: cornice rossa come Barresi, la foto esce dal bordo */
+.p.asta{border:1.1pt solid var(--amaranto);border-radius:0;padding:3mm 4mm}
+.p.asta .nome{color:var(--amaranto)}
+.p.pfoto{display:flex;align-items:center;gap:3mm;position:relative}
+.p.pfoto .foto{flex:0 0 44mm;width:44mm;height:30mm;margin:-7mm -9mm -7mm 0}
+.p.pfoto:not(.asta) .foto{margin:0}
+/* blocchi della casa */
+.blocco-casa{position:relative;padding:5mm 6mm}
+.blocco-casa h3{font-family:var(--display);font-weight:700;font-size:16pt;margin:0;line-height:1.1}
+.blocco-casa .sotto{font-family:var(--display);font-style:italic;font-size:9pt;margin:.8mm 0 0}
+.bc-piatti{display:flex;flex-direction:column;gap:3.4mm;margin-top:3.6mm}
+.blocco-casa.rosso{background:var(--amaranto);color:#fff}
+.blocco-casa.rosso h3,.blocco-casa.rosso .nome{color:#fff}
+.blocco-casa.rosso .desc,.blocco-casa.rosso .prezzo,.blocco-casa.rosso .sep,.blocco-casa.rosso .sotto,.blocco-casa.rosso .vin,.blocco-casa.rosso .alg{color:#F6DCD9}
+.blocco-casa.rosso .vin b{color:#fff}
+.blocco-casa.rosso .vin svg{color:#fff}
+.blocco-casa.rosso .nome{font-size:13pt}
+.blocco-casa.crema{background:#FBEFEA}
+.blocco-casa.crema h3{color:var(--amaranto)}
+.blocco-casa.brace{border-top:2pt solid var(--amaranto);border-bottom:.6pt solid var(--amaranto);padding:4mm 50mm 4mm 0}
+.blocco-casa.brace h3{color:var(--amaranto)}
+.blocco-casa.brace .bc-piatti .p:first-child .nome{font-size:14pt}
+.blocco-casa.cornice{border:1.1pt solid var(--amaranto);padding:4.5mm 50mm 4.5mm 5mm}
+.blocco-casa.cornice h3{color:var(--amaranto)}
+.fotoesce{position:absolute;right:-8mm;top:50%;margin-top:-20mm;width:56mm;height:40mm}
+.fotoesce .foto{width:100%;height:100%;border:0;background:none}
+/* formati e impasti senza righe */
+.formati{font-family:var(--display);font-size:9.6pt;color:#4A3F38;line-height:1.7}
+.formati b{color:var(--amaranto)}
+.formati .fm{white-space:nowrap;margin-left:2mm}
+.formati .fm svg{vertical-align:-4px;color:var(--amaranto)}
+.formati .pic{font-style:italic;color:var(--grigio);font-size:8.6pt}
+/* contorni su due colonne */
+.contorni{column-count:2;column-gap:10mm;font-family:var(--display);font-size:10pt}
+.contorni .ct{margin-bottom:2mm}
+.contorni b,.am b{font-weight:700;color:#2B2220}
+.contorni i,.am i,.caffe i{font-style:normal;color:#4A3F38}
+/* ultima pagina */
+.due-col{display:flex;gap:10mm}
+.due-col > div{flex:1}
+.due-col .tit h2{font-size:18pt;margin-bottom:2mm}
+.amari2 .am,.am{font-family:var(--display);font-size:10pt;margin-bottom:1.6mm}
+.caffe{font-family:var(--display);font-size:9.4pt;color:#4A3F38;display:flex;flex-direction:column;gap:1mm}
+.qr{display:flex;align-items:center;gap:3mm;font-family:var(--display);font-style:italic;font-size:9pt;color:var(--grigio)}
+.indirizzo{font-family:var(--display);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;text-align:center;color:var(--grigio)}
+/* testo legale in piccolo su ogni pagina */
+.legale{position:absolute;left:20mm;right:20mm;bottom:9mm;font-family:var(--display);font-size:6.2pt;line-height:1.4;color:#9A8E86;margin:0}
+.num{display:none}
+/* percorso */
+.perc-prezzo s{font-size:12pt;color:#F3C9C4;margin-right:3mm}
+.perc-prezzo b{font-size:26pt}
+
+/* ===== v6 (03/10 sera) ===== */
+.alg{display:none}
+.marchio{font-size:40pt;line-height:1.1;text-align:center}
+.cop-luogo{letter-spacing:.18em;font-size:8.6pt;text-transform:uppercase}
+/* upsell a schede, con spazio */
+.upsell{background:#FBF4F1;padding:4mm 5mm 4.4mm}
+.upsell .ut{display:flex;align-items:baseline;gap:3mm;margin-bottom:3mm;flex-wrap:wrap}
+.upsell .ut b{font-family:var(--display);font-weight:700;font-size:13pt;color:var(--amaranto)}
+.upsell .ut span{font-family:var(--display);font-style:italic;font-size:8.8pt;color:var(--grigio)}
+.ucs{display:flex;justify-content:space-between;gap:3mm;align-items:flex-end}
+.uc{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.6mm;font-family:var(--display)}
+.uc svg{color:var(--amaranto)}
+.uc b{font-weight:700;font-size:10pt;color:#2B2220}
+.uc span{font-size:8.2pt;color:#6E6058;line-height:1.3}
+.uc i{font-style:normal;font-weight:700;font-size:11pt;color:var(--amaranto)}
+/* blocchi con foto: spazio a destra per la foto */
+.blocco-casa.rosso{padding-right:52mm}
+.blocco-casa.rosso .fotoesce{right:-6mm}
+.blocco-casa.brace{padding-right:54mm}
+.blocco-casa.brace h3,.blocco-casa.cornice h3,.blocco-casa.rosso h3{font-size:22pt}
+.blocco-casa.brace .bc-piatti .p:first-child .nome{font-size:15pt}
+.somm{font-family:var(--display);font-style:italic;font-size:8.6pt;color:#6E6058;line-height:1.45;border-top:.5pt solid #E6DCD3;padding-top:2.4mm}
+.somm svg{vertical-align:-3px;margin-right:1mm;color:#2B2220}
+.somm b{color:var(--amaranto);font-style:normal}
+.fine{text-align:center;margin-top:8mm}
+.marchio-s{font-family:var(--display);font-style:italic;font-size:22pt;color:var(--amaranto)}
+.fine p{font-family:var(--display);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--grigio);margin:1mm 0 0}
+.legale{bottom:10mm}
+.pag.rossa .somm{color:#F6DCD9;border-top:.5pt solid rgba(255,255,255,.3);max-width:130mm;margin:8mm auto 0;text-align:center}
+.pag.rossa .somm b{color:#fff}
+.pag.rossa .somm svg{color:#fff}
+
+/* ===== v7 (03/10 sera) ===== */
+/* a schermo il testo legale sta in fondo alla pagina nel flusso: non va mai sopra ai piatti */
+.legale{position:static !important;margin-top:auto !important;padding-top:5mm}
+/* intestazioni: tutte uguali e più piccole; liv 2 e 3 ancora più piccole */
+.tit h2{font-size:22pt}
+.tit.l2 h2{font-size:17pt}
+.tit.l3 h2{font-size:13pt}
+.blocco-casa h3,.blocco-casa.brace h3,.blocco-casa.cornice h3,.blocco-casa.rosso h3{font-size:17pt}
+/* upsell su una riga, senza riquadro né righe */
+.upsell2{margin:1mm 0}
+.ut2{font-family:var(--display);font-style:italic;font-size:9pt;color:var(--grigio);margin:0 0 2mm}
+.ut2 b{font-style:normal;font-weight:700;font-size:11pt;color:var(--amaranto);margin-right:1.5mm}
+.uvs{display:flex;align-items:flex-end}
+.uv{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:var(--display);gap:.4mm;padding:0 2mm;border-left:.5pt solid #E6DCD3}
+.uv:first-child{border-left:0}
+.uv svg{color:var(--amaranto)}
+.uv b{font-weight:700;font-size:9.6pt;color:#2B2220}
+.uv span{font-size:7.8pt;color:#6E6058}
+.uv i{font-style:normal;font-weight:700;font-size:10pt;color:var(--amaranto)}
+/* classiche sobrie */
+.sobria .nome{font-size:10.6pt}
+.sobria .desc,.sobria .prezzo,.sobria .sep{font-size:8.8pt}
+/* blocco rosso con la foto (grandi secondi) */
+.blocco-casa.rosso .bc-piatti .p:first-child .nome{font-size:14pt}
+/* copertina e retro */
+.pag.copertina{background:var(--amaranto);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.pag.copertina .legale{display:none}
+.cop2{display:flex;flex-direction:column;align-items:center}
+.cb{font-family:var(--display);font-weight:600;font-size:34pt;letter-spacing:.22em;margin-left:.22em;color:#fff}
+.cb.small{font-size:16pt;color:#fff}
+.pag.copertina .cop-linee{color:#F3D9C9;margin-top:5mm}
+.pag.copertina .cop-linee span{background:#F3D9C9;width:22mm}
+.pag.copertina .cop-linee em{font-size:20pt}
+.cop-sotto{font-family:var(--display);font-size:8.6pt;letter-spacing:.3em;text-transform:uppercase;color:#F3C9C4;margin:4mm 0 0}
+.cop-ind{position:absolute;bottom:16mm;left:0;right:0;text-align:center;font-family:var(--display);font-size:8pt;letter-spacing:.18em;text-transform:uppercase;color:#F3C9C4;margin:0}
+.retro{display:flex;flex-direction:column;align-items:center;gap:2mm}
+.r-luogo{font-family:var(--display);font-style:italic;font-size:14pt;color:#F3D9C9;margin:0}
+.r-ind{font-family:var(--display);font-size:8pt;letter-spacing:.18em;text-transform:uppercase;color:#F3C9C4;margin:0}
+.r-grazie{font-family:var(--display);font-style:italic;font-size:10pt;color:#fff;margin:10mm 0 0;line-height:1.6}
+.blocco-casa.rosso .due{color:#fff}
+.pag.stretta .upsell2{margin-top:4mm}
+/* v8: tartufate più in evidenza */
+.blocco-casa.rosso.tartufo h3{font-size:21pt}
+.blocco-casa.rosso.tartufo .nome{font-size:15pt !important}
+.blocco-casa.rosso.tartufo .desc,.blocco-casa.rosso.tartufo .prezzo,.blocco-casa.rosso.tartufo .sep{font-size:10.4pt}
+.blocco-casa.rosso.tartufo .prezzo{font-weight:700;color:#fff}
+.blocco-casa.rosso.tartufo .bc-piatti{gap:4.6mm;margin-top:4mm}
+.birra-pz{border-top:0;padding-top:0;margin:1mm 0}
+.uv span:empty{display:none}
+.aggiunte{margin-top:3mm}
+.ag-grid{display:flex;flex-wrap:wrap;font-family:var(--display)}
+.ag{width:33.3%;font-size:10pt;margin-bottom:2mm;padding-right:2mm}
+.ag b{font-weight:700;color:#2B2220}
+.ag i{font-style:normal;font-weight:700;color:var(--amaranto);white-space:nowrap}
+.blocco-casa.rosso.tartufo .bc-piatti .p .nome{font-size:15pt !important}
+.aggiunte{display:block !important}
+.aggiunte .ut2{display:block !important;width:100%;margin-bottom:2.4mm}
+.aggiunte .ut2 b{font-size:14pt}
+.ag{font-size:10.6pt;margin-bottom:2.6mm}
+.ag-tab{width:100%;border-collapse:collapse;font-family:var(--display)}
+.ag-tab td{width:33.3%;padding:0 2mm 2.4mm 0;vertical-align:top;font-size:10.6pt}
+/* v9: «Che fame hai?» e le aggiunte con foto, giocose e senza riquadro */
+.fame{margin:2mm 0 1mm}
+.fame-t,.cta-t{font-family:var(--display);font-style:italic;font-weight:400;font-size:17pt;color:var(--amaranto);margin:0 0 2.4mm;text-align:center}
+.fame-row,.cta-row{display:flex;justify-content:space-around;align-items:flex-end}
+.fm1,.cta-i{display:flex;flex-direction:column;align-items:center;text-align:center;font-family:var(--display);gap:.5mm;width:30%}
+.fm1 svg{color:var(--amaranto)}
+.fm1 em{font-style:italic;font-size:12pt;color:var(--amaranto)}
+.fm1 b,.cta-i b{font-weight:700;font-size:9.4pt;color:#2B2220}
+.fm1 i,.cta-i i{font-style:normal;font-weight:700;font-size:11pt;color:var(--amaranto)}
+.cta{margin-top:4mm}
+.cta-i img{width:26mm;height:26mm;border-radius:50%;margin-bottom:1.4mm}
+.cta-i b{font-size:11pt}
+.cta-i span{font-size:8pt;font-style:italic;color:#6E6058}
+/* v10: Cartabianca Experience (come MaTe), pagina rossa */
+.exp{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:140mm}
+.exp .cb.small{font-size:15pt;letter-spacing:.3em}
+.exp-t{font-family:var(--display);font-style:italic;font-weight:600;font-size:40pt;color:#fff;margin:0 0 4mm;line-height:1}
+.exp-intro{font-family:var(--display);font-size:10.4pt;color:#F6DCD9;line-height:1.6;margin:0 0 7mm}
+.exp-intro b{color:#fff}
+.exp-p{margin-bottom:5mm}
+.exp-p h3{font-family:var(--display);font-style:italic;font-weight:700;font-size:17pt;color:#fff;margin:0;line-height:1.15}
+.exp-p p{font-family:var(--display);font-size:9.4pt;color:#F3C9C4;margin:.8mm 0 0}
+.exp-prezzo{font-family:var(--display);font-size:13pt;color:#fff;margin:5mm 0 1mm}
+.exp-prezzo s{color:#F3C9C4;font-size:14pt;margin-right:2mm}
+.exp-prezzo b{font-size:30pt}
+.exp-note{font-family:var(--display);font-style:italic;font-size:9pt;color:#F3C9C4;margin:0;line-height:1.5}
+/* v11: prezzi mai in rosso, ovunque (carattere e colore del testo) */
+.fm1 i,.cta-i i,.ag i,.uv i,.uc i,.formati i,.contorni i,.am i,.caffe i,.ag-tab i{color:#4A3F38 !important;font-weight:600 !important}
+.prezzo{color:#4A3F38 !important}
+.blocco-casa.rosso .prezzo,.blocco-casa.rosso.tartufo .prezzo{color:#F6DCD9 !important}
+/* v12 (05/10) */
+.desc .sep{margin:0 .4mm;opacity:.55}
+.prezzo{font-weight:400 !important}
+.abb2{display:block;font-family:var(--display);font-style:italic;font-size:7.8pt;color:#8A7D74;margin-top:.6mm}
+.abb2 svg{vertical-align:-2px;color:#4A3F38;margin-right:.6mm}
+.abb2 .sep2{margin:0 2mm;opacity:.5}
+.blocco-casa.rosso .abb2{color:#F3C9C4}
+.blocco-casa.rosso .abb2 svg{color:#fff}
+.foto.vera{border:0;background:none}
+.foto.vera img{width:100%;height:100%;object-fit:contain}
+.fotoesce .foto.vera img{width:100%;height:100%;object-fit:contain}
+.ico-agg{width:22mm;height:22mm;color:var(--amaranto);margin-bottom:1mm}
+.exp-prezzo{font-size:10pt !important}
+.exp-prezzo b{font-size:16pt !important;font-weight:600}
+.exp-prezzo s{font-size:10pt !important}
+.fm1 b{font-weight:400;font-size:8.6pt;color:#6E6058}
+.fm1 em{font-size:13pt}
+.abb2{display:inline;margin:0 0 0 2.4mm;white-space:nowrap}
+.ico-agg{width:17mm;height:17mm}
+/* v13 */
+.exp-prezzo b{font-weight:400 !important}
+.cta-i .foto{width:24mm;height:24mm;margin-bottom:1.4mm}
+.cta-i .foto.vera img{border-radius:50%}
+/* v14: «Che fame hai?» supplementi meno in evidenza */
+.fm1 i{font-weight:400 !important;font-size:8.4pt !important;color:#8C7F78 !important}
+/* v15: prezzo attaccato alla descrizione, discreto; pizza con foto senza cornice */
+.desc .sep{margin:0 !important;opacity:.45}
+.prezzo,.blocco-casa.rosso.tartufo .prezzo{font-weight:400 !important;font-variant-numeric:normal}
+.piatti.inl .p.asta.pfoto{border:0 !important;padding:0 !important}
+.piatti.inl .p.asta.pfoto .nome{color:var(--amaranto)}
+.desc .pz{white-space:nowrap}
+.desc .pz .sep{margin:0 .8mm 0 .6mm !important}
+/* v16: Tropea con filetto laterale, Calabrese con cornice che finisce sotto la pizza, Frittura senza cornice ma più grande */
+.piatti.inl .p.asta:not(.pfoto){border:0 !important;border-left:1.4pt solid var(--amaranto) !important;border-radius:0;padding:.6mm 0 .6mm 3.2mm !important;margin-left:4mm}
+.piatti.inl .p.asta.pfoto{position:relative;border:0 !important;padding:3mm 4mm !important}
+.piatti.inl .p.asta.pfoto::before{content:"" !important;position:absolute;left:0;top:0;bottom:0;right:13mm;border:1.1pt solid var(--amaranto);z-index:0}
+.piatti.inl .p.asta.pfoto > div:first-child{position:relative;z-index:1}
+.piatti.inl .p.asta.pfoto .foto{position:relative;z-index:2}
+.p.asta.grande{border:0 !important;padding:0 !important}
+/* v17: «Che fame hai?» allineata: icone su una base comune, testi sulla stessa riga */
+.fame-row{align-items:flex-start !important}
+.fm1 .ic{display:flex;align-items:flex-end;justify-content:center;height:34px;margin-bottom:1mm}
+.p.asta.grande .foto{margin:0 !important}
+.contorni{column-count:auto !important;display:grid !important;grid-template-columns:1fr 1fr;column-gap:10mm}
+/* v18 (05/10) */
+.prezzo{font-size:.88em !important}
+.due{font-style:normal}
+.piatti.inl .p.asta:not(.pfoto){margin-left:-3.4mm !important;padding-left:3.4mm !important;border-left:1.2pt solid var(--amaranto) !important}
+.cta-i i{font-weight:400 !important;font-size:8.6pt !important;color:#8C7F78 !important}
+.contorni .ct b{display:block}
+.contorni .ct span{display:block;font-size:8.8pt;color:#4A3F38;line-height:1.4}
+.contorni .ct{margin-bottom:2.6mm}
+/* pagina pizze speciali+classiche più ariosa: classiche su due colonne, nota sommelier in una riga centrata */
+.birra-pz{text-align:center;font-style:italic}
+.cop-linee span{display:none}
+.due{font-weight:400 !important}
+/* v19 (05/10): righe più corte (il testo non arriva al bordo), titoli secondi come la pasta, abbinamenti sulla riga del nome */
+.p .desc{display:block;max-width:80%}
+.p.pfoto .desc,.blocco-casa .desc{max-width:none}
+.tit.l2 h2{font-size:22pt}
+.nome .abb2{display:inline !important;margin:0 0 0 3mm !important;font-weight:400}
+.p.asta.grande .nome{font-size:13pt !important}
+.p.asta.grande .desc{font-size:10.2pt !important}
+.contorni{row-gap:3.4mm;margin-top:1mm}
+/* v20: logo vero Cartabianca (bianco con tricolore) */
+.logo-cop{display:block;width:120mm;max-width:85%;height:auto;margin:0 auto 6mm}
+.logo-retro{display:block;width:70mm;height:auto;margin:0 auto 4mm}
+.p.asta.grande{align-items:center}
+.p.asta.grande .foto{flex:0 0 36mm;width:36mm;height:22mm;margin:-4mm 0 -4mm 0 !important}
+.tit.l3{margin-top:6mm}
+.piatti.inl .p .desc{max-width:none}
+/* v22: «Vino o birra?» come «Che fame hai?»; grandi secondi grandi come le tartufate */
+.somm3{margin:5mm 0 2mm}
+.somm3 .fame-row{justify-content:center;gap:22mm}
+.somm3 .fm1{width:auto}
+.somm3 .fm1 b{font-weight:400;font-style:italic;font-size:8.6pt;color:#6E6058}
+.somm3-n{text-align:center;font-family:var(--display);font-style:italic;font-size:8.4pt;color:#8C7F78;margin:1.6mm 0 0}
+.abb2 svg{color:#4A3F38}
+/* v23: illustrazione a incisione in fondo agli antipasti (stile MaTe, esce dal bordo sinistro) */
+.illu{display:block;width:78%;margin:6mm 0 0 -6%;opacity:.95}
+/* v24 (06/10, Marco): prezzo SEMPRE in coda alla descrizione e discreto ovunque — mai bold, più piccolo, colore del testo */
+.cta-i span .prezzo,.ct span .prezzo{font-size:.9em;font-weight:400 !important;color:inherit !important;font-style:normal}
+.exp-note .pz{white-space:nowrap}
+.exp-note .sep{margin:0 .8mm 0 .6mm;opacity:.55;font-style:normal}
+.exp-note s{color:#E9AFA8;margin-right:1mm;font-style:normal}
+.exp-note .prezzo{font-style:normal;font-size:1em !important;color:#F3C9C4 !important;font-weight:400 !important}
+.ct span .prezzo,.cta-i span .prezzo,.ct span span,.cta-i span span{display:inline !important}
+.exp-note .sep{opacity:1 !important;color:#E9AFA8 !important}
+
+/* 08/10 Experience: categorie riconoscibili + nota piccola in fondo */
+.exp-cat{font-style:italic;font-weight:600;color:#fff}
+.exp-note{font-size:12pt !important}
+.exp-legal{font-family:var(--display);font-size:6.5pt;color:#E9AFA8;margin:5mm auto 0;max-width:110mm;line-height:1.4;text-align:center}
+/* 08/10 Marco: nota Experience in fondo alla pagina, su una riga */
+.pag .exp-legal{position:absolute;left:0;right:0;bottom:7mm;margin:0 auto;max-width:none;white-space:nowrap;font-size:6.3pt}
+

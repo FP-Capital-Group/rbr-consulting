@@ -42,11 +42,31 @@ Ogni ristorante ha asset sottoutilizzati. Checklist da passare in ogni consulenz
 - **Database clienti dormienti** → campagna di riattivazione (la vendita più economica
   che esiste: il cliente ti conosce già).
 - **Ore/giorni morti** → offerte specifiche per fascia (pranzo feriale, lunedì sera),
-  mai sconti generalizzati che cannibalizzano i pieni.
+  mai sconti generalizzati che cannibalizzano i pieni. Prima di proporre un'offerta per i
+  giorni deboli, verifica che esistano davvero: guarda i coperti per giorno della
+  settimana (skill `analisi-venduto-fasce`, scheda Riepilogo). Se la settimana è piatta
+  (locale di vacanzieri, es. 154 coperti il giovedì contro 183 il sabato) non c'è un
+  infrasettimanale da riempire, e una promo lì regala margine a chi verrebbe comunque: la
+  leva va cercata altrove (scontrino medio, posti/giri non usati).
+- **TheFork e piattaforme a sconto**: si giudicano col margine di contribuzione
+  (fatturato − costi variabili, commissioni incluse) nei periodi acceso/spento, mai a
+  sensazione. Se il margine regge e copre i costi fissi, restano accese. Ogni ospite
+  TheFork va portato nel CRM (QR fidelity al tavolo): il vantaggio della prenotazione
+  diretta deve valere almeno quanto quello del portale, usato solo come riaggancio, non
+  su chi torna già da solo.
+- **Tavolate e gruppi**: il cliente più redditizio è spesso chi viene spesso con più
+  persone. In ads si spingono offerte ad alto margine per tavoli da 4+ (es. menu a prezzo
+  fisso per persona invece dello sconto secco) o un prodotto chiave in omaggio sopra le 4
+  persone. Menu di gruppo a prezzo fisso (15+ persone) sulle sere deboli, proposto di
+  persona ad aziende/associazioni/circoli.
 - **Partnership locali** (host beneficiary): palestre, cinema, uffici, hotel vicini —
   il loro pubblico diventa tuo con un'offerta dedicata, costo di acquisizione ≈ 0.
 - **Referral sistematico**: il passaparola non si spera, si progetta ("porta un amico
   che non è mai stato qui → per lui X, per te Y").
+
+*(contributo di Andrea Chirivì, 2026-10-12; "TheFork" anche di Roberto Falcon e Mastermind
+settembre 2026 — le fasce di sconto e i limiti ai giorni specifici sono ancora in
+discussione nel team, non integrati qui)*
 
 ## Domande di diagnosi Abraham-style (da usare nelle consulenze)
 

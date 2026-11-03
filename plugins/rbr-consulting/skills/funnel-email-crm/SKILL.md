@@ -1,6 +1,6 @@
 ---
 name: funnel-email-crm
-description: Genera il PDF completo del funnel email CRM (catenaria) per un cliente ristorante/pizzeria — 57 mail (posizionamento + 5 promo + 30 remind) con regole di scrittura RBR (IO→TU, posizionamento in ogni mail, remind a tono crescente) e PDF ReportLab con pagina di riepilogo. Usa quando l'utente chiede di scrivere la catenaria, il funnel email, le mail CRM di un locale, o "genera i testi catenaria". Il file prodotto è l'input delle skill mail-funnel-ghl (caricamento su GoHighLevel) e catenaria-pienissimo (caricamento su Pienissimo Pro).
+description: Genera il PDF (e il .txt gemello) del funnel email CRM (catenaria) per un cliente ristorante/pizzeria — 57 mail (posizionamento + 5 promo + 30 remind), la variante a tre binari, la variante breve "catenaria alla lista esistente → fidelity" e la newsletter settimanale di racconto, tutte sulla regola della promessa d'oro (apre con la promessa, offerta solo in fondo). PDF ReportLab con pagina di riepilogo. Usa quando l'utente chiede di scrivere la catenaria, il funnel email, le mail CRM di un locale, "genera i testi catenaria", "catenaria alla lista", "riattiva la lista", "porta la lista nella fidelity", "newsletter", "mail settimanale alla lista". Il file prodotto è l'input delle skill mail-funnel-ghl (caricamento su GoHighLevel) e catenaria-pienissimo (caricamento su Pienissimo Pro).
 ---
 
 # Prompt: Genera il PDF del Funnel Email CRM per un cliente ristorante
@@ -21,7 +21,7 @@ Prima di procedere, fornisci questi 4 punti. Senza di essi Claude non può inizi
 
 **2. URL Google Maps del locale**
 > es. https://maps.app.goo.gl/...
-> *(Claude cercherà autonomamente: indirizzo, telefono, orari, recensioni, premi/riconoscimenti)*
+> *(Claude cerca SOLO fatti verificati dall'URL Maps: indirizzo, telefono, orari, recensioni, premi/riconoscimenti — se un dato non si trova non si inventa, si lavora sul posizionamento dato dal cliente o si chiede. Vedi "Prove nelle mail".)*
 
 **3. Descrizione del posizionamento del cliente**
 > Cosa lo rende unico: chef, tecnica, ingredienti, storia, premi, territorio…
@@ -57,6 +57,47 @@ Prima di procedere, fornisci questi 4 punti. Senza di essi Claude non può inizi
 
 ---
 
+## REGOLA DELLA PROMESSA D'ORO
+
+Prima di scrivere serve la **promessa d'oro** del cliente in una riga, approvata da chi segue
+il cliente. Deve passare 4 filtri: domanda che esiste già, marginalità, credibilità,
+scalabilità. Servono almeno **3 prove verificabili**: numeri, premi con anno e giuria, nomi
+propri (vedi sotto "Prove nelle mail").
+
+**Ordine dentro OGNI mail, comprese promo e remind** (non solo nelle mail di posizionamento):
+1. si apre con la promessa (un fatto, una scena, un numero, una prova), **mai con l'offerta**;
+2. il corpo la dimostra con UNA sola idea;
+3. un ponte porta all'invito;
+4. l'offerta va in fondo, piccola e legata al contesto (ultimo terzo o P.S.);
+5. **mai** "sconto", "promo", "gratis" o percentuali nell'oggetto, nel preheader e nella prima frase.
+
+**Mai mandare l'offerta da sola.** Unica eccezione, rara: se il posizionamento è già
+fortissimo e riconosciuto, un 30% secco può reggersi da solo.
+
+Una catenaria già attiva si riscrive **in place**: stessa struttura, cambiano solo i testi,
+così chi è già dentro il funnel non perde il segno.
+
+I 10 controlli prima della consegna di ogni mail (se uno non passa, si riscrive): vedi
+`references/promessa-doro.md`.
+*(contributo di Roberto/RBR — Piano Marketing RBR v1.0; confermato in produzione da Andrea Chirivì, 2026-10-12)*
+
+---
+
+## PROVE NELLE MAIL
+
+- Dall'URL Google Maps del locale si cercano **solo fatti verificati**: riconoscimenti,
+  guide, numero e tono delle recensioni, quartiere, anno di apertura. Se un dato non si
+  trova **non si inventa**: si lavora sul posizionamento dato dal cliente, oppure si chiede.
+- **Test della prova** (Roberto): se metti il nome di un concorrente al posto di quello del
+  locale e la frase resta vera, non è una prova.
+- **TheFork non si cita mai come prova** (né voto né classifiche): è il mercato dello sconto
+  e va contro il posizionamento. Le prove vengono da TripAdvisor, Google, guide e premi con
+  l'anno, anni di attività.
+- Anche luoghi e distanze vanno verificati prima di citarli (mai una distanza "a sensazione").
+*(contributo di Andrea Chirivì — fatti verificati, mai TheFork; Roberto/RBR — test del concorrente, 2026-10-12)*
+
+---
+
 ## TONO DEI REMIND (crescente per ogni promo)
 
 | Remind | Tono |
@@ -64,7 +105,7 @@ Prima di procedere, fornisci questi 4 punti. Senza di essi Claude non può inizi
 | R1 | Soft reminder — l'offerta è ancora disponibile |
 | R2 | Rinforzo del valore — qualità e benefici dell'offerta |
 | R3 | Promemoria con urgenza lieve |
-| R4 | Social proof — molti clienti stanno già approfittando |
+| R4 | Social proof — una prova vera (numero di recensioni, una frase che torna spesso nelle recensioni), mai "molti clienti stanno già approfittando" se non è un dato |
 | R5 | Ultimi giorni — la promo sta per terminare |
 | R6 | 48 ore — ultima chiamata, scadenza imminente |
 
@@ -114,6 +155,54 @@ Dettagli, freno anti-cliente-da-sconto e tempi del riaggancio: `references/tre-b
 
 ---
 
+## VARIANTE BREVE: catenaria alla lista esistente → fidelity (mossa 8 di Roberto)
+
+Da usare quando il locale ha una **lista ferma** (contatti senza automazioni attive) e la
+mossa scelta dal Piano Marketing RBR è la 8.
+
+- Prima si pulisce e si segmenta la lista: fonte, zona di residenza, ultima visita.
+- Una sola idea per messaggio, e ogni messaggio apre con la promessa:
+  - **giorno 0**: chi siamo oggi, la promessa e la prima prova;
+  - **giorno 3**: la prova più forte (premio, prodotto, processo);
+  - **giorno 6**: persone e territorio;
+  - **giorno 9**: l'invito — "iscriviti alla fidelity, il regalo ti aspetta";
+  - **giorno 14**: ultimo richiamo con scadenza vera.
+- Mail e WhatsApp insieme dove c'è il consenso. Chi si iscrive esce dalla sequenza ed entra
+  nel benvenuto.
+- Dopo la sequenza, **riattivazioni per sempre**: chi non viene da 90 giorni riceve un motivo
+  concreto (è il riaggancio della variante a tre binari sopra); chi è venuto una sola volta
+  riceve un invito entro 30 giorni.
+- Se la lista non c'è o è minuscola, la mossa salta e la lista si costruisce prima con altre
+  leve di acquisizione contatti.
+
+Trigger per riconoscere quando usarla: "catenaria alla lista", "riattiva la lista", "porta
+la lista nella fidelity".
+*(contributo di Roberto/RBR — Piano Marketing RBR v1.0, mossa 8, settembre 2026)*
+
+---
+
+## MAIL FUORI CATENA: COMPLEANNO
+
+- L'oggetto e l'inizio del corpo **non nominano il regalo**. Prima viene il perché festeggiare
+  proprio qui, con gli elementi del posizionamento (es. tavoli grandi che si accostano,
+  musica, piatti da dividere). Poi il regalo, insieme alla CTA, più una riga per i gruppi
+  grandi ("ti preparo tutto su misura"). Se il regalo sta in cima, la mail diventa un buono
+  sconto e il posizionamento sparisce.
+- Due mail:
+  - **A**, per chi ha giorno e mese di nascita, 15 giorni prima, oggetto "Dove lo festeggi?";
+  - **B**, per chi ha solo il mese, 10 giorni prima che il mese cominci, oggetto "Il mese
+    prossimo compi gli anni".
+- La mail B parte solo con la condizione **tag del mese E campo giorno/mese di nascita
+  vuoto**, altrimenti chi ha entrambi i dati riceve due mail. In fondo chiede il giorno
+  esatto con un link d'iscrizione alla fidelity.
+- La soglia del regalo (es. per gruppi grandi) si scrive come incentivo ("se siete almeno in
+  dieci"), non come paletto che esclude.
+- Il testo deve restare generico, senza dati specifici di un altro cliente.
+*(contributo di Andrea Chirivì, 2026-10-12 — versione definitiva dopo test con il regalo in
+cima, risultato peggiore)*
+
+---
+
 ## PRIMA PAGINA DEL PDF (riepilogo automatico)
 
 Il PDF inizia con una pagina di riepilogo:
@@ -132,10 +221,10 @@ Poi il funnel completo con label colorate:
 ## WORKFLOW PASSO-PASSO
 
 1. L'utente fornisce i 4 dati della checklist
-2. Claude cerca il locale sul web (indirizzo, telefono, orari, recensioni, riconoscimenti)
+2. Claude cerca il locale sul web — **solo fatti verificati** (indirizzo, telefono, orari, recensioni, riconoscimenti): vedi "Prove nelle mail"
 3. Claude propone 3 opzioni di frase di chiusura — **aspetta la scelta dell'utente**
-4. Claude scrive ed esegue uno script Python con ReportLab
-5. Il PDF viene salvato sul Desktop come: `Funnel_Email_[NomeLocale]_[Città].pdf`
+4. Claude scrive ed esegue uno script Python con ReportLab (vedi "TECH" sotto per la convenzione motore/dati separati)
+5. Il PDF viene salvato sul Desktop come: `Funnel_Email_[NomeLocale]_[Città].pdf`, insieme al file `.txt` gemello per il copia-incolla
 
 ---
 
@@ -158,6 +247,32 @@ Struttura dello script:
 - Funzione `section(titolo, tipo)` per i titoli di blocco
 - Variabile globale `CHIUSURA` con la frase scelta
 - Prima pagina: riepilogo con `Table` (riquadri contatori + tabella promo + schema remind) — **senza PageBreak**, separato dal funnel con `HRFlowable`
+
+### Convenzione motore/dati separati (da portare a regime)
+
+⚠️ **Nota per chi usa questa skill**: esiste una versione locale più avanzata del motore
+(script + font), tenuta finora fuori dal plugin — qui restano documentate la convenzione e
+le trappole note, ma lo **script e il font vanno copiati nel plugin da chi li ha** (non
+sono stati creati/fabbricati in questa integrazione: un font o uno script non verificati
+non vanno spacciati per quelli testati).
+
+1. **File separati**: un template `scripts/template_funnel_pdf.py` (il motore, non si tocca)
+   e, a fianco, un file dati per cliente (es. `dati_funnel.py`) con `NOME_LOCALE, CITTA,
+   CHIUSURA, PROMOS, MAILS, SEZIONI`. Le correzioni si fanno solo nel file dati. La chiusura
+   va aggiunta in automatico a ogni mail dal motore, non ripetuta in `MAILS`. Se le mail non
+   sono 57, lo script deve avvisare e stampare il conteggio, da mostrare alla consegna.
+2. **Emoji**: con Helvetica non si vedono. Serve un font monocromatico con licenza libera
+   (es. OFL) registrato nello script, con ogni sequenza emoji avvolta in un tag di font
+   dedicato via regex (intervalli Unicode emoji + selettori di variazione + ZWJ). Se il font
+   manca, il testo deve uscire senza emoji **senza rompere lo script**.
+3. **Percorso del font risolto relativo allo script** (es. `os.path.dirname(os.path.abspath(__file__))`),
+   mai un percorso fisso assoluto: il template gira da una copia nello scratchpad, non dalla
+   cartella originale della skill.
+4. **File `.txt` gemello**: `Funnel_Email_<Locale>_<Città>.txt`, scritto dallo stesso script,
+   un blocco per mail separato da una riga di 70 `=`, con etichetta, "Oggetto:", corpo e
+   chiusura. È il file da usare per il copia-incolla, perché dal PDF le emoji si copiano male.
+   `mail-funnel-ghl` e `catenaria-pienissimo` accettano sia il PDF sia il `.txt` come input.
+*(contributo di Andrea Chirivì, 2026-10-12)*
 
 ---
 

@@ -24,6 +24,24 @@ Python prima di annunciare un guasto.
 Una nota imprecisa si propaga: ogni sessione che la rilegge ne ricava la stessa conclusione
 sbagliata. Non è l'errore di una chat, è l'errore del taccuino.
 
+**Prima di accettare «l'anello del riscatto è rotto», conta i numeri veri e controlla il
+metodo.** (1) Si contano i tag *scaricato*/*utilizzato* e si controlla la catena (solleciti
+partiti, bivi corretti). Se tutto regge, il problema è l'offerta, non la misura — resta solo
+il dubbio che in sala non si inquadri il QR, e lo scioglie il titolare. (2) Prima di
+attribuire un tasso basso a un guasto tecnico, **si segmenta per la variabile che il guasto
+tocca**: un QR che non si vedeva su Outlook non spiega un tasso di riscatto complessivo
+basso se i riscatti arrivati erano quasi tutti da Gmail — il difetto va comunque corretto,
+ma non è la causa del numero basso.
+
+**Una correzione del tracciamento non è chiusa il giorno in cui la fai.** Dopo il fix si
+mette un controllo settimanale con tre domande: (1) il vecchio difetto resta a zero? (2) i
+vecchi ripieghi/segnaposto ricompaiono? (3) i codici nuovi compaiono davvero? Le risposte si
+leggono insieme al quadro dei coperti per gruppo di fonte. Il verdetto si dà solo con **7
+giorni interi di dati successivi al fix** — con un giorno solo di dati nuovi il verdetto va
+rinviato. Il controllo serve a scoprire guasti silenziosi, quindi non deve fallire in
+silenzio lui stesso: se il gestionale non è loggato o non fa login, avvisa e si ferma. Va
+inserito nel giro di controllo settimanale del cliente, come una voce in più.
+
 ---
 
 ## Sul tracciamento
@@ -36,6 +54,26 @@ che hai rimosso.*
 
 **Un pixel dentro il contenuto di una pagina è un pixel che sparirà.** Basta che qualcuno
 rifaccia la home.
+
+**Un pixel «vivo» non vuol dire installato sul sito del cliente.** Il volume di eventi in
+Gestione eventi > Diagnostica non lo prova: può arrivare da pagine di un fornitore terzo che
+usa lo stesso ID (l'avviso dice «domini che hanno iniziato a inviare dati» — non va risolto
+confermando domini altrui). Dopo una pulizia i volumi crollano ed è normale. Un codice
+evento protetto da `if (typeof window.fbq === 'function')` sembra tracciato ma, senza
+pixel, non parte e nessun errore lo segnala: sul sorgente servito si cercano
+`connect.facebook.net`, `fbevents.js` e `fbq('init')` con l'ID reale, non le chiamate
+`track`. Quando il pixel torna (o si tolgono i blocchi «Incorpora» che lo stampavano a
+schermo invece di eseguirlo), lo stesso codice evento riprende a sparare: controllare i
+doppi.
+
+**Un posizionamento che compra tanti clic non è di per sé un guasto.** Un posizionamento
+può comprare clic senza intenzione (caso reale: Reels al 43% dei clic di una campagna). La
+vecchia regola «il 97,7% dei clic non arriva sul sito» è **superata**: gran parte di quella
+«sparizione» era misura mancante per via del banner cookie (GA4 vede solo il 10-13% dei
+clic Meta, il 25% di quelli Google). Il difetto vero, quando c'è, è la **qualità**: si
+confronta il tempo sul sito e il coinvolgimento fra posizionamenti (es. un posizionamento a
+0 secondi/8% di coinvolgimento contro un altro a 18 secondi/69%). Il clic arriva, ma non
+resta — non è un problema di tracciamento.
 
 **Un blocco «incorpora» di un page builder gratuito non esegue il codice: lo stampa a
 schermo.** Per un anno i clienti hanno visto due blocchi di codice in pagina e la
@@ -116,9 +154,25 @@ prenota oggi non compare mai in cima. Ha prodotto due diagnosi sbagliate di fila
 **Se il CRM è in subaffitto da un'agenzia, i workflow possono essere condivisi con altri
 clienti.** Modificarne uno esce dal locale e colpisce aziende di terzi, e comunque viene
 sovrascritto al prossimo aggiornamento. 👉 *Le correzioni si chiedono, non si applicano.*
+Quando un intervento sul terreno di chi mantiene il ponte (snippet, proxy, rotte) è già
+stato fatto da altri, gli si manda l'elenco esatto dei file e degli snippet toccati, non la
+descrizione di cosa si voleva ottenere. Workflow nuovi creati da altri lo stesso giorno
+vogliono dire che qualcuno sta lavorando in parallelo: verificare prima di modificare. Per
+non dipendere dall'agenzia, la misura del ritorno si può costruire sui dati del gestionale
+prenotazioni diretti.
 
 **La traduzione automatica del browser riscrive i menu mentre ci clicchi dentro.**
 Disattivala prima di lavorare in un pannello.
+
+**Il redirect a fine modulo GHL non sta in Settings** (lì ci sono solo gli eventi di
+tracciamento): il percorso è *Edit → clic sul pulsante di invio → On Submit → Open URL*.
+
+**Un modulo GHL nuovo nasce rotto in più punti**, da correggere sempre: due caselle di
+consenso SMS in inglese che mostrano al cliente i segnaposto grezzi (`[BUSINESS NAME]`,
+`[USE_CASE_FROM_CAMPAIGN_DESCRIPTION]`); l'etichetta email tradotta «Gmail»; segnaposto
+inglesi (*Enter your first name*, `+1 (555)…`); pulsante «Submit». Finché non si preme
+Salva, l'URL pubblico mostra solo il pulsante — la verifica dei testi si fa da lì. La
+pagina di ringraziamento va in `noindex`.
 
 ---
 
@@ -128,6 +182,15 @@ Disattivala prima di lavorare in un pannello.
 di testi e immagini: vanno ricontrollate su **ogni** inserzione nuova e su **ogni**
 duplicazione — la finestra di duplicazione ripropone di sua iniziativa le opzioni appena
 disattivate.
+
+**API conversioni Meta dal workflow GHL (nodo CAPI): doppio conteggio e tre trappole del
+nodo.** Se il pixel del browser e la CAPI convivono senza un `event_id` comune, Meta conta
+due volte: finché è così, i contatti Meta vanno letti dimezzati. Tre trappole del nodo CAPI
+di GHL: (1) la lista dei dataset si popola solo col Gestore annunci di GHL attivato, la
+sola integrazione Facebook non basta; (2) cambiare «Tipo di evento» nel nodo azzera il
+dataset, che va riselezionato; (3) il popup OAuth di Facebook non è pilotabile — si copia
+l'URL del dialogo e lo si apre nella scheda di lavoro, il finish lato server registra
+comunque la connessione. ⚠️ Confermato da un collega, non ancora provato su un caso diretto.
 
 **I campi di testo perdono caratteri mentre digiti.** Succede anche su stringhe corte.
 👉 *Scrivi a pezzi di 10-20 caratteri e rileggi ogni campo prima di passare oltre.*

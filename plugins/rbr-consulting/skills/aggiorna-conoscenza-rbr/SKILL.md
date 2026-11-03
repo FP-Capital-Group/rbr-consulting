@@ -29,11 +29,27 @@ Stato `da validare`, segnala nel report. Poi Stato → `integrato`.
    senza caratteri `<` `>` (il validatore Cowork li rifiuta); riscrivi la description
    in italiano se serve, orientata ai trigger d'uso RBR. Aggiungi sotto il titolo:
    `> Skill condivisa da <Autore> il <data> (scansione skill).` e la `_nota`.
+3-bis. **La skill è completa?** Dopo aver ricreato i file, controlla che ogni file citato
+   nel `SKILL.md` esista nella cartella ricostruita — percorsi relativi (`scripts/`,
+   `references/`, `assets/`, `templates/`, nomi di `.py`, `.xlsx`, `.ttf`, `.png`, `.pdf`)
+   e percorsi esterni (`~/…`, `Desktop/`, `Documents/`, cartelle come `~/CDG_condiviso`):
+   `condividi_skill.py` li riscrive da `/Users/<nome>/` a `~/`, ma il file sul computer del
+   collega non c'è. `condividi_skill.py` non manda i binari (font, immagini, Excel, PDF) né
+   i file oltre 400 KB: se il `SKILL.md` li cita, non sono arrivati. **Se manca qualcosa NON
+   fondere**: Stato → `da validare` su tutto il gruppo, e nel report scrivi "skill <nome> di
+   <autore> ferma, mancano <file>, da chiedere all'autore". Unica eccezione: se il metodo
+   funziona anche a mano senza quei file (es. script di supporto, non il cuore della skill),
+   puoi fondere aggiungendo una sezione "File non arrivati (da chiedere a <autore>)" che li
+   elenca e dice di non inventarli — e lo segnali comunque nel report. (contributo di Andrea
+   Chirivì, 2026-10-12; origine: Marco, decisione riunione consulenti del 05/10/2026, caso
+   della skill fatture di Nicola)
 4. Sicurezza: grep di token/chiavi (`sk-`, `pit-`, `Bearer`, `AIza`, `token=`) → se
    ne trovi, sostituisci con segnaposto e segnala. Niente `credentials.json`/`.env`.
 5. Skill nuova = bump **MINOR** della versione (arriva a tutti con l'auto-update).
    Aggiorna il conteggio skill in `README.md` e `plugin.json` (description).
-6. Stato di tutte le righe del gruppo → `integrato`.
+6. Stato di tutte le righe del gruppo → `integrato` SOLO se il controllo 3-bis è passato
+   (nessun file mancante, o mancanza coperta dall'eccezione sopra); altrimenti resta
+   `da validare`.
 
 ## Fase 2 — Dal mondo: ricerca online (WebSearch/WebFetch, ultimi 7-30 giorni)
 Per ogni fronte: se non c'è niente di rilevante scrivi "nessuna novità" e passa oltre.
@@ -83,7 +99,8 @@ in dubbio, segnala nel report invece di modificare.
 
 ## Fase 5 — Report a Marco (SEMPRE, anche con zero novità)
 Testo semplice, max 15 righe: `📚 Conoscenza RBR — settimana YYYY-MM-DD`, poi
-**Dalle persone** (autore → cosa → dove; skill nuove), **Dal mondo** (fonte → cosa cambia
+**Dalle persone** (autore → cosa → dove; skill nuove; skill ferme per file mancanti: nome
+→ file che mancano → autore a cui chiederli), **Dal mondo** (fonte → cosa cambia
 → file), tool da valutare, release (`Plugin vX.Y.Z sul marketplace: si aggiorna da solo al prossimo riavvio; già live via Conoscenza live`), chiusura `Storico: memory/aggiornamenti_log.md (rbr-suite)`.
 Invio in DUE canali, sempre entrambi:
 1. Riga nel tab `Report lunedì` dello Sheet (colonne Data, Testo, Inviato; crea il tab

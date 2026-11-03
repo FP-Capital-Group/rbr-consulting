@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.16.1 — 2026-10-12
+Ogni versione ha una sezione `## v2.17.0 — 2026-11-02
+- 29 skill esistenti aggiornate con i casi reali verificati da Andrea Chirivì su tutto il plugin (12/10): fix, correzioni e migliorie operative.
+- 2 skill nuove: menu-grafica-rbr (menu engineering avanzato + grafica carte da stampare) e bot-risposte-ghl (bot Conversation AI GHL per risposta automatica WhatsApp/IG/FB — attenzione, il pannello di test esegue azioni vere).
+
+## v2.16.1 — 2026-10-12
 - Contributi: il travaso dal Data Store ora cancella i record già copiati e legge oltre i primi 100 (il buffer da 1 MB si era riempito il 12/10). Niente da fare per voi.
 
 ## v2.16.0 — 2026-10-12

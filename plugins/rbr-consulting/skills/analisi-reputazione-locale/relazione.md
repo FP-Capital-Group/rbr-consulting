@@ -21,8 +21,9 @@ mondi si incontrano.
    e un numero che dia il senso del movimento (la crescita della media, o il dato più
    recente disponibile).
 2. **Perimetro, metodo e limiti.** Una tabella con, per ogni fonte: quante recensioni,
-   con quale ordinamento, e a cosa serve in questo documento. Va per prima, non in fondo:
-   è quello che dice al lettore quanto può fidarsi di ciò che segue.
+   con quale ordinamento, **chi scrive** e **da quando**, e a cosa serve in questo
+   documento. Va per prima, non in fondo: è quello che dice al lettore quanto può fidarsi
+   di ciò che segue.
 3. **I numeri per data.** Medie del periodo, distribuzione dei voti, e soprattutto la
    **tabella per mese** con media, voci analitiche e percentuale sotto soglia. Sotto la
    tabella, due o tre frasi che dicono cosa si vede solo guardando in ordine di data.
@@ -62,7 +63,11 @@ Stessa apertura (numeri + tesi in tre righe), poi:
 ## Come scrivere
 
 **Ogni affermazione porta il suo numero.** "Il servizio è buono" non serve; "72 recensioni
-su 183 citano la gentilezza, e il voto servizio supera quello del cibo" sì.
+su 183 citano la gentilezza, e il voto servizio supera quello del cibo" sì. Un piatto
+citato porta il suo venduto e il suo stato in carta (vedi "Triangolare" in SKILL.md).
+
+**Mai scrivere "ho letto" le recensioni o i sondaggi**, suona falso: si scrive "ho
+analizzato" o "ho verificato".
 
 **Le citazioni sono la prova.** Una per punto debole, testuale, con piattaforma, data e
 voto. Non riportare i nomi degli autori.

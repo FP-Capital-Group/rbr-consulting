@@ -97,7 +97,10 @@ A. Il locale
 B. I clienti di oggi
    - Chi si siede davvero ai tavoli: età, gruppi, occasioni (coppie? famiglie?
      pranzo lavoro? turisti?)
-   - Quanto spesso torna un cliente tipo, a sensazione o da dati CRM/fidelity
+   - Quanto spesso torna un cliente tipo — se c'è solo la sensazione del titolare,
+     proponi un sondaggio di 6 domande ai clienti veri (con chi vieni, quante volte al
+     mese, spesa a persona, come ci hai conosciuto, cosa apprezzi, cosa ti farebbe
+     tornare) prima di pesare i segmenti: vedi `market-discovery-ristorante/SKILL.md`, passo 1
    - C'è una lista contatti (mail/telefono)? Quanto è grande? Viene usata?
 
 C. I canali attivi
@@ -156,6 +159,8 @@ Genera 10-15 angoli usando le 6 LEVE RBR DEL POSIZIONAMENTO RISTORAZIONE
   LEVA 5 - STORIA / IDENTITÀ: la famiglia, le generazioni, il quartiere, il forno del
     1962, la nonna che fa la sfoglia. È la leva più difficile da copiare in assoluto —
     ma va messa in scena (menu, muri, racconto in sala), non lasciata nel cassetto.
+    Attenzione: una storia con zero volumi di ricerca (Keyword Planner) non diventa LA
+    frase da sola — resta racconto per sala e menu, a sostegno di un'altra leva.
   LEVA 6 - PREZZO / FORMULA (verso l'alto o formula chiara): il degustazione a prezzo
     fisso che toglie l'ansia del conto, il "qui si spende X e si esce così", il fine
     dining di quartiere. MAI il "più economico": il prezzo segue il posizionamento,
@@ -187,6 +192,14 @@ Obiettivo: passare da 2-3 finalisti a UN posizionamento che regge i fatti e i nu
 Per OGNI finalista scelto, conduci la validazione su 4 criteri + 3 test. Fai le
 domande necessarie una o due alla volta.
 
+Prima dei 4 criteri, passa il finalista sui **TRE FILTRI** (servono tutti e tre, due su
+tre non basta — vedi `market-discovery-ristorante/SKILL.md`, passo 4): VENDUTO (fra le
+prime categorie per quantità nella matrice `menu-engineering`), MARGINE (in euro per
+porzione sopra la media, mai in % di food cost), CLIENTE (la cosa più citata nelle
+risposte aperte dei sondaggi e nelle recensioni). Se nessun finalista passa i tre
+filtri, il locale non ha un posizionamento ma un elenco di piatti: il lavoro diventa
+accorciare il menu, non scrivere la frase.
+
 I 4 CRITERI:
   1. SPAZIO NELLA TESTA DELLA ZONA — C'è già qualcuno nel bacino che dice la stessa
      cosa? Se sì, chi, e con che forza (recensioni × costanza del messaggio)? Un
@@ -195,7 +208,9 @@ I 4 CRITERI:
   2. PROVE POSSEDUTE — Quali fatti verificabili il locale ha GIÀ per sostenerlo
      (piatti, storia, numeri, recensioni che lo citano, foto, premi, fornitori)?
      Un posizionamento senza prove è una promessa che il cliente sbugiarda alla
-     prima visita.
+     prima visita. Se la prova è un'affermazione di esclusività ("unico", "primo",
+     "l'unico certificato"), verificala con fonti terze cercando i competitor con la
+     stessa caratteristica prima di darla per buona.
   3. MARGINE — L'angolo sposta il mix verso piatti/serate ad alto margine o verso
      roba che fa volume e basta? Il posizionamento giusto fa guadagnare di più a
      parità di coperti, non solo riempire.
@@ -203,7 +218,15 @@ I 4 CRITERI:
      raggio reale × frequenza plausibile × scontrino → confronta con i coperti che il
      locale deve riempire a settimana. Se i numeri non tornano, l'angolo può vivere
      solo come cavallo di battaglia di un locale che serve anche il resto — dillo
-     esplicitamente. Marca ogni stima con ⚠️.
+     esplicitamente. Marca ogni stima con ⚠️. Se il locale esiste già, valida anche sui
+     dati di cassa reali (tavoli di nicchia, venduto degli ultimi 3 mesi), non solo a
+     stima — vedi il blocco dedicato in `market-discovery-ristorante/SKILL.md`, passo 4.
+  Più le QUATTRO REGOLE (se ne salta una, non regge): DOMANDA (la cerca anche chi non
+  conosce il locale, su guide/classifiche/Google?), MARGINALITÀ (se il 30% in più dei
+  clienti la ordinasse, il margine diretto salirebbe?), CREDIBILITÀ (prove con anno e
+  giuria, n° recensioni, nome e provenienza dei fornitori — coincide col TEST DEL
+  VICINO sotto), SCALABILITÀ (sta in una scheda tecnica o procedura, non solo nelle
+  mani di una persona).
 
 I 3 TEST (secchi, passa/non passa):
   - TEST DEL VICINO: la frase la potrebbe dire, senza mentire, anche il locale a 200
@@ -308,14 +331,21 @@ Presenta così:
   fiacco. Si rivaluta solo se gli indicatori calano per 3 mesi di fila.
 
 CHIUSURA DEL PERCORSO:
+Cosa si consegna, sempre: la promessa in una riga (se non ci sta, non è abbastanza
+stretta); ALMENO TRE PROVE verificabili, ognuna con un numero, un nome o un anno; la
+scheda compilata e VALIDATA DAL TITOLARE in riunione (non solo inviata); da lì la
+promessa non si cambia per almeno SEI MESI, perché entra per ripetizione — servono
+mesi di uso costante, non tre post sui social.
+
 Produci la SCHEDA POSIZIONAMENTO (1 pagina):
   1. Fotografia del locale + collo di bottiglia (3 righe)
   2. LA frase di posizionamento + 2 alternative scartate e perché
-  3. Le prove che la sostengono (fatti, non aggettivi)
+  3. Le prove che la sostengono (fatti, non aggettivi — almeno 3, ognuna con numero/nome/anno)
   4. Le declinazioni (GBP, bio, menu, telefono/tavolo)
   5. Le 3 azioni dei primi 30 giorni con responsabili e misure
   6. I 3 indicatori di controllo con target
   7. ⚠️ Stime da verificare e dati mancanti
+  8. Validazione: data e firma/ok del titolare in riunione
 
 FINE DEL PROMPT — parti dalla Fase 0.
 ```
@@ -349,3 +379,14 @@ FINE DEL PROMPT — parti dalla Fase 0.
   `google-business-ristorante` (scheda GBP), `funnel-email-crm` (catenaria),
   `campagna-locale` (prima campagna sul posizionamento), `market-discovery-ristorante`
   (verifiche di zona). Le ads arrivano per ultime, mai per prime.
+- **Esempio svolto come modello** (Roberto Falcon): titolare che parte da "cucina
+  toscana d'autore" (non passa il test della sostituzione: lo direbbe anche il vicino).
+  Dati: costata, fiorentina e costata al tartufo fanno il 43% dei secondi venduti e il
+  69% del loro margine; i clienti citano per primi la location e subito dopo la carne.
+  Le quattro regole: domanda (si fanno 30 km per una bistecca), marginalità, credibilità
+  (621 recensioni a 4,3, segnalazione di un ente di settore), scalabilità (taglio e
+  cottura in scheda tecnica). Risultato installato: "Giovedì della Bistecca" nel giorno
+  più morto, la costata al tartufo come specialità, un lead magnet dedicato, la
+  categoria Google coerente e la frase in una riga.
+
+(contributo di Andrea Chirivì, 12/10/2026; esempio svolto di Roberto Falcon, Piano Marketing RBR v1.0)
