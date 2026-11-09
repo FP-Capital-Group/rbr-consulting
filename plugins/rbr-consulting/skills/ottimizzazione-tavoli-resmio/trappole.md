@@ -179,6 +179,19 @@ non vende a 1 posto). Anche un import tardivo si fa con un tavolo assegnato e ri
 durate fra i turni.
 *(contributo di Andrea Chirivì, 2026-10-12)*
 
+**Dove mettere il link/widget quando il locale ha ENTRAMBI Resmio e TheFork**: Resmio su TUTTI i
+canali propri (sito: header, home dopo la copertina, barra fissa mobile; Google; social; bio)
+TRANNE TheFork. Su TheFork le prenotazioni online restano ATTIVE, così chi entra dal portale/app
+TheFork prenota con lo sconto; il ristoratore riporta a mano ogni prenotazione TheFork su Resmio
+per evitare doppie occupazioni. **Trappola**: in TheFork Manager (Settings → Service setup →
+servizio → step 3 Online availability) l'interruttore "This service can accept online
+reservations" NON spegne solo il widget sul sito — chiude le prenotazioni online ovunque (portale,
+app, widget, Tripadvisor) e quindi anche gli sconti: non toccarlo. Per togliere TheFork dal sito
+basta sostituire i link `widget.thefork.com` con il link Resmio (su Divi: `button_url` nei moduli
+`et_pb_button` + voce di menu). Le modifiche di disponibilità su TheFork si propagano sul widget in
+qualche secondo/minuto (le date si chiudono/riaprono a scaglioni): ricontrollare dopo un reload.
+*(contributo di dietstreetfood@gmail.com, 2026-11-05, caso Gino's Forno e Brace, Aragona)*
+
 ## Dettagli operativi che il piano non vede
 
 Le note delle prenotazioni contengono passeggini, seggioloni, celiaci. Un piano perfetto sui
