@@ -15,7 +15,14 @@ solo dopo, il database. Togliendo la cartella la pagina WP torna a rispondere.
 1. **wpautop** inserisce `<p>` dentro gli `<script>` inline: stringhe JS con HTML danno `SyntaxError` e
    la pagina resta ferma sul caricamento. Lo stesso dentro gli `<style>` se restano righe vuote.
 2. **wptexturize** trasforma `&` in `&#038;` negli script inline: `&&` e le query string si rompono in
-   silenzio.
+   silenzio. Succede anche con template a blocchi (non solo page builder) e perfino sulla pagina
+   **grezza** (`/raw/{id}`): il menu ☰ resta bloccato e un modulo si invia come GET (dati
+   nell'indirizzo, nessuna mail). `node --check` sul sorgente locale non lo vede, perché la riscrittura
+   avviene lato server alla pubblicazione. Rimedi: mai `&&` negli script della pagina (usa
+   `(x||[]).length` o `if` annidati); blocca la pubblicazione nello script che pubblica se nello
+   script compare `&&`; dopo ogni pubblicazione scarica la pagina pubblica (non fidarti della console
+   del browser interno, può mostrare errori di un caricamento precedente) e rilancia `node --check` su
+   ogni `<script>`. *(contributo di Leo Franco, 2026-10-31, caso Cipriano Catering)*
 3. `€`, `—`, `·` scritti nel PHP escono come entità HTML (`&#8364;`) se finiscono in un `textContent`:
    nelle stringhe JS usa gli escape unicode (`€`).
 4. Nel **CSS mai caratteri non-ASCII dentro `content:`** (`content:"·"` diventa `&#183;` a schermo): usa

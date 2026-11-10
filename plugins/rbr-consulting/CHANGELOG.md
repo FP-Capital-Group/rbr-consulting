@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.17.0 — 2026-11-02
+Ogni versione ha una sezione `## v2.17.1 — 2026-11-09
+- Trappola WordPress aggiornata: && → &#038; anche sulla pagina grezza pubblicata (rimedi operativi)
+- Regola Resmio+TheFork: dove mettere il widget quando un locale ha entrambi, trappola interruttore Online availability
+
+## v2.17.0 — 2026-11-02
 - 29 skill esistenti aggiornate con i casi reali verificati da Andrea Chirivì su tutto il plugin (12/10): fix, correzioni e migliorie operative.
 - 2 skill nuove: menu-grafica-rbr (menu engineering avanzato + grafica carte da stampare) e bot-risposte-ghl (bot Conversation AI GHL per risposta automatica WhatsApp/IG/FB — attenzione, il pannello di test esegue azioni vere).
 
