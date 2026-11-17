@@ -65,3 +65,14 @@ eventi una quota alta di prenotazioni viene annullata (vista anche al 37% in un 
 calcola sempre sulle onorate. Nel filtrare le prove dal dataset, escludi solo i nomi esatti —
 un filtro troppo largo (es. ogni riga che inizia per "test") può buttare via anche dati veri
 (es. "testata-*").
+
+## 7. Occhio alle conversioni Meta "gonfiate" da metà novembre 2026
+Più fonti indipendenti (non ancora il changelog ufficiale Meta, da verificare in Events
+Manager) riportano che dal 12/11/2026 Meta conta di default anche conversioni misurate "sul
+dispositivo del cliente" (match su email/telefono già in possesso + dati di dispositivo
+temporanei), attiva di default fuori da UE/UK, con l'effetto di far salire le conversioni e il
+valore riportati nel Business Manager **senza che sia cambiato nulla nel locale**. Non cambiare
+nessuna procedura/script su questo (non verificato alla fonte), ma quando un cliente mostra il
+CPA/ROAS del Business Manager chiedi sempre il confronto con le onorate Resmio (§2): la
+differenza fra i due numeri può allargarsi da questo mese in poi senza che il canale sia
+davvero migliorato.

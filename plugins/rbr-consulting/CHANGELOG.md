@@ -1,6 +1,10 @@
 # Changelog plugin rbr-consulting
 
-Ogni versione ha una sezione `## v2.17.1 — 2026-11-09
+Ogni versione ha una sezione `## v2.17.2 — 2026-11-16
+- Nota su Meta: dal 12/11/2026 il Pixel conta anche conversioni on-device (fonti non ufficiali) — confronta sempre col dato onorate Resmio.
+- GBP: pulsante Messaggio spostato accanto a Chiama su Maps e caricamento foto/post via Gemini (bollettino Google 5/11/2026).
+
+## v2.17.1 — 2026-11-09
 - Trappola WordPress aggiornata: && → &#038; anche sulla pagina grezza pubblicata (rimedi operativi)
 - Regola Resmio+TheFork: dove mettere il widget quando un locale ha entrambi, trappola interruttore Online availability
 
